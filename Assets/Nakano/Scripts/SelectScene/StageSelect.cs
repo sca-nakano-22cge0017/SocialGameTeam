@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class SelectButton
@@ -39,9 +40,6 @@ public class StageSelect : MonoBehaviour
     bool isCoolTime_Select = false;
     const float coolTime = 0.01f;
 
-    [SerializeField] private GameObject DebugWindow;
-    [SerializeField] private Text DebugText;
-
     void Start()
     {
         FirstSelect();
@@ -51,10 +49,6 @@ public class StageSelect : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0))
-        {
-            DebugWindow.SetActive(false);
-        }
     }
 
     private void FirstSelect()
@@ -157,8 +151,8 @@ public class StageSelect : MonoBehaviour
         if (selectingButton == _selectingButton)
         {
             // ƒoƒgƒ‹‰æ–Ê‚Ö‚Ì‘JˆÚ
-            DebugWindow.SetActive(true);
-            DebugText.text = (pressedButton.name + "‚Ö\n‘JˆÚ‚µ‚Ü‚·");
+            Debug.Log(pressedButton.name + "‚Ö‘JˆÚ‚µ‚Ü‚·");
+            SceneManager.LoadScene("MainGame");
         }
 
         // ‰Ÿ‰ºŒãAˆê’èŠÔ‰Ÿ‰º”»’è‚ğæ‚ç‚È‚¢
