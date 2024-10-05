@@ -14,13 +14,9 @@ public class SceneChanger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            TitleSceneChange();
-        }
     }
 
-    void TitleSceneChange()
+    public void TitleSceneChange()
     {
         if (SceneManager.GetActiveScene().name == "TitleScene")
         {
