@@ -12,11 +12,6 @@ public class WindowController : MonoBehaviour
         m_window.SetActive(initialDisp);
     }
 
-    void Update()
-    {
-        
-    }
-
     public void Open()
     {
         if (!m_window.activeSelf) m_window.SetActive(true);
