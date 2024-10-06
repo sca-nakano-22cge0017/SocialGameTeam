@@ -4,11 +4,6 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Master;
 
-public class MasterData
-{
-    public static List<StageData> stageDatas;
-}
-
 public class MasterDataLoad : MonoBehaviour
 {
     [HideInInspector] public bool masterDataLoadComlete = false;
@@ -56,11 +51,18 @@ public class MasterDataLoad : MonoBehaviour
     }
 }
 
+public class MasterData
+{
+    public static List<StageData> stageDatas;
+    public static List<EnemyStatus> enemyStutas;
+    public static List<CharaInitialStutas> charaInitialStutas;
+}
+
 namespace Master
 {
     /// <summary>
     /// ステージデータ
-    /// ステージ番号(stageID), 敵配置情報のList(enemyPlacement)
+    /// ステージ番号(stageId), 敵配置情報のList(enemyPlacement)
     /// </summary>
     public class StageData
     {
@@ -91,7 +93,10 @@ namespace Master
 
     /// <summary>
     /// 敵ステータス
-    /// 敵ID(enemyID), ステータス(jp/mp/atk/def/spd/dex), アタックパターンのList(attackPattern)
+    /// 敵ID(enemyID), 
+    /// ステータス(jp/mp/atk/def/spd/dex), 
+    /// アタックパターンのList(attackPattern), 
+    /// ドロップアイテム(dropItem)
     /// </summary>
     public class EnemyStatus
     {
@@ -108,8 +113,15 @@ namespace Master
         public int dex;
 
         public List<EnemyAttackPattern> attackPattern;
+        
+        public DropItem dropItem;
     }
 
+    /// <summary>
+    /// アタックパターン
+    /// アタックパターンID(attackID), 
+    /// 発動確率(probability)
+    /// </summary>
     public class EnemyAttackPattern
     {
         public int attackID;
@@ -120,6 +132,31 @@ namespace Master
         public int probability;
     }
 
+    /// <summary>
+    /// ドロップアイテム
+    /// アイテムタイプ(DropItemType.type) 各ステータス6種
+    /// ドロップ数(dropAmount)
+    /// </summary>
+    public class DropItem
+    {
+        /// <summary>
+        /// ドロップアイテムの種類
+        /// </summary>
+        public enum DropItemType { HP, MP, ATK, DEF, SPD, DEX };
+        public DropItemType type;
+
+        /// <summary>
+        /// ドロップ量
+        /// </summary>
+        public int dropAmount;
+    }
+
+    /// <summary>
+    /// キャラクター初期ステータス
+    /// キャラID(charaId), 
+    /// 初期ステータス(hp_init/mp_init/atk_init/def_init/spd_init/dex_init), 
+    /// ステータス最大値(atk_max/def_amx/tec_max)
+    /// </summary>
     public class CharaInitialStutas
     {
         public int charaID;
