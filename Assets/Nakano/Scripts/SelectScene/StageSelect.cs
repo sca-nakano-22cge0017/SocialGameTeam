@@ -129,7 +129,7 @@ public class StageSelect : MonoBehaviour
     /// <summary>
     /// ボタン押下によるステージ遷移
     /// </summary>
-    public void Transition(StageSelectButton _selectingButton)
+    public void Transition(StageSelectButton _selectingButton, string _stageId)
     {
         // クールタイム中なら終了
         if (isCoolTime_Select) return;
@@ -153,6 +153,11 @@ public class StageSelect : MonoBehaviour
             // バトル画面への遷移
             Debug.Log(pressedButton.name + "へ遷移します");
             SceneManager.LoadScene("MainGame");
+
+            string stageId = _stageId + LevelManager.LevelId;
+            int stageNum = int.Parse(stageId);
+            Debug.Log(stageNum);
+            GameManager.SelectStage = stageNum;
         }
 
         // 押下後、一定時間押下判定を取らない
