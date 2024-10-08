@@ -60,7 +60,7 @@ public class StaminaManager : MonoBehaviour
     private const int maxAdd_LevelUp = 3;      // レベルアップ時のスタミナ上限増加量
     private const int add_LevelUp = 3;         // レベルアップ時のスタミナ増加量
     private const int add_Recovery = 1;        // 一定時間毎のスタミナ回復量
-    private const float recoveryIntervalMin = 0.1f; // スタミナ回復のインターバル(分)
+    private const float recoveryIntervalMin = 5.0f; // スタミナ回復のインターバル(分)
 
     private const int cost_Traning = 5;   // 育成ステージでのスタミナ消費量
     private const int cost_Boss = 10;     // ボスステージでのスタミナ消費量
@@ -68,29 +68,15 @@ public class StaminaManager : MonoBehaviour
     private const int MINUTE_PER_HOUR = 60;
     private const int SECOND_PER_MINUTE = 60;
 
-    private void Awake()
+    public void Initialize()
     {
+        stamina = max_Initial;
         stamina_Max = max_Initial;
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        Recovery();
-    }
-
-    public void LevelUp()
-    {
-        stamina_Max += maxAdd_LevelUp;
-        stamina += add_LevelUp;
-
-        Debug.Log("現在のスタミナ最大値は" + stamina_Max + ", 現在のスタミナは" + stamina);
-    }
-
+    /// <summary>
+    /// スタミナ回復
+    /// </summary>
     public void Recovery()
     {
         // スタミナ最大なら回復しない
@@ -122,7 +108,7 @@ public class StaminaManager : MonoBehaviour
                 lastCompleteRecoveryTimeText = text2;
             }
         }
-        
+
         else
         {
             if (stamina < stamina_Max)
@@ -137,15 +123,21 @@ public class StaminaManager : MonoBehaviour
         }
     }
 
+    public void LevelUp()
+    {
+        stamina_Max += maxAdd_LevelUp;
+        stamina += add_LevelUp;
+
+        Debug.Log("現在のスタミナ最大値は" + stamina_Max + ", 現在のスタミナは" + stamina);
+    }
+
     public void Traning()
     {
-        Debug.Log("育成ステージへ");
         Cost(cost_Traning);
     }
 
     public void Boss()
     {
-        Debug.Log("ボスステージへ");
         Cost(cost_Boss);
     }
 
@@ -153,7 +145,7 @@ public class StaminaManager : MonoBehaviour
     /// スタミナ消費
     /// </summary>
     /// <param name="_cost">消費量</param>
-    void Cost(int _cost)
+    private void Cost(int _cost)
     {
         if (stamina < _cost)
         {
@@ -162,9 +154,11 @@ public class StaminaManager : MonoBehaviour
         }
 
         stamina -= _cost;
+
+        Debug.Log("現在のスタミナは" + stamina);
     }
 
-    string ConvertTimeToString(int _time, bool needHour)
+    private string ConvertTimeToString(int _time, bool needHour)
     {
         // スタミナ最大なら回復しない
         if (stamina == stamina_Max)

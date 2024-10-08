@@ -26,13 +26,16 @@ public class GameManager : MonoBehaviour
 
         if (instance == null)
         {
-            // Todo Prefabê∂ê¨
-            GameObject obj = new GameObject();
-            obj.name = "GameManager";
-            instance = obj.AddComponent<GameManager>();
-
+            GameObject prefab = Resources.Load<GameObject>("GameManager");
+            var obj = Instantiate(prefab);
+            instance = obj.GetComponent<GameManager>();
             DontDestroyOnLoad(obj);
         }
+    }
+
+    public static void GameManagerCreate()
+    {
+        SetupInstance();
     }
 
     // ÉGÉâÅ[îªíËóp
@@ -98,7 +101,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    [SerializeField] StaminaManager staminaManager;
+    [SerializeField] private StaminaManager staminaManager;
 
     private void Awake()
     {
@@ -111,10 +114,12 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        staminaManager.Initialize();
     }
 
     private void Update()
     {
-
+        staminaManager.Recovery();
     }
 }
