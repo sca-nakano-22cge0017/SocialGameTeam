@@ -36,9 +36,19 @@ public class StageSelect : MonoBehaviour
     private float longTapTime_sec = 0.5f;
     public float GetLongTapTime_sec { get { return longTapTime_sec; } private set { } }
 
-
     bool isCoolTime_Select = false;
     const float coolTime = 0.01f;
+
+    StaminaManager sm = null;
+
+    private void Awake()
+    {
+        if (FindObjectOfType<StaminaManager>() == null)
+        {
+            GameManager.GameManagerCreate();
+        }
+        sm = FindObjectOfType<StaminaManager>();
+    }
 
     void Start()
     {
@@ -150,14 +160,15 @@ public class StageSelect : MonoBehaviour
         // 押下処理
         if (selectingButton == _selectingButton)
         {
-            // バトル画面への遷移
-            Debug.Log(pressedButton.name + "へ遷移します");
-            SceneManager.LoadScene("MainGame");
-
             string stageId = _stageId + LevelManager.LevelId;
             int stageNum = int.Parse(stageId);
-            Debug.Log(stageNum);
             GameManager.SelectStage = stageNum;
+
+            ConsumeStamina(_stageId);
+
+            // バトル画面への遷移
+            Debug.Log(pressedButton.name + "へ遷移します");
+            //SceneManager.LoadScene("MainGame");
         }
 
         // 押下後、一定時間押下判定を取らない
@@ -186,6 +197,28 @@ public class StageSelect : MonoBehaviour
                     targetButton = _targetingButton;
                 }
             }
+        }
+    }
+    
+    /// <summary>
+    /// スタミナ消費
+    /// </summary>
+    /// <param name="_stageId"></param>
+    private void ConsumeStamina(string _stageId)
+    {
+        char area = _stageId[0];
+
+        if (sm == null) return;
+
+        switch (area)
+        {
+            case '1':
+                sm.Traning();
+                break;
+
+            case '2':
+                sm.Boss();
+                break;
         }
     }
 
