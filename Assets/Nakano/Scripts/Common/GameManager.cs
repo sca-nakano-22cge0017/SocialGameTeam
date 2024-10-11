@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour
 
     // 選択キャラクター
     private static int selectChara = -1;
-
     /// <summary>
     /// 選択中キャラクター / 1:シスター , 2:剣士 , -1;エラー
     /// </summary>
@@ -68,11 +67,19 @@ public class GameManager : MonoBehaviour
 
             selectChara = value;
             Debug.Log("選択キャラクター：" + selectChara);
+
+            PlayerStatus.PlayerCreate(selectChara);
+            
+            StatusBase status = PlayerStatus.player.status;
+            Debug.Log(string.Format("HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}", status.hp, status.mp, status.atk, status.def, status.spd, status.dex));
         }
     }
 
     // 選択難易度
     private static int selectDifficulty = -1;
+    /// <summary>
+    /// 選択中難易度 1～5 , -1:エラー
+    /// </summary>
     public static int SelectDifficulty
     {
         get
@@ -98,6 +105,9 @@ public class GameManager : MonoBehaviour
 
     // 選択エリア
     private static int selectArea = -1;
+    /// <summary>
+    /// 選択中エリア / 1:育成 , 2:ボス , -1;エラー
+    /// </summary>
     public static int SelectArea
     {
         get
@@ -124,7 +134,7 @@ public class GameManager : MonoBehaviour
     // 選択ステージ
     private static int selectStage = -1;
     /// <summary>
-    /// 選択中ステージ　ステージ番号
+    /// 選択中ステージ 1～6 , -1:エラー
     /// </summary>
     public static int SelectStage
     {

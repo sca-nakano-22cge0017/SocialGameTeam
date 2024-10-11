@@ -178,6 +178,8 @@ public class StageSelect : MonoBehaviour
                 SceneManager.LoadScene("TestScene");
             };
             ssm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
+
+            GameManager.SelectChara = 2;
         }
 
         // ‰Ÿ‰ºŒãAˆê’èŠÔ‰Ÿ‰º”»’è‚ğæ‚ç‚È‚¢
