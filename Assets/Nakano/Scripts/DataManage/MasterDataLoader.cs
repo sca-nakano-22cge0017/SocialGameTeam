@@ -293,22 +293,22 @@ public class MasterDataLoader : MonoBehaviour
                 switch (int.Parse(data[typeIdColumn]))
                 {
                     case 1:
-                        item.type = DropItem.DropItemType.HP;
+                        item.itemType = StatusRankType.StatusType.HP;
                         break;
                     case 2:
-                        item.type = DropItem.DropItemType.MP;
+                        item.itemType = StatusRankType.StatusType.MP;
                         break;
                     case 3:
-                        item.type = DropItem.DropItemType.ATK;
+                        item.itemType = StatusRankType.StatusType.ATK;
                         break;
                     case 4:
-                        item.type = DropItem.DropItemType.DEF;
+                        item.itemType = StatusRankType.StatusType.DEF;
                         break;
                     case 5:
-                        item.type = DropItem.DropItemType.SPD;
+                        item.itemType = StatusRankType.StatusType.SPD;
                         break;
                     case 6:
-                        item.type = DropItem.DropItemType.DEX;
+                        item.itemType = StatusRankType.StatusType.DEX;
                         break;
                 }
 
@@ -538,8 +538,7 @@ namespace Master
         /// <summary>
         /// ドロップアイテムの種類
         /// </summary>
-        public enum DropItemType { HP, MP, ATK, DEF, SPD, DEX };
-        public DropItemType type;
+        public StatusRankType.StatusType itemType;
 
         /// <summary>
         /// ドロップ量
