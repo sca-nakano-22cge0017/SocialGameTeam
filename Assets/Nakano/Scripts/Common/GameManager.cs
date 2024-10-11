@@ -71,12 +71,60 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 選択難易度
+    private static int selectDifficulty = -1;
+    public static int SelectDifficulty
+    {
+        get
+        {
+            if (selectDifficulty == errorNum)
+            {
+                Debug.Log("選択難易度：入力値がありません");
+            }
+            return selectDifficulty;
+        }
+        set
+        {
+            if (value < 0)
+            {
+                Debug.Log("選択難易度：入力値が間違っています");
+                return;
+            }
+
+            selectDifficulty = value;
+            Debug.Log("選択難易度：" + selectDifficulty);
+        }
+    }
+
+    // 選択エリア
+    private static int selectArea = -1;
+    public static int SelectArea
+    {
+        get
+        {
+            if (selectArea == errorNum)
+            {
+                Debug.Log("選択エリア：入力値がありません");
+            }
+            return selectArea;
+        }
+        set
+        {
+            if (value < 0)
+            {
+                Debug.Log("選択エリア：入力値が間違っています");
+                return;
+            }
+
+            selectArea = value;
+            Debug.Log("選択エリア：" + selectArea);
+        }
+    }
+
     // 選択ステージ
     private static int selectStage = -1;
-    private const int stageIdDigids = 5; // StageIdの桁数
-
     /// <summary>
-    /// 選択中ステージ　エリア番号(1桁)+ステージ番号(2桁)+難易度(2桁)の5桁
+    /// 選択中ステージ　ステージ番号
     /// </summary>
     public static int SelectStage
     {
@@ -90,9 +138,9 @@ public class GameManager : MonoBehaviour
         }
         set
         {
-            if ((int)Mathf.Log10(value) + 1 != stageIdDigids)
+            if (value < 0)
             {
-                Debug.Log("選択ステージ：入力値が間違っています / 桁数が異なります");
+                Debug.Log("選択ステージ：入力値が間違っています");
                 return;
             }
 
@@ -102,6 +150,7 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField] private StaminaManager staminaManager;
+    [SerializeField] private MasterDataLoader masterDataLoader;
 
     private void Awake()
     {
@@ -116,6 +165,7 @@ public class GameManager : MonoBehaviour
         }
 
         staminaManager.Initialize();
+        masterDataLoader.DataLoad();
     }
 
     private void Update()

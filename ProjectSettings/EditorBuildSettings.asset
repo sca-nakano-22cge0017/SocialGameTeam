@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/SampleScene.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
     path: Assets/Sasaki/Scenes/TitleScene.unity
     guid: 49e33e6164ec1544dacd514d90ca2fef
   - enabled: 1
@@ -17,4 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Sasaki/Scenes/TrainingCompletedScene.unity
     guid: ec2d1d7e6d3ee494b9857286552fa590
-  m_configObjects: {}
+  - enabled: 1
+    path: Assets/Nakano/Scenes/Dev.unity
+    guid: 3b2fc80392acdc94f9bebffc9d745748
+  - enabled: 1
+    path: Assets/Nakano/Scenes/TestScene.unity
+    guid: acdf39f36863a01499e5c9888eac66cc
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 7384e50fe899be241a2358656ebb6d52, type: 2}

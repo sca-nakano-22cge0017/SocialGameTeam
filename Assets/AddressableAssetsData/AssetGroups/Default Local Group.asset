@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Default Local Group
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3aa9aec5511eb79478eed02edcac36b9
+  m_SerializeEntries:
+  - m_GUID: 53e57412c3a457d458e7670ca8cc501f
+    m_Address: Assets/Nakano/Master/e_attackpattern.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17724d4f5390d9341b95c87e273b0313
+    m_Address: Assets/Nakano/Master/e_status.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bdb46e48f7ea8934c8e2ba6d84310b82
+    m_Address: Assets/Nakano/Master/item.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1d92554224f86d14babff8da7384982f
+    m_Address: Assets/Nakano/Master/p_status.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 96d4cf897fba32241bcd26885ebe3576
+    m_Address: Assets/Nakano/Master/p_lankPt.csv
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 08cdaf77248311948b5fe2fdb23babab, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b3e9697e6aba35246b646a93c897207f, type: 2}
+    - {fileID: 11400000, guid: 6c226de98b92c5d4fb00cf78b77fdbc6, type: 2}
