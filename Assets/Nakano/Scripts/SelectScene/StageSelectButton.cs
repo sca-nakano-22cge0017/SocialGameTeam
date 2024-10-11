@@ -6,7 +6,9 @@ using UnityEngine.UI;
 public class StageSelectButton : MonoBehaviour
 {
     [SerializeField] private StageSelect stageSelect;
-    [SerializeField, Header("遷移ステージのID エリア番号(1桁)+ステージ番号(2桁)の3桁")] private string stageId;
+    [SerializeField, Header("難易度")] private int difficulty;
+    [SerializeField, Header("遷移エリアのID")] private int areaId;
+    [SerializeField, Header("遷移ステージのID")] private int stageId;
 
     private int tapCount = 0;
     private bool isExit = false;
@@ -68,7 +70,7 @@ public class StageSelectButton : MonoBehaviour
 
         if (tapCount >= 2 && !isExit && !didTargetChange)
         {
-            stageSelect.Transition(this, stageId);
+            stageSelect.Transition(this, difficulty, areaId, stageId);
             tapCount = 0;
         }
 

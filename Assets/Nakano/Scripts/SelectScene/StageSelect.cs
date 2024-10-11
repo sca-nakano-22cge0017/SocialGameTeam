@@ -40,6 +40,7 @@ public class StageSelect : MonoBehaviour
     const float coolTime = 0.01f;
 
     StaminaManager sm = null;
+    StageDataManager ssm = null;
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class StageSelect : MonoBehaviour
             GameManager.GameManagerCreate();
         }
         sm = FindObjectOfType<StaminaManager>();
+        ssm = FindObjectOfType<StageDataManager>();
     }
 
     void Start()
@@ -55,10 +57,6 @@ public class StageSelect : MonoBehaviour
         FirstSelect();
         
         if (isBossSelect) FirstTarget();
-    }
-
-    void Update()
-    {
     }
 
     private void FirstSelect()
@@ -139,7 +137,7 @@ public class StageSelect : MonoBehaviour
     /// <summary>
     /// ボタン押下によるステージ遷移
     /// </summary>
-    public void Transition(StageSelectButton _selectingButton, string _stageId)
+    public void Transition(StageSelectButton _selectingButton, int _difficulty,  int _areaId, int _stageId)
     {
         // クールタイム中なら終了
         if (isCoolTime_Select) return;
@@ -160,15 +158,26 @@ public class StageSelect : MonoBehaviour
         // 押下処理
         if (selectingButton == _selectingButton)
         {
-            string stageId = _stageId + LevelManager.LevelId;
-            int stageNum = int.Parse(stageId);
-            GameManager.SelectStage = stageNum;
+            GameManager.SelectArea = _areaId;
+            GameManager.SelectStage = _stageId;
 
-            ConsumeStamina(_stageId);
+            int difficulty = -1;
+            if (_areaId == 1) difficulty = DifficultyManager.Difficulty;
+            if (_areaId == 2) difficulty = _difficulty;
+            GameManager.SelectDifficulty = difficulty;
 
-            // バトル画面への遷移
-            Debug.Log(pressedButton.name + "へ遷移します");
-            //SceneManager.LoadScene("MainGame");
+            ConsumeStamina(_areaId);
+
+            // ステージデータ読み込み完了時の処理
+            ssm.LoadCompleteProcess += () =>
+            {
+                // バトル画面への遷移
+                Debug.Log(pressedButton.name + "へ遷移します");
+                //SceneManager.LoadScene("MainGame");
+
+                SceneManager.LoadScene("TestScene");
+            };
+            ssm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
         }
 
         // 押下後、一定時間押下判定を取らない
@@ -204,19 +213,17 @@ public class StageSelect : MonoBehaviour
     /// スタミナ消費
     /// </summary>
     /// <param name="_stageId"></param>
-    private void ConsumeStamina(string _stageId)
+    private void ConsumeStamina(int _areaId)
     {
-        char area = _stageId[0];
-
         if (sm == null) return;
 
-        switch (area)
+        switch (_areaId)
         {
-            case '1':
+            case 1:
                 sm.Traning();
                 break;
 
-            case '2':
+            case 2:
                 sm.Boss();
                 break;
         }
