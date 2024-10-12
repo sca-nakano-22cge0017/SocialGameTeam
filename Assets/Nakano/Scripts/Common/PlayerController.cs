@@ -27,7 +27,7 @@ public class StatusBase
     }
 }
 
-public class PlayerStatus : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     public class Player
     {
@@ -43,7 +43,7 @@ public class PlayerStatus : MonoBehaviour
         public StatusBase rankPoint;      // 累積ランクPt
         public StatusBase rankPoint_Max;  // ランクPt最大値
 
-        public Dictionary<CombiRankType, Rank> combiRank; // 複合ステータスのランク
+        public Dictionary<CombiRankType, Rank> combiRank = new(); // 複合ステータスのランク
         public int atkCombiRankPtMax; // 現在ランクでの最大アタック値
         public int defCombiRankPtMax; // 現在ランクでの最大ディフェンス値
         public int tecCombiRankPtMax; // 現在ランクでの最大テクニカル値
@@ -66,12 +66,13 @@ public class PlayerStatus : MonoBehaviour
 
                 CharacterRankPoint rankPtData = statusData.rankPoint;
 
+                Rank initRank = Rank.C;
+
                 // ステータス初期化
-                status = statusData.statusInit;
-                status_Max = statusData.statusMax;
+                status = statusData.statusInit[initRank];
+                status_Max = statusData.statusMax[initRank];
 
                 // ランクPt初期化
-                Rank initRank = Rank.C;
                 rankPoint = new StatusBase(0, 0, 0, 0, 0, 0);
                 rankPoint_Max = rankPtData.rankPtMax[initRank];
 
@@ -122,6 +123,14 @@ public class PlayerStatus : MonoBehaviour
         player = new Player(_id);
     }
 
+    static void PlayerNullCheck()
+    {
+        if (player == null)
+        {
+            PlayerCreate(GameManager.SelectChara);
+        }
+    }
+
     /// <summary>
     /// ランクポイント追加
     /// </summary>
@@ -129,6 +138,8 @@ public class PlayerStatus : MonoBehaviour
     /// <param name="_amount">追加量</param>
     public static void RankPtUp(StatusType _type, int _amount)
     {
+        PlayerNullCheck();
+
         switch (_type)
         {
             case StatusType.HP:
@@ -171,7 +182,7 @@ public class PlayerStatus : MonoBehaviour
 
     static void CalcStatus()
     {
-
+        PlayerNullCheck();
     }
 
     /// <summary>
@@ -179,6 +190,8 @@ public class PlayerStatus : MonoBehaviour
     /// </summary>
     public static void CombiRankUp()
     {
+        PlayerNullCheck();
+
         if (player.rankPoint.hp + player.rankPoint.def >= player.defCombiRankPtMax)
         {
             RankUp(CombiRankType.DEF);
@@ -231,6 +244,8 @@ public class PlayerStatus : MonoBehaviour
 
     public static StatusBase GetStatus()
     {
+        PlayerNullCheck();
+
         return player.status;
     }
 }
