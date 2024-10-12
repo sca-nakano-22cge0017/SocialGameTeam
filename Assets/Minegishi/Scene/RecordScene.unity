@@ -1413,26 +1413,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 503535699}
-  - component: {fileID: 503535698}
+  - component: {fileID: 503535700}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &503535698
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 503535697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba419cf79d4ace14fbdf3fa80c4817e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &503535699
 Transform:
   m_ObjectHideFlags: 0
@@ -1448,6 +1436,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &503535700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503535697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3fa2cb8b8156346afc3af6e597df60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &504220726
 GameObject:
   m_ObjectHideFlags: 0
@@ -2076,7 +2076,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelect: {fileID: 0}
-  stageId: 
+  difficulty: 0
+  areaId: 0
+  stageId: 0
 --- !u!1 &839334778
 GameObject:
   m_ObjectHideFlags: 0
@@ -4646,7 +4648,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelect: {fileID: 0}
-  stageId: 
+  difficulty: 0
+  areaId: 0
+  stageId: 0
 --- !u!1 &1428637743
 GameObject:
   m_ObjectHideFlags: 0
@@ -4948,7 +4952,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelect: {fileID: 0}
-  stageId: 
+  difficulty: 0
+  areaId: 0
+  stageId: 0
 --- !u!1 &1464232012
 GameObject:
   m_ObjectHideFlags: 0
@@ -5408,7 +5414,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelect: {fileID: 0}
-  stageId: 
+  difficulty: 0
+  areaId: 0
+  stageId: 0
 --- !u!1 &1599055254
 GameObject:
   m_ObjectHideFlags: 0
@@ -6605,9 +6613,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: Close
+      - m_Target: {fileID: 503535700}
+        m_TargetAssemblyTypeName: RecordManager, Assembly-CSharp
+        m_MethodName: BuckButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6844,7 +6852,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelect: {fileID: 0}
-  stageId: 
+  difficulty: 0
+  areaId: 0
+  stageId: 0
 --- !u!1 &1919998894
 GameObject:
   m_ObjectHideFlags: 0
@@ -8047,7 +8057,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stageSelect: {fileID: 0}
-  stageId: 
+  difficulty: 0
+  areaId: 0
+  stageId: 0
 --- !u!1 &2104409224
 GameObject:
   m_ObjectHideFlags: 0
