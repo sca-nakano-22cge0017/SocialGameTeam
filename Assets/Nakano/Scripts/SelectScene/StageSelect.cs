@@ -172,8 +172,7 @@ public class StageSelect : MonoBehaviour
             ssm.LoadCompleteProcess += () =>
             {
                 // ƒoƒgƒ‹‰æ–Ê‚Ö‚Ì‘JˆÚ
-                Debug.Log(pressedButton.name + "‚Ö‘JˆÚ‚µ‚Ü‚·");
-                //SceneManager.LoadScene("MainGame");
+                //SceneManager.LoadScene("Main");
 
                 SceneManager.LoadScene("TestScene");
             };
