@@ -56,13 +56,17 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnemyTurn()
     {
+        Debug.Log("敵のターンが開始されました");
         yield return new WaitForSeconds(1f); // 少し待機
 
         if (!battleOver)
         {
-            int damage = Random.Range(10, 20);
+            int damage = Random.Range(15, 25);
             playerCurrentHP -= damage;
             UpdateBattleText("敵の攻撃！ プレイヤーに " + damage + " のダメージ！");
+            Debug.Log("Player HP after attack: " + playerCurrentHP);
+
+            yield return new WaitForSeconds(2f); // 少し待機
 
             if (playerCurrentHP <= 0)
             {
@@ -74,6 +78,7 @@ public class BattleSystem : MonoBehaviour
             {
                 playerTurn = true; // 再びプレイヤーのターンに
                 UpdateBattleText("プレイヤーのターン");
+                Debug.Log("Switched to player turn");
             }
         }
     }
