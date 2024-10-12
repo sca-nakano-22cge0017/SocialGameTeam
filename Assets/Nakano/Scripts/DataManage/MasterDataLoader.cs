@@ -323,47 +323,85 @@ public class MasterDataLoader : MonoBehaviour
     void GetCharaInitialStatus()
     {
         const int charaAmount = 2;
+
         const int charaIdColumn = 1;
-        const int atk_InitColumn = 2;
-        const int atk_MaxColumn  = 3;
-        const int  mp_InitColumn  = 4;
-        const int  mp_MaxColumn   = 5;
-        const int  hp_InitColumn  = 6;
-        const int  hp_MaxColumn   = 7;
-        const int def_InitColumn = 8;
-        const int def_MaxColumn  = 9;
-        const int spd_InitColumn = 10;
-        const int spd_MaxColumn  = 11;
-        const int dex_InitColumn = 12;
-        const int dex_MaxColumn  = 13;
+        const int rankIdColumn = 2;
+
+        const int atk_InitColumn = 3;
+        const int atk_MaxColumn = 4;
+        const int atk_BonusColumn = 5;
+
+        const int mp_InitColumn = 6;
+        const int mp_MaxColumn = 7;
+        const int mp_BonusColumn = 5;
+
+        const int hp_InitColumn = 10;
+        const int hp_MaxColumn = 11;
+        const int hp_BonusColumn = 12;
+
+        const int def_InitColumn = 13;
+        const int def_MaxColumn = 14;
+        const int def_BonusColumn = 15;
+
+        const int spd_InitColumn = 17;
+        const int spd_MaxColumn = 18;
+        const int spd_BonusColumn = 19;
+
+        const int dex_InitColumn = 20;
+        const int dex_MaxColumn = 21;
+        const int dex_BonusColumn = 22;
 
         List<CharaInitialStutas> charaInitialStatus = new();
         List<string[]> datas = textDatas["p_status"];
 
-        for (int l = 0; l < charaAmount; l++)
+        int rankAmount = Enum.GetValues(typeof(Rank)).Length;
+
+        for (int c = 0; c < charaAmount; c++)
         {
             CharaInitialStutas status = new();
 
-            status.charaId = int.Parse(datas[l][charaIdColumn]);
+            for (int r = 0; r < rankAmount; r++)
+            {
+                int cell = c + r + 1;
+                status.charaId = int.Parse(datas[cell][charaIdColumn]);
 
-            int hp_Init = int.Parse(datas[l][hp_InitColumn]);
-            int mp_Init = int.Parse(datas[l][mp_InitColumn]);
-            int atk_Init = int.Parse(datas[l][atk_InitColumn]);
-            int def_Init = int.Parse(datas[l][def_InitColumn]);
-            int spd_Init = int.Parse(datas[l][spd_InitColumn]);
-            int dex_Init = int.Parse(datas[l][dex_InitColumn]);
+                Rank rank = (Rank)Enum.Parse(typeof(Rank), datas[cell][rankIdColumn]);
 
-            int hp_Max = int.Parse(datas[l][hp_MaxColumn]);
-            int mp_Max = int.Parse(datas[l][mp_MaxColumn]);
-            int atk_Max = int.Parse(datas[l][atk_MaxColumn]);
-            int def_Max = int.Parse(datas[l][def_MaxColumn]);
-            int spd_Max = int.Parse(datas[l][spd_MaxColumn]);
-            int dex_Max = int.Parse(datas[l][dex_MaxColumn]);
+                if (c + 1 == int.Parse(datas[cell][charaIdColumn]))
+                {
+                    // ステ初期値
+                    int hp_Init = int.Parse(datas[cell][hp_InitColumn]);
+                    int mp_Init = int.Parse(datas[cell][mp_InitColumn]);
+                    int atk_Init = int.Parse(datas[cell][atk_InitColumn]);
+                    int def_Init = int.Parse(datas[cell][def_InitColumn]);
+                    int spd_Init = int.Parse(datas[cell][spd_InitColumn]);
+                    int dex_Init = int.Parse(datas[cell][dex_InitColumn]);
 
-            status.statusInit = new StatusBase(hp_Init, mp_Init, atk_Init, def_Init, spd_Init, dex_Init);
-            status.statusMax = new StatusBase(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
+                    status.statusInit[rank] = new StatusBase(hp_Init, mp_Init, atk_Init, def_Init, spd_Init, dex_Init);
 
-            status.rankPoint = GetRankPointSetting(status.charaId);
+                    // ステ最大値
+                    int hp_Max = int.Parse(datas[cell][hp_MaxColumn]);
+                    int mp_Max = int.Parse(datas[cell][mp_MaxColumn]);
+                    int atk_Max = int.Parse(datas[cell][atk_MaxColumn]);
+                    int def_Max = int.Parse(datas[cell][def_MaxColumn]);
+                    int spd_Max = int.Parse(datas[cell][spd_MaxColumn]);
+                    int dex_Max = int.Parse(datas[cell][dex_MaxColumn]);
+
+                    status.statusMax[rank] = new StatusBase(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
+
+                    // ランクアップ時ボーナス
+                    int hp_Bonus = int.Parse(datas[cell][hp_BonusColumn]);
+                    int mp_Bonus = int.Parse(datas[cell][mp_BonusColumn]);
+                    int atk_Bonus = int.Parse(datas[cell][atk_BonusColumn]);
+                    int def_Bonus = int.Parse(datas[cell][def_BonusColumn]);
+                    int spd_Bonus = int.Parse(datas[cell][spd_BonusColumn]);
+                    int dex_Bonus = int.Parse(datas[cell][dex_BonusColumn]);
+
+                    status.rankUpBonus[rank] = new StatusBase(hp_Bonus, mp_Bonus, atk_Bonus, def_Bonus, spd_Bonus, dex_Bonus);
+
+                    status.rankPoint = GetRankPointSetting(status.charaId);
+                }
+            }
 
             charaInitialStatus.Add(status);
         }
@@ -380,17 +418,17 @@ public class MasterDataLoader : MonoBehaviour
         const int charaIdColumn = 1;
         const int rankIdColumn = 2;
 
-        const int rank_Atk_MaxColumn = 4;
-        const int rank_Mp_MaxColumn = 6;
-        const int rank_TotalAtk_MaxColumn = 8;
+        const int rank_Atk_MaxColumn = 3;
+        const int rank_Mp_MaxColumn = 4;
+        const int rank_TotalAtk_MaxColumn = 5;
 
-        const int rank_Hp_MaxColumn   = 10;
-        const int rank_Def_MaxColumn  = 12;
-        const int rank_TotalDef_MaxColumn = 14;
+        const int rank_Hp_MaxColumn   = 6;
+        const int rank_Def_MaxColumn  = 7;
+        const int rank_TotalDef_MaxColumn = 8;
 
-        const int rank_Spd_MaxColumn  = 16;
-        const int rank_Dex_MaxColumn  = 18;
-        const int rank_TotalTec_MaxColumn = 20;
+        const int rank_Spd_MaxColumn  = 9;
+        const int rank_Dex_MaxColumn  = 10;
+        const int rank_TotalTec_MaxColumn = 11;
 
         CharacterRankPoint rankPoint = new();
         List<string[]> datas = textDatas["p_rankPt"];
@@ -400,10 +438,10 @@ public class MasterDataLoader : MonoBehaviour
         {
             if (_charaId == int.Parse(datas[l][charaIdColumn]))
             {
-                Rank rank = (Rank)Enum.ToObject(typeof(Rank), datas[l][rankIdColumn]);
-
-                int hp_Max = int.Parse(datas[l][rank_Hp_MaxColumn]);
-                int mp_Max = int.Parse(datas[l][rank_Mp_MaxColumn]);
+                Rank rank = (Rank)Enum.Parse(typeof(Rank), datas[l][rankIdColumn]);
+                
+                int hp_Max  = int.Parse(datas[l][rank_Hp_MaxColumn]);
+                int mp_Max  = int.Parse(datas[l][rank_Mp_MaxColumn]);
                 int atk_Max = int.Parse(datas[l][rank_Atk_MaxColumn]);
                 int def_Max = int.Parse(datas[l][rank_Def_MaxColumn]);
                 int spd_Max = int.Parse(datas[l][rank_Spd_MaxColumn]);
@@ -569,18 +607,19 @@ namespace Master
     {
         public int charaId;
 
-        public StatusBase statusInit;
-        public StatusBase statusMax;
+        public Dictionary<Rank, StatusBase> statusInit = new();
+        public Dictionary<Rank, StatusBase> statusMax = new();
+        public Dictionary<Rank, StatusBase> rankUpBonus = new();
 
         public CharacterRankPoint rankPoint;
     }
 
     public class CharacterRankPoint
     {
-        public Dictionary<Rank, StatusBase> rankPtMax;
+        public Dictionary<Rank, StatusBase> rankPtMax = new();
 
-        public Dictionary<Rank, int> atkRankPtMax;
-        public Dictionary<Rank, int> defRankPtMax;
-        public Dictionary<Rank, int> tecRankPtMax;
+        public Dictionary<Rank, int> atkRankPtMax = new();
+        public Dictionary<Rank, int> defRankPtMax = new();
+        public Dictionary<Rank, int> tecRankPtMax = new();
     }
 }

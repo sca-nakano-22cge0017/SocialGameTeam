@@ -68,9 +68,9 @@ public class GameManager : MonoBehaviour
             selectChara = value;
             Debug.Log("選択キャラクター：" + selectChara);
 
-            PlayerStatus.PlayerCreate(selectChara);
+            PlayerController.PlayerCreate(selectChara);
             
-            StatusBase status = PlayerStatus.player.status;
+            StatusBase status = PlayerController.player.status;
             Debug.Log(string.Format("HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}", status.hp, status.mp, status.atk, status.def, status.spd, status.dex));
         }
     }
