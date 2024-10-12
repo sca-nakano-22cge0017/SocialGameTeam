@@ -59,6 +59,18 @@ public class StageSelect : MonoBehaviour
         if (isBossSelect) FirstTarget();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            GameManager.SelectChara = 1;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            GameManager.SelectChara = 2;
+        }
+    }
+
     private void FirstSelect()
     {
         selectingButton = firstSelectButton;
@@ -173,8 +185,6 @@ public class StageSelect : MonoBehaviour
             {
                 // ƒoƒgƒ‹‰æ–Ê‚Ö‚Ì‘JˆÚ
                 SceneManager.LoadScene("Main");
-
-                //SceneManager.LoadScene("TestScene");
             };
             ssm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
 

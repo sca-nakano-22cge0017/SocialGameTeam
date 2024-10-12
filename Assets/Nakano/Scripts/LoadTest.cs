@@ -51,10 +51,5 @@ public class LoadTest : MonoBehaviour
         enemiesData = StageDataManager.EnemiesData;
         dropData = StageDataManager.DropData;
         loadCompleted = true;
-
-        for (int i = 0; i < enemiesData.Count; i++)
-        {
-            Debug.Log(string.Format("“GID:{0} ”z’uID:{1}", enemiesData[i].enemyStatus.enemyId, enemiesData[i].placementId));
-        }
     }
 }
