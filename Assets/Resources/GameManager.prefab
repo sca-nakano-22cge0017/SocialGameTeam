@@ -82,8 +82,8 @@ MonoBehaviour:
     fileName: Assets/Nakano/Master/item.csv
   - key: p_status
     fileName: Assets/Nakano/Master/p_status.csv
-  - key: p_lankPt
-    fileName: Assets/Nakano/Master/p_lankPt.csv
+  - key: p_rankPt
+    fileName: Assets/Nakano/Master/p_rankPt.csv
 --- !u!114 &-2246576267593689565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +97,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterDataLoader: {fileID: 2435309131356134135}
-  testMode: 0
-  difficulty: 1
-  area: 1
-  stage: 1
