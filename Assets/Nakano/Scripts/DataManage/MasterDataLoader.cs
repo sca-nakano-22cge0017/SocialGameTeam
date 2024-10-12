@@ -199,8 +199,10 @@ public class MasterDataLoader : MonoBehaviour
                 EnemyAttackPattern ap = new();
 
                 ap.attackId = int.Parse(data[attackIdColumn]);
-                if (int.Parse(data[typeAttackColumn]) == 1) ap.type = EnemyAttackPattern.AttackType.ATTACK;
-                if (int.Parse(data[typeBuffColumn]) == 1) ap.type = EnemyAttackPattern.AttackType.BUFF;
+
+                ap.attackType_DirectId = int.Parse(data[typeAttackColumn]);
+                ap.attackType_BuffId = int.Parse(data[typeBuffColumn]);
+
                 ap.probability = GetProbability(data[probabilityColumn]);
 
                 attackPattern.Add(ap);
@@ -362,7 +364,7 @@ public class MasterDataLoader : MonoBehaviour
 
             for (int r = 0; r < rankAmount; r++)
             {
-                int cell = c + r + 1;
+                int cell = c * rankAmount + r;
                 status.charaId = int.Parse(datas[cell][charaIdColumn]);
 
                 Rank rank = (Rank)Enum.Parse(typeof(Rank), datas[cell][rankIdColumn]);
@@ -403,10 +405,8 @@ public class MasterDataLoader : MonoBehaviour
                 }
             }
 
-            charaInitialStatus.Add(status);
+            MasterData.CharaInitialStatus.Add(status);
         }
-
-        MasterData.CharaInitialStatus = charaInitialStatus;
 
         charaDataLoaded = true;
     }
@@ -464,11 +464,6 @@ public class MasterDataLoader : MonoBehaviour
         int probability = int.Parse(str);
         return probability;
     }
-}
-
-public class SelectedCharacterData
-{
-    public static CharaInitialStutas charaInitialStutas = new();
 }
 
 namespace Master
@@ -565,8 +560,15 @@ namespace Master
     {
         public int attackId;
 
-        public enum AttackType { ATTACK, BUFF };
-        public AttackType type;
+        /// <summary>
+        /// 直接攻撃ID
+        /// </summary>
+        public int attackType_DirectId;
+
+        /// <summary>
+        /// バフID
+        /// </summary>
+        public int attackType_BuffId;
 
         /// <summary>
         /// 発動確率
@@ -611,7 +613,18 @@ namespace Master
         public Dictionary<Rank, StatusBase> statusMax = new();
         public Dictionary<Rank, StatusBase> rankUpBonus = new();
 
-        public CharacterRankPoint rankPoint;
+        public CharacterRankPoint rankPoint = new();
+
+        public CharaInitialStutas()
+        {
+            for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
+            {
+                Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
+                statusInit.Add(rank, null);
+                statusMax.Add(rank, null);
+                rankUpBonus.Add(rank, null);
+            }
+        }
     }
 
     public class CharacterRankPoint
@@ -621,5 +634,24 @@ namespace Master
         public Dictionary<Rank, int> atkRankPtMax = new();
         public Dictionary<Rank, int> defRankPtMax = new();
         public Dictionary<Rank, int> tecRankPtMax = new();
+
+        public CharacterRankPoint()
+        {
+            for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
+            {
+                Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
+                rankPtMax.Add(rank, null);
+                atkRankPtMax.Add(rank, 0);
+                defRankPtMax.Add(rank, 0);
+                tecRankPtMax.Add(rank, 0);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 周回ボーナス
+    /// </summary>
+    public class GrindBonus
+    {
     }
 }
