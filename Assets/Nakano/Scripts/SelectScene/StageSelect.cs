@@ -50,6 +50,8 @@ public class StageSelect : MonoBehaviour
         }
         sm = FindObjectOfType<StaminaManager>();
         ssm = FindObjectOfType<StageDataManager>();
+
+        GameManager.SelectChara = 2;
     }
 
     void Start()
@@ -61,14 +63,6 @@ public class StageSelect : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            GameManager.SelectChara = 1;
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            GameManager.SelectChara = 2;
-        }
     }
 
     private void FirstSelect()
@@ -184,11 +178,9 @@ public class StageSelect : MonoBehaviour
             ssm.LoadCompleteProcess += () =>
             {
                 // ƒoƒgƒ‹‰æ–Ê‚Ö‚Ì‘JˆÚ
-                SceneManager.LoadScene("Main");
+                //SceneManager.LoadScene("Main");
             };
             ssm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
-
-            GameManager.SelectChara = 2;
         }
 
         // ‰Ÿ‰ºŒãAˆê’èŠÔ‰Ÿ‰º”»’è‚ğæ‚ç‚È‚¢

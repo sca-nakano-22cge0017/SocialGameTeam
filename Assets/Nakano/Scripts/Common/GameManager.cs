@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     // 選択キャラクター
     private static int selectChara = -1;
     /// <summary>
-    /// 選択中キャラクター / 1:シスター , 2:剣士 , -1;エラー
+    /// 選択中キャラクター / 1:剣士, 2:シスター, -1:エラー
     /// </summary>
     public static int SelectChara
     {
@@ -66,12 +66,6 @@ public class GameManager : MonoBehaviour
             }
 
             selectChara = value;
-            Debug.Log("選択キャラクター：" + selectChara);
-
-            PlayerDataManager.PlayerCreate(selectChara);
-
-            StatusBase status = PlayerDataManager.GetAllStatus();
-            Debug.Log(string.Format("HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}", status.hp, status.mp, status.atk, status.def, status.spd, status.dex));
         }
     }
 
@@ -99,7 +93,6 @@ public class GameManager : MonoBehaviour
             }
 
             selectDifficulty = value;
-            Debug.Log("選択難易度：" + selectDifficulty);
         }
     }
 
@@ -127,7 +120,6 @@ public class GameManager : MonoBehaviour
             }
 
             selectArea = value;
-            Debug.Log("選択エリア：" + selectArea);
         }
     }
 
@@ -155,7 +147,6 @@ public class GameManager : MonoBehaviour
             }
 
             selectStage = value;
-            Debug.Log("選択ステージ：" + selectStage);
         }
     }
 
@@ -176,10 +167,22 @@ public class GameManager : MonoBehaviour
 
         staminaManager.Initialize();
         masterDataLoader.DataLoad();
+
+        StartCoroutine(LoadComplete());
     }
 
     private void Update()
     {
         staminaManager.Recovery();
+    }
+
+    IEnumerator LoadComplete()
+    {
+        yield return new WaitUntil(() =>MasterDataLoader.MasterDataLoadComplete);
+
+        SelectChara = 1;
+        StatusBase status = PlayerDataManager.GetAllStatus();
+        Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
+            status.hp, status.mp, status.atk, status.def, status.spd, status.dex, GameManager.SelectChara));
     }
 }

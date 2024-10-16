@@ -302,36 +302,29 @@ public class PlayerStatus
     /// <returns>指定したステータスのランクポイント現在値</returns>
     public int GetRankPt(StatusType _type)
     {
-        int s = 0;
-
         switch (_type)
         {
             case StatusType.HP:
-                s = rankPoint.hp;
-                break;
+                return rankPoint.hp;
 
             case StatusType.MP:
-                s = rankPoint.mp;
-                break;
+                return rankPoint.mp;
 
             case StatusType.ATK:
-                s = rankPoint.atk;
-                break;
+                return rankPoint.atk;
 
             case StatusType.DEF:
-                s = rankPoint.def;
-                break;
+                return rankPoint.def;
 
             case StatusType.SPD:
-                s = rankPoint.spd;
-                break;
+                return rankPoint.spd;
 
             case StatusType.DEX:
-                s = rankPoint.dex;
-                break;
-        }
+                return rankPoint.dex;
 
-        return s;
+            default:
+                return 0;
+        }
     }
 
     /// <summary>
