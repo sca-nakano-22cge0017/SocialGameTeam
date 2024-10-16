@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using Master;
 
 public class PlayerDataManager : MonoBehaviour
@@ -29,7 +30,6 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         Debug.Log("ƒvƒŒƒCƒ„[¶¬");
-        player = null;
         player = new PlayerStatus(_id);
     }
 
@@ -59,6 +59,8 @@ public class PlayerDataManager : MonoBehaviour
         if (rankPt_Max > rankPt)
             player.SetRankPt(_type, rankPt + _amount);
         else player.SetRankPt(_type, rankPt_Max);
+
+        CombiRankUp();
 
         CalcStatus(_type);
     }
