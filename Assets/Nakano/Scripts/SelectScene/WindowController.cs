@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WindowController : MonoBehaviour
 {
@@ -20,5 +21,10 @@ public class WindowController : MonoBehaviour
     public void Close()
     {
         if (m_window.activeSelf) m_window.SetActive(false);
+    }
+
+    public void ToHome()
+    {
+        SceneManager.LoadScene("HomeScene");
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Master;
 
 public enum StatusType { HP, MP, ATK, DEF, SPD, DEX };
-public enum CombiType { ATK, DEF, TEC, ALL };
+public enum CombiType { ATK, DEF, TEC };
 public enum Rank { C, B, A, S, SS };
 
 public class Status
