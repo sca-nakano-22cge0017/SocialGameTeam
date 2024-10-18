@@ -208,8 +208,6 @@ public class PlayerDataManager : MonoBehaviour
                 player.SetCombiRankPtNextUp(_type, rankPtData.tecRankPt_NextUp[rank]);
                 break;
         }
-
-        Debug.Log(_type + " / " + rank);
     }
 
     /// <summary>

@@ -491,7 +491,6 @@ public class MasterDataLoader : MonoBehaviour
                 s.guageMaxAmount = int.Parse(datas[l][guageMaxAmountColumn]);
 
                 guagesSetting.Add(s);
-                Debug.Log(s.actionType + " / " + s.guageUpAmount);
             }
         }
 
