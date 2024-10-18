@@ -46,10 +46,10 @@ public class CharaSelect : MonoBehaviour
         switch (num)
         {
             case 1: //àÁê¨
-                SceneManager.LoadScene("TitleScene");
+                SceneManager.LoadScene("SelectScene_Traning");
                 break;
             case 2: //É{ÉX
-                SceneManager.LoadScene("TitleScene");
+                SceneManager.LoadScene("SelectScene_Boss");
                 break;
             case 3: //ãLò^
                 SceneManager.LoadScene("TitleScene");
