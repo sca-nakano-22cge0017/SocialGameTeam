@@ -4,10 +4,10 @@ using UnityEngine;
 using Master;
 
 public enum StatusType { HP, MP, ATK, DEF, SPD, DEX };
-public enum CombiRankType { ATK, DEF, TEC, ALL };
+public enum CombiType { ATK, DEF, TEC, ALL };
 public enum Rank { C, B, A, S, SS };
 
-public class StatusBase
+public class Status
 {
     public int hp;
     public int mp;
@@ -16,7 +16,7 @@ public class StatusBase
     public int spd;
     public int dex;
 
-    public StatusBase(int _hp, int _mp, int _atk, int _def, int _spd, int _dex)
+    public Status(int _hp, int _mp, int _atk, int _def, int _spd, int _dex)
     {
         hp = _hp;
         mp = _mp;
@@ -36,16 +36,21 @@ public class PlayerStatus
     private int totalPower = 0;          // 戦闘力
     private int totalPower_Max = 999999; // 戦闘力最大値
 
-    private StatusBase status = new(0, 0, 0, 0, 0, 0);         // ステータス
-    private StatusBase status_Max = new(0, 0, 0, 0, 0, 0);     // 最大値
+    private Status status = new(0, 0, 0, 0, 0, 0);           // ステータス
+    private Status status_Max = new(0, 0, 0, 0, 0, 0);       // 最大値
 
-    private StatusBase rankPoint = new(0, 0, 0, 0, 0, 0);      // 累積ランクPt
-    private StatusBase rankPoint_Max = new(0, 0, 0, 0, 0, 0);  // ランクPt最大値
+    private Status rankPoint = new(0, 0, 0, 0, 0, 0);        // 累積ランクPt
+    private Status rankPoint_LastUp = new(0, 0, 0, 0, 0, 0); // 前回ランクアップしたときの累積ランクPt
+    private Status rankPoint_NextUp = new(0, 0, 0, 0, 0, 0); // 次にランクアップするときの累積ランクPt
+    private Status rankPoint_Max = new(0, 0, 0, 0, 0, 0);    // ステータスのランクPt最大値 プラスステータスを除き、上昇しない
+    private Dictionary<StatusType, Rank> statusRank = new(); // 各ステータスのランク
 
-    private Dictionary<CombiRankType, Rank> combiRank = new(); // 複合ステータスのランク
-    private int atkCombiRankPtMax = 0; // 現在ランクでの最大アタック値
-    private int defCombiRankPtMax = 0; // 現在ランクでの最大ディフェンス値
-    private int tecCombiRankPtMax = 0; // 現在ランクでの最大テクニカル値
+    private Dictionary<CombiType, Rank> combiRank = new();         // 複合ステータスのランク
+    private Dictionary<CombiType, int> combiRankPt = new();        // 複合ステータスのランクPt現在値
+    private Dictionary<CombiType, int> combiRankPt_NextUp = new(); // 次にランクアップするときの累積ランクPt
+    private Dictionary<CombiType, int> combiRankPtMax = new();     // 複合ステータスのランクPt最大値 プラスステータスを除き、上昇しない
+
+    private Status plusStatus = new(0, 0, 0, 0, 0, 0);     // 周回によるプラスステータス 1～99
 
     /// <summary>
     /// IDに応じて初期ステータス設定
@@ -55,49 +60,7 @@ public class PlayerStatus
     {
         ID = _id;
 
-        Rank initRank = Rank.C;
-
-        // 複合ステータスのランク初期化
-        combiRank.Add(CombiRankType.ATK, initRank);
-        combiRank.Add(CombiRankType.DEF, initRank);
-        combiRank.Add(CombiRankType.TEC, initRank);
-
-        if (MasterDataLoader.MasterDataLoadComplete)
-        {
-            for (int i = 0; i < MasterData.CharaInitialStatus.Count; i++)
-            {
-                if (MasterData.CharaInitialStatus[i].charaId == _id)
-                {
-                    statusData = MasterData.CharaInitialStatus[i];
-                    
-                    // ステータス初期化
-                    status = statusData.statusInit[initRank];
-                    status_Max = statusData.statusMax[initRank];
-
-                    // ランクPt初期化
-                    CharacterRankPoint rankPtData = statusData.rankPoint;
-
-                    rankPoint = new StatusBase(0, 0, 0, 0, 0, 0);
-                    rankPoint_Max = rankPtData.rankPtMax[initRank];
-
-                    atkCombiRankPtMax = rankPtData.atkRankPtMax[initRank];
-                    defCombiRankPtMax = rankPtData.defRankPtMax[initRank];
-                    tecCombiRankPtMax = rankPtData.tecRankPtMax[initRank];
-                }
-            }
-        }
-        else
-        {
-            status = new StatusBase(1000, 120, 400, 100, 50, 10);
-            status_Max = new StatusBase(14000, 3000, 40000, 5000, 120, 100);
-
-            rankPoint = new StatusBase(0, 0, 0, 0, 0, 0);
-            rankPoint_Max = new StatusBase(12000, 6000, 12000, 6000, 12000, 6000);
-
-            atkCombiRankPtMax = 1000;
-            defCombiRankPtMax = 1000;
-            tecCombiRankPtMax = 1000;
-        }
+        Initialize(_id);
     }
 
     public CharaInitialStutas StatusData
@@ -108,7 +71,7 @@ public class PlayerStatus
         }
     }
 
-    public StatusBase AllStatus
+    public Status AllStatus
     {
         get
         {
@@ -148,42 +111,116 @@ public class PlayerStatus
     }
 
     /// <summary>
+    /// 初期化
+    /// </summary>
+    /// <param name="_id"></param>
+    void Initialize(int _id)
+    {
+        Rank initRank = Rank.C;     // 初期ランク
+        Rank highestRank = Rank.SS; // 最高ランク
+
+        // ステータスのランク初期化
+        statusRank.Clear();
+        for (int s = 0; s < System.Enum.GetValues(typeof(StatusType)).Length; s++)
+        {
+            StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
+            statusRank.Add(status, initRank);
+        }
+
+        // 複合ステータスのランク/ランクPt最大値初期化
+        combiRank.Clear();
+        combiRankPt.Clear();
+        combiRankPtMax.Clear();
+        for (int c = 0; c < System.Enum.GetValues(typeof(CombiType)).Length; c++)
+        {
+            CombiType combi = (CombiType)System.Enum.ToObject(typeof(CombiType), c);
+            combiRank.Add(combi, initRank);
+            combiRankPt.Add(combi, 0);
+            combiRankPt_NextUp.Add(combi, 0);
+            combiRankPtMax.Add(combi, 0);
+        }
+
+        if (MasterDataLoader.MasterDataLoadComplete)
+        {
+            for (int i = 0; i < MasterData.CharaInitialStatus.Count; i++)
+            {
+                if (MasterData.CharaInitialStatus[i].charaId == _id)
+                {
+                    statusData = MasterData.CharaInitialStatus[i];
+
+                    // ステータス初期化
+                    status = statusData.statusInit[initRank];
+                    status_Max = statusData.statusMax[initRank];
+
+                    // ランクPt初期化
+                    CharacterRankPoint rankPtData = statusData.rankPoint;
+
+                    rankPoint = new Status(0, 0, 0, 0, 0, 0);
+                    rankPoint_LastUp = new Status(0, 0, 0, 0, 0, 0);
+                    rankPoint_NextUp = rankPtData.rankPt_NextUp[initRank];
+                    rankPoint_Max = rankPtData.rankPt_NextUp[highestRank];
+
+                    combiRankPt_NextUp[CombiType.ATK] = rankPtData.atkRankPt_NextUp[initRank];
+                    combiRankPt_NextUp[CombiType.DEF] = rankPtData.defRankPt_NextUp[initRank];
+                    combiRankPt_NextUp[CombiType.TEC] = rankPtData.tecRankPt_NextUp[initRank];
+
+                    combiRankPtMax[CombiType.ATK] = rankPtData.atkRankPt_NextUp[highestRank];
+                    combiRankPtMax[CombiType.DEF] = rankPtData.defRankPt_NextUp[highestRank];
+                    combiRankPtMax[CombiType.TEC] = rankPtData.tecRankPt_NextUp[highestRank];
+                }
+            }
+        }
+        else
+        {
+            status = new Status(1000, 120, 400, 100, 50, 10);
+            status_Max = new Status(14000, 3000, 40000, 5000, 120, 100);
+
+            rankPoint = new Status(0, 0, 0, 0, 0, 0);
+            rankPoint_LastUp = new Status(0, 0, 0, 0, 0, 0);
+            rankPoint_NextUp = new Status(12000, 6000, 12000, 6000, 12000, 6000);
+            rankPoint_Max = new Status(12000, 6000, 12000, 6000, 12000, 6000);
+
+            combiRankPt_NextUp[CombiType.ATK] = 1000;
+            combiRankPt_NextUp[CombiType.DEF] = 1000;
+            combiRankPt_NextUp[CombiType.TEC] = 1000;
+
+            combiRankPtMax[CombiType.ATK] = 14000;
+            combiRankPtMax[CombiType.DEF] = 14000;
+            combiRankPtMax[CombiType.TEC] = 14000;
+        }
+    }
+
+    // ステータス
+    /// <summary>
     /// 指定したステータスの現在値を取得
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <returns>指定したステータスの現在値</returns>
     public int GetStatus(StatusType _type)
     {
-        int s = 0;
-
         switch (_type)
         {
             case StatusType.HP:
-                s = status.hp;
-                break;
+                return status.hp;
 
             case StatusType.MP:
-                s = status.mp;
-                break;
-
+                return status.mp;
+                
             case StatusType.ATK:
-                s = status.atk;
-                break;
-
+                return status.atk;
+               
             case StatusType.DEF:
-                s = status.def;
-                break;
-
+                return status.def;
+                
             case StatusType.SPD:
-                s = status.spd;
-                break;
-
+                return status.spd;
+                
             case StatusType.DEX:
-                s = status.dex;
-                break;
+                return status.dex;
+                
+            default:
+                return 0;
         }
-
-        return s;
     }
 
     /// <summary>
@@ -191,7 +228,7 @@ public class PlayerStatus
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="_num">変更後の値</param>
-    public void SetState(StatusType _type, int _num)
+    public void SetStatus(StatusType _type, int _num)
     {
         switch (_type)
         {
@@ -228,36 +265,29 @@ public class PlayerStatus
     /// <returns>指定ステータスの最大値</returns>
     public int GetStatusMax(StatusType _type)
     {
-        int s = 0;
-
         switch (_type)
         {
             case StatusType.HP:
-                s = status_Max.hp;
-                break;
-
+                return status_Max.hp;
+                
             case StatusType.MP:
-                s = status_Max.mp;
-                break;
-
+                return status_Max.mp;
+                
             case StatusType.ATK:
-                s = status_Max.atk;
-                break;
-
+                return status_Max.atk;
+                
             case StatusType.DEF:
-                s = status_Max.def;
-                break;
-
+                return status_Max.def;
+                
             case StatusType.SPD:
-                s = status_Max.spd;
-                break;
-
+                return status_Max.spd;
+                
             case StatusType.DEX:
-                s = status_Max.dex;
-                break;
+                return status_Max.dex;
+                
+            default:
+                return 0;
         }
-
-        return s;
     }
 
     /// <summary>
@@ -295,6 +325,29 @@ public class PlayerStatus
         }
     }
 
+    // ランク
+    /// <summary>
+    /// 指定したステータスのランクを取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <returns>指定したステータスのランク</returns>
+    public Rank GetRank(StatusType _type)
+    {
+        Rank rank = statusRank[_type];
+        return rank;
+    }
+
+    /// <summary>
+    /// 指定したステータスのランクを変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後のランク</param>
+    public void SetRank(StatusType _type, Rank _rank)
+    {
+        statusRank[_type] = _rank;
+    }
+
+    // ランクPt
     /// <summary>
     /// 指定したステータスのランクポイント現在値を取得
     /// </summary>
@@ -363,135 +416,147 @@ public class PlayerStatus
     }
 
     /// <summary>
-    /// 指定したステータスのランクポイント最大値を取得
+    /// 指定したステータスの、前回ランクアップしたときの累積Ptを取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    public int GetRankPtLastUp(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return rankPoint_LastUp.hp;
+
+            case StatusType.MP:
+                return rankPoint_LastUp.mp;
+
+            case StatusType.ATK:
+                return rankPoint_LastUp.atk;
+
+            case StatusType.DEF:
+                return rankPoint_LastUp.def;
+
+            case StatusType.SPD:
+                return rankPoint_LastUp.spd; 
+
+            case StatusType.DEX:
+                return rankPoint_LastUp.dex;
+
+            default:
+                return 0;
+        }
+    }
+
+    /// <summary>
+    /// 指定したステータスの、次にランクアップするときの累積Ptを取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    public int GetRankPtNextUp(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return rankPoint_NextUp.hp;
+
+            case StatusType.MP:
+                return rankPoint_NextUp.mp;
+
+            case StatusType.ATK:
+                return rankPoint_NextUp.atk;
+
+            case StatusType.DEF:
+                return rankPoint_NextUp.def;
+
+            case StatusType.SPD:
+                return rankPoint_NextUp.spd;
+
+            case StatusType.DEX:
+                return rankPoint_NextUp.dex;
+
+            default:
+                return 0;
+        }
+    }
+
+    /// <summary>
+    /// 指定したステータスの、次にランクアップするときの累積Ptを変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後の値</param>
+    public void SetRankPtNextUp(StatusType _type, int _num)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                rankPoint_LastUp.hp = rankPoint.hp;
+                rankPoint_NextUp.hp = _num;
+                break;
+
+            case StatusType.MP:
+                rankPoint_LastUp.mp = rankPoint.mp;
+                rankPoint_NextUp.mp = _num;
+                break;
+
+            case StatusType.ATK:
+                rankPoint_LastUp.atk = rankPoint.atk;
+                rankPoint_NextUp.atk = _num;
+                break;
+
+            case StatusType.DEF:
+                rankPoint_LastUp.def = rankPoint.def;
+                rankPoint_NextUp.def = _num;
+                break;
+
+            case StatusType.SPD:
+                rankPoint_LastUp.spd = rankPoint.spd;
+                rankPoint_NextUp.spd = _num;
+                break;
+
+            case StatusType.DEX:
+                rankPoint_LastUp.dex = rankPoint.dex;
+                rankPoint_NextUp.dex = _num;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// 指定したステータスのランクポイントの最大値を取得
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <returns>指定したステータスのランクポイント最大値</returns>
     public int GetRankPtMax(StatusType _type)
     {
-        int s = 0;
-
         switch (_type)
         {
             case StatusType.HP:
-                s = rankPoint_Max.hp;
-                break;
+                return rankPoint_Max.hp;
 
             case StatusType.MP:
-                s = rankPoint_Max.mp;
-                break;
+                return rankPoint_Max.mp;
 
             case StatusType.ATK:
-                s = rankPoint_Max.atk;
-                break;
+                return rankPoint_Max.atk;
 
             case StatusType.DEF:
-                s = rankPoint_Max.def;
-                break;
+                return rankPoint_Max.def;
 
             case StatusType.SPD:
-                s = rankPoint_Max.spd;
-                break;
+                return rankPoint_Max.spd;
 
             case StatusType.DEX:
-                s = rankPoint_Max.dex;
-                break;
-        }
+                return rankPoint_Max.dex;
 
-        return s;
-    }
-
-    /// <summary>
-    /// 指定したステータスのランクポイント最大値を変更
-    /// </summary>
-    /// <param name="_type">ステータスの種類</param>
-    /// <param name="_num">変更後の最大値</param>
-    public void SetRankPtMax(StatusType _type, int _num)
-    {
-        switch (_type)
-        {
-            case StatusType.HP:
-                rankPoint_Max.hp = _num;
-                break;
-
-            case StatusType.MP:
-                rankPoint_Max.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                rankPoint_Max.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                rankPoint_Max.def = _num;
-                break;
-
-            case StatusType.SPD:
-                rankPoint_Max.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                rankPoint_Max.dex = _num;
-                break;
+            default:
+                return 0;
         }
     }
 
-    /// <summary>
-    /// 指定した複合ステータスの合計ランクポイント最大値を取得
-    /// </summary>
-    /// <param name="_type">複合ステータスの種類</param>
-    /// <returns>指定した複合ステータスの合計ランクポイント最大値</returns>
-    public int GetCombiRankPtMax(CombiRankType _type)
-    {
-        int max = 0;
-
-        switch (_type)
-        {
-            case CombiRankType.ATK:
-                max = atkCombiRankPtMax;
-                break;
-            case CombiRankType.DEF:
-                max = defCombiRankPtMax;
-                break;
-            case CombiRankType.TEC:
-                max = tecCombiRankPtMax;
-                break;
-            case CombiRankType.ALL:
-                break;
-        }
-
-        return max;
-    }
-
-    /// <summary>
-    /// 指定した複合ステータスの合計ランクポイント最大値を変更
-    /// </summary>
-    /// <param name="_type">複合ステータスの種類</param>
-    /// <param name="_num">変更後の最大値</param>
-    public void SetCombiRankPtMax(CombiRankType _type, int _amount)
-    {
-        switch (_type)
-        {
-            case CombiRankType.ATK:
-                atkCombiRankPtMax = _amount;
-                break;
-            case CombiRankType.DEF:
-                defCombiRankPtMax = _amount;
-                break;
-            case CombiRankType.TEC:
-                tecCombiRankPtMax = _amount;
-                break;
-            case CombiRankType.ALL:
-                break;
-        }
-    }
-
+    // 複合ステータスのランク
     /// <summary>
     /// 指定した複合ステータスのランクを取得
     /// </summary>
     /// <param name="_type">複合ステータスの種類</param>
     /// <returns>指定した複合ステータスのランク</returns>
-    public Rank GetCombiRank(CombiRankType _type)
+    public Rank GetCombiRank(CombiType _type)
     {
         Rank rank = combiRank[_type];
         return rank;
@@ -502,8 +567,135 @@ public class PlayerStatus
     /// </summary>
     /// <param name="_type">複合ステータスの種類</param>
     /// <param name="_num">変更後のランク</param>
-    public void SetCombiRank(CombiRankType _type, Rank _rank)
+    public void SetCombiRank(CombiType _type, Rank _rank)
     {
         combiRank[_type] = _rank;
+    }
+
+    // 複合ステータスのランクPt
+    /// <summary>
+    /// 指定した複合ステータスのランクポイント現在値を取得
+    /// </summary>
+    /// <param name="_type">複合ステータスの種類</param>
+    /// <returns>指定した複合ステータスのランクポイント現在値</returns>
+    public int GetCombiRankPt(CombiType _type)
+    {
+        return combiRankPt[_type];
+    }
+
+    /// <summary>
+    /// 指定した複合ステータスのランクポイント現在値を変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後の現在値</param>
+    public void SetCombiRankPt(CombiType _type, int _num)
+    {
+        combiRankPt[_type] = _num;
+    }
+
+    /// <summary>
+    /// 指定した複合ステータスの合計ランクポイント最大値を取得
+    /// </summary>
+    /// <param name="_type">複合ステータスの種類</param>
+    /// <returns>指定した複合ステータスの合計ランクポイント最大値</returns>
+    public int GetCombiRankPtMax(CombiType _type)
+    {
+        return combiRankPtMax[_type];
+    }
+
+    /// <summary>
+    /// 指定した複合ステータスの、次にランクアップするときの累積Ptを取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    public int GetCombiRankPtNextUp(CombiType _type)
+    {
+        return combiRankPt_NextUp[_type];
+    }
+
+    /// <summary>
+    /// 指定した複合ステータスの、次にランクアップするときの累積Ptを変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後の値</param>
+    public void SetCombiRankPtNextUp(CombiType _type, int _num)
+    {
+        combiRankPt_NextUp[_type] = _num;
+    }
+
+    // プラスステータス
+    /// <summary>
+    /// 全てのプラスステータスを取得
+    /// </summary>
+    /// <returns>全てのプラスステータス</returns>
+    public Status GetPlusStatus()
+    {
+        return plusStatus;
+    }
+
+    /// <summary>
+    /// 指定したステータスのプラスステータスを取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <returns>ステータスのプラスステータス</returns>
+    public int GetPlusStatus(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return plusStatus.hp;
+
+            case StatusType.MP:
+                return plusStatus.mp;
+
+            case StatusType.ATK:
+                return plusStatus.atk;
+
+            case StatusType.DEF:
+                return plusStatus.def;
+
+            case StatusType.SPD:
+                return plusStatus.spd;
+
+            case StatusType.DEX:
+                return plusStatus.dex;
+
+            default:
+                return 0;
+        }
+    }
+
+    /// <summary>
+    /// 指定したステータスのプラスステータスを変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後のプラスステータス</param>
+    public void SetPlusStatus(StatusType _type, int _num)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                plusStatus.hp = _num;
+                break;
+
+            case StatusType.MP:
+                plusStatus.mp = _num;
+                break;
+
+            case StatusType.ATK:
+                plusStatus.atk = _num;
+                break;
+
+            case StatusType.DEF:
+                plusStatus.def = _num;
+                break;
+
+            case StatusType.SPD:
+                plusStatus.spd = _num;
+                break;
+
+            case StatusType.DEX:
+                plusStatus.dex = _num;
+                break;
+        }
     }
 }

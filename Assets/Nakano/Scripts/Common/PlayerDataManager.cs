@@ -52,15 +52,54 @@ public class PlayerDataManager : MonoBehaviour
     {
         PlayerNullCheck();
 
-        int rankPt = player.GetRankPt(_type);        // 現在のランクポイント
-        int rankPt_Max = player.GetRankPtMax(_type); // 現在のランクでの最大ランクポイント
+        int rankPt = player.GetRankPt(_type);               // 現在のランクPt
+        int rankPt_Max = player.GetRankPtMax(_type);       // 最大ランクPt
+        int result = rankPt + _amount;                      // 加算後の数値
 
-        // ランクポイント最大値まで加算
-        if (rankPt_Max > rankPt)
+        CombiType c_type = NormalStatusToCombiStatus(_type);
+        int combiRankPt = player.GetCombiRankPt(c_type);         // 現在の複合ステランクPt
+        int combiRankPt_Max = player.GetCombiRankPtMax(c_type); // 複合ステ最大ランクPt
+        int combiResult = combiRankPt + _amount;                 // 加算後の数値
+
+        // ステPt最大値未満　かつ　複合ステPt最大値未満
+        if (rankPt_Max > result && combiRankPt_Max > combiResult)
+        {
+            // ステPt・複合ステPt加算
             player.SetRankPt(_type, rankPt + _amount);
-        else player.SetRankPt(_type, rankPt_Max);
+            player.SetCombiRankPt(c_type, combiRankPt + _amount);
+        }
+        // ステPt最大値以上　かつ　複合ステPt最大値未満
+        else if (rankPt_Max <= result && combiRankPt_Max > combiResult)
+        {
+            int diff = rankPt_Max - rankPt;
 
-        CombiRankUp();
+            // ステPtを上限まで加算、複合ステPtに(ステPt最大値-ステPt現在値)加算
+            player.SetRankPt(_type, rankPt_Max);
+            player.SetCombiRankPt(c_type, combiRankPt + diff);
+        }
+        // ステPt最大値未満　かつ　複合ステPt最大値以上
+        else if (rankPt_Max > result && combiRankPt_Max <= combiResult)
+        {
+            int diff = combiRankPt_Max - combiRankPt;
+
+            // ステPtに(複合ステPt最大値-複合ステPt現在値)加算、複合ステPtを上限まで加算
+            player.SetRankPt(_type, rankPt + diff);
+            player.SetCombiRankPt(c_type, combiRankPt_Max);
+        }
+        // ステPt最大値以上　かつ　複合ステPt最大値以上
+        else if (rankPt_Max <= result && combiRankPt_Max <= combiResult)
+        {
+            int diff_normal = rankPt_Max - rankPt;
+            int diff_combi = combiRankPt_Max - combiRankPt;
+
+            int diff = diff_normal < diff_combi ? diff_normal : diff_combi;
+
+            // より最大値と現在値の差が小さい方の差を足す
+            player.SetRankPt(_type, rankPt + diff);
+            player.SetCombiRankPt(c_type, combiRankPt + diff);
+        }
+
+        RankUpCheck();
 
         CalcStatus(_type);
     }
@@ -73,67 +112,146 @@ public class PlayerDataManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 複合ステータスのランク更新
-    /// </summary>
-    public static void CombiRankUp()
+    static void RankUpCheck()
     {
-        PlayerNullCheck();
-
-        if (player.GetRankPt(StatusType.HP) + player.GetRankPt(StatusType.DEF) >= player.GetCombiRankPtMax(CombiRankType.DEF))
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
         {
-            RankUp(CombiRankType.DEF);
+            StatusType _type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            int rankPt = player.GetRankPt(_type);               // 現在のランクPt
+            int rankPt_NextUp = player.GetRankPtNextUp(_type); // 次にランクアップするときの累積Pt
+            
+            if (rankPt >= rankPt_NextUp)
+            {
+                RankUp(_type);
+            }
         }
 
-        if (player.GetRankPt(StatusType.ATK) + player.GetRankPt(StatusType.MP) >= player.GetCombiRankPtMax(CombiRankType.ATK))
+        for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length; i++)
         {
-            RankUp(CombiRankType.ATK);
-        }
+            CombiType c_type = (CombiType)System.Enum.ToObject(typeof(CombiType), i);
+            int combiRankPt = player.GetCombiRankPt(c_type);               // 現在の複合ステランクPt
+            int combiRankPt_NextUp = player.GetCombiRankPtNextUp(c_type); // 次にランクアップするときの累積Pt
 
-        if (player.GetRankPt(StatusType.SPD) + player.GetRankPt(StatusType.DEX) >= player.GetCombiRankPtMax(CombiRankType.TEC))
-        {
-            RankUp(CombiRankType.TEC);
+            if (combiRankPt >= combiRankPt_NextUp)
+            {
+                CombiRankUp(c_type);
+            }
         }
     }
 
-    static void RankUp(CombiRankType _rankType)
+    static void RankUp(StatusType _type)
     {
+        if (player.GetRank(_type) == Rank.SS) return;
+
         // ランク上昇
-        int rankNum = (int)player.GetCombiRank(_rankType);
+        int rankNum = (int)player.GetRank(_type);
         rankNum++;
-        player.SetCombiRank(_rankType, (Rank)System.Enum.ToObject(typeof(Rank), rankNum));
+        player.SetRank(_type, (Rank)System.Enum.ToObject(typeof(Rank), rankNum));
 
         // ランクに応じてランクポイント最大値更新
         CharacterRankPoint rankPtData = player.StatusData.rankPoint;
-        Rank rank = player.GetCombiRank(_rankType);
-        StatusBase maxPt = rankPtData.rankPtMax[rank];
+        Rank rank = player.GetRank(_type);
+        Status nextPt = rankPtData.rankPt_NextUp[rank];
 
-        switch (_rankType)
+        switch (_type)
         {
-            case CombiRankType.ATK:
-                player.SetCombiRankPtMax(_rankType, rankPtData.atkRankPtMax[rank]);
-                player.SetRankPtMax(StatusType.ATK, maxPt.atk);
-                player.SetRankPtMax(StatusType.MP,  maxPt.mp);
+            case StatusType.ATK:
+                player.SetRankPtNextUp(_type, nextPt.atk);
                 break;
 
-            case CombiRankType.DEF:
-                player.SetCombiRankPtMax(_rankType, rankPtData.defRankPtMax[rank]);
-                player.SetRankPtMax(StatusType.HP,  maxPt.hp);
-                player.SetRankPtMax(StatusType.DEX, maxPt.dex);
+            case StatusType.MP:
+                player.SetRankPtNextUp(_type, nextPt.mp);
                 break;
 
-            case CombiRankType.TEC:
-                player.SetCombiRankPtMax(_rankType, rankPtData.tecRankPtMax[rank]);
-                player.SetRankPtMax(StatusType.SPD, maxPt.spd);
-                player.SetRankPtMax(StatusType.DEX, maxPt.dex);
+            case StatusType.HP:
+                player.SetRankPtNextUp(_type, nextPt.hp);
+                break;
+
+            case StatusType.DEF:
+                player.SetRankPtNextUp(_type, nextPt.def);
+                break;
+
+            case StatusType.SPD:
+                player.SetRankPtNextUp(_type, nextPt.spd);
+                break;
+
+            case StatusType.DEX:
+                player.SetRankPtNextUp(_type, nextPt.dex);
                 break;
         }
     }
 
-    public static StatusBase GetAllStatus()
+    static void CombiRankUp(CombiType _type)
     {
-        PlayerNullCheck();
+        if (player.GetCombiRank(_type) == Rank.SS) return;
 
-        return player.AllStatus;
+        // ランク上昇
+        int rankNum = (int)player.GetCombiRank(_type);
+        rankNum++;
+        player.SetCombiRank(_type, (Rank)System.Enum.ToObject(typeof(Rank), rankNum));
+
+        // ランクに応じてランクポイント最大値更新
+        CharacterRankPoint rankPtData = player.StatusData.rankPoint;
+        Rank rank = player.GetCombiRank(_type);
+
+        switch (_type)
+        {
+            case CombiType.ATK:
+                player.SetCombiRankPtNextUp(_type, rankPtData.atkRankPt_NextUp[rank]);
+                break;
+
+            case CombiType.DEF:
+                player.SetCombiRankPtNextUp(_type, rankPtData.defRankPt_NextUp[rank]);
+                break;
+
+            case CombiType.TEC:
+                player.SetCombiRankPtNextUp(_type, rankPtData.tecRankPt_NextUp[rank]);
+                break;
+
+            case CombiType.ALL;
+                break;
+        }
+
+        Debug.Log(_type + " / " + rank);
+    }
+
+    /// <summary>
+    /// 育成リセット
+    /// </summary>
+    public static void TraningReset()
+    {
+        
+    }
+
+    /// <summary>
+    /// 指定したステータスを利用する複合ステータスを取得
+    /// </summary>
+    /// <param name="_type">調べるステータスの種類</param>
+    /// <returns>引数のステータスを利用する複合ステータスの種類</returns>
+    static CombiType NormalStatusToCombiStatus(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return CombiType.DEF;
+
+            case StatusType.MP:
+                return CombiType.ATK;
+
+            case StatusType.ATK:
+                return CombiType.ATK;
+
+            case StatusType.DEF:
+                return CombiType.DEF;
+
+            case StatusType.SPD:
+                return CombiType.TEC;
+
+            case StatusType.DEX:
+                return CombiType.TEC;
+
+            default:
+                return CombiType.ATK;
+        }
     }
 }

@@ -17,6 +17,12 @@ public class MasterDataLoader : MonoBehaviour
 {
     [SerializeField] private FileName[] fileNames;
 
+    [SerializeField] private string enemyStatusKey;
+    [SerializeField] private string enemyAttackPatternKey;
+    [SerializeField] private string dropDataKey;
+    [SerializeField] private string playerStatusKey;
+    [SerializeField] private string playerRankKey;
+
     private const string ignoreMark = "//"; // 行を飛ばす記号
 
     private Dictionary<string, List<string[]>> textDatas = new();
@@ -153,7 +159,7 @@ public class MasterDataLoader : MonoBehaviour
         const int spdColumn = 11;
         const int dexColumn = 12;
 
-        List<string[]> datas = textDatas["e_status"];
+        List<string[]> datas = textDatas[enemyStatusKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
@@ -189,7 +195,7 @@ public class MasterDataLoader : MonoBehaviour
         const int probabilityColumn = 7;
 
         List<EnemyAttackPattern> attackPattern = new();
-        List<string[]> datas = textDatas["e_attackpattern"];
+        List<string[]> datas = textDatas[enemyAttackPatternKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
@@ -256,7 +262,7 @@ public class MasterDataLoader : MonoBehaviour
         const int idColumn = 6;
 
         List<EnemyPlacement> placement = new();
-        List<string[]> datas = textDatas["e_status"];
+        List<string[]> datas = textDatas[enemyStatusKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
@@ -282,7 +288,7 @@ public class MasterDataLoader : MonoBehaviour
         const int probabilityColmun = 7;
 
         List<DropItem> items = new();
-        List<string[]> datas = textDatas["item"];
+        List<string[]> datas = textDatas[dropDataKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
@@ -353,8 +359,7 @@ public class MasterDataLoader : MonoBehaviour
         const int dex_MaxColumn = 21;
         const int dex_BonusColumn = 22;
 
-        List<CharaInitialStutas> charaInitialStatus = new();
-        List<string[]> datas = textDatas["p_status"];
+        List<string[]> datas = textDatas[playerStatusKey];
 
         int rankAmount = Enum.GetValues(typeof(Rank)).Length;
 
@@ -379,7 +384,7 @@ public class MasterDataLoader : MonoBehaviour
                     int spd_Init = int.Parse(datas[cell][spd_InitColumn]);
                     int dex_Init = int.Parse(datas[cell][dex_InitColumn]);
 
-                    status.statusInit[rank] = new StatusBase(hp_Init, mp_Init, atk_Init, def_Init, spd_Init, dex_Init);
+                    status.statusInit[rank] = new Status(hp_Init, mp_Init, atk_Init, def_Init, spd_Init, dex_Init);
 
                     // ステ最大値
                     int hp_Max = int.Parse(datas[cell][hp_MaxColumn]);
@@ -389,7 +394,7 @@ public class MasterDataLoader : MonoBehaviour
                     int spd_Max = int.Parse(datas[cell][spd_MaxColumn]);
                     int dex_Max = int.Parse(datas[cell][dex_MaxColumn]);
 
-                    status.statusMax[rank] = new StatusBase(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
+                    status.statusMax[rank] = new Status(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
 
                     // ランクアップ時ボーナス
                     int hp_Bonus = int.Parse(datas[cell][hp_BonusColumn]);
@@ -399,7 +404,7 @@ public class MasterDataLoader : MonoBehaviour
                     int spd_Bonus = int.Parse(datas[cell][spd_BonusColumn]);
                     int dex_Bonus = int.Parse(datas[cell][dex_BonusColumn]);
 
-                    status.rankUpBonus[rank] = new StatusBase(hp_Bonus, mp_Bonus, atk_Bonus, def_Bonus, spd_Bonus, dex_Bonus);
+                    status.rankUpBonus[rank] = new Status(hp_Bonus, mp_Bonus, atk_Bonus, def_Bonus, spd_Bonus, dex_Bonus);
 
                     status.rankPoint = GetRankPointSetting(status.charaId);
                 }
@@ -431,7 +436,7 @@ public class MasterDataLoader : MonoBehaviour
         const int rank_TotalTec_MaxColumn = 11;
 
         CharacterRankPoint rankPoint = new();
-        List<string[]> datas = textDatas["p_rankPt"];
+        List<string[]> datas = textDatas[playerRankKey];
         int rankAmount = Enum.GetValues(typeof(Rank)).Length;
 
         for (int l = 0; l < charaAmount * rankAmount; l++)
@@ -447,11 +452,11 @@ public class MasterDataLoader : MonoBehaviour
                 int spd_Max = int.Parse(datas[l][rank_Spd_MaxColumn]);
                 int dex_Max = int.Parse(datas[l][rank_Dex_MaxColumn]);
 
-                rankPoint.rankPtMax[rank] = new StatusBase(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
+                rankPoint.rankPt_NextUp[rank] = new Status(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
 
-                rankPoint.atkRankPtMax[rank] = int.Parse(datas[l][rank_TotalAtk_MaxColumn]);
-                rankPoint.defRankPtMax[rank] = int.Parse(datas[l][rank_TotalDef_MaxColumn]);
-                rankPoint.tecRankPtMax[rank] = int.Parse(datas[l][rank_TotalTec_MaxColumn]);
+                rankPoint.atkRankPt_NextUp[rank] = int.Parse(datas[l][rank_TotalAtk_MaxColumn]);
+                rankPoint.defRankPt_NextUp[rank] = int.Parse(datas[l][rank_TotalDef_MaxColumn]);
+                rankPoint.tecRankPt_NextUp[rank] = int.Parse(datas[l][rank_TotalTec_MaxColumn]);
             }
         }
 
@@ -609,9 +614,9 @@ namespace Master
     {
         public int charaId;
 
-        public Dictionary<Rank, StatusBase> statusInit = new();
-        public Dictionary<Rank, StatusBase> statusMax = new();
-        public Dictionary<Rank, StatusBase> rankUpBonus = new();
+        public Dictionary<Rank, Status> statusInit = new();
+        public Dictionary<Rank, Status> statusMax = new();
+        public Dictionary<Rank, Status> rankUpBonus = new();
 
         public CharacterRankPoint rankPoint = new();
 
@@ -629,21 +634,21 @@ namespace Master
 
     public class CharacterRankPoint
     {
-        public Dictionary<Rank, StatusBase> rankPtMax = new();
+        public Dictionary<Rank, Status> rankPt_NextUp = new();
 
-        public Dictionary<Rank, int> atkRankPtMax = new();
-        public Dictionary<Rank, int> defRankPtMax = new();
-        public Dictionary<Rank, int> tecRankPtMax = new();
+        public Dictionary<Rank, int> atkRankPt_NextUp = new();
+        public Dictionary<Rank, int> defRankPt_NextUp = new();
+        public Dictionary<Rank, int> tecRankPt_NextUp = new();
 
         public CharacterRankPoint()
         {
             for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
             {
                 Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
-                rankPtMax.Add(rank, null);
-                atkRankPtMax.Add(rank, 0);
-                defRankPtMax.Add(rank, 0);
-                tecRankPtMax.Add(rank, 0);
+                rankPt_NextUp.Add(rank, null);
+                atkRankPt_NextUp.Add(rank, 0);
+                defRankPt_NextUp.Add(rank, 0);
+                tecRankPt_NextUp.Add(rank, 0);
             }
         }
     }

@@ -10,35 +10,22 @@ public class Result
     public StatusType type;
     public Text getPointText;
     public Image guage;
-}
-
-[System.Serializable]
-public class RankResult
-{
-    public CombiRankType type;
     public Text rankText;
 }
 
 public class ResultManager : MonoBehaviour
 {
+    [SerializeField] private WindowController wc;
     [SerializeField] private DropController dropController;
     [SerializeField] private Result[] results;
-    [SerializeField] private RankResult[] rankResults;
 
     private bool resultDispCompleted = false;
 
     private GameManager gameManager;
 
-    [SerializeField] WindowController wc;
-    
     void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
-        if (gameManager == null)
-        {
-            GameManager.GameManagerCreate();
-            gameManager = GameManager.Instance;
-        }
+        gameManager = GameManager.Instance;
     }
 
     private void OnEnable()
@@ -46,8 +33,10 @@ public class ResultManager : MonoBehaviour
         ResultInitialize();
 
         // Debug
-        resultDispCompleted = true;
+        StartCoroutine(Direction());
 
+        if (dropController.DropedItems.Count == 0) return;
+        
         AddRankPoint();
     }
 
@@ -95,14 +84,11 @@ public class ResultManager : MonoBehaviour
         for (int i = 0; i < results.Length; i++)
         {
             int current = PlayerDataManager.player.GetRankPt(results[i].type);
-            int max = PlayerDataManager.player.GetRankPtMax(results[i].type);
+            int min = PlayerDataManager.player.GetRankPtLastUp(results[i].type);
+            int max = PlayerDataManager.player.GetRankPtNextUp(results[i].type);
 
-            results[i].guage.fillAmount = (float)current / max;
-        }
-
-        for (int i = 0; i < rankResults.Length; i++)
-        {
-            rankResults[i].rankText.text = (PlayerDataManager.player.GetCombiRank(rankResults[i].type)).ToString();
+            results[i].guage.fillAmount = (float)(current - min) / (max - min);
+            results[i].rankText.text = (PlayerDataManager.player.GetRank(results[i].type)).ToString();
         }
     }
 
@@ -119,5 +105,11 @@ public class ResultManager : MonoBehaviour
         {
             SceneManager.LoadScene("SelectScene_Boss");
         }
+    }
+
+    IEnumerator Direction()
+    {
+        yield return new WaitForSeconds(0.1f);
+        resultDispCompleted = true;
     }
 }
