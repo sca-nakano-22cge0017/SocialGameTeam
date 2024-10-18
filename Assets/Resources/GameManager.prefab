@@ -84,11 +84,14 @@ MonoBehaviour:
     fileName: Assets/Nakano/Master/p_status.csv
   - key: p_rankPt
     fileName: Assets/Nakano/Master/p_rankPt.csv
+  - key: Ult
+    fileName: Assets/Nakano/Master/Ult.csv
   enemyStatusKey: e_status
   enemyAttackPatternKey: e_attackpattern
   dropDataKey: drop
   playerStatusKey: p_status
   playerRankKey: p_rankPt
+  playerUltKey: Ult
 --- !u!114 &-2246576267593689565
 MonoBehaviour:
   m_ObjectHideFlags: 0

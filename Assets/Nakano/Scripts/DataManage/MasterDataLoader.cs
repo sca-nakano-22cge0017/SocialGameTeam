@@ -22,6 +22,7 @@ public class MasterDataLoader : MonoBehaviour
     [SerializeField] private string dropDataKey;
     [SerializeField] private string playerStatusKey;
     [SerializeField] private string playerRankKey;
+    [SerializeField] private string playerUltKey;
 
     private const string ignoreMark = "//"; // 行を飛ばす記号
 
@@ -405,9 +406,10 @@ public class MasterDataLoader : MonoBehaviour
                     int dex_Bonus = int.Parse(datas[cell][dex_BonusColumn]);
 
                     status.rankUpBonus[rank] = new Status(hp_Bonus, mp_Bonus, atk_Bonus, def_Bonus, spd_Bonus, dex_Bonus);
-
-                    status.rankPoint = GetRankPointSetting(status.charaId);
                 }
+
+                status.rankPoint = GetRankPointSetting(status.charaId);
+                status.specialMoveGuagesSetting = GetSpecialMoveGuageSetting(status.charaId);
             }
 
             MasterData.CharaInitialStatus.Add(status);
@@ -461,6 +463,39 @@ public class MasterDataLoader : MonoBehaviour
         }
 
         return rankPoint;
+    }
+
+    List<SpecialMoveGuageSetting> GetSpecialMoveGuageSetting(int _charaId)
+    {
+        const int charaAmount          = 2;
+        const int actionTypeAmount     = 5;
+
+        const int charaIdColumn        = 1;
+        const int actionTypeColumn     = 2;
+        const int activateCountColumn  = 3;
+        const int guageUpAmountColumn  = 4;
+        const int guageMaxAmountColumn = 5;
+
+        List<SpecialMoveGuageSetting> guagesSetting = new();
+        List<string[]> datas = textDatas[playerUltKey];
+
+        for (int l = 0; l < charaAmount * actionTypeAmount; l++)
+        {
+            if (_charaId == int.Parse(datas[l][charaIdColumn]))
+            {
+                SpecialMoveGuageSetting s = new();
+
+                s.actionType = int.Parse(datas[l][actionTypeColumn]);
+                s.activateCount = int.Parse(datas[l][activateCountColumn]);
+                s.guageUpAmount = int.Parse(datas[l][guageUpAmountColumn]);
+                s.guageMaxAmount = int.Parse(datas[l][guageMaxAmountColumn]);
+
+                guagesSetting.Add(s);
+                Debug.Log(s.actionType + " / " + s.guageUpAmount);
+            }
+        }
+
+        return guagesSetting;
     }
 
     private int GetProbability(string _text)
@@ -620,6 +655,8 @@ namespace Master
 
         public CharacterRankPoint rankPoint = new();
 
+        public List<SpecialMoveGuageSetting> specialMoveGuagesSetting = new();
+
         public CharaInitialStutas()
         {
             for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
@@ -651,6 +688,33 @@ namespace Master
                 tecRankPt_NextUp.Add(rank, 0);
             }
         }
+    }
+
+    /// <summary>
+    /// 必殺技ゲージ設定
+    /// </summary>
+    public class SpecialMoveGuageSetting
+    {
+        /// <summary>
+        /// 挙動タイプ
+        /// 1:通常攻撃 2:防御状態で被ダメ 3:非防御状態で被ダメ 4:ターン経過 5:上昇用スキル使用
+        /// </summary>
+        public int actionType;
+
+        /// <summary>
+        /// 発動回数
+        /// </summary>
+        public int activateCount;
+
+        /// <summary>
+        /// 上昇量
+        /// </summary>
+        public int guageUpAmount;
+
+        /// <summary>
+        /// ゲージ最大値
+        /// </summary>
+        public int guageMaxAmount;
     }
 
     /// <summary>
