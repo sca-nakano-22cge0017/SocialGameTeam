@@ -50,8 +50,6 @@ public class StageSelect : MonoBehaviour
         }
         sm = FindObjectOfType<StaminaManager>();
         ssm = FindObjectOfType<StageDataManager>();
-
-        GameManager.SelectChara = 2;
     }
 
     void Start()

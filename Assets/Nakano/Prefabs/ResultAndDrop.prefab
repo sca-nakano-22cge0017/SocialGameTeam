@@ -2718,6 +2718,7 @@ GameObject:
   - component: {fileID: 2542580179651029948}
   - component: {fileID: 6376755183689684866}
   - component: {fileID: 4372971910503872362}
+  - component: {fileID: 8268549668619487865}
   m_Layer: 5
   m_Name: ResultCanvas
   m_TagString: Untagged
@@ -2851,6 +2852,24 @@ MonoBehaviour:
     getPointText: {fileID: 668245668444174402}
     guage: {fileID: 1472342392568333141}
     rankText: {fileID: 4539828941194245036}
+--- !u!114 &8268549668619487865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7230652927078511327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad238b31f81ba446940c2d99b739963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaImage: {fileID: 6856180340441670171}
+  illustrations:
+  - id: 1
+    sprite: {fileID: 21300000, guid: 00a8bbe4d4711134da29e93e0c3a7bcd, type: 3}
+  - id: 2
+    sprite: {fileID: 21300000, guid: cf6719bab2e347a4583fa5c1125cf16d, type: 3}
 --- !u!1 &7377792055003715402
 GameObject:
   m_ObjectHideFlags: 0
@@ -3327,7 +3346,7 @@ GameObject:
   - component: {fileID: 4189350812672825754}
   - component: {fileID: 3788328623411276258}
   m_Layer: 0
-  m_Name: Result_Drop
+  m_Name: ResultAndDrop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

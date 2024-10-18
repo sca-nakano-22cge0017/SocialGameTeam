@@ -321,7 +321,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 106665128703513410}
   m_HandleRect: {fileID: 1059138250951072417}
   m_Direction: 0
-  m_Value: 0.0000040690106
+  m_Value: 0.0000061035157
   m_Size: 0.9749164
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -902,8 +902,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6612806834464322695}
   m_HandleRect: {fileID: 6385826932753108116}
   m_Direction: 2
-  m_Value: 1.0000005
-  m_Size: 0.876842
+  m_Value: 1.0000011
+  m_Size: 0.8768421
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1309,6 +1309,7 @@ GameObject:
   - component: {fileID: 196189904444134766}
   - component: {fileID: 1468020597188910076}
   - component: {fileID: 4618467207849457788}
+  - component: {fileID: 6794552427400498732}
   m_Layer: 5
   m_Name: StageSelectWindow_Traning
   m_TagString: Untagged
@@ -1447,6 +1448,24 @@ MonoBehaviour:
   targetingMark: {fileID: 0}
   targetingMarkPosition: {x: 0, y: 0}
   longTapTime_sec: 0.5
+--- !u!114 &6794552427400498732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4509109152686146020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad238b31f81ba446940c2d99b739963, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charaImage: {fileID: 5681787138147114613}
+  illustrations:
+  - id: 1
+    sprite: {fileID: 21300000, guid: 00a8bbe4d4711134da29e93e0c3a7bcd, type: 3}
+  - id: 2
+    sprite: {fileID: 21300000, guid: cf6719bab2e347a4583fa5c1125cf16d, type: 3}
 --- !u!1 &4513273500790813369
 GameObject:
   m_ObjectHideFlags: 0
@@ -3565,15 +3584,24 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2971248903861119892, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: charaImage
+      value: 
+      objectReference: {fileID: 5681787138147114613}
     - target: {fileID: 5947717276119686215, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 6702118717707495101}
+    - target: {fileID: 5947717276119686215, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ToHome
+      objectReference: {fileID: 0}
     - target: {fileID: 8835324359742048091, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_Name
       value: SelectWindow_Common
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2971248903861119892, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3583,6 +3611,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2575880587245324024, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
   m_PrefabInstance: {fileID: 1052873496265192728}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5681787138147114613 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4631193079820004205, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+  m_PrefabInstance: {fileID: 1052873496265192728}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5953402701224680009 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6629917586493960017, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
