@@ -208,7 +208,7 @@ public class PlayerDataManager : MonoBehaviour
                 player.SetCombiRankPtNextUp(_type, rankPtData.tecRankPt_NextUp[rank]);
                 break;
 
-            case CombiType.ALL;
+            case CombiType.ALL:
                 break;
         }
 
