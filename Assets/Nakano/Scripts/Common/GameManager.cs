@@ -187,7 +187,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        ScreenOperationSetting();
         staminaManager.Initialize();
         masterDataLoader.DataLoad();
 
@@ -204,19 +203,5 @@ public class GameManager : MonoBehaviour
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
 
         FirstCharaSelect(SelectChara);
-    }
-
-    /// <summary>
-    /// ‰æ–Ê‰ñ“]İ’è
-    /// </summary>
-    private void ScreenOperationSetting()
-    {
-        // ¶Œü‚«‚ğ—LŒø‚É‚·‚é
-        Screen.autorotateToLandscapeLeft = true;
-        // ‰EŒü‚«‚ğ—LŒø‚É‚·‚é
-        Screen.autorotateToLandscapeRight = true;
-
-        // ‰æ–Ê‚ÌŒü‚«‚ğ©“®‰ñ“]‚Éİ’è‚·‚é
-        Screen.orientation = ScreenOrientation.AutoRotation;
     }
 }

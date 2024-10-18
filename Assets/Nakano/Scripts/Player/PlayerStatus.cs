@@ -190,6 +190,7 @@ public class PlayerStatus
         }
     }
 
+    // 以下変数取得・変更系
     // ステータス
     /// <summary>
     /// 指定したステータスの現在値を取得
