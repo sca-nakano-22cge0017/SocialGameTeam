@@ -176,7 +176,7 @@ public class StageSelect : MonoBehaviour
             ssm.LoadCompleteProcess += () =>
             {
                 // ƒoƒgƒ‹‰æ–Ê‚Ö‚Ì‘JˆÚ
-                //SceneManager.LoadScene("Main");
+                SceneManager.LoadScene("Main");
             };
             ssm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
         }

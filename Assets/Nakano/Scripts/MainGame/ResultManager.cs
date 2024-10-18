@@ -98,8 +98,8 @@ public class ResultManager : MonoBehaviour
 
         if (GameManager.SelectArea == 1)
         {
-            wc.Close();
-            //SceneManager.LoadScene("SelectScene_Traning");
+            //wc.Close();
+            SceneManager.LoadScene("SelectScene_Traning");
         }
         if (GameManager.SelectArea == 2)
         {
