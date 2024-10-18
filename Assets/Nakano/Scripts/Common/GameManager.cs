@@ -178,11 +178,14 @@ public class GameManager : MonoBehaviour
 
     IEnumerator LoadComplete()
     {
-        yield return new WaitUntil(() =>MasterDataLoader.MasterDataLoadComplete);
+        yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
 
-        SelectChara = 1;
-        StatusBase status = PlayerDataManager.GetAllStatus();
+        int select = SelectChara != -1 ? SelectChara : 1;
+
+        PlayerDataManager.PlayerCreate(select);
+
+        Status status = PlayerDataManager.player.AllStatus;
         Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
-            status.hp, status.mp, status.atk, status.def, status.spd, status.dex, GameManager.SelectChara));
+            status.hp, status.mp, status.atk, status.def, status.spd, status.dex, select));
     }
 }
