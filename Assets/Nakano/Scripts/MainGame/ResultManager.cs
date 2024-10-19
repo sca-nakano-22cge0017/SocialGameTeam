@@ -101,10 +101,11 @@ public class ResultManager : MonoBehaviour
             //wc.Close();
             SceneManager.LoadScene("SelectScene_Traning");
         }
-        if (GameManager.SelectArea == 2)
+        else if (GameManager.SelectArea == 2)
         {
             SceneManager.LoadScene("SelectScene_Boss");
         }
+        else SceneManager.LoadScene("SelectScene_Traning");
     }
 
     IEnumerator Direction()

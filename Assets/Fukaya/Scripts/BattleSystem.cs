@@ -20,6 +20,8 @@ public class BattleSystem : MonoBehaviour
     private bool playerTurn = true; // プレイヤーのターンかどうか
     private bool battleOver = false; // 戦闘が終了しているかどうか
 
+    [SerializeField] private WindowController windowController;
+
     void Start()
     {
         playerCurrentHP = playerMaxHP;
@@ -46,7 +48,7 @@ public class BattleSystem : MonoBehaviour
                 battleOver = true;
                 UpdateBattleText("敵を倒した！ 勝利！");
 
-
+                windowController.Open();
             }
             else
             {
@@ -76,7 +78,7 @@ public class BattleSystem : MonoBehaviour
                 battleOver = true;
                 UpdateBattleText("プレイヤーが倒された... 敗北");
 
-
+                windowController.Open();
             }
             else
             {
