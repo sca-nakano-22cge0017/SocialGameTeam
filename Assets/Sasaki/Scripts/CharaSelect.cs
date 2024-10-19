@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public static class CharaNum
+{
+    // キャラクターの変数
+    //1=>シスター 2=>剣士
+    public static int selectChara = 0;
+}
+
 public class CharaSelect : MonoBehaviour
 {
     [SerializeField] private GameObject CharaObjects = null;
-    public int charaNum;
 
     //どのキャラクターを選んだか
     //window非表示
@@ -15,29 +21,17 @@ public class CharaSelect : MonoBehaviour
         int c;
         switch (name)
         {
-            case "Sister":
+            case "SwordsWoman":
                 c = 1;
                 break;
-            case "SwordsWoman":
+            case "Sister":
                 c = 2;
                 break;
             default:
                 c = -1;
                 break;
         }
-        charaNum = c;
-        if (charaNum == 1)
-        {
-            Debug.Log("シスター");
-        }
-        if (charaNum == 2)
-        {
-            Debug.Log("剣士");
-        }
-        else
-        {
-            Debug.Log("error");
-        }
+        GameManager.SelectChara = c;
         CharaObjects.SetActive(false);
     }
 
@@ -51,13 +45,10 @@ public class CharaSelect : MonoBehaviour
             case 2: //ボス
                 SceneManager.LoadScene("SelectScene_Boss");
                 break;
-            case 3: //記録
+            case 3: //キャラクター選択画面
                 SceneManager.LoadScene("TitleScene");
                 break;
-            case 4: //性能
-                SceneManager.LoadScene("TitleScene");
-                break;
-            case 5: //育成完了
+            case 4: //育成完了
                 SceneManager.LoadScene("TrainingCompletedScene");
                 break;
             default:

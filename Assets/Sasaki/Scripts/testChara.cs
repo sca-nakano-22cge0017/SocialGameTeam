@@ -5,17 +5,12 @@ using UnityEngine;
 public class testChara : MonoBehaviour
 {
     [SerializeField] private GameObject[] chara;
-    CharaSelect charaSelect = null;
+
     int charaNumSelect;
     // Start is called before the first frame update
     void Start()
     {
-        charaSelect = GetComponent<CharaSelect>();
-        charaNumSelect = charaSelect.charaNum;
-        for (int i = 0; i < chara.Length; i++)
-        {
-            chara[i].SetActive(false);
-        }
+        charaNumSelect = GameManager.SelectChara;
     }
 
     // Update is called once per frame
@@ -24,10 +19,12 @@ public class testChara : MonoBehaviour
         if (charaNumSelect == 1)
         {
             chara[0].SetActive(true);
+            chara[1].SetActive(false);
         }
         if (charaNumSelect == 2)
         {
             chara[1].SetActive(true);
+            chara[0].SetActive(false);
         }
     }
 }
