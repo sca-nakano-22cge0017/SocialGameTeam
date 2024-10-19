@@ -16,11 +16,13 @@ public class BattleSystem : MonoBehaviour
 
     public Text battleText;   // UIテキスト（戦闘の状況表示）
     public Button attackButton;  // プレイヤーの攻撃ボタン
+    public Button defenceButton;  // プレイヤーの防御ボタン
 
     private bool playerTurn = true; // プレイヤーのターンかどうか
     private bool battleOver = false; // 戦闘が終了しているかどうか
 
     [SerializeField] private WindowController windowController;
+    [SerializeField] private DropController dropController;
 
     void Start()
     {
@@ -49,6 +51,7 @@ public class BattleSystem : MonoBehaviour
                 UpdateBattleText("敵を倒した！ 勝利！");
 
                 windowController.Open();
+                dropController. DropLottery();
             }
             else
             {
@@ -57,6 +60,19 @@ public class BattleSystem : MonoBehaviour
             }
         }
     }
+
+    //void onDefenceButton()
+    //{
+    //    if (battleOver) return; // 戦闘終了後はボタンを無効に
+
+    //    if(playerTurn)
+    //    {
+    //        // プレイヤーの防御
+    //        int decreasedamage = Random.Range(5,10);
+    //        UpdateBattleText("プレイヤーの防御！ 敵の攻撃を " + decreasedamage + " に軽減した！");
+    //    }
+    //}
+
 
     IEnumerator EnemyTurn()
     {
