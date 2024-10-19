@@ -45,6 +45,8 @@ public class BattleSystem : MonoBehaviour
                 enemyCurrentHP = 0;
                 battleOver = true;
                 UpdateBattleText("“G‚ğ“|‚µ‚½I Ÿ—˜I");
+
+
             }
             else
             {
@@ -73,6 +75,8 @@ public class BattleSystem : MonoBehaviour
                 playerCurrentHP = 0;
                 battleOver = true;
                 UpdateBattleText("ƒvƒŒƒCƒ„[‚ª“|‚³‚ê‚½... ”s–k");
+
+
             }
             else
             {
