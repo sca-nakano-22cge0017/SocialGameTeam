@@ -147,32 +147,49 @@ public class PlayerDataManager : MonoBehaviour
         Rank rank = player.GetRank(_type);
         Status nextPt = rankPtData.rankPt_NextUp[rank];
 
+        int statusMin = 0, statusMax = 0;
+
         switch (_type)
         {
             case StatusType.ATK:
                 player.SetRankPtNextUp(_type, nextPt.atk);
+                statusMin = player.StatusData.statusInit[rank].atk;
+                statusMax = player.StatusData.statusMax[rank].atk;
                 break;
 
             case StatusType.MP:
                 player.SetRankPtNextUp(_type, nextPt.mp);
+                statusMin = player.StatusData.statusInit[rank].mp;
+                statusMax = player.StatusData.statusMax[rank].mp;
                 break;
 
             case StatusType.HP:
                 player.SetRankPtNextUp(_type, nextPt.hp);
+                statusMin = player.StatusData.statusInit[rank].hp;
+                statusMax = player.StatusData.statusMax[rank].hp;
                 break;
 
             case StatusType.DEF:
                 player.SetRankPtNextUp(_type, nextPt.def);
+                statusMin = player.StatusData.statusInit[rank].def;
+                statusMax = player.StatusData.statusMax[rank].def;
                 break;
 
             case StatusType.SPD:
                 player.SetRankPtNextUp(_type, nextPt.spd);
+                statusMin = player.StatusData.statusInit[rank].spd;
+                statusMax = player.StatusData.statusMax[rank].spd;
                 break;
 
             case StatusType.DEX:
                 player.SetRankPtNextUp(_type, nextPt.dex);
+                statusMin = player.StatusData.statusInit[rank].dex;
+                statusMax = player.StatusData.statusMax[rank].dex;
                 break;
         }
+
+        player.SetStatusMin(_type, statusMin);
+        player.SetStatusMax(_type, statusMax);
     }
 
     static void CombiRankUp(CombiType _type)
@@ -210,7 +227,20 @@ public class PlayerDataManager : MonoBehaviour
     static void CalcStatus(StatusType _type)
     {
         Rank rank = player.GetRank(_type);
-        int currentStatus = player.GetStatus(_type);
+        int currentRankPt = player.GetRankPt(_type);
+
+        int statusMin = player.GetStatusMin(_type);
+        int statusMax = player.GetStatusMax(_type);
+
+        int rankPtMin = rank == Rank.C ? 0 : player.GetRankPtLastUp(_type);
+        int rankPtMax = player.GetRankPtNextUp(_type);
+
+        float a = (float)(statusMax - statusMin) / (float)(rankPtMax - rankPtMin); // グラフの傾き
+
+        int currentStatus = (int)((a * (currentRankPt - rankPtMin)) + (statusMin - a * rankPtMin));   // 現在のステータス
+        player.SetStatus(_type, currentStatus);
+
+        Status s = player.AllStatus;
     }
 
     /// <summary>
@@ -221,34 +251,42 @@ public class PlayerDataManager : MonoBehaviour
     {
         Rank rank = player.GetRank(_type);
         Status bonus = player.StatusData.rankUpBonus[rank];
-        int amount = 0;
+        int amount = 0, status = 0;
 
         switch (_type)
         {
             case StatusType.HP:
                 amount = bonus.hp;
+                status = player.StatusData.statusMax[rank].hp;
                 break;
 
             case StatusType.MP:
                 amount = bonus.mp;
+                status = player.StatusData.statusMax[rank].mp;
                 break;
 
             case StatusType.ATK:
                 amount = bonus.atk;
+                status = player.StatusData.statusMax[rank].atk;
                 break;
 
             case StatusType.DEF:
                 amount = bonus.def;
+                status = player.StatusData.statusMax[rank].def;
                 break;
 
             case StatusType.SPD:
                 amount = bonus.spd;
+                status = player.StatusData.statusMax[rank].spd;
                 break;
 
             case StatusType.DEX:
                 amount = bonus.dex;
+                status = player.StatusData.statusMax[rank].dex;
                 break;
         }
+
+        player.SetStatus(_type, status);
 
         int currentStatus = player.GetStatus(_type);
         player.SetStatus(_type, currentStatus + amount);

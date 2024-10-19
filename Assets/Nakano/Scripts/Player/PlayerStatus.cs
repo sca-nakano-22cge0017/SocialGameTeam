@@ -25,6 +25,16 @@ public class Status
         spd = _spd;
         dex = _dex;
     }
+
+    public Status(Status _status)
+    {
+        hp = _status.hp;
+        mp = _status.mp;
+        atk = _status.atk;
+        def = _status.def;
+        spd = _status.spd;
+        dex = _status.dex;
+    }
 }
 
 public class PlayerStatus
@@ -36,7 +46,8 @@ public class PlayerStatus
     private int totalPower = 0;          // 戦闘力
     private int totalPower_Max = 999999; // 戦闘力最大値
 
-    private Status status = new(0, 0, 0, 0, 0, 0);           // ステータス
+    private Status status = new(0, 0, 0, 0, 0, 0);           // 現在のステータス
+    private Status status_Min = new(0, 0, 0, 0, 0, 0);       // 現ランクでの最小値
     private Status status_Max = new(0, 0, 0, 0, 0, 0);       // 最大値
 
     private Status rankPoint = new(0, 0, 0, 0, 0, 0);        // 累積ランクPt
@@ -149,8 +160,9 @@ public class PlayerStatus
                     statusData = MasterData.CharaInitialStatus[i];
 
                     // ステータス初期化
-                    status = statusData.statusInit[initRank];
-                    status_Max = statusData.statusMax[initRank];
+                    status = new(statusData.statusInit[initRank]);
+                    status_Min = new(statusData.statusInit[initRank]);
+                    status_Max = new(statusData.statusMax[initRank]);
 
                     // ランクPt初期化
                     CharacterRankPoint rankPtData = statusData.rankPoint;
@@ -260,6 +272,74 @@ public class PlayerStatus
     }
 
     /// <summary>
+    /// 指定ステータスの最小値を取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <returns>指定ステータスの最小値</returns>
+    public int GetStatusMin(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return status_Min.hp;
+
+            case StatusType.MP:
+                return status_Min.mp;
+
+            case StatusType.ATK:
+                return status_Min.atk;
+
+            case StatusType.DEF:
+                return status_Min.def;
+
+            case StatusType.SPD:
+                return status_Min.spd;
+
+            case StatusType.DEX:
+                return status_Min.dex;
+
+            default:
+                return 0;
+        }
+    }
+
+    /// <summary>
+    /// 指定したステータスの最小値を変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後の最小値</param>
+    public void SetStatusMin(StatusType _type, int _num)
+    {
+        
+        switch (_type)
+        {
+            case StatusType.HP:
+                status_Min.hp = _num;
+                break;
+
+            case StatusType.MP:
+                status_Min.mp = _num;
+                break;
+
+            case StatusType.ATK:
+                status_Min.atk = _num;
+                break;
+
+            case StatusType.DEF:
+                status_Min.def = _num;
+                break;
+
+            case StatusType.SPD:
+                status_Min.spd = _num;
+                break;
+
+            case StatusType.DEX:
+                status_Min.dex = _num;
+                break;
+        }
+    }
+
+    /// <summary>
     /// 指定ステータスの最大値を取得
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
@@ -296,7 +376,7 @@ public class PlayerStatus
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="_num">変更後の最大値</param>
-    public void SetStateMax(StatusType _type, int _num)
+    public void SetStatusMax(StatusType _type, int _num)
     {
         switch (_type)
         {
