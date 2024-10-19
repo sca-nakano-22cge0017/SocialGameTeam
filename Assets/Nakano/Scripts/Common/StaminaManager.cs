@@ -70,6 +70,7 @@ public class StaminaManager : MonoBehaviour
 
     public void Initialize()
     {
+        Debug.Log("test");
         stamina = max_Initial;
         stamina_Max = max_Initial;
     }
