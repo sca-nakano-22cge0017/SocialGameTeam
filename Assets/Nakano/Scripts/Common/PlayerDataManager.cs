@@ -104,14 +104,6 @@ public class PlayerDataManager : MonoBehaviour
         CalcStatus(_type);
     }
 
-    /// <summary>
-    /// ステータス計算
-    /// </summary>
-    static void CalcStatus(StatusType _type)
-    {
-
-    }
-
     static void RankUpCheck()
     {
         for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
@@ -142,6 +134,8 @@ public class PlayerDataManager : MonoBehaviour
     static void RankUp(StatusType _type)
     {
         if (player.GetRank(_type) == Rank.SS) return;
+
+        AddStatus_Bonus(_type);
 
         // ランク上昇
         int rankNum = (int)player.GetRank(_type);
@@ -208,6 +202,56 @@ public class PlayerDataManager : MonoBehaviour
                 player.SetCombiRankPtNextUp(_type, rankPtData.tecRankPt_NextUp[rank]);
                 break;
         }
+    }
+
+    /// <summary>
+    /// ステータス計算
+    /// </summary>
+    static void CalcStatus(StatusType _type)
+    {
+        Rank rank = player.GetRank(_type);
+        int currentStatus = player.GetStatus(_type);
+    }
+
+    /// <summary>
+    /// ランクアップボーナスによるステータス上昇
+    /// </summary>
+    /// <param name="_type"></param>
+    static void AddStatus_Bonus(StatusType _type)
+    {
+        Rank rank = player.GetRank(_type);
+        Status bonus = player.StatusData.rankUpBonus[rank];
+        int amount = 0;
+
+        switch (_type)
+        {
+            case StatusType.HP:
+                amount = bonus.hp;
+                break;
+
+            case StatusType.MP:
+                amount = bonus.mp;
+                break;
+
+            case StatusType.ATK:
+                amount = bonus.atk;
+                break;
+
+            case StatusType.DEF:
+                amount = bonus.def;
+                break;
+
+            case StatusType.SPD:
+                amount = bonus.spd;
+                break;
+
+            case StatusType.DEX:
+                amount = bonus.dex;
+                break;
+        }
+
+        int currentStatus = player.GetStatus(_type);
+        player.SetStatus(_type, currentStatus + amount);
     }
 
     /// <summary>
