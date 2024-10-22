@@ -8,9 +8,6 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerStatus player = new(1); // 現在の使用キャラクター
 
-    public static PlayerStatus chara1 = new(1); // キャラ1　剣士のデータ
-    public static PlayerStatus chara2 = new(2); // キャラ2　シスターのデータ
-
     void Start()
     {
     }
@@ -33,15 +30,14 @@ public class PlayerDataManager : MonoBehaviour
         }
         
         // Todo セーブデータがあれば読み込み
+        // Todo プラスステータス分のステータス加算
         if (_id == 1)
         {
-            chara1 = new PlayerStatus(1);
-            player = chara1;
+            player = new PlayerStatus(1);
         }
         if (_id == 2)
         {
-            chara2 = new PlayerStatus(2);
-            player = chara2;
+            player = new PlayerStatus(2);
         }
     }
 
@@ -251,8 +247,6 @@ public class PlayerDataManager : MonoBehaviour
 
         int currentStatus = (int)((a * (currentRankPt - rankPtMin)) + (statusMin - a * rankPtMin));   // 現在のステータス
         player.SetStatus(_type, currentStatus);
-
-        Status s = player.AllStatus;
     }
 
     /// <summary>
@@ -309,7 +303,31 @@ public class PlayerDataManager : MonoBehaviour
     /// </summary>
     public static void TraningReset()
     {
-        
+        PlayerNullCheck();
+
+        AddPlusStatus();
+        // Todo セーブデータ更新
+
+        PlayerInitialize(GameManager.SelectChara);
+    }
+
+    /// <summary>
+    /// プラスステータス判定・追加
+    /// </summary>
+    static void AddPlusStatus()
+    {
+        int statusAmount = System.Enum.GetValues(typeof(StatusType)).Length;
+
+        for (int s = 0; s < statusAmount; s++)
+        {
+            StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
+
+            if (player.GetRank(status) == Rank.SS)
+            {
+                int current = player.GetPlusStatus(status);
+                player.SetPlusStatus(status, current + 1);
+            }
+        }
     }
 
     /// <summary>

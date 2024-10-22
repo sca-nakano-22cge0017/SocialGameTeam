@@ -16,7 +16,6 @@ public class SelectButton
 
 public class StageSelect : MonoBehaviour
 {
-    [SerializeField] private bool isBossSelect = false;
     [SerializeField] private Image stageImage;
     [SerializeField] private Text stageInformationText;
 
@@ -26,33 +25,18 @@ public class StageSelect : MonoBehaviour
     [SerializeField] private StageSelectButton firstSelectButton; // 最初に選択しておくボタン
     [SerializeField] private GameObject selectingFrame;           // 選択中のボタンに表示する枠
 
-    // ターゲットロック
-    // Todo ターゲットしたステージを保存・取得する
-    private StageSelectButton targetButton;            // ターゲットされているボタン
-    [SerializeField] private GameObject targetingMark; // ターゲットマーク
-    [SerializeField] private Vector2 targetingMarkPosition;
-
-    [SerializeField, Header("ターゲット変更に必要な長押し時間")] 
-    private float longTapTime_sec = 0.5f;
-    public float GetLongTapTime_sec { get { return longTapTime_sec; } private set { } }
-
     bool isCoolTime_Select = false;
     const float coolTime = 0.01f;
 
     StaminaManager sm = null;
-    StageDataManager ssm = null;
-
-    private void Awake()
-    {
-        sm = FindObjectOfType<StaminaManager>();
-        ssm = FindObjectOfType<StageDataManager>();
-    }
+    StageDataManager sdm = null;
 
     void Start()
     {
+        sm = FindObjectOfType<StaminaManager>();
+        sdm = FindObjectOfType<StageDataManager>();
+
         FirstSelect();
-        
-        if (isBossSelect) FirstTarget();
     }
 
     private void Update()
@@ -70,21 +54,6 @@ public class StageSelect : MonoBehaviour
         selectingFrame.transform.localPosition = Vector3.zero;
 
         selectButtons[0].button.FirstSelected();
-    }
-
-    private void FirstTarget()
-    {
-        for (int i = 0; i < selectButtons.Length; i++)
-        {
-            // 最高レベルをターゲット
-            if (i == selectButtons.Length - 1)
-            {
-                targetButton = selectButtons[i].button;
-
-                targetingMark.transform.SetParent(selectButtons[i].button.gameObject.transform);
-                targetingMark.transform.localPosition = targetingMarkPosition;
-            }
-        }
     }
 
     /// <summary>
@@ -169,12 +138,12 @@ public class StageSelect : MonoBehaviour
             ConsumeStamina(_areaId);
 
             // ステージデータ読み込み完了時の処理
-            ssm.LoadCompleteProcess += () =>
+            sdm.LoadCompleteProcess += () =>
             {
                 // バトル画面への遷移
                 SceneManager.LoadScene("Main");
             };
-            ssm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
+            sdm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
         }
 
         // 押下後、一定時間押下判定を取らない
@@ -182,28 +151,6 @@ public class StageSelect : MonoBehaviour
         {
             isCoolTime_Select = false;
         }));
-    }
-
-    /// <summary>
-    /// ボタン長押しによるターゲットロック変更
-    /// </summary>
-    public void TargetChange(StageSelectButton _targetingButton)
-    {
-        for (int i = 0; i < selectButtons.Length; i++)
-        {
-            if (selectButtons[i].button == _targetingButton)
-            {
-                if (targetButton != _targetingButton)
-                {
-                    targetingMark.transform.SetParent(selectButtons[i].button.gameObject.transform);
-                    targetingMark.transform.localPosition = targetingMarkPosition;
-                    targetingMark.transform.localScale = Vector3.one;
-
-                    selectButtons[i].button.TargetChange();
-                    targetButton = _targetingButton;
-                }
-            }
-        }
     }
     
     /// <summary>

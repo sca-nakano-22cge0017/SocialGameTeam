@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Master;
+using UnityEngine.UI;
 
 public class DropController : MonoBehaviour
 {
@@ -14,25 +15,16 @@ public class DropController : MonoBehaviour
         private set { }
     }
 
+    [SerializeField] Text dropDebug;
+
     void Start()
     {
+        dropDebug.text = "";
+
         Initialize();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            DropLottery();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            Initialize();
-        }
-    }
-
-    private void Initialize()
+    public void Initialize()
     {
         dropedItems.Clear();
 
@@ -85,6 +77,8 @@ public class DropController : MonoBehaviour
     /// <param name="_amount"></param>
     void AddDropAmount(StatusType _type, int _amount)
     {
+        dropDebug.text = _type + " / " + _amount + "PtŠl“¾";
+
         for (int i = 0; i < dropedItems.Count; i++)
         {
             if (_type == dropedItems[i].itemType)
