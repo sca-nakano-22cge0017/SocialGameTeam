@@ -6,7 +6,10 @@ using Master;
 
 public class PlayerDataManager : MonoBehaviour
 {
-    public static PlayerStatus player = null;
+    public static PlayerStatus player = new(1); // 現在の使用キャラクター
+
+    public static PlayerStatus chara1 = new(1); // キャラ1　剣士のデータ
+    public static PlayerStatus chara2 = new(2); // キャラ2　シスターのデータ
 
     void Start()
     {
@@ -18,19 +21,28 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// プレイヤー生成/初期化
+    /// プレイヤー初期化
     /// </summary>
     /// <param name="_id">キャラクターID</param>
-    public static void PlayerCreate(int _id)
+    public static void PlayerInitialize(int _id)
     {
         if (_id != 1 && _id != 2)
         {
             Debug.Log("キャラクターIDが誤っています");
             return;
         }
-
-        Debug.Log("プレイヤー生成");
-        player = new PlayerStatus(_id);
+        
+        // Todo セーブデータがあれば読み込み
+        if (_id == 1)
+        {
+            chara1 = new PlayerStatus(1);
+            player = chara1;
+        }
+        if (_id == 2)
+        {
+            chara2 = new PlayerStatus(2);
+            player = chara2;
+        }
     }
 
     static void PlayerNullCheck()
@@ -39,7 +51,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             int chara = GameManager.SelectChara != -1 ? GameManager.SelectChara : 1;
 
-            PlayerCreate(chara);
+            PlayerInitialize(chara);
         }
     }
 

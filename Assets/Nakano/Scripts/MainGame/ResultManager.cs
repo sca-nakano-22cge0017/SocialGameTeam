@@ -54,8 +54,7 @@ public class ResultManager : MonoBehaviour
         {
             for (int j = 0; j < results.Length; j++)
             {
-                //int amount = dropController.DropedItems[i].dropAmount;
-                int amount = 100;
+                int amount = dropController.DropedItems[i].dropAmount;
                 StatusType type = dropController.DropedItems[i].itemType;
 
                 if (type == results[j].type && amount > 0)
@@ -99,8 +98,8 @@ public class ResultManager : MonoBehaviour
 
         if (GameManager.SelectArea == 1)
         {
-            wc.Close();
-            //SceneManager.LoadScene("SelectScene_Traning");
+            //wc.Close();
+            SceneManager.LoadScene("SelectScene_Traning");
         }
         else if (GameManager.SelectArea == 2)
         {
