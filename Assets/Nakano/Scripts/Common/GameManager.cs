@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
             return instance;
         }
     }
+
+    [RuntimeInitializeOnLoadMethod]
     private static void SetupInstance()
     {
         instance = FindObjectOfType<GameManager>();
@@ -67,28 +69,13 @@ public class GameManager : MonoBehaviour
             }
 
             selectChara = value;
+
+            PlayerDataManager.PlayerInitialize(selectChara);
+
+            Status status = PlayerDataManager.player.AllStatus;
+            Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
+                status.hp, status.mp, status.atk, status.def, status.spd, status.dex, SelectChara));
         }
-    }
-
-    /// <summary>
-    /// 初回のキャラ選択
-    /// </summary>
-    /// <param name="_id">キャラクターID / 1:剣士, 2:シスター</param>
-    public static void FirstCharaSelect(int _id)
-    {
-        if (_id != 1 && _id != 2)
-        {
-            Debug.Log("初回キャラクター選択：入力値が間違っています。");
-            return;
-        }
-
-        SelectChara = _id;
-
-        PlayerDataManager.PlayerCreate(SelectChara);
-
-        Status status = PlayerDataManager.player.AllStatus;
-        Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
-            status.hp, status.mp, status.atk, status.def, status.spd, status.dex, SelectChara));
     }
 
     // 選択難易度
@@ -202,6 +189,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
 
-        FirstCharaSelect(SelectChara);
+        SelectChara = 2;
     }
 }
