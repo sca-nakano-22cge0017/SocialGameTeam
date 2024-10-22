@@ -8,7 +8,7 @@ public class WindowController : MonoBehaviour
     [SerializeField] private GameObject m_window;
     [SerializeField, Header("‰Šúó‘Ô")] private bool initialDisp = false;
 
-    void Start()
+    void Awake()
     {
         m_window.SetActive(initialDisp);
     }

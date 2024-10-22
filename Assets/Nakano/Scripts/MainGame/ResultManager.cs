@@ -55,6 +55,7 @@ public class ResultManager : MonoBehaviour
             for (int j = 0; j < results.Length; j++)
             {
                 int amount = dropController.DropedItems[i].dropAmount;
+                //int amount = 1000;
                 StatusType type = dropController.DropedItems[i].itemType;
 
                 if (type == results[j].type && amount > 0)

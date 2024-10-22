@@ -21,7 +21,7 @@ public class StageSelectButton : MonoBehaviour
 
     private void Awake()
     {
-        longTapTime_sec = stageSelect.GetLongTapTime_sec;
+        //longTapTime_sec = stageSelect.GetLongTapTime_sec;
     }
 
     private void Update()
@@ -32,7 +32,7 @@ public class StageSelectButton : MonoBehaviour
 
             if (longTapElapsedTime_sec >= longTapTime_sec)
             {
-                stageSelect.TargetChange(this);
+                //stageSelect.TargetChange(this);
 
                 isLongTapCount = false;
                 longTapElapsedTime_sec = 0;

@@ -183,6 +183,22 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         staminaManager.Recovery();
+
+        // Test—p
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            PlayerDataManager.TraningReset();
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            DropController d = FindObjectOfType<DropController>();
+            d.DropLottery();
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            DropController d = FindObjectOfType<DropController>();
+            d.Initialize();
+        }
     }
 
     IEnumerator LoadComplete()
