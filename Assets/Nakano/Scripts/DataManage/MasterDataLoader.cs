@@ -687,6 +687,24 @@ namespace Master
                 tecRankPt_NextUp.Add(rank, 0);
             }
         }
+
+        public int GetCombiRankNextPt(CombiType _type, Rank _rank)
+        {
+            switch (_type)
+            {
+                case CombiType.ATK:
+                    return atkRankPt_NextUp[_rank];
+
+                case CombiType.DEF:
+                    return defRankPt_NextUp[_rank];
+
+                case CombiType.TEC:
+                    return tecRankPt_NextUp[_rank];
+
+                default:
+                    return -1;
+            }
+        }
     }
 
     /// <summary>

@@ -8,8 +8,8 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerStatus player = new(1); // 現在の使用キャラクター
 
-    public static PlayerSaveData chara1 = new();
-    public static PlayerSaveData chara2 = new();
+    private static PlayerSaveData chara1 = new();
+    private static PlayerSaveData chara2 = new();
 
     void Start()
     {
@@ -45,8 +45,22 @@ public class PlayerDataManager : MonoBehaviour
 
     public static void Load()
     {
-        // JSONから取得
+        chara1 = new PlayerSaveData(); //JSONから取得
+        chara2 = new PlayerSaveData(); //JSONから取得
 
+        PlayerSaveData chara = GameManager.SelectChara == 1 ? chara1 : chara2;
+
+        // 確認用
+        chara.id = 1;
+        chara.status = new(1000, 1000, 1000, 1000, 1000, 1000);
+        chara.rankPoint = new(1000, 1000, 1000, 1000, 1000, 1000);
+        chara.plusStatus = new(1, 1, 1, 1, 1, 1);
+
+        player.Initialize(chara);
+
+        Status status = PlayerDataManager.player.AllStatus;
+        Debug.Log(string.Format("HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
+            status.hp, status.mp, status.atk, status.def, status.spd, status.dex));
     }
 
     /// <summary>
@@ -213,20 +227,7 @@ public class PlayerDataManager : MonoBehaviour
         CharacterRankPoint rankPtData = player.StatusData.rankPoint;
         Rank rank = player.GetCombiRank(_type);
 
-        switch (_type)
-        {
-            case CombiType.ATK:
-                player.SetCombiRankPtNextUp(_type, rankPtData.atkRankPt_NextUp[rank]);
-                break;
-
-            case CombiType.DEF:
-                player.SetCombiRankPtNextUp(_type, rankPtData.defRankPt_NextUp[rank]);
-                break;
-
-            case CombiType.TEC:
-                player.SetCombiRankPtNextUp(_type, rankPtData.tecRankPt_NextUp[rank]);
-                break;
-        }
+        player.SetCombiRankPtNextUp(_type, rankPtData.GetCombiRankNextPt(_type, rank));
     }
 
     /// <summary>
@@ -257,45 +258,16 @@ public class PlayerDataManager : MonoBehaviour
     {
         Rank rank = player.GetRank(_type);
         Status bonus = player.StatusData.rankUpBonus[rank];
-        int amount = 0, status = 0;
 
-        switch (_type)
-        {
-            case StatusType.HP:
-                amount = bonus.hp;
-                status = player.StatusData.statusMax[rank].hp;
-                break;
-
-            case StatusType.MP:
-                amount = bonus.mp;
-                status = player.StatusData.statusMax[rank].mp;
-                break;
-
-            case StatusType.ATK:
-                amount = bonus.atk;
-                status = player.StatusData.statusMax[rank].atk;
-                break;
-
-            case StatusType.DEF:
-                amount = bonus.def;
-                status = player.StatusData.statusMax[rank].def;
-                break;
-
-            case StatusType.SPD:
-                amount = bonus.spd;
-                status = player.StatusData.statusMax[rank].spd;
-                break;
-
-            case StatusType.DEX:
-                amount = bonus.dex;
-                status = player.StatusData.statusMax[rank].dex;
-                break;
-        }
+        int amount = bonus.GetStatus(_type);
+        int status = player.StatusData.statusMax[rank].GetStatus(_type);
 
         player.SetStatus(_type, status);
 
         int currentStatus = player.GetStatus(_type);
         player.SetStatus(_type, currentStatus + amount);
+
+        player.UpdateTotalPower();
     }
 
     /// <summary>
