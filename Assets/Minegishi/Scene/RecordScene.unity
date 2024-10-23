@@ -2256,7 +2256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 436932321}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 503535701}
+        m_TargetAssemblyTypeName: CharaSelectManager, Assembly-CSharp
+        m_MethodName: CharaButton1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &436932321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2553,6 +2565,7 @@ GameObject:
   m_Component:
   - component: {fileID: 503535699}
   - component: {fileID: 503535700}
+  - component: {fileID: 503535701}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2591,6 +2604,30 @@ MonoBehaviour:
   saveWindow2: {fileID: 987298757}
   saveWindow3: {fileID: 416957944}
   saveWindow4: {fileID: 610614651}
+--- !u!114 &503535701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503535697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fcb7ff24a1b96045acde0147f74448f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonNum:
+  - {fileID: 436932320}
+  - {fileID: 1637161848}
+  - {fileID: 1933519050}
+  - {fileID: 1599055256}
+  - {fileID: 1837292792}
+  - {fileID: 85128526}
+  - {fileID: 1967862511}
+  - {fileID: 945898445}
+  charaImage:
+  - {fileID: 959025655}
+  - {fileID: 1154357690}
 --- !u!1 &504220726
 GameObject:
   m_ObjectHideFlags: 0
@@ -3976,6 +4013,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945898443}
   m_CullTransparentMesh: 1
+--- !u!1 &959025655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 959025656}
+  - component: {fileID: 959025658}
+  - component: {fileID: 959025657}
+  m_Layer: 5
+  m_Name: ' swordsman'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &959025656
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959025655}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1300492534}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 20, y: -176}
+  m_SizeDelta: {x: 1093.76, y: 1093.74}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &959025657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959025655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: bea30c1143b5ae547aebc091c2d4a926, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &959025658
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 959025655}
+  m_CullTransparentMesh: 1
 --- !u!1 &976973825
 GameObject:
   m_ObjectHideFlags: 0
@@ -5037,12 +5149,12 @@ GameObject:
   - component: {fileID: 1154357693}
   - component: {fileID: 1154357692}
   m_Layer: 5
-  m_Name: Character
+  m_Name: wizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1154357691
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5862,6 +5974,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1288468312}
+  - {fileID: 959025656}
   - {fileID: 1154357691}
   - {fileID: 2128868430}
   - {fileID: 1216719112}
@@ -7988,7 +8101,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1637161849}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 503535701}
+        m_TargetAssemblyTypeName: CharaSelectManager, Assembly-CSharp
+        m_MethodName: CharaButton2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1637161849
 MonoBehaviour:
   m_ObjectHideFlags: 0
