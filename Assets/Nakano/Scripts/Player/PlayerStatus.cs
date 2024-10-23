@@ -96,7 +96,7 @@ public class Status
 
 public class PlayerStatus
 {
-    private int ID = -1;
+    private int id = -1;
 
     private CharaInitialStutas statusData = new();
 
@@ -126,7 +126,7 @@ public class PlayerStatus
     /// <param name="_id"></param>
     public PlayerStatus(int _id)
     {
-        ID = _id;
+        id = _id;
 
         Initialize(_id);
     }
@@ -189,6 +189,7 @@ public class PlayerStatus
         // 複合ステータスのランク/ランクPt最大値初期化
         combiRank.Clear();
         combiRankPt.Clear();
+        combiRankPt_NextUp.Clear();
         combiRankPtMax.Clear();
         for (int c = 0; c < System.Enum.GetValues(typeof(CombiType)).Length; c++)
         {
@@ -250,7 +251,124 @@ public class PlayerStatus
         }
     }
 
+    /// <summary>
+    /// セーブデータを元に初期化
+    /// </summary>
+    /// <param name="_data"></param>
+    public void Initialize(PlayerSaveData _data)
+    {
+        Initialize(_data.id);
+
+        id = _data.id;
+        status = _data.status;
+        rankPoint = _data.rankPoint;
+        plusStatus = _data.plusStatus;
+
+        SetData();
+    }
+
+    void SetData()
+    {
+        UpdateTotalPower();
+
+        for (int st = 0; st < System.Enum.GetValues(typeof(StatusType)).Length; st++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), st);
+
+            Rank rank = Rank.C;
+            int rankNum = (int)Rank.C;
+            Status rankPtNextUp = new(0, 0, 0, 0, 0, 0);
+
+            for (int r = 0; r < System.Enum.GetValues(typeof(Rank)).Length; r++)
+            {
+                rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
+
+                rankPtNextUp = StatusData.rankPoint.rankPt_NextUp[rank];
+
+                if (rankPoint.GetStatus(type) >= rankPtNextUp.GetStatus(type))
+                {
+                    rankNum++;
+                }
+            }
+
+            // ランク変更
+            statusRank[type] = (Rank)System.Enum.ToObject(typeof(Rank), rankNum);
+
+            // ランクに応じてランクポイント最小値/最大値更新
+            int lastRankNum = rankNum - 1 > 0 ? rankNum - 1 : 0;
+            Rank lastRank = (Rank)System.Enum.ToObject(typeof(Rank), lastRankNum);
+            rankPoint_LastUp = StatusData.rankPoint.rankPt_NextUp[lastRank];
+            rankPoint_NextUp = rankPtNextUp;
+
+            // ステータス最小/最大値更新
+            status_Min.SetStatus(type, StatusData.statusInit[rank].GetStatus(type));
+            status_Max.SetStatus(type, StatusData.statusMax[rank].GetStatus(type));
+        }
+
+        // 複合ランク系
+        for (int ct = 0; ct < System.Enum.GetValues(typeof(CombiType)).Length; ct++)
+        {
+            CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), ct);
+
+            // 累積Pt計算
+            switch (type)
+            {
+                case CombiType.ATK:
+                    combiRankPt[type] = rankPoint.atk + rankPoint.mp;
+                    break;
+
+                case CombiType.DEF:
+                    combiRankPt[type] = rankPoint.hp + rankPoint.def;
+                    break;
+
+                case CombiType.TEC:
+                    combiRankPt[type] = rankPoint.spd + rankPoint.dex;
+                    break;
+            }
+
+            Rank rank = Rank.C;
+            int rankNum = (int)Rank.C;
+
+            for (int r = 0; r < System.Enum.GetValues(typeof(Rank)).Length; r++)
+            {
+                rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
+
+                if (combiRankPt[type] >= StatusData.rankPoint.GetCombiRankNextPt(type, rank))
+                {
+                    rankNum++;
+                }
+            }
+
+            // ランク変更
+            combiRank[type] = (Rank)System.Enum.ToObject(typeof(Rank), rankNum);
+
+            // ランクに応じてランクポイント最大値更新
+            SetCombiRankPtNextUp(type, StatusData.rankPoint.GetCombiRankNextPt(type, rank));
+        }
+    }
+
     // 以下変数取得・変更系
+    // 総合戦闘力
+    /// <summary>
+    /// 総合戦闘力の計算
+    /// </summary>
+    public void UpdateTotalPower()
+    {
+        int total = 0;
+
+        for (int st = 0; st < System.Enum.GetValues(typeof(StatusType)).Length; st++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), st);
+            total += status.GetStatus(type);
+        }
+
+        if (total <= totalPower_Max)
+        {
+            totalPower = total;
+        }
+        else totalPower = totalPower_Max;
+    }
+
     // ステータス
     /// <summary>
     /// 指定したステータスの現在値を取得
