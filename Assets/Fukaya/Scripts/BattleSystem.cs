@@ -50,8 +50,8 @@ public class BattleSystem : MonoBehaviour
                 battleOver = true;
                 UpdateBattleText("“G‚ğ“|‚µ‚½I Ÿ—˜I");
 
+                dropController.DropLottery();
                 windowController.Open();
-                dropController. DropLottery();
             }
             else
             {
