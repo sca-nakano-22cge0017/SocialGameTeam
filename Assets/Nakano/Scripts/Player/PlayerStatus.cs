@@ -35,6 +35,63 @@ public class Status
         spd = _status.spd;
         dex = _status.dex;
     }
+
+    public int GetStatus(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return hp;
+
+            case StatusType.MP:
+                return mp;
+
+            case StatusType.ATK:
+                return atk;
+
+            case StatusType.DEF:
+                return def;
+
+            case StatusType.SPD:
+                return spd;
+
+            case StatusType.DEX:
+                return dex;
+
+            default:
+                return 0;
+        }
+    }
+
+    public void SetStatus(StatusType _type, int _num)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                hp = _num;
+                break;
+
+            case StatusType.MP:
+                mp = _num;
+                break;
+
+            case StatusType.ATK:
+                atk = _num;
+                break;
+
+            case StatusType.DEF:
+                def = _num;
+                break;
+
+            case StatusType.SPD:
+                spd = _num;
+                break;
+
+            case StatusType.DEX:
+                dex = _num;
+                break;
+        }
+    }
 }
 
 public class PlayerStatus
@@ -84,10 +141,7 @@ public class PlayerStatus
 
     public Status AllStatus
     {
-        get
-        {
-            return status;
-        }
+        get => status;
     }
 
     /// <summary>
@@ -111,14 +165,8 @@ public class PlayerStatus
     /// </summary>
     public int TotalPower_Max
     {
-        get
-        {
-            return totalPower_Max;
-        }
-        set
-        {
-            totalPower_Max = value;
-        }
+        get => totalPower_Max;
+        set => totalPower_Max = value;
     }
 
     /// <summary>
@@ -211,29 +259,7 @@ public class PlayerStatus
     /// <returns>指定したステータスの現在値</returns>
     public int GetStatus(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return status.hp;
-
-            case StatusType.MP:
-                return status.mp;
-                
-            case StatusType.ATK:
-                return status.atk;
-               
-            case StatusType.DEF:
-                return status.def;
-                
-            case StatusType.SPD:
-                return status.spd;
-                
-            case StatusType.DEX:
-                return status.dex;
-                
-            default:
-                return 0;
-        }
+        return status.GetStatus(_type);
     }
 
     /// <summary>
@@ -243,32 +269,7 @@ public class PlayerStatus
     /// <param name="_num">変更後の値</param>
     public void SetStatus(StatusType _type, int _num)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                status.hp = _num;
-                break;
-
-            case StatusType.MP:
-                status.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                status.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                status.def = _num;
-                break;
-
-            case StatusType.SPD:
-                status.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                status.dex = _num;
-                break;
-        }
+        status.SetStatus(_type, _num);
     }
 
     /// <summary>
@@ -278,29 +279,7 @@ public class PlayerStatus
     /// <returns>指定ステータスの最小値</returns>
     public int GetStatusMin(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return status_Min.hp;
-
-            case StatusType.MP:
-                return status_Min.mp;
-
-            case StatusType.ATK:
-                return status_Min.atk;
-
-            case StatusType.DEF:
-                return status_Min.def;
-
-            case StatusType.SPD:
-                return status_Min.spd;
-
-            case StatusType.DEX:
-                return status_Min.dex;
-
-            default:
-                return 0;
-        }
+        return status_Min.GetStatus(_type);
     }
 
     /// <summary>
@@ -310,33 +289,7 @@ public class PlayerStatus
     /// <param name="_num">変更後の最小値</param>
     public void SetStatusMin(StatusType _type, int _num)
     {
-        
-        switch (_type)
-        {
-            case StatusType.HP:
-                status_Min.hp = _num;
-                break;
-
-            case StatusType.MP:
-                status_Min.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                status_Min.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                status_Min.def = _num;
-                break;
-
-            case StatusType.SPD:
-                status_Min.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                status_Min.dex = _num;
-                break;
-        }
+        status_Min.SetStatus(_type, _num);
     }
 
     /// <summary>
@@ -346,29 +299,7 @@ public class PlayerStatus
     /// <returns>指定ステータスの最大値</returns>
     public int GetStatusMax(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return status_Max.hp;
-                
-            case StatusType.MP:
-                return status_Max.mp;
-                
-            case StatusType.ATK:
-                return status_Max.atk;
-                
-            case StatusType.DEF:
-                return status_Max.def;
-                
-            case StatusType.SPD:
-                return status_Max.spd;
-                
-            case StatusType.DEX:
-                return status_Max.dex;
-                
-            default:
-                return 0;
-        }
+        return status_Max.GetStatus(_type);
     }
 
     /// <summary>
@@ -378,32 +309,7 @@ public class PlayerStatus
     /// <param name="_num">変更後の最大値</param>
     public void SetStatusMax(StatusType _type, int _num)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                status_Max.hp = _num;
-                break;
-
-            case StatusType.MP:
-                status_Max.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                status_Max.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                status_Max.def = _num;
-                break;
-
-            case StatusType.SPD:
-                status_Max.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                status_Max.dex = _num;
-                break;
-        }
+        status_Max.SetStatus(_type, _num);
     }
 
     // ランク
@@ -429,6 +335,11 @@ public class PlayerStatus
     }
 
     // ランクPt
+    public Status GetRankPt()
+    {
+        return rankPoint;
+    }
+
     /// <summary>
     /// 指定したステータスのランクポイント現在値を取得
     /// </summary>
@@ -436,29 +347,7 @@ public class PlayerStatus
     /// <returns>指定したステータスのランクポイント現在値</returns>
     public int GetRankPt(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return rankPoint.hp;
-
-            case StatusType.MP:
-                return rankPoint.mp;
-
-            case StatusType.ATK:
-                return rankPoint.atk;
-
-            case StatusType.DEF:
-                return rankPoint.def;
-
-            case StatusType.SPD:
-                return rankPoint.spd;
-
-            case StatusType.DEX:
-                return rankPoint.dex;
-
-            default:
-                return 0;
-        }
+        return rankPoint.GetStatus(_type);
     }
 
     /// <summary>
@@ -468,32 +357,7 @@ public class PlayerStatus
     /// <param name="_num">変更後の値</param>
     public void SetRankPt(StatusType _type, int _num)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                rankPoint.hp = _num;
-                break;
-
-            case StatusType.MP:
-                rankPoint.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                rankPoint.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                rankPoint.def = _num;
-                break;
-
-            case StatusType.SPD:
-                rankPoint.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                rankPoint.dex = _num;
-                break;
-        }
+        rankPoint.SetStatus(_type, _num);
     }
 
     /// <summary>
@@ -502,29 +366,17 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetRankPtLastUp(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return rankPoint_LastUp.hp;
+        return rankPoint_LastUp.GetStatus(_type);
+    }
 
-            case StatusType.MP:
-                return rankPoint_LastUp.mp;
-
-            case StatusType.ATK:
-                return rankPoint_LastUp.atk;
-
-            case StatusType.DEF:
-                return rankPoint_LastUp.def;
-
-            case StatusType.SPD:
-                return rankPoint_LastUp.spd; 
-
-            case StatusType.DEX:
-                return rankPoint_LastUp.dex;
-
-            default:
-                return 0;
-        }
+    /// <summary>
+    /// 指定したステータスの、前回ランクアップしたときの累積Ptを変更
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_num">変更後の値</param>
+    public void SetRankPtLastUp(StatusType _type, int _num)
+    {
+        rankPoint_LastUp.SetStatus(_type, _num);
     }
 
     /// <summary>
@@ -533,29 +385,7 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetRankPtNextUp(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return rankPoint_NextUp.hp;
-
-            case StatusType.MP:
-                return rankPoint_NextUp.mp;
-
-            case StatusType.ATK:
-                return rankPoint_NextUp.atk;
-
-            case StatusType.DEF:
-                return rankPoint_NextUp.def;
-
-            case StatusType.SPD:
-                return rankPoint_NextUp.spd;
-
-            case StatusType.DEX:
-                return rankPoint_NextUp.dex;
-
-            default:
-                return 0;
-        }
+        return rankPoint_NextUp.GetStatus(_type);
     }
 
     /// <summary>
@@ -565,38 +395,7 @@ public class PlayerStatus
     /// <param name="_num">変更後の値</param>
     public void SetRankPtNextUp(StatusType _type, int _num)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                rankPoint_LastUp.hp = rankPoint.hp;
-                rankPoint_NextUp.hp = _num;
-                break;
-
-            case StatusType.MP:
-                rankPoint_LastUp.mp = rankPoint.mp;
-                rankPoint_NextUp.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                rankPoint_LastUp.atk = rankPoint.atk;
-                rankPoint_NextUp.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                rankPoint_LastUp.def = rankPoint.def;
-                rankPoint_NextUp.def = _num;
-                break;
-
-            case StatusType.SPD:
-                rankPoint_LastUp.spd = rankPoint.spd;
-                rankPoint_NextUp.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                rankPoint_LastUp.dex = rankPoint.dex;
-                rankPoint_NextUp.dex = _num;
-                break;
-        }
+        rankPoint_NextUp.SetStatus(_type, _num);
     }
 
     /// <summary>
@@ -606,29 +405,7 @@ public class PlayerStatus
     /// <returns>指定したステータスのランクポイント最大値</returns>
     public int GetRankPtMax(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return rankPoint_Max.hp;
-
-            case StatusType.MP:
-                return rankPoint_Max.mp;
-
-            case StatusType.ATK:
-                return rankPoint_Max.atk;
-
-            case StatusType.DEF:
-                return rankPoint_Max.def;
-
-            case StatusType.SPD:
-                return rankPoint_Max.spd;
-
-            case StatusType.DEX:
-                return rankPoint_Max.dex;
-
-            default:
-                return 0;
-        }
+        return rankPoint_Max.GetStatus(_type);
     }
 
     // 複合ステータスのランク
@@ -720,29 +497,7 @@ public class PlayerStatus
     /// <returns>ステータスのプラスステータス</returns>
     public int GetPlusStatus(StatusType _type)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                return plusStatus.hp;
-
-            case StatusType.MP:
-                return plusStatus.mp;
-
-            case StatusType.ATK:
-                return plusStatus.atk;
-
-            case StatusType.DEF:
-                return plusStatus.def;
-
-            case StatusType.SPD:
-                return plusStatus.spd;
-
-            case StatusType.DEX:
-                return plusStatus.dex;
-
-            default:
-                return 0;
-        }
+        return plusStatus.GetStatus(_type);
     }
 
     /// <summary>
@@ -752,31 +507,6 @@ public class PlayerStatus
     /// <param name="_num">変更後のプラスステータス</param>
     public void SetPlusStatus(StatusType _type, int _num)
     {
-        switch (_type)
-        {
-            case StatusType.HP:
-                plusStatus.hp = _num;
-                break;
-
-            case StatusType.MP:
-                plusStatus.mp = _num;
-                break;
-
-            case StatusType.ATK:
-                plusStatus.atk = _num;
-                break;
-
-            case StatusType.DEF:
-                plusStatus.def = _num;
-                break;
-
-            case StatusType.SPD:
-                plusStatus.spd = _num;
-                break;
-
-            case StatusType.DEX:
-                plusStatus.dex = _num;
-                break;
-        }
+        plusStatus.SetStatus(_type, _num);
     }
 }
