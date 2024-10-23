@@ -8,6 +8,9 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerStatus player = new(1); // 現在の使用キャラクター
 
+    public static PlayerSaveData chara1 = new();
+    public static PlayerSaveData chara2 = new();
+
     void Start()
     {
     }
@@ -15,6 +18,35 @@ public class PlayerDataManager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public static void Save()
+    {
+        if (GameManager.SelectChara == 1)
+        {
+            chara1.id = 1;
+            chara1.status = player.AllStatus;
+            chara1.rankPoint = player.GetRankPt();
+            chara1.plusStatus = player.GetPlusStatus();
+
+            // chara1をJSON化して保存
+        }
+
+        if (GameManager.SelectChara == 2)
+        {
+            chara2.id = 2;
+            chara2.status = player.AllStatus;
+            chara2.rankPoint = player.GetRankPt();
+            chara2.plusStatus = player.GetPlusStatus();
+
+            // chara2をJSON化して保存
+        }
+    }
+
+    public static void Load()
+    {
+        // JSONから取得
+
     }
 
     /// <summary>
@@ -143,7 +175,11 @@ public class PlayerDataManager : MonoBehaviour
     {
         if (player.GetRank(_type) == Rank.SS) return;
 
+        CharacterRankPoint rankPtData = player.StatusData.rankPoint;
+
         AddStatus_Bonus(_type);
+        Rank lastRank = player.GetRank(_type);
+        Status lastPt = rankPtData.rankPt_NextUp[lastRank];
 
         // ランク上昇
         int rankNum = (int)player.GetRank(_type);
@@ -151,51 +187,15 @@ public class PlayerDataManager : MonoBehaviour
         player.SetRank(_type, (Rank)System.Enum.ToObject(typeof(Rank), rankNum));
 
         // ランクに応じてランクポイント最大値更新
-        CharacterRankPoint rankPtData = player.StatusData.rankPoint;
         Rank rank = player.GetRank(_type);
         Status nextPt = rankPtData.rankPt_NextUp[rank];
 
-        int statusMin = 0, statusMax = 0;
+        player.SetRankPtLastUp(_type, lastPt.GetStatus(_type));
+        player.SetRankPtNextUp(_type, nextPt.GetStatus(_type));
 
-        switch (_type)
-        {
-            case StatusType.ATK:
-                player.SetRankPtNextUp(_type, nextPt.atk);
-                statusMin = player.StatusData.statusInit[rank].atk;
-                statusMax = player.StatusData.statusMax[rank].atk;
-                break;
-
-            case StatusType.MP:
-                player.SetRankPtNextUp(_type, nextPt.mp);
-                statusMin = player.StatusData.statusInit[rank].mp;
-                statusMax = player.StatusData.statusMax[rank].mp;
-                break;
-
-            case StatusType.HP:
-                player.SetRankPtNextUp(_type, nextPt.hp);
-                statusMin = player.StatusData.statusInit[rank].hp;
-                statusMax = player.StatusData.statusMax[rank].hp;
-                break;
-
-            case StatusType.DEF:
-                player.SetRankPtNextUp(_type, nextPt.def);
-                statusMin = player.StatusData.statusInit[rank].def;
-                statusMax = player.StatusData.statusMax[rank].def;
-                break;
-
-            case StatusType.SPD:
-                player.SetRankPtNextUp(_type, nextPt.spd);
-                statusMin = player.StatusData.statusInit[rank].spd;
-                statusMax = player.StatusData.statusMax[rank].spd;
-                break;
-
-            case StatusType.DEX:
-                player.SetRankPtNextUp(_type, nextPt.dex);
-                statusMin = player.StatusData.statusInit[rank].dex;
-                statusMax = player.StatusData.statusMax[rank].dex;
-                break;
-        }
-
+        // ステータス最小/最大値更新
+        int statusMin = player.StatusData.statusInit[rank].GetStatus(_type);
+        int statusMax = player.StatusData.statusMax[rank].GetStatus(_type);
         player.SetStatusMin(_type, statusMin);
         player.SetStatusMax(_type, statusMax);
     }
