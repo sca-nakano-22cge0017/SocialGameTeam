@@ -13,6 +13,12 @@ public static class CharaNum
 public class CharaSelect : MonoBehaviour
 {
     [SerializeField] private GameObject CharaObjects = null;
+    [SerializeField,Header("リセットwindow")] private GameObject resetWindow = null;
+
+    private void Start()
+    {
+        resetWindow.SetActive(false);
+    }
 
     //どのキャラクターを選んだか
     //window非表示
@@ -48,8 +54,14 @@ public class CharaSelect : MonoBehaviour
             case 3: //キャラクター選択画面
                 SceneManager.LoadScene("TitleScene");
                 break;
-            case 4: //育成完了
-                SceneManager.LoadScene("TrainingCompletedScene");
+            case 4: //育成完了ウィンドウ表示
+                resetWindow.SetActive(true);
+                break;
+            case 5: //ホーム画面に戻る
+                resetWindow.SetActive(false);
+                break;
+            case 6: //育成完了
+                SceneManager.LoadScene("TitleScene");
                 break;
             default:
                 SceneManager.LoadScene("HomeScene");

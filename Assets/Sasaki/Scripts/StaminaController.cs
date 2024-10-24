@@ -6,10 +6,12 @@ using UnityEngine.UI;
 
 public class StaminaController : MonoBehaviour
 {
-    [SerializeField] private Slider slider;
-    [SerializeField] private Text LevelText;
-    [SerializeField] private Text staminaText;
+    [SerializeField,Header("スライダーバー")] private Slider slider;
+    [SerializeField,Header("スタミナ表示のテキスト")] private Text staminaText;
     private StaminaManager staminaManager;
+
+    private int stamina;
+    private int staminaMax;
 
     // Start is called before the first frame update
     void Start()
@@ -22,11 +24,18 @@ public class StaminaController : MonoBehaviour
             gameManager = GameManager.Instance;
             staminaManager = gameManager.gameObject.GetComponent<StaminaManager>();
         }
+        
+        slider.value = 1; //スライダー満タン
     }
 
     // Update is called once per frame
     void Update()
     {
-        staminaText.text = staminaManager.Stamina.ToString() + "/" + staminaManager.Stamina_Max.ToString();
+        stamina = staminaManager.Stamina;
+        staminaMax = staminaManager.Stamina_Max;
+        slider.value = (float)stamina/(float)staminaMax;//バー表示反映
+        //テキスト表示
+        staminaText.text = stamina.ToString() + "/" + staminaMax.ToString();
     }
+
 }
