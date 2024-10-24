@@ -22,9 +22,5 @@ public class SceneChanger : MonoBehaviour
         {
             SceneManager.LoadScene("HomeScene");
         }
-        if (SceneManager.GetActiveScene().name == "TrainingCompletedScene")
-        {
-            SceneManager.LoadScene("HomeScene");
-        }
     }
 }
