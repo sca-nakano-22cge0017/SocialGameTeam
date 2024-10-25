@@ -131,7 +131,7 @@ public class StageSelect : MonoBehaviour
             GameManager.SelectStage = _stageId;
 
             int difficulty = -1;
-            if (_areaId == 1) difficulty = DifficultyManager.Difficulty;
+            if (_areaId == 1) difficulty = GameManager.SelectDifficulty;
             if (_areaId == 2) difficulty = _difficulty;
             GameManager.SelectDifficulty = difficulty;
 
