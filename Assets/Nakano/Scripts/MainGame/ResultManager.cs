@@ -19,18 +19,21 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private DropController dropController;
     [SerializeField] private Result[] results;
 
-    private bool resultDispCompleted = false;
+    // 特殊技能解放
+    [SerializeField] private GameObject window_st;
+    [SerializeField] private Text explain_st;
+    [SerializeField] private Image icon_st;
 
-    private GameManager gameManager;
+    private bool resultDispCompleted = false; // 表示完了
 
     void Start()
     {
-        gameManager = GameManager.Instance;
     }
 
     private void OnEnable()
     {
         ResultInitialize();
+        window_st.SetActive(false);
 
         if (GameManager.SelectArea == 2)
         {
@@ -38,16 +41,12 @@ public class ResultManager : MonoBehaviour
         }
 
         // Debug
-        StartCoroutine(Direction());
+        StartCoroutine(DispDirection());
 
         if (dropController.DropedItems.Count == 0) return;
         
         AddRankPoint();
-    }
-
-    void Update()
-    {
-        
+        StartCoroutine(AddRankPtDirection());
     }
 
     /// <summary>
@@ -87,6 +86,9 @@ public class ResultManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// リザルト画面の更新
+    /// </summary>
     void ResultUpdate()
     {
         for (int i = 0; i < results.Length; i++)
@@ -100,6 +102,18 @@ public class ResultManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 特殊技能解放
+    /// </summary>
+    void ReleaseSpecialTecnique()
+    {
+        window_st.SetActive(true);
+        explain_st.text = "デバッグ用";
+    }
+
+    /// <summary>
+    /// 選択画面へ移行
+    /// </summary>
     public void ToSelect()
     {
         if (!resultDispCompleted) return;
@@ -116,14 +130,31 @@ public class ResultManager : MonoBehaviour
         else SceneManager.LoadScene("SelectScene_Traning");
     }
 
+    /// <summary>
+    /// 再戦
+    /// </summary>
     public void Retry()
     {
         SceneManager.LoadScene("Main");
     }
 
-    IEnumerator Direction()
+    /// <summary>
+    /// リザルト表示演出
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator DispDirection()
     {
         yield return new WaitForSeconds(0.1f);
         resultDispCompleted = true;
+    }
+
+    /// <summary>
+    /// Pt加算演出
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator AddRankPtDirection()
+    {
+        yield return new WaitForSeconds(1f);
+        ReleaseSpecialTecnique();
     }
 }
