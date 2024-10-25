@@ -79,7 +79,7 @@ public class GameManager : MonoBehaviour
     }
 
     // 選択難易度
-    private static int selectDifficulty = -1;
+    private static int selectDifficulty = 1;
     /// <summary>
     /// 選択中難易度 1～5 , -1:エラー
     /// </summary>
@@ -209,6 +209,6 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
 
-        SelectChara = 2;
+
     }
 }

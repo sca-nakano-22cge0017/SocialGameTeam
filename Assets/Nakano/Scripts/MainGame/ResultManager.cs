@@ -32,6 +32,11 @@ public class ResultManager : MonoBehaviour
     {
         ResultInitialize();
 
+        if (GameManager.SelectArea == 2)
+        {
+            DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
+        }
+
         // Debug
         StartCoroutine(Direction());
 
@@ -55,7 +60,6 @@ public class ResultManager : MonoBehaviour
             for (int j = 0; j < results.Length; j++)
             {
                 int amount = dropController.DropedItems[i].dropAmount;
-                //int amount = 1000;
                 StatusType type = dropController.DropedItems[i].itemType;
 
                 if (type == results[j].type && amount > 0)
@@ -71,6 +75,9 @@ public class ResultManager : MonoBehaviour
         ResultUpdate();
     }
 
+    /// <summary>
+    /// ƒŠƒUƒ‹ƒg‰æ–Ê‚Ì‰Šú‰»
+    /// </summary>
     void ResultInitialize()
     {
         for (int i = 0; i < results.Length; i++)
@@ -107,6 +114,11 @@ public class ResultManager : MonoBehaviour
             SceneManager.LoadScene("SelectScene_Boss");
         }
         else SceneManager.LoadScene("SelectScene_Traning");
+    }
+
+    public void Retry()
+    {
+        SceneManager.LoadScene("Main");
     }
 
     IEnumerator Direction()
