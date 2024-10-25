@@ -74,7 +74,7 @@ public class GameManager : MonoBehaviour
 
             Status status = PlayerDataManager.player.AllStatus;
             Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
-                status.hp, status.mp, status.atk, status.def, status.spd, status.dex, SelectChara));
+                status.hp, status.mp, status.atk, status.def, status.spd, status.dex, selectChara));
         }
     }
 
