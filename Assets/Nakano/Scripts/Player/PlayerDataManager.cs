@@ -119,7 +119,7 @@ public class PlayerDataManager : MonoBehaviour
         if (rankPt_Max > result && combiRankPt_Max > combiResult)
         {
             // ステPt・複合ステPt加算
-            player.SetRankPt(_type, rankPt + _amount);
+            player.SetRankPt(_type, result);
             player.SetCombiRankPt(c_type, combiRankPt + _amount);
         }
         // ステPt最大値以上　かつ　複合ステPt最大値未満
@@ -202,6 +202,7 @@ public class PlayerDataManager : MonoBehaviour
 
         // ランクに応じてランクポイント最大値更新
         Rank rank = player.GetRank(_type);
+
         Status nextPt = rankPtData.rankPt_NextUp[rank];
 
         player.SetRankPtLastUp(_type, lastPt.GetStatus(_type));
@@ -257,12 +258,14 @@ public class PlayerDataManager : MonoBehaviour
     static void AddStatus_Bonus(StatusType _type)
     {
         Rank rank = player.GetRank(_type);
+
         Status bonus = player.StatusData.rankUpBonus[rank];
-
         int amount = bonus.GetStatus(_type);
-        int status = player.StatusData.statusMax[rank].GetStatus(_type);
 
-        player.SetStatus(_type, status);
+        Status statusMax = player.StatusData.statusMax[rank];
+        int statusMaxAmount = statusMax.GetStatus(_type);
+
+        player.SetStatus(_type, statusMaxAmount);
 
         int currentStatus = player.GetStatus(_type);
         player.SetStatus(_type, currentStatus + amount);

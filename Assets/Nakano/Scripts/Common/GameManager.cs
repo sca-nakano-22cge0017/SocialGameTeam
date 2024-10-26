@@ -52,10 +52,15 @@ public class GameManager : MonoBehaviour
     {
         get
         {
+            if (!MasterDataLoader.MasterDataLoadComplete)
+            {
+                Debug.Log("マスターデータの読み込みが完了していません");
+            }
+
             if (selectChara == errorNum)
             {
                 Debug.Log("選択キャラクター：入力値がありません。1を入力します。");
-                selectChara = 1;
+                SelectChara = 1;
             }
 
             return selectChara;
@@ -199,16 +204,11 @@ public class GameManager : MonoBehaviour
             DropController d = FindObjectOfType<DropController>();
             d.Initialize();
         }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            PlayerDataManager.Load();
-        }
     }
 
     IEnumerator LoadComplete()
     {
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
-
-
+        SelectChara = 1;
     }
 }

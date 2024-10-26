@@ -2360,14 +2360,6 @@ MonoBehaviour:
     information: Lv50
     sprite: {fileID: 21300000, guid: ccb60f4564fecbe4695e21b3bdb817ee, type: 3}
     name: lv50
-  - button: {fileID: 0}
-    information: Lv60
-    sprite: {fileID: 21300000, guid: 78de61231a8d0aa4b8a746276ea8b9fa, type: 3}
-    name: lv60
-  - button: {fileID: 0}
-    information: Lv70
-    sprite: {fileID: 21300000, guid: ccb60f4564fecbe4695e21b3bdb817ee, type: 3}
-    name: lv70
   firstSelectButton: {fileID: 3708508519264000413}
   selectingFrame: {fileID: 8193637314542083183}
 --- !u!1 &4633108247893841297
@@ -3391,7 +3383,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8243631318744663735}
   m_HandleRect: {fileID: 8435467665412355195}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 0.0000020345053
   m_Size: 0.9749164
   m_NumberOfSteps: 0
   m_OnValueChanged:

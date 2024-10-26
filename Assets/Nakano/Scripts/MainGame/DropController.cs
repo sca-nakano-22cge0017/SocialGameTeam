@@ -15,12 +15,8 @@ public class DropController : MonoBehaviour
         private set { }
     }
 
-    [SerializeField] Text dropDebug;
-
     void Start()
     {
-        dropDebug.text = "";
-
         Initialize();
     }
 
@@ -77,8 +73,6 @@ public class DropController : MonoBehaviour
     /// <param name="_amount"></param>
     void AddDropAmount(StatusType _type, int _amount)
     {
-        dropDebug.text = _type + " / " + _amount + "PtŠl“¾";
-
         for (int i = 0; i < dropedItems.Count; i++)
         {
             if (_type == dropedItems[i].itemType)

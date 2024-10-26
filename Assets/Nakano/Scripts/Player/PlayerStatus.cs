@@ -133,10 +133,7 @@ public class PlayerStatus
 
     public CharaInitialStutas StatusData
     {
-        get
-        {
-            return statusData;
-        }
+        get => statusData;
     }
 
     public Status AllStatus
@@ -219,6 +216,7 @@ public class PlayerStatus
                     rankPoint = new Status(0, 0, 0, 0, 0, 0);
                     rankPoint_LastUp = new Status(0, 0, 0, 0, 0, 0);
                     rankPoint_NextUp = rankPtData.rankPt_NextUp[initRank];
+
                     rankPoint_Max = rankPtData.rankPt_NextUp[highestRank];
 
                     combiRankPt_NextUp[CombiType.ATK] = rankPtData.atkRankPt_NextUp[initRank];
@@ -495,6 +493,11 @@ public class PlayerStatus
     public void SetRankPtLastUp(StatusType _type, int _num)
     {
         rankPoint_LastUp.SetStatus(_type, _num);
+    }
+
+    public int GetRankPtUp(StatusType _type, Rank _rank)
+    {
+        return StatusData.rankPoint.rankPt_NextUp[_rank].GetStatus(_type);
     }
 
     /// <summary>
