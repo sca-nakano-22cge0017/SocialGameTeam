@@ -17,6 +17,7 @@ public class StaminaController : MonoBehaviour
     void Start()
     {
         staminaManager = FindObjectOfType<StaminaManager>();
+        //staminaManagerがnullだったら作る
         if (staminaManager == null)
         {
             GameManager.GameManagerCreate();
@@ -24,7 +25,9 @@ public class StaminaController : MonoBehaviour
             gameManager = GameManager.Instance;
             staminaManager = gameManager.gameObject.GetComponent<StaminaManager>();
         }
-        
+
+        staminaMax = staminaManager.Stamina_Max;
+
         slider.value = 1; //スライダー満タン
     }
 
@@ -32,10 +35,8 @@ public class StaminaController : MonoBehaviour
     void Update()
     {
         stamina = staminaManager.Stamina;
-        staminaMax = staminaManager.Stamina_Max;
         slider.value = (float)stamina/(float)staminaMax;//バー表示反映
         //テキスト表示
         staminaText.text = stamina.ToString() + "/" + staminaMax.ToString();
     }
-
 }
