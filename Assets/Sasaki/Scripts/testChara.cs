@@ -13,7 +13,7 @@ public class testChara : MonoBehaviour
         charaNumSelect = GameManager.SelectChara;
     }
 
-    // Update is called once per frame
+    //‘I‚Î‚ê‚½ƒLƒƒƒ‰‚ð•\Ž¦
     void Update()
     {
         if (charaNumSelect == 1)

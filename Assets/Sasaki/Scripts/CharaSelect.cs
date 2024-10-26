@@ -14,13 +14,16 @@ public class CharaSelect : MonoBehaviour
 {
     [SerializeField] private GameObject CharaObjects = null;
     [SerializeField,Header("リセットwindow")] private GameObject resetWindow = null;
+    [SerializeField,Header("確認window")] private GameObject checkWindow = null;
 
     private void Start()
     {
         resetWindow.SetActive(false);
+        checkWindow.SetActive(false);
     }
 
     //どのキャラクターを選んだか
+    //選択されたキャラとその育成状況によって変わるスプライト流用できるプログラムを作る
     //window非表示
     public void CharaOnClick(string name)
     {
@@ -40,31 +43,31 @@ public class CharaSelect : MonoBehaviour
         GameManager.SelectChara = c;
         CharaObjects.SetActive(false);
     }
-
-    public void SelectOnClick(int num)
+    //ホーム画面のボタン設定
+    public void SelectOnClick(string str)
     {
-        switch (num)
+        switch (str)
         {
-            case 1: //育成
+            case "Traning": //育成
                 SceneManager.LoadScene("SelectScene_Traning");
                 break;
-            case 2: //ボス
+            case "Boss": //ボス
                 SceneManager.LoadScene("SelectScene_Boss");
                 break;
-            case 3: //キャラクター選択画面
+            case "Select": //キャラクター選択画面
                 SceneManager.LoadScene("TitleScene");
                 break;
-            case 4: //育成完了ウィンドウ表示
+            case "CheckInWindow": //確認Window
+                checkWindow.SetActive(true);
+                break;
+            case "BackWindow": //ホーム画面に戻る
+                checkWindow.SetActive(false);
+                break;
+            case "ResetMoveOn": //育成完了画面に進む
                 resetWindow.SetActive(true);
                 break;
-            case 5: //ホーム画面に戻る
-                resetWindow.SetActive(false);
-                break;
-            case 6: //育成完了
-                SceneManager.LoadScene("TitleScene");
-                break;
             default:
-                SceneManager.LoadScene("HomeScene");
+                SceneManager.LoadScene("TitleScene");
                 break;
         }
     }
