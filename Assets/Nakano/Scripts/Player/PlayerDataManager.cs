@@ -202,7 +202,6 @@ public class PlayerDataManager : MonoBehaviour
 
         // ランクに応じてランクポイント最大値更新
         Rank rank = player.GetRank(_type);
-
         Status nextPt = rankPtData.rankPt_NextUp[rank];
 
         player.SetRankPtLastUp(_type, lastPt.GetStatus(_type));

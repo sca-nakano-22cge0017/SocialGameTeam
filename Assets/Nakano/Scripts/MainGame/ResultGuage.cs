@@ -32,10 +32,91 @@ public class ResultGuage : MonoBehaviour
 
     [SerializeField] private float increaseSpeed;
 
+    private bool increaseStart = false;
+
     private bool increaseCompleted = false;
     public bool IncreaseCompleted
     {
         get => increaseCompleted;
+    }
+
+    private int addCount = 0;
+    private int count = 0;
+
+    private void Update()
+    {
+        if (increaseStart)
+        {
+            if (addCount == 0)
+            {
+                int current = PlayerDataManager.player.GetRankPt(type);
+                int min = PlayerDataManager.player.GetRankPtLastUp(type);
+                int max = PlayerDataManager.player.GetRankPtNextUp(type);
+
+                // 増加量計算
+                float amount = max - min != 0 ? (float)(current - min) / (max - min) : 1;
+
+                // 増加
+                if (guage.fillAmount <= amount)
+                {
+                    guage.fillAmount += increaseSpeed * Time.deltaTime;
+                }
+
+                else
+                {
+                    guage.fillAmount = amount;
+                    increaseCompleted = true;
+                    increaseStart = false;
+                }
+            }
+
+            else
+            {
+                if (count <= addCount)
+                {
+                    int lastRankNum = (int)lastRank;
+                    int currentRankNum = (int)currentRank;
+
+                    int current = PlayerDataManager.player.GetRankPt(type);
+                    int min = 0;
+
+                    if (count + lastRankNum - 1 >= 0)
+                    {
+                        Rank lRank = (Rank)Enum.ToObject(typeof(Rank), count + lastRankNum - 1);
+                        min = PlayerDataManager.player.GetRankPtUp(type, lRank);
+                    }
+
+                    Rank cRank = (Rank)Enum.ToObject(typeof(Rank), count + currentRankNum - 1);
+                    int max = PlayerDataManager.player.GetRankPtUp(type, cRank);
+
+                    // 増加量計算
+                    float amount = (float)(current - min) / (max - min);
+
+                    // 増加
+                    if (guage.fillAmount <= amount)
+                    {
+                        guage.fillAmount += increaseSpeed * Time.deltaTime;
+                    }
+
+                    if (guage.fillAmount >= 1)
+                    {
+                        // ランクアップ
+                        Rank r = (Rank)Enum.ToObject(typeof(Rank), count + currentRankNum);
+                        rankText.text = r.ToString();
+
+                        guage.fillAmount = 0;
+
+                        if (count == addCount)
+                        {
+                            increaseCompleted = true;
+                            increaseStart = false;
+                        }
+
+                        count++;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -68,7 +149,13 @@ public class ResultGuage : MonoBehaviour
     public void IncreaseAmount()
     {
         increaseCompleted = false;
-        StartCoroutine(Increase());
+        increaseStart = true;
+        //StartCoroutine(Increase());
+
+        int l = (int)lastRank;
+        int c = (int)currentRank;
+        addCount = c - l;
+        count = 0;
     }
 
     IEnumerator Increase()
@@ -84,13 +171,13 @@ public class ResultGuage : MonoBehaviour
             int max = PlayerDataManager.player.GetRankPtNextUp(type);
 
             // 増加量計算
-            float amount = (float)(current - min) / (max - min);
+            float amount = max - min != 0 ? (float)(current - min) / (max - min) : 1;
 
             // 増加
-            while (guage.fillAmount < amount)
+            while (guage.fillAmount <= amount)
             {
                 guage.fillAmount += increaseSpeed * Time.deltaTime;
-                yield return new WaitForEndOfFrame();
+                yield return null;
 
                 if (guage.fillAmount >= amount)
                 {
@@ -102,39 +189,43 @@ public class ResultGuage : MonoBehaviour
 
         else
         {
-            for (int i = 0; i <= count; i++)
+            for (int i = 0; i < count; i++)
             {
-                Rank lRank = (Rank)Enum.ToObject(typeof(Rank), i);
-                Rank cRank = (Rank)Enum.ToObject(typeof(Rank), i + 1);
-
                 int current = PlayerDataManager.player.GetRankPt(type);
-                int min = PlayerDataManager.player.GetRankPtUp(type, lRank);
+                int min = 0;
+                if (i > 0)
+                {
+                    Rank lRank = (Rank)Enum.ToObject(typeof(Rank), i - 1);
+                    min = PlayerDataManager.player.GetRankPtUp(type, lRank);
+                }
+
+                Rank cRank = (Rank)Enum.ToObject(typeof(Rank), i);
+
                 int max = PlayerDataManager.player.GetRankPtUp(type, cRank);
 
-                if (type == StatusType.HP)
-                    Debug.Log(min + " / " + max);
-
                 // 増加量計算
-                float amount = (float)(current - min) / (max - min);
+                float amount = max - min != 0 ? (float)(current - min) / (max - min) : 1;
 
                 // 増加
-                while (guage.fillAmount < amount)
+                while (guage.fillAmount <= 1)
                 {
                     guage.fillAmount += increaseSpeed * Time.deltaTime;
-                    yield return new WaitForEndOfFrame();
+                    yield return null;
+
+                    if (guage.fillAmount >= 1)
+                    {
+                        // ランクアップ
+                        Rank r = (Rank)Enum.ToObject(typeof(Rank), i + 1);
+                        rankText.text = r.ToString();
+
+                        guage.fillAmount = 0;
+                        break;
+                    }
+
+                    if (guage.fillAmount >= amount) break;
                 }
 
-                guage.fillAmount = amount;
-
-                // ランクアップ
-                if (amount >= 1)
-                {
-                    Debug.Log("test");
-                    Rank r = (Rank)Enum.ToObject(typeof(Rank), i + 1);
-                    rankText.text = r.ToString();
-                }
-
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
         }
 
