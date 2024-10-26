@@ -605,7 +605,7 @@ namespace Master
         public int attackType_DirectId;
 
         /// <summary>
-        /// バフID
+        /// バフID 0:バフなし　1:対プレイヤーデバフ　2:味方バフ　3:自己バフ
         /// </summary>
         public int attackType_BuffId;
 
@@ -641,8 +641,9 @@ namespace Master
     /// <summary>
     /// キャラクター初期ステータス
     /// キャラId(charaId), 
-    /// 初期ステータス(hp_init/mp_init/atk_init/def_init/spd_init/dex_init), 
-    /// ステータス最大値(atk_max/def_amx/tec_max)
+    /// 初期ステータス, 
+    /// ステータス最大値
+    /// ランクアップボーナス
     /// </summary>
     public class CharaInitialStutas
     {
@@ -661,9 +662,12 @@ namespace Master
             for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
             {
                 Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
-                statusInit.Add(rank, null);
-                statusMax.Add(rank, null);
-                rankUpBonus.Add(rank, null);
+
+                Status s = new(0,0,0,0,0,0);
+
+                statusInit.Add(rank, s);
+                statusMax.Add(rank, s);
+                rankUpBonus.Add(rank, s);
             }
         }
     }
@@ -681,6 +685,7 @@ namespace Master
             for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
             {
                 Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
+
                 rankPt_NextUp.Add(rank, null);
                 atkRankPt_NextUp.Add(rank, 0);
                 defRankPt_NextUp.Add(rank, 0);

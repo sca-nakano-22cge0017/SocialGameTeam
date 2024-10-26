@@ -4,20 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-[System.Serializable]
-public class Result
-{
-    public StatusType type;
-    public Text getPointText;
-    public Image guage;
-    public Text rankText;
-}
-
 public class ResultManager : MonoBehaviour
 {
     [SerializeField] private WindowController wc;
     [SerializeField] private DropController dropController;
-    [SerializeField] private Result[] results;
+    [SerializeField] private ResultGuage[] resultGuages;
 
     // 特殊技能解放
     [SerializeField] private GameObject window_st;
@@ -30,6 +21,14 @@ public class ResultManager : MonoBehaviour
     {
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            wc.Close();
+        }
+    }
+
     private void OnEnable()
     {
         ResultInitialize();
@@ -40,13 +39,11 @@ public class ResultManager : MonoBehaviour
             DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
         }
 
-        // Debug
         StartCoroutine(DispDirection());
 
         if (dropController.DropedItems.Count == 0) return;
         
         AddRankPoint();
-        StartCoroutine(AddRankPtDirection());
     }
 
     /// <summary>
@@ -54,24 +51,31 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     void AddRankPoint()
     {
+        for (int i = 0; i < resultGuages.Length; i++)
+        {
+            resultGuages[i].LastRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
+        }
+
         for (int i = 0; i < dropController.DropedItems.Count; i++)
         {
-            for (int j = 0; j < results.Length; j++)
+            for (int j = 0; j < resultGuages.Length; j++)
             {
                 int amount = dropController.DropedItems[i].dropAmount;
+                amount = 500;
                 StatusType type = dropController.DropedItems[i].itemType;
 
-                if (type == results[j].type && amount > 0)
+                if (type == resultGuages[j].Type && amount > 0)
                 {
-                    results[j].getPointText.gameObject.SetActive(true);
-                    results[j].getPointText.text = "+" + amount + "pt";
+                    resultGuages[j].SetPointText(amount);
 
                     PlayerDataManager.RankPtUp(type, amount);
+
+                    resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
                 }
             }
         }
 
-        ResultUpdate();
+        StartCoroutine(AddRankPtDirection());
     }
 
     /// <summary>
@@ -79,26 +83,9 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     void ResultInitialize()
     {
-        for (int i = 0; i < results.Length; i++)
+        for (int i = 0; i < resultGuages.Length; i++)
         {
-            results[i].getPointText.gameObject.SetActive(false);
-            results[i].getPointText.text = "+0pt";
-        }
-    }
-
-    /// <summary>
-    /// リザルト画面の更新
-    /// </summary>
-    void ResultUpdate()
-    {
-        for (int i = 0; i < results.Length; i++)
-        {
-            int current = PlayerDataManager.player.GetRankPt(results[i].type);
-            int min = PlayerDataManager.player.GetRankPtLastUp(results[i].type);
-            int max = PlayerDataManager.player.GetRankPtNextUp(results[i].type);
-
-            results[i].guage.fillAmount = (float)(current - min) / (max - min);
-            results[i].rankText.text = (PlayerDataManager.player.GetRank(results[i].type)).ToString();
+            resultGuages[i].Initialize();
         }
     }
 
@@ -120,7 +107,6 @@ public class ResultManager : MonoBehaviour
 
         if (GameManager.SelectArea == 1)
         {
-            //wc.Close();
             SceneManager.LoadScene("SelectScene_Traning");
         }
         else if (GameManager.SelectArea == 2)
@@ -154,6 +140,11 @@ public class ResultManager : MonoBehaviour
     /// <returns></returns>
     IEnumerator AddRankPtDirection()
     {
+        for (int i = 0; i < resultGuages.Length; i++)
+        {
+            resultGuages[i].IncreaseAmount();
+        }
+
         yield return new WaitForSeconds(1f);
         ReleaseSpecialTecnique();
     }
