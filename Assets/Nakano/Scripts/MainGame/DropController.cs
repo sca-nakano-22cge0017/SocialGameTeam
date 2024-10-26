@@ -29,7 +29,6 @@ public class DropController : MonoBehaviour
             DropItem drop = new();
             drop.itemType = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
             drop.dropAmount = 0;
-            drop.dropAmount = 300; // Debug
             dropedItems.Add(drop);
         }
     }
