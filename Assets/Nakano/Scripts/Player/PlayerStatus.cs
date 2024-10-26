@@ -146,15 +146,7 @@ public class PlayerStatus
     /// </summary>
     public int TotalPower
     {
-        get
-        {
-            return totalPower;
-        }
-        set
-        {
-            if (totalPower > value) totalPower = value;
-            else totalPower = totalPower_Max;
-        }
+        get => totalPower;
     }
 
     /// <summary>
