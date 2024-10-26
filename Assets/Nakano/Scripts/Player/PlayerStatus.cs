@@ -215,9 +215,9 @@ public class PlayerStatus
 
                     rankPoint = new Status(0, 0, 0, 0, 0, 0);
                     rankPoint_LastUp = new Status(0, 0, 0, 0, 0, 0);
-                    rankPoint_NextUp = rankPtData.rankPt_NextUp[initRank];
+                    rankPoint_NextUp = new(rankPtData.rankPt_NextUp[initRank]);
 
-                    rankPoint_Max = rankPtData.rankPt_NextUp[highestRank];
+                    rankPoint_Max = new(rankPtData.rankPt_NextUp[highestRank]);
 
                     combiRankPt_NextUp[CombiType.ATK] = rankPtData.atkRankPt_NextUp[initRank];
                     combiRankPt_NextUp[CombiType.DEF] = rankPtData.defRankPt_NextUp[initRank];
@@ -463,7 +463,8 @@ public class PlayerStatus
     /// <returns>指定したステータスのランクポイント現在値</returns>
     public int GetRankPt(StatusType _type)
     {
-        return rankPoint.GetStatus(_type);
+        int n = rankPoint.GetStatus(_type);
+        return n;
     }
 
     /// <summary>
@@ -482,7 +483,8 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetRankPtLastUp(StatusType _type)
     {
-        return rankPoint_LastUp.GetStatus(_type);
+        int n = rankPoint_LastUp.GetStatus(_type);
+        return n;
     }
 
     /// <summary>
@@ -526,7 +528,8 @@ public class PlayerStatus
     /// <returns>指定したステータスのランクポイント最大値</returns>
     public int GetRankPtMax(StatusType _type)
     {
-        return rankPoint_Max.GetStatus(_type);
+        int n = rankPoint_Max.GetStatus(_type);
+        return n;
     }
 
     // 複合ステータスのランク
@@ -559,7 +562,8 @@ public class PlayerStatus
     /// <returns>指定した複合ステータスのランクポイント現在値</returns>
     public int GetCombiRankPt(CombiType _type)
     {
-        return combiRankPt[_type];
+        int n = combiRankPt[_type];
+        return n;
     }
 
     /// <summary>
@@ -579,7 +583,8 @@ public class PlayerStatus
     /// <returns>指定した複合ステータスの合計ランクポイント最大値</returns>
     public int GetCombiRankPtMax(CombiType _type)
     {
-        return combiRankPtMax[_type];
+        int n = combiRankPtMax[_type];
+        return n;
     }
 
     /// <summary>
@@ -588,7 +593,8 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetCombiRankPtNextUp(CombiType _type)
     {
-        return combiRankPt_NextUp[_type];
+        int n = combiRankPt_NextUp[_type];
+        return n;
     }
 
     /// <summary>
@@ -618,7 +624,8 @@ public class PlayerStatus
     /// <returns>ステータスのプラスステータス</returns>
     public int GetPlusStatus(StatusType _type)
     {
-        return plusStatus.GetStatus(_type);
+        int n = plusStatus.GetStatus(_type);
+        return n;
     }
 
     /// <summary>
