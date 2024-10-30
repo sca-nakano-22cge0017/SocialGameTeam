@@ -11,27 +11,10 @@ public class CharaSelectManager : MonoBehaviour
 
     [SerializeField] GameObject[] charaImage = new GameObject[2];
 
-    [System.Serializable]
-    public class Player
-    {
-        public int hp;
-        public int attack;
-        public int defense;
-    }
-
+    
     void Start()
     {
-        Player player = new Player();
-        player.hp = 100;
-        player.attack = 20;
-        player.defense = 7;
-        savePlayerData(player);
 
-        Player player2 = loadPlayerData();
-
-        Debug.Log(player2.hp);
-        Debug.Log(player2.attack);
-        Debug.Log(player2.defense);
     }
 
     void Update()
@@ -62,7 +45,7 @@ public class CharaSelectManager : MonoBehaviour
         WizardTrue();
     }
 
-    public void savePlayerData(Player player)
+    public void savePlayerData(PlayerSaveData player)
     {
         StreamWriter writer;
 
@@ -74,7 +57,7 @@ public class CharaSelectManager : MonoBehaviour
         writer.Close();
     }
 
-    public Player loadPlayerData()
+    public PlayerSaveData loadPlayerData()
     {
         string datastr = "";
         StreamReader reader;
@@ -82,6 +65,6 @@ public class CharaSelectManager : MonoBehaviour
         datastr = reader.ReadToEnd();
         reader.Close();
 
-        return JsonUtility.FromJson<Player>(datastr);
+        return JsonUtility.FromJson<PlayerSaveData>(datastr);
     }
 }
