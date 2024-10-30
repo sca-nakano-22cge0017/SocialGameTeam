@@ -5,7 +5,7 @@ using Master;
 
 public enum StatusType { HP, MP, ATK, DEF, SPD, DEX };
 public enum CombiType { ATK, DEF, TEC };
-public enum Rank { C, B, A, S, SS };
+public enum Rank { C = 0, B = 1, A = 2, S = 3, SS = 4 };
 
 public class Status
 {
@@ -118,6 +118,7 @@ public class PlayerStatus
     private Dictionary<CombiType, int> combiRankPt_NextUp = new(); // 次にランクアップするときの累積ランクPt
     private Dictionary<CombiType, int> combiRankPtMax = new();     // 複合ステータスのランクPt最大値 プラスステータスを除き、上昇しない
 
+    private const int resetBonusCoefficient = 1000;       // リセット時のステータス上昇量の係数　上昇量 = resetBonusCoefficient * plusStatus
     private Status plusStatus = new(0, 0, 0, 0, 0, 0);     // 周回によるプラスステータス 1～99
 
     /// <summary>
@@ -628,5 +629,27 @@ public class PlayerStatus
     public void SetPlusStatus(StatusType _type, int _num)
     {
         plusStatus.SetStatus(_type, _num);
+    }
+
+    /// <summary>
+    /// 育成リセットによる追加効果量（ステータス上昇量）を取得　
+    /// ステータス初期値 + 育成による上昇量 + 育成リセットによる上昇量
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="isNextEffects">falseのとき上昇量の現在値を返す　trueのとき次育成リセットした場合の上昇量を返す</param>
+    /// <returns>育成リセットによる追加効果量（ステータス上昇量）</returns>
+    public int GetAdditionalEffects(StatusType _type, bool isNextEffects)
+    {
+        int a = 0;
+
+        int plus = plusStatus.GetStatus(_type);
+
+        if (isNextEffects)
+        {
+            a = (plus + 1) * resetBonusCoefficient;
+        }
+        else a = plus * resetBonusCoefficient;
+
+        return a;
     }
 }

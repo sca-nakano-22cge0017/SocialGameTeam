@@ -54,7 +54,7 @@ public class ResultGuage : MonoBehaviour
                 int max = PlayerDataManager.player.GetRankPtNextUp(type);
 
                 // 増加量計算
-                float amount = max - min != 0 ? (float)(current - min) / (max - min) : 1;
+                float amount = (float)(current - min) / (max - min);
 
                 // 増加
                 if (guage.fillAmount <= amount)
@@ -72,28 +72,10 @@ public class ResultGuage : MonoBehaviour
 
             else
             {
+                // ランクが変わった回数分、ゲージを最大まで上昇させる演出を挟む
                 if (count <= addCount)
                 {
-                    int lastRankNum = (int)lastRank;
-                    int currentRankNum = (int)currentRank;
-
-                    int current = PlayerDataManager.player.GetRankPt(type);
-                    int min = 0;
-
-                    if (count + lastRankNum - 1 >= 0)
-                    {
-                        Rank lRank = (Rank)Enum.ToObject(typeof(Rank), count + lastRankNum - 1);
-                        min = PlayerDataManager.player.GetRankPtUp(type, lRank);
-                    }
-
-                    Rank cRank = (Rank)Enum.ToObject(typeof(Rank), count + currentRankNum - 1);
-                    int max = PlayerDataManager.player.GetRankPtUp(type, cRank);
-
-                    // 増加量計算
-                    float amount = (float)(current - min) / (max - min);
-
-                    // 増加
-                    if (guage.fillAmount <= amount)
+                    if (guage.fillAmount <= 1)
                     {
                         guage.fillAmount += increaseSpeed * Time.deltaTime;
                     }
@@ -101,18 +83,14 @@ public class ResultGuage : MonoBehaviour
                     if (guage.fillAmount >= 1)
                     {
                         // ランクアップ
-                        Rank r = (Rank)Enum.ToObject(typeof(Rank), count + currentRankNum);
+                        int n = count + (int)lastRank + 1;
+                        Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
                         rankText.text = r.ToString();
 
                         guage.fillAmount = 0;
 
-                        if (count == addCount)
-                        {
-                            increaseCompleted = true;
-                            increaseStart = false;
-                        }
-
                         count++;
+                        if(count >= addCount) addCount = 0;
                     }
                 }
             }
@@ -150,85 +128,10 @@ public class ResultGuage : MonoBehaviour
     {
         increaseCompleted = false;
         increaseStart = true;
-        //StartCoroutine(Increase());
 
         int l = (int)lastRank;
         int c = (int)currentRank;
         addCount = c - l;
         count = 0;
-    }
-
-    IEnumerator Increase()
-    {
-        int l = (int)lastRank;
-        int c = (int)currentRank;
-        int count = c - l;
-
-        if (count == 0)
-        {
-            int current = PlayerDataManager.player.GetRankPt(type);
-            int min = PlayerDataManager.player.GetRankPtLastUp(type);
-            int max = PlayerDataManager.player.GetRankPtNextUp(type);
-
-            // 増加量計算
-            float amount = max - min != 0 ? (float)(current - min) / (max - min) : 1;
-
-            // 増加
-            while (guage.fillAmount <= amount)
-            {
-                guage.fillAmount += increaseSpeed * Time.deltaTime;
-                yield return null;
-
-                if (guage.fillAmount >= amount)
-                {
-                    guage.fillAmount = amount;
-                    break;
-                }
-            }
-        }
-
-        else
-        {
-            for (int i = 0; i < count; i++)
-            {
-                int current = PlayerDataManager.player.GetRankPt(type);
-                int min = 0;
-                if (i > 0)
-                {
-                    Rank lRank = (Rank)Enum.ToObject(typeof(Rank), i - 1);
-                    min = PlayerDataManager.player.GetRankPtUp(type, lRank);
-                }
-
-                Rank cRank = (Rank)Enum.ToObject(typeof(Rank), i);
-
-                int max = PlayerDataManager.player.GetRankPtUp(type, cRank);
-
-                // 増加量計算
-                float amount = max - min != 0 ? (float)(current - min) / (max - min) : 1;
-
-                // 増加
-                while (guage.fillAmount <= 1)
-                {
-                    guage.fillAmount += increaseSpeed * Time.deltaTime;
-                    yield return null;
-
-                    if (guage.fillAmount >= 1)
-                    {
-                        // ランクアップ
-                        Rank r = (Rank)Enum.ToObject(typeof(Rank), i + 1);
-                        rankText.text = r.ToString();
-
-                        guage.fillAmount = 0;
-                        break;
-                    }
-
-                    if (guage.fillAmount >= amount) break;
-                }
-
-                yield return null;
-            }
-        }
-
-        increaseCompleted = true;
     }
 }

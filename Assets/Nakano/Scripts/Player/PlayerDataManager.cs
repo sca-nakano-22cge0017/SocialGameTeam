@@ -162,25 +162,27 @@ public class PlayerDataManager : MonoBehaviour
     {
         for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
         {
-            StatusType _type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
-            int rankPt = player.GetRankPt(_type);               // 現在のランクPt
-            int rankPt_NextUp = player.GetRankPtNextUp(_type); // 次にランクアップするときの累積Pt
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            int rankPt = player.GetRankPt(type);               // 現在のランクPt
+            int rankPt_NextUp = player.GetRankPtNextUp(type); // 次にランクアップするときの累積Pt
             
-            if (rankPt >= rankPt_NextUp)
+            if (rankPt >= rankPt_NextUp && player.GetRank(type) != Rank.SS)
             {
-                RankUp(_type);
+                RankUp(type);
+                RankUpCheck();
             }
         }
 
-        for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length; i++)
+        for (int j = 0; j < System.Enum.GetValues(typeof(CombiType)).Length; j++)
         {
-            CombiType c_type = (CombiType)System.Enum.ToObject(typeof(CombiType), i);
+            CombiType c_type = (CombiType)System.Enum.ToObject(typeof(CombiType), j);
             int combiRankPt = player.GetCombiRankPt(c_type);               // 現在の複合ステランクPt
             int combiRankPt_NextUp = player.GetCombiRankPtNextUp(c_type); // 次にランクアップするときの累積Pt
 
-            if (combiRankPt >= combiRankPt_NextUp)
+            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) != Rank.SS)
             {
                 CombiRankUp(c_type);
+                RankUpCheck();
             }
         }
     }
@@ -273,6 +275,50 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 追加効果（プラスステータスの上昇）があるかどうかを調べる
+    /// </summary>
+    /// <returns>trueのときは追加効果アリ</returns>
+    public static bool IsAddPlusStatus()
+    {
+        bool a = false;
+
+        for (int s = 0; s < System.Enum.GetValues(typeof(StatusType)).Length; s++)
+        {
+            StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
+
+            if (player.GetRank(status) == Rank.SS)
+            {
+                a = true;
+                break;
+            }
+        }
+
+        return a;
+    }
+
+    /// <summary>
+    /// 育成リセットの追加効果をstringで返す
+    /// </summary>
+    /// <returns>育成リセットの追加効果</returns>
+    public static string GetResetEffects()
+    {
+        string t = "";
+
+        for (int s = 0; s < System.Enum.GetValues(typeof(StatusType)).Length; s++)
+        {
+            StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
+
+            if (player.GetRank(status) == Rank.SS)
+            {
+                int st = player.GetAdditionalEffects(status, true);
+                t += StutasTypeToString(status) + "ステータス +" + st + "\n";
+            }
+        }
+
+        return t;
+    }
+
+    /// <summary>
     /// 育成リセット
     /// </summary>
     public static void TraningReset()
@@ -333,6 +379,33 @@ public class PlayerDataManager : MonoBehaviour
 
             default:
                 return CombiType.ATK;
+        }
+    }
+
+    static string StutasTypeToString(StatusType _type)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                return "体力";
+
+            case StatusType.MP:
+                return "魔力";
+
+            case StatusType.ATK:
+                return "攻撃";
+
+            case StatusType.DEF:
+                return "守備";
+
+            case StatusType.SPD:
+                return "速度";
+
+            case StatusType.DEX:
+                return "器用";
+
+            default:
+                return "体力";
         }
     }
 }
