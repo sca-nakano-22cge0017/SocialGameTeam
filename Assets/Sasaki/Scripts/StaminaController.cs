@@ -8,6 +8,7 @@ public class StaminaController : MonoBehaviour
 {
     [SerializeField,Header("スライダーバー")] private Slider slider;
     [SerializeField,Header("スタミナ表示のテキスト")] private Text staminaText;
+    [SerializeField,Header("スタミナの時間表示ウィンドウ")] private GameObject staminaWindow;
     private StaminaManager staminaManager;
 
     private int stamina;
@@ -38,5 +39,20 @@ public class StaminaController : MonoBehaviour
         slider.value = (float)stamina/(float)staminaMax;//バー表示反映
         //テキスト表示
         staminaText.text = stamina.ToString() + "/" + staminaMax.ToString();
+
+        StaminaTimeImage(); //時間表示
+    }
+
+    //スタミナの時間を表示するためのボタン
+    public void OnStaminaButton()
+    {
+        StaminaTimeImage();
+        staminaWindow.SetActive(true);
+    }
+
+    //時間表示のプログラム
+    private void StaminaTimeImage()
+    {
+
     }
 }
