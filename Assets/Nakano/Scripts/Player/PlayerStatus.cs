@@ -248,16 +248,19 @@ public class PlayerStatus
     /// <param name="_data"></param>
     public void Initialize(PlayerSaveData _data)
     {
+        id = _data.id;
         Initialize(_data.id);
 
-        id = _data.id;
-        status = _data.status;
-        rankPoint = _data.rankPoint;
-        plusStatus = _data.plusStatus;
+        status = new Status(_data.hp, _data.mp, _data.atk, _data.def, _data.spd, _data.dex);
+        rankPoint = new Status(_data.hp_rankPt, _data.mp_rankPt, _data.atk_rankPt, _data.def_rankPt, _data.spd_rankPt, _data.dex_rankPt);
+        plusStatus = new Status(_data.hp_plusStatus, _data.mp_plusStatus, _data.atk_plusStatus, _data.def_plusStatus, _data.spd_plusStatus, _data.dex_plusStatus);
 
         SetData();
     }
 
+    /// <summary>
+    /// セーブデータから必要なデータや数値を算出
+    /// </summary>
     void SetData()
     {
         UpdateTotalPower();
@@ -275,11 +278,12 @@ public class PlayerStatus
                 rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
 
                 rankPtNextUp = StatusData.rankPoint.rankPt_NextUp[rank];
-
-                if (rankPoint.GetStatus(type) >= rankPtNextUp.GetStatus(type))
+                if (rankPoint.GetStatus(type) >= rankPtNextUp.GetStatus(type) && rank < Rank.SS)
                 {
                     rankNum++;
+                    continue;
                 }
+                else break;
             }
 
             // ランク変更
@@ -288,12 +292,14 @@ public class PlayerStatus
             // ランクに応じてランクポイント最小値/最大値更新
             int lastRankNum = rankNum - 1 > 0 ? rankNum - 1 : 0;
             Rank lastRank = (Rank)System.Enum.ToObject(typeof(Rank), lastRankNum);
-            rankPoint_LastUp = StatusData.rankPoint.rankPt_NextUp[lastRank];
-            rankPoint_NextUp = rankPtNextUp;
+            rankPoint_LastUp = new(StatusData.rankPoint.rankPt_NextUp[lastRank]);
+            rankPoint_NextUp = new(rankPtNextUp);
 
             // ステータス最小/最大値更新
             status_Min.SetStatus(type, StatusData.statusInit[rank].GetStatus(type));
             status_Max.SetStatus(type, StatusData.statusMax[rank].GetStatus(type));
+            
+            // Todo 育成リセットボーナスの加算
         }
 
         // 複合ランク系
@@ -492,7 +498,8 @@ public class PlayerStatus
 
     public int GetRankPtUp(StatusType _type, Rank _rank)
     {
-        return StatusData.rankPoint.rankPt_NextUp[_rank].GetStatus(_type);
+        int n = StatusData.rankPoint.rankPt_NextUp[_rank].GetStatus(_type);
+        return n;
     }
 
     /// <summary>
@@ -501,7 +508,8 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetRankPtNextUp(StatusType _type)
     {
-        return rankPoint_NextUp.GetStatus(_type);
+        int a = rankPoint_NextUp.GetStatus(_type);
+        return a;
     }
 
     /// <summary>

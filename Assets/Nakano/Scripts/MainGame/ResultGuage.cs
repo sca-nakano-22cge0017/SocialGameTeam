@@ -55,7 +55,7 @@ public class ResultGuage : MonoBehaviour
 
                 // ‘‰Á—ÊŒvZ
                 float amount = (float)(current - min) / (max - min);
-
+                
                 // ‘‰Á
                 if (guage.fillAmount <= amount)
                 {
