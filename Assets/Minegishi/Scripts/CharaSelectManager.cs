@@ -45,26 +45,32 @@ public class CharaSelectManager : MonoBehaviour
         WizardTrue();
     }
 
-    public void savePlayerData(PlayerSaveData player)
+    public static void savePlayerData(SaveData player)
     {
         StreamWriter writer;
 
         string jsonstr = JsonUtility.ToJson(player);
 
-        writer = new StreamWriter(Application.dataPath + "/savedata.json", false);
+        // dataPathだとスマホでは保存不可なのでpersistentDataPathに変更
+        writer = new StreamWriter(Application.persistentDataPath + "/savedata.json", false);
         writer.Write(jsonstr);
         writer.Flush();
         writer.Close();
     }
 
-    public PlayerSaveData loadPlayerData()
+    public static SaveData loadPlayerData()
     {
         string datastr = "";
         StreamReader reader;
-        reader = new StreamReader(Application.dataPath + "/savedata.json");
+
+        // ファイルが無かったら作る
+        if (!File.Exists(Application.persistentDataPath + "/savedata.json"))
+            PlayerDataManager.Save();
+
+        reader = new StreamReader(Application.persistentDataPath + "/savedata.json");
         datastr = reader.ReadToEnd();
         reader.Close();
 
-        return JsonUtility.FromJson<PlayerSaveData>(datastr);
+        return JsonUtility.FromJson<SaveData>(datastr);
     }
 }

@@ -8,11 +8,19 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerStatus player = new(1); // 現在の使用キャラクター
 
-    private static PlayerSaveData chara1 = new();
-    private static PlayerSaveData chara2 = new();
+    private static PlayerStatus chara1 = new(1);
+    private static PlayerStatus chara2 = new(2);
+    
+    private static bool playerDataLoadComlete = false;
+    public static bool PlayerDataLoadComplete
+    {
+        get { return playerDataLoadComlete; }
+        private set { }
+    }
 
     void Start()
     {
+
     }
 
     void Update()
@@ -20,80 +28,114 @@ public class PlayerDataManager : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// プレイヤーのデータ保存
+    /// </summary>
     public static void Save()
     {
         if (GameManager.SelectChara == 1)
-        {
-            chara1.id = 1;
-            chara1.status = player.AllStatus;
-            chara1.rankPoint = player.GetRankPt();
-            chara1.plusStatus = player.GetPlusStatus();
-
-            // chara1をJSON化して保存
-        }
-
+            chara1 = player;
         if (GameManager.SelectChara == 2)
+            chara2 = player;
+
+        SaveData saveData = new();
+
+        for (int i = 1; i <= 2; i++)
         {
-            chara2.id = 2;
-            chara2.status = player.AllStatus;
-            chara2.rankPoint = player.GetRankPt();
-            chara2.plusStatus = player.GetPlusStatus();
+            PlayerStatus p = i == 1 ? chara1 : chara2;
 
-            // chara2をJSON化して保存
+            PlayerSaveData c = new();
+            c.id = i;
+
+            c.hp = p.GetStatus(StatusType.HP);
+            c.mp = p.GetStatus(StatusType.MP);
+            c.atk = p.GetStatus(StatusType.ATK);
+            c.def = p.GetStatus(StatusType.DEF);
+            c.spd = p.GetStatus(StatusType.SPD);
+            c.dex = p.GetStatus(StatusType.DEX);
+
+            c.hp_rankPt = p.GetRankPt(StatusType.HP);
+            c.mp_rankPt = p.GetRankPt(StatusType.MP);
+            c.atk_rankPt = p.GetRankPt(StatusType.ATK);
+            c.def_rankPt = p.GetRankPt(StatusType.DEF);
+            c.spd_rankPt = p.GetRankPt(StatusType.SPD);
+            c.dex_rankPt = p.GetRankPt(StatusType.DEX);
+
+            c.hp_plusStatus = p.GetPlusStatus(StatusType.HP);
+            c.mp_plusStatus = p.GetPlusStatus(StatusType.MP);
+            c.atk_plusStatus = p.GetPlusStatus(StatusType.ATK);
+            c.def_plusStatus = p.GetPlusStatus(StatusType.DEF);
+            c.spd_plusStatus = p.GetPlusStatus(StatusType.SPD);
+            c.dex_plusStatus = p.GetPlusStatus(StatusType.DEX);
+
+            if (i == 1) saveData.chara1 = c;
+            if (i == 2) saveData.chara2 = c;
         }
-    }
 
-    public static void Load()
-    {
-        chara1 = new PlayerSaveData(); //JSONから取得
-        chara2 = new PlayerSaveData(); //JSONから取得
-
-        PlayerSaveData chara = GameManager.SelectChara == 1 ? chara1 : chara2;
-
-        // 確認用
-        chara.id = 1;
-        chara.status = new(1000, 1000, 1000, 1000, 1000, 1000);
-        chara.rankPoint = new(1000, 1000, 1000, 1000, 1000, 1000);
-        chara.plusStatus = new(1, 1, 1, 1, 1, 1);
-
-        player.Initialize(chara);
-
-        Status status = PlayerDataManager.player.AllStatus;
-        Debug.Log(string.Format("HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
-            status.hp, status.mp, status.atk, status.def, status.spd, status.dex));
+        CharaSelectManager.savePlayerData(saveData);
+        Debug.Log("データセーブ完了");
     }
 
     /// <summary>
-    /// プレイヤー初期化
+    /// プレイヤーのデータ取得
+    /// </summary>
+    public static void Load()
+    {
+        SaveData data = CharaSelectManager.loadPlayerData();
+
+        player.Initialize(data.chara1);
+        chara1.Initialize(data.chara1);
+        chara2.Initialize(data.chara2);
+
+        player = chara1;
+
+        playerDataLoadComlete = true;
+        Debug.Log("セーブデータロード完了");
+    }
+
+    /// <summary>
+    /// キャラクターデータ初期化
     /// </summary>
     /// <param name="_id">キャラクターID</param>
-    public static void PlayerInitialize(int _id)
+    public static void CharacterInitialize(int _id)
     {
         if (_id != 1 && _id != 2)
         {
             Debug.Log("キャラクターIDが誤っています");
             return;
         }
-        
-        // Todo セーブデータがあれば読み込み
-        // Todo プラスステータス分のステータス加算
+
         if (_id == 1)
         {
-            player = new PlayerStatus(1);
+            player = new(1);
         }
         if (_id == 2)
         {
-            player = new PlayerStatus(2);
+            player = new(2);
         }
     }
 
-    static void PlayerNullCheck()
+    /// <summary>
+    /// 使用キャラクター変更
+    /// </summary>
+    /// <param name="_id">キャラクターID</param>
+    public static void CharacterChange(int _id)
     {
-        if (player == null)
+        if (_id != 1 && _id != 2)
         {
-            int chara = GameManager.SelectChara != -1 ? GameManager.SelectChara : 1;
+            Debug.Log("キャラクターIDが誤っています");
+            return;
+        }
 
-            PlayerInitialize(chara);
+        if (!playerDataLoadComlete) Load();
+
+        if (_id == 1)
+        {
+            player = chara1;
+        }
+        if (_id == 2)
+        {
+            player = chara2;
         }
     }
 
@@ -104,8 +146,6 @@ public class PlayerDataManager : MonoBehaviour
     /// <param name="_amount">追加量</param>
     public static void RankPtUp(StatusType _type, int _amount)
     {
-        PlayerNullCheck();
-
         int rankPt = player.GetRankPt(_type);               // 現在のランクPt
         int rankPt_Max = player.GetRankPtMax(_type);       // 最大ランクPt
         int result = rankPt + _amount;                      // 加算後の数値
@@ -156,6 +196,8 @@ public class PlayerDataManager : MonoBehaviour
         RankUpCheck();
 
         CalcStatus(_type);
+
+        Save();
     }
 
     static void RankUpCheck()
@@ -189,13 +231,13 @@ public class PlayerDataManager : MonoBehaviour
 
     static void RankUp(StatusType _type)
     {
-        if (player.GetRank(_type) == Rank.SS) return;
+        if (player.GetRank(_type) >= Rank.SS) return;
 
         CharacterRankPoint rankPtData = player.StatusData.rankPoint;
 
         AddStatus_Bonus(_type);
         Rank lastRank = player.GetRank(_type);
-        Status lastPt = rankPtData.rankPt_NextUp[lastRank];
+        Status lastPt = lastRank == Rank.C ? new Status(0,0,0,0,0,0) : rankPtData.rankPt_NextUp[lastRank];
 
         // ランク上昇
         int rankNum = (int)player.GetRank(_type);
@@ -238,18 +280,28 @@ public class PlayerDataManager : MonoBehaviour
     static void CalcStatus(StatusType _type)
     {
         Rank rank = player.GetRank(_type);
-        int currentRankPt = player.GetRankPt(_type);
 
-        int statusMin = player.GetStatusMin(_type);
-        int statusMax = player.GetStatusMax(_type);
+        float currentRankPt = player.GetRankPt(_type);
 
-        int rankPtMin = rank == Rank.C ? 0 : player.GetRankPtLastUp(_type);
-        int rankPtMax = player.GetRankPtNextUp(_type);
+        if (currentRankPt >= player.GetRankPtMax(_type))
+        {
+            int s = player.StatusData.statusMax[Rank.SS].GetStatus(_type);
+            player.SetStatus(_type, s);
+            return;
+        }
 
-        float a = (float)(statusMax - statusMin) / (float)(rankPtMax - rankPtMin); // グラフの傾き
+        float statusMin = player.GetStatusMin(_type);
+        float statusMax = player.GetStatusMax(_type);
 
-        int currentStatus = (int)((a * (currentRankPt - rankPtMin)) + (statusMin - a * rankPtMin));   // 現在のステータス
+        float rankPtMin = rank == Rank.C ? 0 : player.GetRankPtLastUp(_type);
+        float rankPtMax = player.GetRankPtNextUp(_type);
+
+        float a = (float)(rankPtMax - rankPtMin) / (float)(statusMax - statusMin); // グラフの傾き
+
+        int currentStatus = (int)(((a * (currentRankPt - rankPtMin)) + (statusMax - a * rankPtMax)));   // 現在のステータス
         player.SetStatus(_type, currentStatus);
+
+        //Debug.Log(_type + " / " + a +  " * " + (currentRankPt - rankPtMin) + " + " + (statusMax - a * rankPtMax) + " = " +  currentStatus);
     }
 
     /// <summary>
@@ -259,6 +311,8 @@ public class PlayerDataManager : MonoBehaviour
     static void AddStatus_Bonus(StatusType _type)
     {
         Rank rank = player.GetRank(_type);
+
+        if (rank >= Rank.SS) return;
 
         Status bonus = player.StatusData.rankUpBonus[rank];
         int amount = bonus.GetStatus(_type);
@@ -323,12 +377,11 @@ public class PlayerDataManager : MonoBehaviour
     /// </summary>
     public static void TraningReset()
     {
-        PlayerNullCheck();
-
         AddPlusStatus();
-        // Todo セーブデータ更新
 
-        PlayerInitialize(GameManager.SelectChara);
+        Save();
+
+        CharacterInitialize(GameManager.SelectChara);
     }
 
     /// <summary>

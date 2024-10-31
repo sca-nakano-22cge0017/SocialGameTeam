@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 /// <summary>
 /// ゲーム全体で使用する変数等を管理
@@ -54,13 +55,12 @@ public class GameManager : MonoBehaviour
         {
             if (!MasterDataLoader.MasterDataLoadComplete)
             {
-                Debug.Log("マスターデータの読み込みが完了していません");
+                //Debug.Log("マスターデータの読み込みが完了していません");
             }
 
             if (selectChara == errorNum)
             {
-                Debug.Log("選択キャラクター：入力値がありません。1を入力します。");
-                SelectChara = 1;
+                //Debug.Log("選択キャラクター：入力値がありません。");
             }
 
             return selectChara;
@@ -75,11 +75,11 @@ public class GameManager : MonoBehaviour
 
             selectChara = value;
 
-            PlayerDataManager.PlayerInitialize(selectChara);
+            PlayerDataManager.CharacterChange(selectChara);
 
-            Status status = PlayerDataManager.player.AllStatus;
-            Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
-                status.hp, status.mp, status.atk, status.def, status.spd, status.dex, selectChara));
+            //Status status = PlayerDataManager.player.AllStatus;
+            //Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
+            //    status.hp, status.mp, status.atk, status.def, status.spd, status.dex, selectChara));
         }
     }
 
@@ -209,6 +209,9 @@ public class GameManager : MonoBehaviour
     IEnumerator LoadComplete()
     {
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
+        PlayerDataManager.Load();
+
+        yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
         SelectChara = 1;
     }
 }
