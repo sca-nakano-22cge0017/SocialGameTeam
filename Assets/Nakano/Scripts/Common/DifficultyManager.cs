@@ -17,6 +17,7 @@ public class DifficultyManager : MonoBehaviour
     public static int IsClearBossDifficulty
     {
         get => isClearBossDifficulty;
+        set => isClearBossDifficulty = value;
     }
 
     [SerializeField] private Button[] selectButtons;

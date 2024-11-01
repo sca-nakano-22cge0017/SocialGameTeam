@@ -82,6 +82,9 @@ public class PlayerDataManager : MonoBehaviour
 
         player = chara1;
 
+        GameManager.isFirstStart = data.isFirstStart;
+        DifficultyManager.IsClearBossDifficulty = data.isCrearBossDifficulty;
+
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");
     }
