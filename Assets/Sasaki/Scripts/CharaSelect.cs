@@ -14,6 +14,11 @@ public class CharaSelect : MonoBehaviour
 {
     [SerializeField,Header("キャラオブジェクト")] private GameObject CharaObjects = null;
 
+    private void Awake()
+    {
+        CharaObjects.SetActive(false);
+        StartCoroutine(Loader());
+    }
     //どのキャラクターを選んだか
     //選択されたキャラとその育成状況によって変わるスプライト流用できるプログラムを作る
     //window非表示
@@ -33,6 +38,23 @@ public class CharaSelect : MonoBehaviour
                 break;
         }
         GameManager.SelectChara = c;
+        GameManager.isFirstStart = false;
+        PlayerDataManager.Save();
         CharaObjects.SetActive(false);
+    }
+    IEnumerator Loader()
+    {
+        yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
+
+        yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
+
+        if (GameManager.isFirstStart)
+        {
+            CharaObjects.SetActive(true);
+        }
+        else
+        {
+            CharaObjects.SetActive(false);
+        }
     }
 }
