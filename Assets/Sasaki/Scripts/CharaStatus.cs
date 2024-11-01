@@ -26,7 +26,7 @@ public class CharaStatus : MonoBehaviour
         switch (str)
         {
             case "Reset": //育成完了(タイトルに戻る)
-                //PlayerDataManager.TraningReset();
+                PlayerDataManager.TraningReset();
                 SceneManager.LoadScene("TitleScene");
                 break;
             case "HomeWindow": //ホームウィンドウに戻る
