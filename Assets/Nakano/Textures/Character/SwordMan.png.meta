@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,49 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: SwordMan_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 4096
+        height: 4096
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c610dd6cc153474391456389ac82ecb
+      internalID: -816137551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SwordMan_1
+      rect:
+        serializedVersion: 2
+        x: 1034
+        y: 1844
+        width: 2000
+        height: 2000
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7248df0cb38915244ad61457244a133d
+      internalID: -1728532043
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +161,19 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SwordMan_: -816137551
+      SwordMan_0: -1728532043
+      SwordMan_1: -238854406
+      SwordMan_10: -1243721345
+      SwordMan_11: -489969149
+      SwordMan_2: 608178698
+      SwordMan_3: -1671021722
+      SwordMan_4: -2009371100
+      SwordMan_5: 1961440829
+      SwordMan_6: 145805301
+      SwordMan_7: 596797250
+      SwordMan_9: -1543762303
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

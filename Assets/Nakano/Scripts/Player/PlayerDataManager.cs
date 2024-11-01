@@ -18,16 +18,6 @@ public class PlayerDataManager : MonoBehaviour
         private set { }
     }
 
-    void Start()
-    {
-
-    }
-
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// プレイヤーのデータ保存
     /// </summary>
@@ -72,6 +62,9 @@ public class PlayerDataManager : MonoBehaviour
             if (i == 2) saveData.chara2 = c;
         }
 
+        saveData.isFirstStart = GameManager.isFirstStart;
+        saveData.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty;
+
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
     }
@@ -112,6 +105,33 @@ public class PlayerDataManager : MonoBehaviour
         if (_id == 2)
         {
             player = new(2);
+        }
+    }
+
+    /// <summary>
+    /// キャラクター育成リセット
+    /// </summary>
+    /// <param name="_id">キャラクターID</param>
+    public static void TraningReset(int _id)
+    {
+        if (_id != 1 && _id != 2)
+        {
+            Debug.Log("キャラクターIDが誤っています");
+            return;
+        }
+
+        if (_id == 1)
+        {
+            // プラス値は持ち越す
+            Status plus = new(player.GetPlusStatus());
+            player = new(1);
+            player.SetPlusStatus(plus);
+        }
+        if (_id == 2)
+        {
+            Status plus = new(player.GetPlusStatus());
+            player = new(2);
+            player.SetPlusStatus(plus);
         }
     }
 
@@ -381,7 +401,7 @@ public class PlayerDataManager : MonoBehaviour
 
         Save();
 
-        CharacterInitialize(GameManager.SelectChara);
+        TraningReset(GameManager.SelectChara);
     }
 
     /// <summary>

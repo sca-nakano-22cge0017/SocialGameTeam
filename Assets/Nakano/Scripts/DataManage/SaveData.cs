@@ -6,6 +6,16 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
+    /// <summary>
+    /// 初回起動かどうか
+    /// </summary>
+    public bool isFirstStart = true;
+
+    /// <summary>
+    /// クリアしたボスの最高難易度
+    /// </summary>
+    public int isCrearBossDifficulty = 0;
+
     public PlayerSaveData chara1 = new();
     public PlayerSaveData chara2 = new();
 }

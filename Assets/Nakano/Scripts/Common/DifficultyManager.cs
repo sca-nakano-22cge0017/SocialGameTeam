@@ -13,7 +13,11 @@ public class DifficultyManager : MonoBehaviour
     private const int maxDifficulty = 5;
 
     // ボス戦クリア済み難易度 クリアしたものの中で最も高いもの
-    private static int bossClearDifficulty = 0;
+    private static int isClearBossDifficulty = 0;
+    public static int IsClearBossDifficulty
+    {
+        get => isClearBossDifficulty;
+    }
 
     [SerializeField] private Button[] selectButtons;
 
@@ -26,7 +30,7 @@ public class DifficultyManager : MonoBehaviour
     {
         for (int i = 0; i < selectButtons.Length; i++)
         {
-            if (i <= bossClearDifficulty)
+            if (i <= isClearBossDifficulty)
             {
                 selectButtons[i].interactable = true;
             }
@@ -49,7 +53,7 @@ public class DifficultyManager : MonoBehaviour
             return; // 範囲外
 
         // ボス戦をクリアした難易度＋１までを選択できる
-        if (_difficulty <= bossClearDifficulty + 1)
+        if (_difficulty <= isClearBossDifficulty + 1)
         {
             GameManager.SelectDifficulty = _difficulty;
             Debug.Log(GameManager.SelectDifficulty);
@@ -65,9 +69,9 @@ public class DifficultyManager : MonoBehaviour
         if (_difficulty < initDifficulty || _difficulty > maxDifficulty)
             return; // 範囲外
 
-        if (_difficulty > bossClearDifficulty)
+        if (_difficulty > isClearBossDifficulty)
         {
-            bossClearDifficulty = _difficulty;
+            isClearBossDifficulty = _difficulty;
         }
     }
 }
