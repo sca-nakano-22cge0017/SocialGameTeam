@@ -1,24 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-/// <summary>
-/// PlayerDataManager.TraningReset()でデータ初期化
-/// </summary>
 public class CharaStatus : MonoBehaviour
 {
-    [SerializeField,Header("育成終了ウィンドウ")] private GameObject ResetWindow;
+    [SerializeField,Header("育成終了ウィンドウ")] private GameObject resetWindow;
+    //[SerializeField,Header("効果説明ウィンドウ")] private GameObject effectWindow;
+    [SerializeField,Header("効果表示のテキスト")] private Text effectText;
+
+    string strEffect;
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (resetWindow.activeSelf)
+        {
+            effectDescription();
+        }
     }
     //リセットのボタン設定
     public void ResetWindowScene(string str)
@@ -27,14 +32,17 @@ public class CharaStatus : MonoBehaviour
         {
             case "Reset": //育成完了(タイトルに戻る)
                 PlayerDataManager.TraningReset();
-                SceneManager.LoadScene("TitleScene");
-                break;
-            case "HomeWindow": //ホームウィンドウに戻る
-                ResetWindow.SetActive(false);
+                SceneManager.LoadScene("HomeScene");
                 break;
             default:
                 SceneManager.LoadScene("TitleScene");
                 break;
         }
+    }
+
+    private void effectDescription()
+    {
+        strEffect = PlayerDataManager.GetResetEffects();
+        effectText.text = strEffect.ToString();
     }
 }
