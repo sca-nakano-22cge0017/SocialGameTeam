@@ -14,7 +14,8 @@ public class CharaSelectManager : MonoBehaviour
     
     void Start()
     {
-
+        SaveData player = loadPlayerData();
+        Debug.Log(player.chara2);
     }
 
     void Update()
