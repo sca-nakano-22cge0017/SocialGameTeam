@@ -9,6 +9,7 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private WindowController wc;
     [SerializeField] private DropController dropController;
     [SerializeField] private ResultGuage[] resultGuages;
+    [SerializeField] private Text[] plusStatus;
 
     // “ÁŽê‹Z”\‰ð•ú
     [SerializeField] private GameObject window_st;
@@ -37,6 +38,7 @@ public class ResultManager : MonoBehaviour
         if (GameManager.SelectArea == 2)
         {
             DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
+            PlayerDataManager.Save();
         }
 
         StartCoroutine(DispDirection());
@@ -86,6 +88,24 @@ public class ResultManager : MonoBehaviour
         for (int i = 0; i < resultGuages.Length; i++)
         {
             resultGuages[i].Initialize();
+        }
+
+        for (int i = 0; i < plusStatus.Length; i++)
+        {
+            plusStatus[i].enabled = false;
+        }
+
+        Status plus = PlayerDataManager.player.GetPlusStatus();
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            int s = plus.GetStatus(type);
+
+            if (s > 0)
+            {
+                plusStatus[i].text = "+" + s.ToString();
+                plusStatus[i].enabled = true;
+            }
         }
     }
 

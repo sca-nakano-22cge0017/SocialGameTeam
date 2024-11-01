@@ -630,6 +630,14 @@ public class PlayerStatus
     }
 
     /// <summary>
+    /// プラスステータスを変更
+    /// </summary>
+    public void SetPlusStatus(Status _status)
+    {
+        plusStatus = new (_status);
+    }
+
+    /// <summary>
     /// 指定したステータスのプラスステータスを変更
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
