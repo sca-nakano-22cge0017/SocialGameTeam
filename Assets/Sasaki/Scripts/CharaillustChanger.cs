@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class testChara : MonoBehaviour
+public class CharaillustChanger : MonoBehaviour
 {
     [SerializeField,Header("キャラクター")] private Sprite[] chara;
     [SerializeField] private Image image = null;
