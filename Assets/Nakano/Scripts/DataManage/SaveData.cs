@@ -16,6 +16,11 @@ public class SaveData
     /// </summary>
     public int isCrearBossDifficulty = 0;
 
+    /// <summary>
+    /// 選択中キャラクター
+    /// </summary>
+    public int selectChara = -1;
+
     public PlayerSaveData chara1 = new();
     public PlayerSaveData chara2 = new();
 }

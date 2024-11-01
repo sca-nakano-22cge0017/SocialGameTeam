@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using UnityEngine.SceneManagement;
+using Master;
 
 [System.Serializable]
 public class SelectButton
@@ -12,6 +13,7 @@ public class SelectButton
     public string information;
     public Sprite sprite;
     public string name;
+    public int stageId;
 }
 
 public class StageSelect : MonoBehaviour
@@ -48,7 +50,26 @@ public class StageSelect : MonoBehaviour
         selectingButton = firstSelectButton;
 
         stageImage.sprite = selectButtons[0].sprite;
-        stageInformationText.text = selectButtons[0].information;
+
+        // ドロップ内容表示
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
+        {
+            string information = "";
+
+            for (int d = 0; d < MasterData.StageDatas.Count; d++)
+            {
+                StageData data = MasterData.StageDatas[d];
+                if (data.difficulty == GameManager.SelectDifficulty && data.areaId == 1 && data.stageId == selectButtons[0].stageId)
+                {
+                    for (int i = 0; i < data.dropItem.Count; i++)
+                    {
+                        information += selectButtons[0].information + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
+                    }
+                }
+            }
+
+            stageInformationText.text = information;
+        }
 
         selectingFrame.transform.SetParent(selectButtons[0].button.gameObject.transform);
         selectingFrame.transform.localPosition = Vector3.zero;
@@ -67,6 +88,7 @@ public class StageSelect : MonoBehaviour
 
         // 押下したボタンに応じて情報取得
         SelectButton pressedButton = null;
+
         for (int i = 0; i < selectButtons.Length; i++)
         {
             if (selectButtons[i].button == _selectingButton)
@@ -76,10 +98,6 @@ public class StageSelect : MonoBehaviour
                 selectingFrame.transform.SetParent(selectButtons[i].button.gameObject.transform);
                 selectingFrame.transform.localPosition = Vector3.zero;
                 selectingFrame.transform.localScale = Vector3.one;
-
-                // ターゲットロックのマークが上になるように描画順調整
-                if (selectingFrame.transform.GetSiblingIndex() >= 3)
-                    selectingFrame.transform.SetSiblingIndex(2);
             }
             else
             {
@@ -92,8 +110,27 @@ public class StageSelect : MonoBehaviour
         if (selectingButton != _selectingButton)
         {
             stageImage.sprite = pressedButton.sprite;
-            stageInformationText.text = pressedButton.information;
             selectingButton = _selectingButton;
+
+            // ドロップ内容表示
+            if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
+            {
+                string information = "";
+
+                for (int d = 0; d < MasterData.StageDatas.Count; d++)
+                {
+                    StageData data = MasterData.StageDatas[d];
+                    if (data.difficulty == GameManager.SelectDifficulty && data.areaId == 1 && data.stageId == pressedButton.stageId)
+                    {
+                        for (int i = 0; i < data.dropItem.Count; i++)
+                        {
+                            information += pressedButton.information + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
+                        }
+                    }
+                }
+
+                stageInformationText.text = information;
+            }
         }
 
         // 押下後、一定時間押下判定を取らない

@@ -81,10 +81,6 @@ public class GameManager : MonoBehaviour
             selectChara = value;
 
             PlayerDataManager.CharacterChange(selectChara);
-
-            //Status status = PlayerDataManager.player.AllStatus;
-            //Debug.Log(string.Format("キャラクターID:{6}, HP:{0}, MP:{1}, ATK:{2}, DEF:{3}, SPD:{4}, DEX:{5}",
-            //    status.hp, status.mp, status.atk, status.def, status.spd, status.dex, selectChara));
         }
     }
 
@@ -217,6 +213,5 @@ public class GameManager : MonoBehaviour
         PlayerDataManager.Load();
 
         yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
-        SelectChara = 1;
     }
 }
