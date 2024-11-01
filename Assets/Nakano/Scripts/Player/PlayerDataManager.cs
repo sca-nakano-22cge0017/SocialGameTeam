@@ -62,9 +62,10 @@ public class PlayerDataManager : MonoBehaviour
             if (i == 2) saveData.chara2 = c;
         }
 
+        saveData.selectChara = GameManager.SelectChara;
         saveData.isFirstStart = GameManager.isFirstStart;
         saveData.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty;
-
+        
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
     }
@@ -84,6 +85,7 @@ public class PlayerDataManager : MonoBehaviour
 
         GameManager.isFirstStart = data.isFirstStart;
         DifficultyManager.IsClearBossDifficulty = data.isCrearBossDifficulty;
+        GameManager.SelectChara = data.selectChara;
 
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");
@@ -149,8 +151,6 @@ public class PlayerDataManager : MonoBehaviour
             Debug.Log("キャラクターIDが誤っています");
             return;
         }
-
-        if (!playerDataLoadComlete) Load();
 
         if (_id == 1)
         {
@@ -231,7 +231,7 @@ public class PlayerDataManager : MonoBehaviour
             int rankPt = player.GetRankPt(type);               // 現在のランクPt
             int rankPt_NextUp = player.GetRankPtNextUp(type); // 次にランクアップするときの累積Pt
             
-            if (rankPt >= rankPt_NextUp && player.GetRank(type) != Rank.SS)
+            if (rankPt >= rankPt_NextUp && player.GetRank(type) != (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
                 RankUp(type);
                 RankUpCheck();
@@ -244,7 +244,7 @@ public class PlayerDataManager : MonoBehaviour
             int combiRankPt = player.GetCombiRankPt(c_type);               // 現在の複合ステランクPt
             int combiRankPt_NextUp = player.GetCombiRankPtNextUp(c_type); // 次にランクアップするときの累積Pt
 
-            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) != Rank.SS)
+            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) != (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
                 CombiRankUp(c_type);
                 RankUpCheck();
@@ -254,13 +254,13 @@ public class PlayerDataManager : MonoBehaviour
 
     static void RankUp(StatusType _type)
     {
-        if (player.GetRank(_type) >= Rank.SS) return;
+        if (player.GetRank(_type) >= (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)) return;
 
         CharacterRankPoint rankPtData = player.StatusData.rankPoint;
 
         AddStatus_Bonus(_type);
         Rank lastRank = player.GetRank(_type);
-        Status lastPt = lastRank == Rank.C ? new Status(0,0,0,0,0,0) : rankPtData.rankPt_NextUp[lastRank];
+        Status lastPt = (int)lastRank == 0 ? new Status(0,0,0,0,0,0) : rankPtData.rankPt_NextUp[lastRank];
 
         // ランク上昇
         int rankNum = (int)player.GetRank(_type);
@@ -283,7 +283,7 @@ public class PlayerDataManager : MonoBehaviour
 
     static void CombiRankUp(CombiType _type)
     {
-        if (player.GetCombiRank(_type) == Rank.SS) return;
+        if (player.GetCombiRank(_type) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)) return;
 
         // ランク上昇
         int rankNum = (int)player.GetCombiRank(_type);
@@ -308,7 +308,7 @@ public class PlayerDataManager : MonoBehaviour
 
         if (currentRankPt >= player.GetRankPtMax(_type))
         {
-            int s = player.StatusData.statusMax[Rank.SS].GetStatus(_type);
+            int s = player.StatusData.statusMax[(Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)].GetStatus(_type);
             player.SetStatus(_type, s);
             return;
         }
@@ -316,7 +316,7 @@ public class PlayerDataManager : MonoBehaviour
         float statusMin = player.GetStatusMin(_type);
         float statusMax = player.GetStatusMax(_type);
 
-        float rankPtMin = rank == Rank.C ? 0 : player.GetRankPtLastUp(_type);
+        float rankPtMin = (int)rank == 0 ? 0 : player.GetRankPtLastUp(_type);
         float rankPtMax = player.GetRankPtNextUp(_type);
 
         float a = (float)(rankPtMax - rankPtMin) / (float)(statusMax - statusMin); // グラフの傾き
@@ -335,7 +335,7 @@ public class PlayerDataManager : MonoBehaviour
     {
         Rank rank = player.GetRank(_type);
 
-        if (rank >= Rank.SS) return;
+        if (rank >= (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)) return;
 
         Status bonus = player.StatusData.rankUpBonus[rank];
         int amount = bonus.GetStatus(_type);
@@ -363,7 +363,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
 
-            if (player.GetRank(status) == Rank.SS)
+            if (player.GetRank(status) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
                 a = true;
                 break;
@@ -385,7 +385,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
 
-            if (player.GetRank(status) == Rank.SS)
+            if (player.GetRank(status) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
                 int st = player.GetAdditionalEffects(status, true);
                 t += StutasTypeToString(status) + "ステータス +" + st + "\n";
@@ -418,7 +418,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
 
-            if (player.GetRank(status) == Rank.SS)
+            if (player.GetRank(status) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
                 int current = player.GetPlusStatus(status);
                 player.SetPlusStatus(status, current + 1);
@@ -458,7 +458,7 @@ public class PlayerDataManager : MonoBehaviour
         }
     }
 
-    static string StutasTypeToString(StatusType _type)
+    public static string StutasTypeToString(StatusType _type)
     {
         switch (_type)
         {

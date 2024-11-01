@@ -23,6 +23,7 @@ public class MasterDataLoader : MonoBehaviour
     [SerializeField] private string playerStatusKey;
     [SerializeField] private string playerRankKey;
     [SerializeField] private string playerUltKey;
+    [SerializeField] private string specialTecniqueKey;
 
     private const string ignoreMark = "//"; // 行を飛ばす記号
 
@@ -32,6 +33,7 @@ public class MasterDataLoader : MonoBehaviour
     private bool stageDataLoaded = false;
     private bool enemyDataLoaded = false;
     private bool charaDataLoaded = false;
+    private bool specialTecniqueDataLoaded = false;
 
     private static bool masterDataLoadComlete = false;
     public static bool MasterDataLoadComplete
@@ -137,10 +139,12 @@ public class MasterDataLoader : MonoBehaviour
         GetStageData();
         GetEnemyStatus();
         GetCharaInitialStatus();
+        //GetSpecialTecnique();
 
         yield return new WaitUntil(() => stageDataLoaded);
         yield return new WaitUntil(() => enemyDataLoaded);
         yield return new WaitUntil(() => charaDataLoaded);
+        //yield return new WaitUntil(() => specialTecniqueDataLoaded);
 
         masterDataLoadComlete = true;
         Debug.Log("マスターデータ読み込み完了");
@@ -497,6 +501,20 @@ public class MasterDataLoader : MonoBehaviour
         return guagesSetting;
     }
 
+    void GetSpecialTecnique()
+    {
+        const int tecAmount = 30;
+
+        List<SpecialTecnique> data = new();
+
+        for (int t = 1; t <= tecAmount; t++)
+        {
+            
+        }
+
+        specialTecniqueDataLoaded = true;
+    }
+
     private int GetProbability(string _text)
     {
         string str = _text.Replace("%", "");
@@ -512,6 +530,7 @@ namespace Master
         public static List<StageData> StageDatas = new();
         public static List<EnemyStatus> EnemyStatus = new();
         public static List<CharaInitialStutas> CharaInitialStatus = new();
+        public static List<SpecialTecnique> SpecialTecniques = new();
     }
 
     /// <summary>
@@ -661,7 +680,7 @@ namespace Master
         {
             for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
             {
-                Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
+                Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
 
                 Status s = new(0,0,0,0,0,0);
 
@@ -684,7 +703,7 @@ namespace Master
         {
             for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
             {
-                Rank rank = (Rank)Enum.ToObject(typeof(Rank), r);
+                Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
 
                 rankPt_NextUp.Add(rank, null);
                 atkRankPt_NextUp.Add(rank, 0);
@@ -740,9 +759,26 @@ namespace Master
     }
 
     /// <summary>
-    /// 周回ボーナス
+    /// 特殊技能
     /// </summary>
-    public class GrindBonus
+    public class SpecialTecnique
     {
+        // 特殊技能ID
+        public int id;
+
+        // 名前
+        public string name;
+
+        // 効果内容（プレイヤー向け）
+        public string effects;
+
+        // スキルかどうか
+        public bool isSkill = false;
+
+        // 継続ターン数
+        public int continuationTurn;
+
+        // 効果量
+        public int value;
     }
 }

@@ -165,8 +165,8 @@ public class PlayerStatus
     /// <param name="_id"></param>
     void Initialize(int _id)
     {
-        Rank initRank = Rank.C;     // 初期ランク
-        Rank highestRank = Rank.SS; // 最高ランク
+        Rank initRank = (Rank)System.Enum.ToObject(typeof(Rank), 0);     // 初期ランク
+        Rank highestRank = (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1); // 最高ランク
 
         // ステータスのランク初期化
         statusRank.Clear();
@@ -269,8 +269,8 @@ public class PlayerStatus
         {
             StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), st);
 
-            Rank rank = Rank.C;
-            int rankNum = (int)Rank.C;
+            Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), 0);
+            int rankNum = 0;
             Status rankPtNextUp = new(0, 0, 0, 0, 0, 0);
 
             for (int r = 0; r < System.Enum.GetValues(typeof(Rank)).Length; r++)
@@ -278,7 +278,7 @@ public class PlayerStatus
                 rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
 
                 rankPtNextUp = StatusData.rankPoint.rankPt_NextUp[rank];
-                if (rankPoint.GetStatus(type) >= rankPtNextUp.GetStatus(type) && rank < Rank.SS)
+                if (rankPoint.GetStatus(type) >= rankPtNextUp.GetStatus(type) && rank < (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
                 {
                     rankNum++;
                     continue;
@@ -323,8 +323,8 @@ public class PlayerStatus
                     break;
             }
 
-            Rank rank = Rank.C;
-            int rankNum = (int)Rank.C;
+            Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), 0);
+            int rankNum = 0;
 
             for (int r = 0; r < System.Enum.GetValues(typeof(Rank)).Length; r++)
             {

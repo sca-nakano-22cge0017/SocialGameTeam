@@ -17,13 +17,13 @@ public class ResultGuage : MonoBehaviour
     [SerializeField] private Text rankText;
     [SerializeField] private Image guage;
 
-    private Rank lastRank = Rank.C;
+    private Rank lastRank = (Rank)System.Enum.ToObject(typeof(Rank), 0);
     public Rank LastRank
     {
         get => lastRank;
         set => lastRank = value;
     }
-    private Rank currentRank = Rank.C;
+    private Rank currentRank = (Rank)System.Enum.ToObject(typeof(Rank), 0);
     public Rank CurrentRank
     {
         get => currentRank;

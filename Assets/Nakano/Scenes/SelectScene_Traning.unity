@@ -2116,29 +2116,35 @@ MonoBehaviour:
   stageInformationText: {fileID: 6019997639007227906}
   selectButtons:
   - button: {fileID: 4429641355477237640}
-    information: "\u4F53\u529B\u30B9\u30C6\u30FC\u30B8"
+    information: "\u4F53\u529B"
     sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
     name: hpStage
+    stageId: 1
   - button: {fileID: 6901192620566126381}
-    information: "\u9B54\u529B\u30B9\u30C6\u30FC\u30B8"
+    information: "\u9B54\u529B"
     sprite: {fileID: 21300000, guid: 2439a962e74299840a62c0ce29da7e42, type: 3}
     name: mpStage
+    stageId: 2
   - button: {fileID: 2178877765169023372}
-    information: "\u653B\u6483\u30B9\u30C6\u30FC\u30B8"
+    information: "\u653B\u6483"
     sprite: {fileID: 21300000, guid: 01a7d3b4a5d067b4095cc4ec7c3d1483, type: 3}
     name: atkStage
+    stageId: 3
   - button: {fileID: 4141556103065854638}
-    information: "\u5B88\u5099\u30B9\u30C6\u30FC\u30B8"
+    information: "\u5B88\u5099"
     sprite: {fileID: 21300000, guid: a5a04c998d135e145871a8d5e1914202, type: 3}
     name: defStage
+    stageId: 4
   - button: {fileID: 5433464374689579512}
-    information: "\u901F\u5EA6\u30B9\u30C6\u30FC\u30B8"
+    information: "\u901F\u5EA6"
     sprite: {fileID: 21300000, guid: ccb60f4564fecbe4695e21b3bdb817ee, type: 3}
     name: speedStage
+    stageId: 5
   - button: {fileID: 3159453351782536787}
-    information: "\u5668\u7528\u30B9\u30C6\u30FC\u30B8"
+    information: "\u5668\u7528"
     sprite: {fileID: 21300000, guid: 78de61231a8d0aa4b8a746276ea8b9fa, type: 3}
     name: dexStage
+    stageId: 6
   firstSelectButton: {fileID: 4429641355477237640}
   selectingFrame: {fileID: 7556518017998167076}
 --- !u!114 &3456104455281815201
@@ -5257,8 +5263,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7988789300484105550}
   m_HandleRect: {fileID: 6995711403511721133}
   m_Direction: 0
-  m_Value: 0.0000020345053
-  m_Size: 0.9749164
+  m_Value: 0.000002034497
+  m_Size: 0.9749163
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

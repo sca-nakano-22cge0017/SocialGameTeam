@@ -758,8 +758,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 106665128703513410}
   m_HandleRect: {fileID: 1059138250951072417}
   m_Direction: 0
-  m_Value: 0.0000040690106
-  m_Size: 0.9749164
+  m_Value: 0.000006103466
+  m_Size: 0.97491616
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2048,7 +2048,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6612806834464322695}
   m_HandleRect: {fileID: 6385826932753108116}
   m_Direction: 2
-  m_Value: 1.0000005
+  m_Value: 1.0000011
   m_Size: 0.876842
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2655,7 +2655,6 @@ GameObject:
   - component: {fileID: 196189904444134766}
   - component: {fileID: 1468020597188910076}
   - component: {fileID: 4618467207849457788}
-  - component: {fileID: 6794552427400498732}
   m_Layer: 5
   m_Name: StageSelectWindow_Traning
   m_TagString: Untagged
@@ -2762,57 +2761,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752e285d69961334fa8b43d48434a145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBossSelect: 0
   stageImage: {fileID: 5953402701224680009}
   stageInformationText: {fileID: 4335912152838170126}
   selectButtons:
   - button: {fileID: 5971260199709247876}
-    information: "\u4F53\u529B\u30B9\u30C6\u30FC\u30B8"
+    information: "\u4F53\u529B"
     sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
     name: hpStage
   - button: {fileID: 3486600624649578785}
-    information: "\u9B54\u529B\u30B9\u30C6\u30FC\u30B8"
+    information: "\u9B54\u529B"
     sprite: {fileID: 21300000, guid: 2439a962e74299840a62c0ce29da7e42, type: 3}
     name: mpStage
   - button: {fileID: 8186417246812585856}
-    information: "\u653B\u6483\u30B9\u30C6\u30FC\u30B8"
+    information: "\u653B\u6483"
     sprite: {fileID: 21300000, guid: 01a7d3b4a5d067b4095cc4ec7c3d1483, type: 3}
     name: atkStage
   - button: {fileID: 6259670886188045474}
-    information: "\u5B88\u5099\u30B9\u30C6\u30FC\u30B8"
+    information: "\u5B88\u5099"
     sprite: {fileID: 21300000, guid: a5a04c998d135e145871a8d5e1914202, type: 3}
     name: defStage
   - button: {fileID: 2648285750723639284}
-    information: "\u901F\u5EA6\u30B9\u30C6\u30FC\u30B8"
+    information: "\u901F\u5EA6"
     sprite: {fileID: 21300000, guid: ccb60f4564fecbe4695e21b3bdb817ee, type: 3}
     name: speedStage
   - button: {fileID: 4935858060534669407}
-    information: "\u5668\u7528\u30B9\u30C6\u30FC\u30B8"
+    information: "\u5668\u7528"
     sprite: {fileID: 21300000, guid: 78de61231a8d0aa4b8a746276ea8b9fa, type: 3}
     name: dexStage
   firstSelectButton: {fileID: 5971260199709247876}
   selectingFrame: {fileID: 538522986791971368}
-  targetingMark: {fileID: 0}
-  targetingMarkPosition: {x: 0, y: 0}
-  longTapTime_sec: 0.5
---- !u!114 &6794552427400498732
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4509109152686146020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ad238b31f81ba446940c2d99b739963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charaImage: {fileID: 5681787138147114613}
-  illustrations:
-  - id: 1
-    sprite: {fileID: 21300000, guid: 00a8bbe4d4711134da29e93e0c3a7bcd, type: 3}
-  - id: 2
-    sprite: {fileID: 21300000, guid: cf6719bab2e347a4583fa5c1125cf16d, type: 3}
 --- !u!1 &4513273500790813369
 GameObject:
   m_ObjectHideFlags: 0
