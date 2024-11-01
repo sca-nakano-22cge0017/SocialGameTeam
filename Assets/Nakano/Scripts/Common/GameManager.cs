@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 初回起動かどうか
     /// </summary>
-    public static bool isFirstStart = false;
+    public static bool isFirstStart = true;
 
     // エラー判定用
     private const int errorNum = -1;
