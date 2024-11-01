@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor.UI;
+using UnityEngine.UI;
 
 public class testChara : MonoBehaviour
 {
-    [SerializeField] private GameObject[] chara;
+    [SerializeField,Header("キャラクター")] private Sprite[] chara;
+    [SerializeField] private Image image = null;
 
     int charaNumSelect;
     // Start is called before the first frame update
@@ -16,15 +19,14 @@ public class testChara : MonoBehaviour
     //選ばれたキャラを表示
     void Update()
     {
+        
         if (charaNumSelect == 1)
         {
-            chara[0].SetActive(true);
-            chara[1].SetActive(false);
+            image.sprite = chara[0];//剣士
         }
         if (charaNumSelect == 2)
         {
-            chara[1].SetActive(true);
-            chara[0].SetActive(false);
+            image.sprite = chara[1];//シスター
         }
     }
 }

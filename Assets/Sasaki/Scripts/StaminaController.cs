@@ -9,10 +9,13 @@ public class StaminaController : MonoBehaviour
     [SerializeField,Header("スライダーバー")] private Slider slider;
     [SerializeField,Header("スタミナ表示のテキスト")] private Text staminaText;
     [SerializeField,Header("スタミナの時間表示ウィンドウ")] private GameObject staminaWindow;
+    [SerializeField,Header("スタミナの時間テキスト")] private Text staminaTimeText;
+    [SerializeField,Header("スタミナの時間表示を何秒表示するか")] private float stopTime = 3.0f;
     private StaminaManager staminaManager;
 
     private int stamina;
     private int staminaMax;
+    private string staminaTime; //i回復の時間
 
     // Start is called before the first frame update
     void Start()
@@ -40,19 +43,25 @@ public class StaminaController : MonoBehaviour
         //テキスト表示
         staminaText.text = stamina.ToString() + "/" + staminaMax.ToString();
 
-        StaminaTimeImage(); //時間表示
+        //タイム表示
+        if (staminaWindow.activeSelf)
+        {
+            staminaTime = staminaManager.RecoveryTimeText;
+            staminaTimeText.text = "残り" + staminaTime.ToString();
+        }
     }
 
     //スタミナの時間を表示するためのボタン
     public void OnStaminaButton()
     {
-        StaminaTimeImage();
         staminaWindow.SetActive(true);
+        StartCoroutine(StaminaTimeImage()); //時間表示
     }
 
     //時間表示のプログラム
-    private void StaminaTimeImage()
+    private IEnumerator StaminaTimeImage()
     {
-
+        yield return new WaitForSeconds(stopTime);
+        staminaWindow.SetActive(false);
     }
 }
