@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class CharaStatus : MonoBehaviour
 {
+    [SerializeField,Header("育成終了ウィンドウ")] private GameObject ResetWindow;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,9 @@ public class CharaStatus : MonoBehaviour
             case "Reset": //育成完了(タイトルに戻る)
                 //PlayerDataManager.TraningReset();
                 SceneManager.LoadScene("TitleScene");
+                break;
+            case "HomeWindow": //ホームウィンドウに戻る
+                ResetWindow.SetActive(false);
                 break;
             default:
                 SceneManager.LoadScene("TitleScene");
