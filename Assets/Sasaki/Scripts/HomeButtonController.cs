@@ -8,18 +8,25 @@ public class HomeButtonController : MonoBehaviour
 
     [SerializeField, Header("リセットwindow")] private GameObject resetWindow = null;
     [SerializeField, Header("確認window")] private GameObject checkWindow = null;
+    [SerializeField, Header("警告window")] private GameObject warningWindow = null;
 
+    bool effectCheck;
     // Start is called before the first frame update
     void Start()
     {
         resetWindow.SetActive(false);
         checkWindow.SetActive(false);
+        warningWindow.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //追加効果があるかを判定
+        if (checkWindow.activeSelf)
+        {
+            effectCheck = PlayerDataManager.IsAddPlusStatus();
+        }
     }
 
     //ホーム画面のボタン設定
@@ -40,15 +47,32 @@ public class HomeButtonController : MonoBehaviour
                 checkWindow.SetActive(true);
                 break;
             case "BackWindow": //ホーム画面に戻る
-                checkWindow.SetActive(false);
+                SceneManager.LoadScene("HomeScene");
                 break;
-            case "ResetMoveOn": //育成完了画面に進む
-                resetWindow.SetActive(true);
-                checkWindow.SetActive(false);
+            case "NextWindow": //追加効果があるか判定
+                effectInCheck();
+                break;
+            case "ResetWindow": //育成完了画面に進む
+                warningWindow.SetActive(false);
                 break;
             default:
                 SceneManager.LoadScene("TitleScene");
                 break;
+        }
+    }
+
+    //追加効果があるか判定
+    private void effectInCheck()
+    {
+        //ある->リセットウィンドウ表示
+        if (effectCheck)
+        {
+            resetWindow.SetActive(true);
+        }
+        else //ない->警告ウィンドウ表示
+        {
+            checkWindow.SetActive(false);
+            warningWindow.SetActive(true);
         }
     }
 }
