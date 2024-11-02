@@ -1,18 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
+/// <summary>
+/// プレイヤーのステータスやコマンド管理
+/// </summary>
 public class PlayerData : MonoBehaviour
 {
+    // 特殊技能・スキルは別スクリプト
 
-    public GameObject player; // プレイヤーオブジェクト
+    public Image image; // イラスト
 
+    [SerializeField] private MainGameGuage hpGuage;
+    [SerializeField] private MainGameGuage mpGuage;
+
+    // ステータス
     public int ATK; // 攻撃
     public int MP;  // 魔力
     public int HP;  // 体力
     public int DEF; // 防御
     public int AGI; // 速度
     public int DEX; // 器用
+
+    // 計算用
+    private int currentMp;
+    private int currentAtk;
+    private int currentHp;
+    private int currentDef;
+    private int currentDex;
+    private int currentAgi;
+
+    // ステータス倍率
+    public float powerMp = 1;
+    public float powerAtk = 1;
+    public float powerHp = 1;
+    public float powerDef = 1;
+    public float powerDex = 1;
+    public float powerAgi = 1;
+
+    // 攻撃倍率
+    public float power_NormalAttack;  // 通常攻撃
+    public float power_Skill;         // スキル
+    public float power_Critical;      // 会心時倍率
+    public float power_SpecialMove;   // 必殺技
+
+    public float criticalProbability; // 会心率
+
+    // ガード
+    private bool isGuard;
+    public float power_Guard = 1.2f; // ガード時防御倍率
+
+    // 必殺技ゲージ
+    [SerializeField] private Image specialMoveGuage;
+    private int specialMoveGuageAmount;
+    public int specialMoveGuageMax; // 最大量
+
+    // 必殺ゲージ設定 1：通常攻撃 2：防御状態で被ダメ 3：非防御状態で被ダメ 4：経過ターン 5：アップ用スキル
+    public Master.SpecialMoveGuageSetting sm_NormalAttack;
+    public Master.SpecialMoveGuageSetting sm_Guard;
+    public Master.SpecialMoveGuageSetting sm_Damage;
+    public Master.SpecialMoveGuageSetting sm_Turn;
+    public Master.SpecialMoveGuageSetting sm_Skill;
 
     void Start()
     {
@@ -22,5 +71,164 @@ public class PlayerData : MonoBehaviour
     void Update()
     {
         
+    }
+
+    /// <summary>
+    /// ステータス初期化
+    /// </summary>
+    private void Initialize()
+    {
+        currentMp = MP;
+        currentAtk = ATK;
+        currentHp = HP;
+        currentDef = DEF;
+        currentDex = DEX;
+        currentAgi = AGI;
+
+        specialMoveGuageAmount = 0;
+
+        hpGuage.Initialize(HP);
+        mpGuage.Initialize(MP);
+    }
+
+    /// <summary>
+    /// 通常攻撃
+    /// </summary>
+    /// <returns>与ダメージ量</returns>
+    public int NormalAttack()
+    {
+        // 会心倍率
+        float critical = CriticalLottely() == true ? power_Critical : 1.0f;
+
+        // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
+        int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
+
+        UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
+
+        return damage;
+    }
+
+    /// <summary>
+    /// ガード
+    /// </summary>
+    public void Guard()
+    {
+        // Todo 1ターン経過でガード解除（防御力倍率を1に戻す）
+
+        // 防御力倍率上昇
+        powerDef = power_Guard;
+
+        isGuard = true;
+    }
+
+    /// <summary>
+    /// 必殺技
+    /// </summary>
+    public void SpecialMove()
+    {
+        specialMoveGuageAmount = 0;
+    }
+
+    /// <summary>
+    /// ダメージ
+    /// </summary>
+    /// <param name="_amount">ダメージ量</param>
+    public void Damage(int _amount)
+    {
+        // Todo 回避判定
+
+        // 被ダメ - 防御力 を実際の被ダメージにする
+        currentHp -= (_amount - (int)(DEF * powerDef));
+
+        // ゲージ減少演出
+        hpGuage.Sub(_amount);
+
+        if (currentHp < 0)
+        {
+            currentHp = 0;
+            // 死亡判定？
+        }
+
+        // 必殺ゲージ回復
+        if (isGuard) UpSpecialMoveGuage(sm_Guard.guageUpAmount);
+        else UpSpecialMoveGuage(sm_Damage.guageUpAmount);
+
+        // Todo ダメージ演出・モーション再生
+    }
+
+    /// <summary>
+    /// HP回復
+    /// </summary>
+    /// <param name="_amount">回復量</param>
+    public void HealHP(int _amount)
+    {
+        currentHp += _amount;
+
+        if (currentHp > HP) currentHp = HP;
+
+        // Todo 回復演出
+    }
+
+    /// <summary>
+    /// MP使用
+    /// </summary>
+    /// <param name="_amount">使用量</param>
+    /// <returns>発動不可ならfalseを返す</returns>
+    public bool CostMP(int _amount)
+    {
+        // MPが足りなければ発動不可
+        if (currentMp < _amount)
+            return false;
+
+        currentMp -= _amount;
+        mpGuage.Sub(_amount); // ゲージ減少演出
+
+        if (currentMp < 0) currentMp = 0;
+
+        return true;
+    }
+
+    /// <summary>
+    /// MP回復
+    /// </summary>
+    /// <param name="_amount">回復量</param>
+    public void HealMP(int _amount)
+    {
+        currentMp += _amount;
+
+        if (currentMp > MP) currentMp = MP;
+        // Todo 回復演出
+    }
+
+    /// <summary>
+    /// 必殺技ゲージ上昇
+    /// </summary>
+    public void UpSpecialMoveGuage(int _amount)
+    {
+        specialMoveGuageAmount += _amount;
+
+        if (specialMoveGuageAmount > specialMoveGuageMax)
+            specialMoveGuageAmount = specialMoveGuageMax;
+
+        // Todo 上昇演出
+    }
+
+    /// <summary>
+    /// 死亡
+    /// </summary>
+    public void Dead()
+    {
+        // Todo 敗北演出・モーション再生
+    }
+
+    /// <summary>
+    /// 会心抽選
+    /// </summary>
+    bool CriticalLottely()
+    {
+        int c = Random.Range(0, 100);
+
+        if (c < criticalProbability) return true;
+        else return false;
     }
 }
