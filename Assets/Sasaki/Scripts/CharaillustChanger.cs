@@ -13,23 +13,54 @@ public class CharaillustChanger : MonoBehaviour
     [SerializeField] private Image image = null;
 
     int charaNumSelect;
-    // Start is called before the first frame update
-    void Start()
-    {
-        charaNumSelect = GameManager.SelectChara;
-    }
 
     //選ばれたキャラを表示
     void Update()
     {
-        
+        charaNumSelect = GameManager.SelectChara;
+
+        CombiType type = PlayerDataManager.player.GetEvolutionType();
         if (charaNumSelect == 1)
         {
-            image.sprite = chara[0];//剣士
+            switch (type)//剣士
+            {
+                case CombiType.ATK:
+                    image.sprite = chara[1];
+                    break;
+                case CombiType.DEF:
+                    image.sprite = chara[2];
+                    break;
+                case CombiType.TEC:
+                    image.sprite = chara[3];
+                    break;
+                case CombiType.NORMAL:
+                    image.sprite = chara[0];
+                    break;
+                default: 
+                    image.sprite = chara[0]; 
+                    break;
+            }
         }
-        if (charaNumSelect == 2)
+        if (charaNumSelect == 2)//シスター
         {
-            image.sprite = chara[1];//シスター
+            switch (type)
+            {
+                case CombiType.ATK:
+                    image.sprite = chara[5];
+                    break;
+                case CombiType.DEF:
+                    image.sprite = chara[6];
+                    break;
+                case CombiType.TEC:
+                    image.sprite = chara[7];
+                    break;
+                case CombiType.NORMAL:
+                    image.sprite = chara[4];
+                    break;
+                default:
+                    image.sprite = chara[4];
+                    break;
+            }
         }
     }
 }

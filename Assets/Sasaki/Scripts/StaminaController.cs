@@ -51,28 +51,22 @@ public class StaminaController : MonoBehaviour
             staminaTime = staminaManager.RecoveryTimeText;
             staminaTimeText.text = "次の回復まで残り" + staminaTime.ToString();
         }
+
+        if (Input.GetMouseButtonDown(0) && staminaWindow.activeSelf) 
+        {
+            StaminaHidden();
+        }
     }
 
     //スタミナの時間を表示するためのボタン
     public void OnStaminaButton()
     {
-        tapNum += 1;
-        //スタミナを押しても時間表示ウィンドウを非表示にする
-        if (tapNum <= 1)
-        {
-            staminaWindow.SetActive(true);
-        }
-        else
-        {
-            staminaWindow.SetActive(false);
-            tapNum = 0;
-        }
+        staminaWindow.SetActive(true);
     }
 
     //時間表示のプログラム
-    public void StaminaHidden()
+    void StaminaHidden()
     {
         staminaWindow.SetActive(false);
-        tapNum = 0;
     }
 }
