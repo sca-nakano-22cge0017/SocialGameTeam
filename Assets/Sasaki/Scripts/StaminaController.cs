@@ -10,16 +10,18 @@ public class StaminaController : MonoBehaviour
     [SerializeField,Header("スタミナ表示のテキスト")] private Text staminaText;
     [SerializeField,Header("スタミナの時間表示ウィンドウ")] private GameObject staminaWindow;
     [SerializeField,Header("スタミナの時間テキスト")] private Text staminaTimeText;
-    [SerializeField,Header("スタミナの時間表示を何秒表示するか")] private float stopTime = 3.0f;
     private StaminaManager staminaManager;
 
     private int stamina;
     private int staminaMax;
-    private string staminaTime; //i回復の時間
+    private string staminaTime; //1回復の時間
+
+    int tapNum = 0; //押した回数
 
     // Start is called before the first frame update
     void Start()
     {
+        staminaWindow.SetActive(false);
         staminaManager = FindObjectOfType<StaminaManager>();
         //staminaManagerがnullだったら作る
         if (staminaManager == null)
@@ -47,21 +49,30 @@ public class StaminaController : MonoBehaviour
         if (staminaWindow.activeSelf)
         {
             staminaTime = staminaManager.RecoveryTimeText;
-            staminaTimeText.text = "残り" + staminaTime.ToString();
+            staminaTimeText.text = "次の回復まで残り" + staminaTime.ToString();
         }
     }
 
     //スタミナの時間を表示するためのボタン
     public void OnStaminaButton()
     {
-        staminaWindow.SetActive(true);
-        StartCoroutine(StaminaTimeImage()); //時間表示
+        tapNum += 1;
+        //スタミナを押しても時間表示ウィンドウを非表示にする
+        if (tapNum <= 1)
+        {
+            staminaWindow.SetActive(true);
+        }
+        else
+        {
+            staminaWindow.SetActive(false);
+            tapNum = 0;
+        }
     }
 
     //時間表示のプログラム
-    private IEnumerator StaminaTimeImage()
+    public void StaminaHidden()
     {
-        yield return new WaitForSeconds(stopTime);
         staminaWindow.SetActive(false);
+        tapNum = 0;
     }
 }
