@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
+using UnityEngine.Events;
 
 public class CharaSelectManager : MonoBehaviour
 {
@@ -73,5 +74,15 @@ public class CharaSelectManager : MonoBehaviour
         reader.Close();
 
         return JsonUtility.FromJson<SaveData>(datastr);
+    }
+
+    public static void DeleteSaveData()
+    {
+        // ファイルを削除
+        if (File.Exists(Application.persistentDataPath + "/savedata.json"))
+        {
+            File.Delete("/savedata.json");
+            Debug.Log("セーブデータを削除しました: ");
+        }
     }
 }
