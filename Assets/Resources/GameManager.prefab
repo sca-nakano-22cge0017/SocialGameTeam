@@ -12,7 +12,9 @@ GameObject:
   - component: {fileID: 3432305104325561399}
   - component: {fileID: 9166786210113351093}
   - component: {fileID: 2435309131356134135}
+  - component: {fileID: 601595356790152117}
   - component: {fileID: -2246576267593689565}
+  - component: {fileID: 531340308200159842}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -49,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staminaManager: {fileID: 9166786210113351093}
   masterDataLoader: {fileID: 2435309131356134135}
+  specialTecniqueManager: {fileID: 531340308200159842}
 --- !u!114 &9166786210113351093
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,12 +89,27 @@ MonoBehaviour:
     fileName: Assets/Nakano/Master/p_rankPt.csv
   - key: Ult
     fileName: Assets/Nakano/Master/Ult.csv
+  - key: p_special
+    fileName: Assets/Nakano/Master/p_special.csv
   enemyStatusKey: e_status
   enemyAttackPatternKey: e_attackpattern
   dropDataKey: drop
   playerStatusKey: p_status
   playerRankKey: p_rankPt
   playerUltKey: Ult
+  specialTecniqueKey: p_special
+--- !u!114 &601595356790152117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431911933997176088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba419cf79d4ace14fbdf3fa80c4817e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-2246576267593689565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -105,3 +123,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   masterDataLoader: {fileID: 2435309131356134135}
+--- !u!114 &531340308200159842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5431911933997176088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02a9da31527b8314f9818635d79e210a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  specialTecniques:
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: dee296cefe92e0d47b097277e5f02824, type: 2}
+  - {fileID: 11400000, guid: f2eaa14883ed12a479b95f1269bd7589, type: 2}
+  - {fileID: 11400000, guid: 7b03a66f2fa473543a488375280202f7, type: 2}
+  - {fileID: 11400000, guid: 061776c91fd933049a06bbb3938e4f9f, type: 2}
+  - {fileID: 11400000, guid: 0a618f00ed301214fbfbb995096bf7eb, type: 2}
+  - {fileID: 11400000, guid: 55d6fd9c64f4aee4690750abdf20949c, type: 2}
+  - {fileID: 11400000, guid: 6f19314561566b341a853e86bc2b022f, type: 2}
+  - {fileID: 11400000, guid: bb8a0cd10fa094c43af8d8cf28692632, type: 2}
+  - {fileID: 11400000, guid: d6ad1fcf7ce73954797763729ce88c45, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  - {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}

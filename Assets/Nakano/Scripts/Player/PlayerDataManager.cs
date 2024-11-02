@@ -143,6 +143,9 @@ public class PlayerDataManager : MonoBehaviour
             player = new(2);
             player.SetPlusStatus(plus);
         }
+
+        SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
+        if (stm) stm.ReleaseInitialize();
     }
 
     /// <summary>

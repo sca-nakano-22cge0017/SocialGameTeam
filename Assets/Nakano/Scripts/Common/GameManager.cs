@@ -167,6 +167,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
+    [SerializeField] private SpecialTecniqueManager specialTecniqueManager;
 
     private void Awake()
     {
@@ -213,5 +214,6 @@ public class GameManager : MonoBehaviour
         PlayerDataManager.Load();
 
         yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
+        specialTecniqueManager.Load();
     }
 }
