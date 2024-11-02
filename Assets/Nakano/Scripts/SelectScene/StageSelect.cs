@@ -179,6 +179,7 @@ public class StageSelect : MonoBehaviour
             {
                 // ƒoƒgƒ‹‰æ–Ê‚Ö‚Ì‘JˆÚ
                 //SceneManager.LoadScene("Main");
+                SceneManager.LoadScene("MainTest");
             };
             sdm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
         }

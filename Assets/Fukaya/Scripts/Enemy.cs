@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-
     public GameObject enemy; // エネミーオブジェクト
 
-    public int DIFFICULTY; // 難易度
-    public int AREA; // 育成orボス
-    public int STAGEID; // ステージID
-
-    public int TOTAL; // 敵の数
     public int POSITION; // 敵の位置
     public int e_ID; // 敵ID
 
