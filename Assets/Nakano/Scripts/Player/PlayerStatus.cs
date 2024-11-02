@@ -188,7 +188,7 @@ public class PlayerStatus
         combiRankPt.Clear();
         combiRankPt_NextUp.Clear();
         combiRankPtMax.Clear();
-        for (int c = 0; c < System.Enum.GetValues(typeof(CombiType)).Length; c++)
+        for (int c = 0; c < System.Enum.GetValues(typeof(CombiType)).Length - 1; c++)
         {
             CombiType combi = (CombiType)System.Enum.ToObject(typeof(CombiType), c);
             combiRank.Add(combi, initRank);
@@ -315,7 +315,7 @@ public class PlayerStatus
         }
 
         // •¡‡ƒ‰ƒ“ƒNŒn
-        for (int ct = 0; ct < System.Enum.GetValues(typeof(CombiType)).Length; ct++)
+        for (int ct = 0; ct < System.Enum.GetValues(typeof(CombiType)).Length - 1; ct++)
         {
             CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), ct);
 

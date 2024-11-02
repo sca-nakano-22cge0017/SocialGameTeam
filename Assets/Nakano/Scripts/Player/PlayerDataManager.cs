@@ -222,6 +222,7 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         RankUpCheck();
+        CombiRankUpCheck();
 
         CalcStatus(_type);
 
@@ -236,30 +237,26 @@ public class PlayerDataManager : MonoBehaviour
             int rankPt = player.GetRankPt(type);               // 現在のランクPt
             int rankPt_NextUp = player.GetRankPtNextUp(type); // 次にランクアップするときの累積Pt
             
-            if (rankPt >= rankPt_NextUp && player.GetRank(type) != (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
+            if (rankPt >= rankPt_NextUp && player.GetRank(type) != Rank.SS)
             {
                 RankUp(type);
                 RankUpCheck();
             }
         }
+    }
 
-        for (int j = 0; j < System.Enum.GetValues(typeof(CombiType)).Length; j++)
+    static void CombiRankUpCheck()
+    {
+        for (int j = 0; j < System.Enum.GetValues(typeof(CombiType)).Length - 1; j++)
         {
             CombiType c_type = (CombiType)System.Enum.ToObject(typeof(CombiType), j);
             int combiRankPt = player.GetCombiRankPt(c_type);               // 現在の複合ステランクPt
             int combiRankPt_NextUp = player.GetCombiRankPtNextUp(c_type); // 次にランクアップするときの累積Pt
 
-            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) != (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
+            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) != Rank.SS)
             {
                 CombiRankUp(c_type);
-                RankUpCheck();
-            }
-
-            // 進化
-            if (player.GetCombiRank(c_type) == Rank.SS)
-            {
-                player.SetEvolutionType(c_type);
-                Debug.Log("進化" + c_type);
+                CombiRankUpCheck();
             }
         }
     }
@@ -307,6 +304,12 @@ public class PlayerDataManager : MonoBehaviour
         Rank rank = player.GetCombiRank(_type);
 
         player.SetCombiRankPtNextUp(_type, rankPtData.GetCombiRankNextPt(_type, rank));
+
+        // 進化
+        if (player.GetCombiRank(_type) == Rank.SS)
+        {
+            player.SetEvolutionType(_type);
+        }
     }
 
     /// <summary>
