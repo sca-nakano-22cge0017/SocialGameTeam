@@ -9,6 +9,9 @@ public class HomeButtonController : MonoBehaviour
     [SerializeField, Header("リセットwindow")] private GameObject resetWindow = null;
     [SerializeField, Header("確認window")] private GameObject checkWindow = null;
     [SerializeField, Header("警告window")] private GameObject warningWindow = null;
+    [SerializeField,Header("最終確認window")] private GameObject decisionWindow = null;
+
+    [SerializeField,Header("警告window表示秒数")] private float displayTime = 2.0f;
 
     bool effectCheck;
     // Start is called before the first frame update
@@ -17,6 +20,7 @@ public class HomeButtonController : MonoBehaviour
         resetWindow.SetActive(false);
         checkWindow.SetActive(false);
         warningWindow.SetActive(false);
+        decisionWindow.SetActive(false);
     }
 
     // Update is called once per frame
@@ -47,13 +51,11 @@ public class HomeButtonController : MonoBehaviour
                 checkWindow.SetActive(true);
                 break;
             case "BackWindow": //ホーム画面に戻る
+                Debug.Log("ホームに戻る");
                 SceneManager.LoadScene("HomeScene");
                 break;
             case "NextWindow": //追加効果があるか判定
                 effectInCheck();
-                break;
-            case "ResetWindow": //育成完了画面に進む
-                warningWindow.SetActive(false);
                 break;
             default:
                 SceneManager.LoadScene("TitleScene");
@@ -72,7 +74,16 @@ public class HomeButtonController : MonoBehaviour
         else //ない->警告ウィンドウ表示
         {
             checkWindow.SetActive(false);
-            warningWindow.SetActive(true);
+            StartCoroutine(warningWindowChack());
         }
+    }
+
+    //警告を出して最終確認をする
+    private IEnumerator warningWindowChack()
+    {
+        warningWindow.SetActive(true);
+        yield return new WaitForSeconds(displayTime);
+        warningWindow.SetActive(false);
+        decisionWindow.SetActive(true);
     }
 }
