@@ -139,12 +139,12 @@ public class MasterDataLoader : MonoBehaviour
         GetStageData();
         GetEnemyStatus();
         GetCharaInitialStatus();
-        //GetSpecialTecnique();
+        GetSpecialTecnique();
 
         yield return new WaitUntil(() => stageDataLoaded);
         yield return new WaitUntil(() => enemyDataLoaded);
         yield return new WaitUntil(() => charaDataLoaded);
-        //yield return new WaitUntil(() => specialTecniqueDataLoaded);
+        yield return new WaitUntil(() => specialTecniqueDataLoaded);
 
         masterDataLoadComlete = true;
         Debug.Log("マスターデータ読み込み完了");
@@ -518,26 +518,28 @@ public class MasterDataLoader : MonoBehaviour
 
     void GetSpecialTecnique()
     {
-        const int tecAmount = 30;
-
-        const int idColumn = 0;
-        const int nameColumn = 0;
-        const int isSkillColumn = 0;
-        const int continuationTurnColumn = 0;
-        const int valueColumn = 0;
-        const int effectsColumn = 0;
+        const int idColumn = 1;
+        const int nameColumn = 2;
+        const int isSkillColumn = 3;
+        const int typeColumn = 4;
+        const int continuationTurnColumn = 5;
+        const int value1Column = 6;
+        const int value2Column = 7;
+        const int effectsColumn = 8;
 
         List<string[]> datas = textDatas[specialTecniqueKey];
 
-        for (int l = 1; l <= tecAmount; l++)
+        for (int l = 0; l < datas.Count - 1; l++)
         {
             SpecialTecniqueData d = new();
 
             d.id = int.Parse(datas[l][idColumn]);
             d.name = datas[l][nameColumn];
             d.isSkill = int.Parse(datas[l][isSkillColumn]) == 0 ? false : true;
+            d.type = int.Parse(datas[l][typeColumn]);
             d.continuationTurn = int.Parse(datas[l][continuationTurnColumn]);
-            d.value = int.Parse(datas[l][valueColumn]);
+            d.value1 = int.Parse(datas[l][value1Column]);
+            d.value2 = int.Parse(datas[l][value2Column]);
             d.effects = datas[l][effectsColumn];
 
             MasterData.SpecialTecniques.Add(d);
@@ -561,7 +563,7 @@ namespace Master
         public static List<StageData> StageDatas = new();
         public static List<EnemyStatus> EnemyStatus = new();
         public static List<CharaInitialStutas> CharaInitialStatus = new();
-        public static List<Master.SpecialTecniqueData> SpecialTecniques = new();
+        public static List<SpecialTecniqueData> SpecialTecniques = new();
     }
 
     /// <summary>
@@ -806,11 +808,15 @@ namespace Master
         // スキルかどうか
         public bool isSkill = false;
 
+        // 技能タイプ
+        public int type;
+
         // 継続ターン数
         public int continuationTurn;
 
         // 効果量
-        public int value;
+        public int value1;
+        public int value2;
 
         // 効果内容（プレイヤー向け）
         public string effects;
