@@ -73,6 +73,11 @@ public class BattleSystem : MonoBehaviour
     //    }
     //}
 
+    void onMagicButton()
+    {
+
+    }
+
 
     IEnumerator EnemyTurn()
     {
