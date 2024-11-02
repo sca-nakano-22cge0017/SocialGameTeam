@@ -11,8 +11,6 @@ public class HomeButtonController : MonoBehaviour
     [SerializeField, Header("警告window")] private GameObject warningWindow = null;
     [SerializeField,Header("最終確認window")] private GameObject decisionWindow = null;
 
-    [SerializeField,Header("警告window表示秒数")] private float displayTime = 2.0f;
-
     bool effectCheck;
     // Start is called before the first frame update
     void Start()
@@ -30,6 +28,11 @@ public class HomeButtonController : MonoBehaviour
         if (checkWindow.activeSelf)
         {
             effectCheck = PlayerDataManager.IsAddPlusStatus();
+        }
+
+        if (Input.GetMouseButtonDown(0) && warningWindow.activeSelf)
+        {
+            warningWindowChack();
         }
     }
 
@@ -74,15 +77,13 @@ public class HomeButtonController : MonoBehaviour
         else //ない->警告ウィンドウ表示
         {
             checkWindow.SetActive(false);
-            StartCoroutine(warningWindowChack());
+            warningWindow.SetActive(true);
         }
     }
 
     //警告を出して最終確認をする
-    private IEnumerator warningWindowChack()
+    private void warningWindowChack()
     {
-        warningWindow.SetActive(true);
-        yield return new WaitForSeconds(displayTime);
         warningWindow.SetActive(false);
         decisionWindow.SetActive(true);
     }
