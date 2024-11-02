@@ -430,16 +430,22 @@ public class MasterDataLoader : MonoBehaviour
         const int rankIdColumn = 2;
 
         const int rank_Atk_MaxColumn = 3;
-        const int rank_Mp_MaxColumn = 4;
-        const int rank_TotalAtk_MaxColumn = 5;
+        const int rank_Atk_STColumn = 4;
+        const int rank_Mp_MaxColumn = 5;
+        const int rank_Mp_STColumn = 6;
+        const int rank_TotalAtk_MaxColumn = 7;
 
-        const int rank_Hp_MaxColumn   = 6;
-        const int rank_Def_MaxColumn  = 7;
-        const int rank_TotalDef_MaxColumn = 8;
+        const int rank_Hp_MaxColumn   = 8;
+        const int rank_Hp_STColumn = 9;
+        const int rank_Def_MaxColumn  = 10;
+        const int rank_Def_STColumn = 11;
+        const int rank_TotalDef_MaxColumn = 12;
 
-        const int rank_Spd_MaxColumn  = 9;
-        const int rank_Dex_MaxColumn  = 10;
-        const int rank_TotalTec_MaxColumn = 11;
+        const int rank_Spd_MaxColumn  = 13;
+        const int rank_Spd_STColumn = 14;
+        const int rank_Dex_MaxColumn  = 15;
+        const int rank_Dex_STColumn = 16;
+        const int rank_TotalTec_MaxColumn = 17;
 
         CharacterRankPoint rankPoint = new();
         List<string[]> datas = textDatas[playerRankKey];
@@ -459,6 +465,15 @@ public class MasterDataLoader : MonoBehaviour
                 int dex_Max = int.Parse(datas[l][rank_Dex_MaxColumn]);
 
                 rankPoint.rankPt_NextUp[rank] = new Status(hp_Max, mp_Max, atk_Max, def_Max, spd_Max, dex_Max);
+
+                int hp_ST = int.Parse(datas[l][rank_Hp_STColumn]);
+                int mp_ST = int.Parse(datas[l][rank_Mp_STColumn]);
+                int atk_ST = int.Parse(datas[l][rank_Atk_STColumn]);
+                int def_ST = int.Parse(datas[l][rank_Def_STColumn]);
+                int spd_ST = int.Parse(datas[l][rank_Spd_STColumn]);
+                int dex_ST = int.Parse(datas[l][rank_Dex_STColumn]);
+
+                rankPoint.releaseSTId[rank] = new Status(hp_ST, mp_ST, atk_ST, def_ST, spd_ST, dex_ST);
 
                 rankPoint.atkRankPt_NextUp[rank] = int.Parse(datas[l][rank_TotalAtk_MaxColumn]);
                 rankPoint.defRankPt_NextUp[rank] = int.Parse(datas[l][rank_TotalDef_MaxColumn]);
@@ -505,11 +520,27 @@ public class MasterDataLoader : MonoBehaviour
     {
         const int tecAmount = 30;
 
-        List<SpecialTecnique> data = new();
+        const int idColumn = 0;
+        const int nameColumn = 0;
+        const int isSkillColumn = 0;
+        const int continuationTurnColumn = 0;
+        const int valueColumn = 0;
+        const int effectsColumn = 0;
 
-        for (int t = 1; t <= tecAmount; t++)
+        List<string[]> datas = textDatas[specialTecniqueKey];
+
+        for (int l = 1; l <= tecAmount; l++)
         {
-            
+            SpecialTecniqueData d = new();
+
+            d.id = int.Parse(datas[l][idColumn]);
+            d.name = datas[l][nameColumn];
+            d.isSkill = int.Parse(datas[l][isSkillColumn]) == 0 ? false : true;
+            d.continuationTurn = int.Parse(datas[l][continuationTurnColumn]);
+            d.value = int.Parse(datas[l][valueColumn]);
+            d.effects = datas[l][effectsColumn];
+
+            MasterData.SpecialTecniques.Add(d);
         }
 
         specialTecniqueDataLoaded = true;
@@ -530,7 +561,7 @@ namespace Master
         public static List<StageData> StageDatas = new();
         public static List<EnemyStatus> EnemyStatus = new();
         public static List<CharaInitialStutas> CharaInitialStatus = new();
-        public static List<SpecialTecnique> SpecialTecniques = new();
+        public static List<Master.SpecialTecniqueData> SpecialTecniques = new();
     }
 
     /// <summary>
@@ -694,6 +725,7 @@ namespace Master
     public class CharacterRankPoint
     {
         public Dictionary<Rank, Status> rankPt_NextUp = new();
+        public Dictionary<Rank, Status> releaseSTId = new();   // 解放する特殊技能ID
 
         public Dictionary<Rank, int> atkRankPt_NextUp = new();
         public Dictionary<Rank, int> defRankPt_NextUp = new();
@@ -706,6 +738,8 @@ namespace Master
                 Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
 
                 rankPt_NextUp.Add(rank, null);
+                releaseSTId.Add(rank, null);
+
                 atkRankPt_NextUp.Add(rank, 0);
                 defRankPt_NextUp.Add(rank, 0);
                 tecRankPt_NextUp.Add(rank, 0);
@@ -761,16 +795,13 @@ namespace Master
     /// <summary>
     /// 特殊技能
     /// </summary>
-    public class SpecialTecnique
+    public class SpecialTecniqueData
     {
         // 特殊技能ID
         public int id;
 
         // 名前
         public string name;
-
-        // 効果内容（プレイヤー向け）
-        public string effects;
 
         // スキルかどうか
         public bool isSkill = false;
@@ -780,5 +811,8 @@ namespace Master
 
         // 効果量
         public int value;
+
+        // 効果内容（プレイヤー向け）
+        public string effects;
     }
 }

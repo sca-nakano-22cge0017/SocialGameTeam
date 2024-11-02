@@ -37,6 +37,11 @@ public class PlayerDataManager : MonoBehaviour
             PlayerSaveData c = new();
             c.id = i;
 
+            c.evolutionType = p.evolutionType.ToString();
+            c.atkTypeReleased = p.atkTypeReleased;
+            c.defTypeReleased = p.defTypeReleased;
+            c.tecTypeReleased = p.tecTypeReleased;
+
             c.hp = p.GetStatus(StatusType.HP);
             c.mp = p.GetStatus(StatusType.MP);
             c.atk = p.GetStatus(StatusType.ATK);
@@ -248,6 +253,13 @@ public class PlayerDataManager : MonoBehaviour
             {
                 CombiRankUp(c_type);
                 RankUpCheck();
+            }
+
+            // êiâª
+            if (player.GetCombiRank(c_type) == Rank.SS)
+            {
+                player.SetEvolutionType(c_type);
+                Debug.Log("êiâª" + c_type);
             }
         }
     }

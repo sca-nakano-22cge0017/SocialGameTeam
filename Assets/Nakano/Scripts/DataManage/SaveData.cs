@@ -34,6 +34,18 @@ public class PlayerSaveData
     public int id = -1;
 
     /// <summary>
+    /// 現在の進化形態
+    /// </summary>
+    public string evolutionType = "NORMAL";
+
+    /// <summary>
+    /// 各進化形態解放済みかどうか
+    /// </summary>
+    public bool atkTypeReleased = false;
+    public bool defTypeReleased = false;
+    public bool tecTypeReleased = false;
+
+    /// <summary>
     /// 現在のステータス
     /// </summary>
     public int hp = 0;
