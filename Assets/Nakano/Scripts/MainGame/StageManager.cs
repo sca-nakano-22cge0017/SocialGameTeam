@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class EnemiesIllust
 {
-    public string id;
+    public string enemyId;
+    public Sprite sprite;
+    public Animation anim;
+}
+
+[System.Serializable]
+public class PlayerIllust
+{
+    public int charaId;
+    public CombiType evolutionType; // 形態
     public Sprite sprite;
     public Animation anim;
 }
@@ -16,18 +26,21 @@ public class EnemiesIllust
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private PlayerData player;
+    [SerializeField, Header("プレイヤーのイラスト/アニメーション")] private PlayerIllust[] playersIllust;
     [SerializeField] private Enemy[] enemies;
     [SerializeField, Header("敵のイラスト/アニメーション")] private EnemiesIllust[] enemiesIllust;
 
     StageDataManager stageDataManager;
 
-    void Start()
+    void Awake()
     {
         stageDataManager = FindObjectOfType<StageDataManager>();
         if (stageDataManager)
         {
-            if (GameManager.SelectArea == 1) TraningStageDataSet();
-            if (GameManager.SelectArea == 2) BossStageDataSet();
+            PlayerDataSet();
+
+            if (GameManager.SelectArea == 1) TraningEnemyDataSet();
+            if (GameManager.SelectArea == 2) BossDataSet();
         }
     }
 
@@ -36,7 +49,62 @@ public class StageManager : MonoBehaviour
         
     }
 
-    void TraningStageDataSet()
+    /// <summary>
+    /// プレイヤー設定
+    /// </summary>
+    void PlayerDataSet()
+    {
+        // ステータス取得
+        Status status = new(PlayerDataManager.player.AllStatus);
+        player.ATK = status.atk;
+        player.MP = status.mp;
+        player.HP = status.hp;
+        player.DEF = status.def;
+        player.DEX = status.dex;
+        player.AGI = status.spd;
+        
+        // 必殺ゲージ
+        Master.CharaInitialStutas statusData = PlayerDataManager.player.StatusData;
+        player.specialMoveGuageMax = statusData.specialMoveGuagesSetting[0].guageMaxAmount;
+        player.sm_NormalAttack = statusData.specialMoveGuagesSetting[0];
+        player.sm_Guard = statusData.specialMoveGuagesSetting[1];
+        player.sm_Damage = statusData.specialMoveGuagesSetting[2];
+        player.sm_Turn = statusData.specialMoveGuagesSetting[3];
+        player.sm_Skill = statusData.specialMoveGuagesSetting[4];
+
+        // 攻撃倍率
+        if (GameManager.SelectChara == 1)
+        {
+            player.power_NormalAttack = 1.2f;
+            player.power_Skill = 1.0f;
+            player.power_Critical = 1.5f;
+            player.criticalProbability = 10;
+            player.power_SpecialMove = 10;
+        }
+        if (GameManager.SelectChara == 2)
+        {
+            player.power_NormalAttack = 0.9f;
+            player.power_Skill = 1.3f;
+            player.power_Critical = 1.5f;
+            player.criticalProbability = 10;
+            player.power_SpecialMove = 10;
+        }
+
+        // 表示
+        for (int i = 0; i < playersIllust.Length; i++)
+        {
+            if (playersIllust[i].charaId == GameManager.SelectChara &&
+                playersIllust[i].evolutionType == PlayerDataManager.player.GetEvolutionType())
+            {
+                player.image.sprite = playersIllust[i].sprite;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 敵の設定
+    /// </summary>
+    void TraningEnemyDataSet()
     {
         for (int e = 0; e < enemies.Length; e++)
         {
@@ -50,21 +118,38 @@ public class StageManager : MonoBehaviour
             {
                 if (data[d].placementId != enemies[e].POSITION) continue;
 
-                for (int i = 0; i < enemiesIllust.Length; i++)
+                // ステータス取得
+                enemies[e].HP = data[d].enemyStatus.hp;
+                enemies[e].ATK = data[d].enemyStatus.atk;
+                enemies[e].MP = data[d].enemyStatus.mp;
+                enemies[e].DEF = data[d].enemyStatus.def;
+                enemies[e].DEX = data[d].enemyStatus.dex;
+                enemies[e].AGI = data[d].enemyStatus.spd;
+
+                // アタックパターン取得
+                for (int i = 0; i < data[d].enemyStatus.attackPattern.Count; i++)
                 {
-                    if (data[d].enemyStatus.enemyId == enemiesIllust[i].id)
-                    {
-                        // イラスト変更
-                        enemies[d].GetComponent<Image>().sprite = enemiesIllust[i].sprite;
-                    }
+                    enemies[e].attackPattern.Add(data[d].enemyStatus.attackPattern[i]);
                 }
 
-                enemies[d].gameObject.SetActive(true);
+                // 表示
+                for (int i = 0; i < enemiesIllust.Length; i++)
+                {
+                    if (data[d].enemyStatus.enemyId.Substring(0, 1) == enemiesIllust[i].enemyId)
+                    {
+                        // イラスト変更
+                        enemies[e].image.sprite = enemiesIllust[i].sprite;
+
+                        // Todo アニメーション/Spineの変更
+
+                        enemies[e].gameObject.SetActive(true);
+                    }
+                }
             }
         }
     }
 
-    void BossStageDataSet()
+    void BossDataSet()
     {
     }
 }
