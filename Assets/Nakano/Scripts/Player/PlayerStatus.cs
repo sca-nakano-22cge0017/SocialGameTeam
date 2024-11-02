@@ -4,7 +4,7 @@ using UnityEngine;
 using Master;
 
 public enum StatusType { HP, MP, ATK, DEF, SPD, DEX };
-public enum CombiType { ATK, DEF, TEC };
+public enum CombiType { ATK, DEF, TEC, NORMAL };
 public enum Rank { C = 0, B = 1, A = 2, S = 3, SS = 4 };
 
 public class Status
@@ -120,6 +120,13 @@ public class PlayerStatus
 
     private const int resetBonusCoefficient = 1000;       // リセット時のステータス上昇量の係数　上昇量 = resetBonusCoefficient * plusStatus
     private Status plusStatus = new(0, 0, 0, 0, 0, 0);     // 周回によるプラスステータス 1～99
+
+    public CombiType evolutionType = CombiType.NORMAL; // 現在の進化形態
+
+    // 各進化形態解放済みかどうか
+    public bool atkTypeReleased = false;
+    public bool defTypeReleased = false;
+    public bool tecTypeReleased = false;
 
     /// <summary>
     /// IDに応じて初期ステータス設定
@@ -254,6 +261,11 @@ public class PlayerStatus
         status = new Status(_data.hp, _data.mp, _data.atk, _data.def, _data.spd, _data.dex);
         rankPoint = new Status(_data.hp_rankPt, _data.mp_rankPt, _data.atk_rankPt, _data.def_rankPt, _data.spd_rankPt, _data.dex_rankPt);
         plusStatus = new Status(_data.hp_plusStatus, _data.mp_plusStatus, _data.atk_plusStatus, _data.def_plusStatus, _data.spd_plusStatus, _data.dex_plusStatus);
+
+        evolutionType = (CombiType)System.Enum.Parse(typeof(CombiType), _data.evolutionType);
+        atkTypeReleased = _data.atkTypeReleased;
+        defTypeReleased = _data.defTypeReleased;
+        tecTypeReleased = _data.tecTypeReleased;
 
         SetData();
     }
@@ -425,6 +437,22 @@ public class PlayerStatus
     public void SetStatusMax(StatusType _type, int _num)
     {
         status_Max.SetStatus(_type, _num);
+    }
+
+    /// <summary>
+    /// 現在の進化形態を取得
+    /// </summary>
+    public CombiType GetEvolutionType()
+    {
+        return evolutionType;
+    }
+
+    public void SetEvolutionType(CombiType _type)
+    {
+        if (evolutionType == CombiType.NORMAL)
+        {
+            evolutionType = _type;
+        }
     }
 
     // ランク
