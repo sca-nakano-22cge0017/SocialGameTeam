@@ -52,7 +52,7 @@ public class PlayerSaveData
     public int mp = 0;
     public int atk = 0;
     public int def = 0;
-    public int spd = 0;
+    public int agi = 0;
     public int dex = 0;
 
     /// <summary>
@@ -62,7 +62,7 @@ public class PlayerSaveData
     public int  mp_rankPt = 0;
     public int atk_rankPt = 0;
     public int def_rankPt = 0;
-    public int spd_rankPt = 0;
+    public int agi_rankPt = 0;
     public int dex_rankPt = 0;
 
     /// <summary>
@@ -72,6 +72,6 @@ public class PlayerSaveData
     public int  mp_plusStatus = 0;
     public int atk_plusStatus = 0;
     public int def_plusStatus = 0;
-    public int spd_plusStatus = 0;
+    public int agi_plusStatus = 0;
     public int dex_plusStatus = 0;
 }

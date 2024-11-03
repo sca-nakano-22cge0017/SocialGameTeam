@@ -22,6 +22,8 @@ public class DifficultyManager : MonoBehaviour
 
     [SerializeField] private Button[] selectButtons;
 
+    [SerializeField] private bool isDebug = false;
+
     private void Awake()
     {
         SetSelectButtons();
@@ -36,12 +38,19 @@ public class DifficultyManager : MonoBehaviour
                 selectButtons[i].interactable = true;
             }
             else selectButtons[i].interactable = false;
+
+            if (isDebug) selectButtons[i].interactable = true;
         }
     }
 
     public void SetDifficulty_Button(int _difficulty)
     {
-        SetDifficulty(_difficulty);
+        if (isDebug)
+        {
+            GameManager.SelectDifficulty = _difficulty;
+        }
+
+        else SetDifficulty(_difficulty);
     }
 
     /// <summary>
@@ -57,7 +66,6 @@ public class DifficultyManager : MonoBehaviour
         if (_difficulty <= isClearBossDifficulty + 1)
         {
             GameManager.SelectDifficulty = _difficulty;
-            Debug.Log(GameManager.SelectDifficulty);
         }
     }
 

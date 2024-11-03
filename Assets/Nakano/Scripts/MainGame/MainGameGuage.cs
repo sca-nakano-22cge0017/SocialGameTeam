@@ -29,6 +29,8 @@ public class MainGameGuage : MonoBehaviour
         max = _maxAmount;
         diff = max;
         current = max;
+
+        text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
     }
 
     /// <summary>

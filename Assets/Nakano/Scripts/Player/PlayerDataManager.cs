@@ -46,28 +46,28 @@ public class PlayerDataManager : MonoBehaviour
             c.mp = p.GetStatus(StatusType.MP);
             c.atk = p.GetStatus(StatusType.ATK);
             c.def = p.GetStatus(StatusType.DEF);
-            c.spd = p.GetStatus(StatusType.SPD);
+            c.agi = p.GetStatus(StatusType.AGI);
             c.dex = p.GetStatus(StatusType.DEX);
 
             c.hp_rankPt = p.GetRankPt(StatusType.HP);
             c.mp_rankPt = p.GetRankPt(StatusType.MP);
             c.atk_rankPt = p.GetRankPt(StatusType.ATK);
             c.def_rankPt = p.GetRankPt(StatusType.DEF);
-            c.spd_rankPt = p.GetRankPt(StatusType.SPD);
+            c.agi_rankPt = p.GetRankPt(StatusType.AGI);
             c.dex_rankPt = p.GetRankPt(StatusType.DEX);
 
             c.hp_plusStatus = p.GetPlusStatus(StatusType.HP);
             c.mp_plusStatus = p.GetPlusStatus(StatusType.MP);
             c.atk_plusStatus = p.GetPlusStatus(StatusType.ATK);
             c.def_plusStatus = p.GetPlusStatus(StatusType.DEF);
-            c.spd_plusStatus = p.GetPlusStatus(StatusType.SPD);
+            c.agi_plusStatus = p.GetPlusStatus(StatusType.AGI);
             c.dex_plusStatus = p.GetPlusStatus(StatusType.DEX);
 
             if (i == 1) saveData.chara1 = c;
             if (i == 2) saveData.chara2 = c;
         }
 
-        saveData.selectChara = GameManager.SelectChara;
+        saveData.selectChara = GameManager.SelectChara == -1 ? 1 : GameManager.SelectChara;
         saveData.isFirstStart = GameManager.isFirstStart;
         saveData.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty;
         
@@ -465,7 +465,7 @@ public class PlayerDataManager : MonoBehaviour
             case StatusType.DEF:
                 return CombiType.DEF;
 
-            case StatusType.SPD:
+            case StatusType.AGI:
                 return CombiType.TEC;
 
             case StatusType.DEX:
@@ -492,7 +492,7 @@ public class PlayerDataManager : MonoBehaviour
             case StatusType.DEF:
                 return "Žç”õ";
 
-            case StatusType.SPD:
+            case StatusType.AGI:
                 return "‘¬“x";
 
             case StatusType.DEX:

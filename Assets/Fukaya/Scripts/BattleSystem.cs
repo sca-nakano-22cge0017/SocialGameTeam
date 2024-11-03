@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using System.Linq;
+
 public class BattleSystem : MonoBehaviour
 {
     public GameObject player; // プレイヤーオブジェクト
@@ -31,6 +33,11 @@ public class BattleSystem : MonoBehaviour
 
         attackButton.onClick.AddListener(OnAttackButton); // ボタンのクリックイベントを設定
         UpdateBattleText("プレイヤーのターン");
+    }
+
+    private void Update()
+    {
+
     }
 
     void OnAttackButton()

@@ -319,7 +319,7 @@ public class MasterDataLoader : MonoBehaviour
                         item.itemType = StatusType.DEF;
                         break;
                     case 5:
-                        item.itemType = StatusType.SPD;
+                        item.itemType = StatusType.AGI;
                         break;
                     case 6:
                         item.itemType = StatusType.DEX;
