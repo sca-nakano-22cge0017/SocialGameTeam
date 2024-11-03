@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Master;
 
-public enum StatusType { HP, MP, ATK, DEF, SPD, DEX };
+public enum StatusType { HP, MP, ATK, DEF, AGI, DEX };
 public enum CombiType { ATK, DEF, TEC, NORMAL };
 public enum Rank { C = 0, B = 1, A = 2, S = 3, SS = 4 };
 
@@ -13,16 +13,16 @@ public class Status
     public int mp;
     public int atk;
     public int def;
-    public int spd;
+    public int agi;
     public int dex;
 
-    public Status(int _hp, int _mp, int _atk, int _def, int _spd, int _dex)
+    public Status(int _hp, int _mp, int _atk, int _def, int _agi, int _dex)
     {
         hp = _hp;
         mp = _mp;
         atk = _atk;
         def = _def;
-        spd = _spd;
+        agi = _agi;
         dex = _dex;
     }
 
@@ -32,7 +32,7 @@ public class Status
         mp = _status.mp;
         atk = _status.atk;
         def = _status.def;
-        spd = _status.spd;
+        agi = _status.agi;
         dex = _status.dex;
     }
 
@@ -52,8 +52,8 @@ public class Status
             case StatusType.DEF:
                 return def;
 
-            case StatusType.SPD:
-                return spd;
+            case StatusType.AGI:
+                return agi;
 
             case StatusType.DEX:
                 return dex;
@@ -83,8 +83,8 @@ public class Status
                 def = _num;
                 break;
 
-            case StatusType.SPD:
-                spd = _num;
+            case StatusType.AGI:
+                agi = _num;
                 break;
 
             case StatusType.DEX:
@@ -258,9 +258,9 @@ public class PlayerStatus
         id = _data.id;
         Initialize(_data.id);
 
-        status = new Status(_data.hp, _data.mp, _data.atk, _data.def, _data.spd, _data.dex);
-        rankPoint = new Status(_data.hp_rankPt, _data.mp_rankPt, _data.atk_rankPt, _data.def_rankPt, _data.spd_rankPt, _data.dex_rankPt);
-        plusStatus = new Status(_data.hp_plusStatus, _data.mp_plusStatus, _data.atk_plusStatus, _data.def_plusStatus, _data.spd_plusStatus, _data.dex_plusStatus);
+        status = new Status(_data.hp, _data.mp, _data.atk, _data.def, _data.agi, _data.dex);
+        rankPoint = new Status(_data.hp_rankPt, _data.mp_rankPt, _data.atk_rankPt, _data.def_rankPt, _data.agi_rankPt, _data.dex_rankPt);
+        plusStatus = new Status(_data.hp_plusStatus, _data.mp_plusStatus, _data.atk_plusStatus, _data.def_plusStatus, _data.agi_plusStatus, _data.dex_plusStatus);
 
         evolutionType = (CombiType)System.Enum.Parse(typeof(CombiType), _data.evolutionType);
         atkTypeReleased = _data.atkTypeReleased;
@@ -331,7 +331,7 @@ public class PlayerStatus
                     break;
 
                 case CombiType.TEC:
-                    combiRankPt[type] = rankPoint.spd + rankPoint.dex;
+                    combiRankPt[type] = rankPoint.agi + rankPoint.dex;
                     break;
             }
 

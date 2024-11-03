@@ -32,15 +32,34 @@ public class StageManager : MonoBehaviour
 
     StageDataManager stageDataManager;
 
-    void Awake()
+    /// <summary>
+    /// セッティング完了
+    /// </summary>
+    public bool isSetCompleted = false;
+
+    [Header("確認用")]
+    [SerializeField, Range(1, 2), Header("1：育成　2：ボス")] private int areaId = 1;
+    [SerializeField, Range(1, 6), Header("ステージ番号")] private int stageId = 1;
+    [SerializeField, Range(1, 5), Header("難易度")] private int difficultyId = 1;
+
+    private void Start()
     {
         stageDataManager = FindObjectOfType<StageDataManager>();
-        if (stageDataManager)
-        {
-            PlayerDataSet();
 
-            if (GameManager.SelectArea == 1) TraningEnemyDataSet();
-            if (GameManager.SelectArea == 2) BossDataSet();
+        if (!StageDataManager.StageDataLoadComplete)
+        {
+            stageDataManager.LoadCompleteProcess += () =>
+            {
+                PlayerDataSet();
+                EnemyDataSet();
+                isSetCompleted = true;
+            };
+
+            GameManager.SelectDifficulty = difficultyId;
+            GameManager.SelectArea = areaId;
+            GameManager.SelectStage = stageId;
+
+            stageDataManager.LoadData(difficultyId, areaId, stageId);
         }
     }
 
@@ -60,8 +79,8 @@ public class StageManager : MonoBehaviour
         player.MP = status.mp;
         player.HP = status.hp;
         player.DEF = status.def;
+        player.AGI = status.agi;
         player.DEX = status.dex;
-        player.AGI = status.spd;
         
         // 必殺ゲージ
         Master.CharaInitialStutas statusData = PlayerDataManager.player.StatusData;
@@ -99,12 +118,14 @@ public class StageManager : MonoBehaviour
                 player.image.sprite = playersIllust[i].sprite;
             }
         }
+
+        player.Initialize();
     }
 
     /// <summary>
     /// 敵の設定
     /// </summary>
-    void TraningEnemyDataSet()
+    void EnemyDataSet()
     {
         for (int e = 0; e < enemies.Length; e++)
         {
@@ -141,15 +162,12 @@ public class StageManager : MonoBehaviour
                         enemies[e].image.sprite = enemiesIllust[i].sprite;
 
                         // Todo アニメーション/Spineの変更
-
-                        enemies[e].gameObject.SetActive(true);
                     }
                 }
+
+                enemies[e].gameObject.SetActive(true);
+                enemies[e].Initialize();
             }
         }
-    }
-
-    void BossDataSet()
-    {
     }
 }

@@ -2,42 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Master;
 
 /// <summary>
 /// プレイヤーのステータスやコマンド管理
 /// </summary>
-public class PlayerData : MonoBehaviour
+public class PlayerData : Character
 {
     // 特殊技能・スキルは別スクリプト
 
-    public Image image; // イラスト
-
     [SerializeField] private MainGameGuage hpGuage;
     [SerializeField] private MainGameGuage mpGuage;
-
-    // ステータス
-    public int ATK; // 攻撃
-    public int MP;  // 魔力
-    public int HP;  // 体力
-    public int DEF; // 防御
-    public int AGI; // 速度
-    public int DEX; // 器用
-
-    // 計算用
-    private int currentMp;
-    private int currentAtk;
-    private int currentHp;
-    private int currentDef;
-    private int currentDex;
-    private int currentAgi;
-
-    // ステータス倍率
-    public float powerMp = 1;
-    public float powerAtk = 1;
-    public float powerHp = 1;
-    public float powerDef = 1;
-    public float powerDex = 1;
-    public float powerAgi = 1;
 
     // 攻撃倍率
     public float power_NormalAttack;  // 通常攻撃
@@ -45,23 +20,21 @@ public class PlayerData : MonoBehaviour
     public float power_Critical;      // 会心時倍率
     public float power_SpecialMove;   // 必殺技
 
-    public float criticalProbability; // 会心率
-
     // ガード
     private bool isGuard;
     public float power_Guard = 1.2f; // ガード時防御倍率
 
     // 必殺技ゲージ
-    [SerializeField] private Image specialMoveGuage;
     private int specialMoveGuageAmount;
     public int specialMoveGuageMax; // 最大量
 
-    // 必殺ゲージ設定 1：通常攻撃 2：防御状態で被ダメ 3：非防御状態で被ダメ 4：経過ターン 5：アップ用スキル
-    public Master.SpecialMoveGuageSetting sm_NormalAttack;
-    public Master.SpecialMoveGuageSetting sm_Guard;
-    public Master.SpecialMoveGuageSetting sm_Damage;
-    public Master.SpecialMoveGuageSetting sm_Turn;
-    public Master.SpecialMoveGuageSetting sm_Skill;
+    // 必殺ゲージ設定
+    // 1：通常攻撃 2：防御状態で被ダメ 3：非防御状態で被ダメ 4：経過ターン 5：アップ用スキル
+    public SpecialMoveGuageSetting sm_NormalAttack;
+    public SpecialMoveGuageSetting sm_Guard;
+    public SpecialMoveGuageSetting sm_Damage;
+    public SpecialMoveGuageSetting sm_Turn;
+    public SpecialMoveGuageSetting sm_Skill;
 
     void Start()
     {
@@ -76,7 +49,7 @@ public class PlayerData : MonoBehaviour
     /// <summary>
     /// ステータス初期化
     /// </summary>
-    private void Initialize()
+    public override void Initialize()
     {
         currentMp = MP;
         currentAtk = ATK;
@@ -91,14 +64,15 @@ public class PlayerData : MonoBehaviour
         mpGuage.Initialize(MP);
     }
 
-    /// <summary>
-    /// 通常攻撃
-    /// </summary>
-    /// <returns>与ダメージ量</returns>
-    public int NormalAttack()
+    public override void Move()
+    {
+        Debug.Log("プレイヤーの行動");
+    }
+
+    public override int NormalAttack()
     {
         // 会心倍率
-        float critical = CriticalLottely() == true ? power_Critical : 1.0f;
+        float critical = CriticalLottery() == true ? power_Critical : 1.0f;
 
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
         int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
@@ -133,7 +107,7 @@ public class PlayerData : MonoBehaviour
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
-    public void Damage(int _amount)
+    public override void Damage(int _amount)
     {
         // Todo 回避判定
 
@@ -216,19 +190,8 @@ public class PlayerData : MonoBehaviour
     /// <summary>
     /// 死亡
     /// </summary>
-    public void Dead()
+    public override void Dead()
     {
         // Todo 敗北演出・モーション再生
-    }
-
-    /// <summary>
-    /// 会心抽選
-    /// </summary>
-    bool CriticalLottely()
-    {
-        int c = Random.Range(0, 100);
-
-        if (c < criticalProbability) return true;
-        else return false;
     }
 }

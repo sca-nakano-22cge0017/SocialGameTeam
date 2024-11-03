@@ -58,14 +58,10 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (!MasterDataLoader.MasterDataLoadComplete)
-            {
-                //Debug.Log("マスターデータの読み込みが完了していません");
-            }
-
             if (selectChara == errorNum)
             {
-                //Debug.Log("選択キャラクター：入力値がありません。");
+                Debug.Log("選択キャラクター：入力値がありません。キャラクター1を選択します");
+                SelectChara = 1;
             }
 
             return selectChara;

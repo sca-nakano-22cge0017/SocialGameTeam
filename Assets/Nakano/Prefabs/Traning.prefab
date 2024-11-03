@@ -2355,7 +2355,6 @@ GameObject:
   - component: {fileID: 8896107436758269668}
   - component: {fileID: 7286712308195559347}
   - component: {fileID: 560291452339493081}
-  - component: {fileID: 7076742655704361753}
   m_Layer: 5
   m_Name: StageSelectWindow_Traning
   m_TagString: Untagged
@@ -2497,24 +2496,6 @@ MonoBehaviour:
     stageId: 6
   firstSelectButton: {fileID: 6047058611027762713}
   selectingFrame: {fileID: 6199921474096555582}
---- !u!114 &7076742655704361753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4376480123779029216}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ad238b31f81ba446940c2d99b739963, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  charaImage: {fileID: 6459384991438753882}
-  illustrations:
-  - id: 1
-    sprite: {fileID: 21300000, guid: 00a8bbe4d4711134da29e93e0c3a7bcd, type: 3}
-  - id: 2
-    sprite: {fileID: 21300000, guid: cf6719bab2e347a4583fa5c1125cf16d, type: 3}
 --- !u!1 &4501599304289608568
 GameObject:
   m_ObjectHideFlags: 0
@@ -3001,8 +2982,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4610378110831336835}
   m_HandleRect: {fileID: 7824420910526153409}
   m_Direction: 0
-  m_Value: 0.000002034497
-  m_Size: 0.9749163
+  m_Value: -0.0000020344887
+  m_Size: 0.97491616
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3078,6 +3059,7 @@ MonoBehaviour:
   - {fileID: 4541021397813620654}
   - {fileID: 8037453958785852625}
   - {fileID: 7313150232320758493}
+  isDebug: 1
 --- !u!1 &5322284271613168454
 GameObject:
   m_ObjectHideFlags: 0
@@ -5267,17 +5249,6 @@ RectTransform:
 --- !u!114 &5035911790413681766 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6629917586493960017, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
-  m_PrefabInstance: {fileID: 1864795894979328823}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6459384991438753882 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4631193079820004205, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
   m_PrefabInstance: {fileID: 1864795894979328823}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

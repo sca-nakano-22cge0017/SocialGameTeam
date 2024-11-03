@@ -2,37 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Master;
+using System;
 
-public class Enemy : MonoBehaviour
+public class Enemy : Character
 {
-    public Image image; // イラスト
-
     [SerializeField] private MainGameGuage hpGuage;
 
     public int POSITION; // 敵の位置
 
-    public int ATK; // 攻撃力
-    public int MP; // 魔力
-    public int HP; // 体力
-    public int DEF; // 防御力
-    public int AGI; // 速度
-    public int DEX; // 器用
-
-    // 計算用
-    private int currentMp;
-    private int currentAtk;
-    private int currentHp;
-    private int currentDef;
-    private int currentDex;
-    private int currentAgi;
-
     // アタックパターン
-    public List<Master.EnemyAttackPattern> attackPattern = new();
+    public List<EnemyAttackPattern> attackPattern = new();
 
     void Start()
     {
-        
+
     }
+
     void Update()
     {
         
@@ -41,7 +27,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// 初期状態に移行
     /// </summary>
-    public void Initialize()
+    public override void Initialize()
     {
         currentMp = MP;
         currentAtk = ATK;
@@ -53,25 +39,24 @@ public class Enemy : MonoBehaviour
         hpGuage.Initialize(HP);
     }
 
-    public void Move()
+    public override void Move()
     {
-        // 攻撃方法を抽選
-        Master.EnemyAttackPattern move = MoveLottely();
+        Debug.Log("敵" + POSITION + "の行動");
 
-        // 行動
-        if (move.attackId == 1) Attack();
+        // 攻撃方法を抽選
+        Master.EnemyAttackPattern move = MoveLottery();
     }
 
-    void Attack()
+    public override int NormalAttack()
     {
-
+        return -1;
     }
 
     /// <summary>
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
-    public void Damage(int _amount)
+    public override void Damage(int _amount)
     {
         currentHp -= _amount;
         hpGuage.Sub(_amount); // ゲージ減少演出
@@ -139,7 +124,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// アタックパターン抽選
     /// </summary>
-    Master.EnemyAttackPattern MoveLottely()
+    EnemyAttackPattern MoveLottery()
     {
         List<float> range = new();
         float t = 0;
@@ -150,7 +135,7 @@ public class Enemy : MonoBehaviour
             range.Add(t);
         }
 
-        int rnd = Random.Range(0, 100);
+        int rnd = UnityEngine.Random.Range(0, 100);
         for (int i = 0; i < range.Count - 1; i++)
         {
             if (range[i] <= rnd && rnd < range[i + 1])
