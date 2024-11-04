@@ -34,12 +34,27 @@ public class MainGameGuage : MonoBehaviour
     }
 
     /// <summary>
+    /// åªç›ílëùâ¡
+    /// </summary>
+    /// <param name="_amount">ëùâ¡ó </param>
+    public void Add(int _amount)
+    {
+        current += _amount;
+        if (current > max) current = max;
+
+        text.text = current.ToString() + "/" + max.ToString();
+        guage_first.fillAmount = (float)current / max;
+        guage_second.fillAmount = (float)current / max;
+    }
+
+    /// <summary>
     /// åªç›ílå∏è≠
     /// </summary>
     /// <param name="_amount">å∏è≠ó </param>
     public void Sub(int _amount)
     {
         current -= _amount;
+        if (current < 0) current = 0;
 
         ChangeFirstGuage();
     }

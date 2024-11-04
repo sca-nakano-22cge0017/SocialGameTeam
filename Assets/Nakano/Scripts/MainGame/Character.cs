@@ -9,6 +9,9 @@ using UnityEngine.UI;
 public class Character : MonoBehaviour
 {
     public Image image; // イラスト
+    [SerializeField] protected MainGameGuage hpGuage;
+    [SerializeField] protected Text damageText;
+    [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 1.0f;
 
     // ステータス
     public int ATK; // 攻撃
@@ -44,10 +47,6 @@ public class Character : MonoBehaviour
 
     // 会心率
     public float criticalProbability;
-
-    // 行動終了後に呼び出す
-    public delegate void NextMove();
-    public NextMove nextTurn;
 
     /// <summary>
     /// 初期化
@@ -98,6 +97,19 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// HP回復
+    /// </summary>
+    /// <param name="_amount">回復量</param>
+    public virtual void HealHP(int _amount)
+    {
+        currentHp += _amount;
+
+        if (currentHp > HP) currentHp = HP;
+
+        // Todo 回復演出
+    }
+
+    /// <summary>
     /// 死亡
     /// </summary>
     public virtual void Dead()
@@ -114,5 +126,19 @@ public class Character : MonoBehaviour
 
         if (c < criticalProbability) return true;
         else return false;
+    }
+
+    /// <summary>
+    /// テキスト表示　ダメージ等々
+    /// </summary>
+    /// <returns></returns>
+    protected IEnumerator DispText(Text _text, string _str)
+    {
+        _text.text = _str;
+        _text.enabled = true;
+
+        yield return new WaitForSeconds(textDispTime);
+
+        _text.enabled = false;
     }
 }

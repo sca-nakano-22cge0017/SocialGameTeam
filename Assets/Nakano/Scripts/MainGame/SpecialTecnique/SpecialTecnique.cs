@@ -9,30 +9,30 @@ public class SpecialTecnique : ScriptableObject
     public int m_id;
 
     // 解放済みかどうか
-    public bool m_released = false;
+    [HideInInspector] public bool m_released = false;
 
     // 使用アイコン
     public Sprite m_illust;
 
     // 以下はマスターデータで変更あり
     // 名前
-    private string m_name;
+    [HideInInspector] public string m_name;
 
     // スキルかどうか
-    private bool m_isSkill = false;
+    [HideInInspector] public bool m_isSkill = false;
 
     // タイプ
-    private int m_type;
+    [HideInInspector] public int m_type;
 
     // 継続ターン数
-    private int m_continuationTurn;
+    [HideInInspector] public int m_continuationTurn;
 
     // 効果量
-    private int m_value1;
-    private int m_value2;
+    [HideInInspector] public int m_value1;
+    [HideInInspector] public int m_value2;
 
     // 効果内容（プレイヤー向け）
-    private string m_effects;
+    [HideInInspector] public string m_effects;
 
     public void Setting(string _name, bool _isSkill, int _type, int _continuationTurn, int _value1, int _value2, string _effects)
     {
@@ -42,23 +42,27 @@ public class SpecialTecnique : ScriptableObject
         m_continuationTurn = _continuationTurn;
         m_value1 = _value1;
         m_value2 = _value2;
-        
+        m_effects = _effects;
+
+        if (m_effects.Contains("{"))
+        {
+            string str = _effects;
+            int start = str.IndexOf('{');
+            int end = str.IndexOf('}');
+            m_effects = str.Remove(start, (end - start + 1));
+        }
         if (_effects.Contains("V"))
         {
-            _effects.Replace("V", m_value1.ToString());
-        }
-        if (_effects.Contains("W"))
-        {
-            _effects.Replace("W", m_value2.ToString());
+            string value = m_value1.ToString();
+            string str = _effects;
+            m_effects = str.Replace("V", value);
         }
 
-        if (_effects.Contains("{"))
+        if (m_effects.Contains("W"))
         {
-            int start = _effects.IndexOf('{');
-            int end = _effects.IndexOf('}');
-            _effects.Remove(start, (end - start + 1));
+            string value = m_value2.ToString();
+            string str = _effects;
+            m_effects = str.Replace("W", value);
         }
-
-        m_effects = _effects;
     }
 }

@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Master;
-using System;
 
 public class Enemy : Character
 {
-    [SerializeField] private MainGameGuage hpGuage;
+    private DropController dropController;
 
     public int POSITION; // 敵の位置
 
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
+
+    [SerializeField, Header("ドロップ")] private Text dropText;
+
+    private void Awake()
+    {
+        dropController = FindObjectOfType<DropController>();
+    }
 
     void Start()
     {
@@ -64,7 +70,9 @@ public class Enemy : Character
         if (currentHp < 0)
         {
             currentHp = 0;
-            // 死亡判定？
+
+            // 死亡判定
+            Dead();
         }
 
         // Todo ダメージ演出・モーション再生
@@ -74,51 +82,32 @@ public class Enemy : Character
     /// HP回復
     /// </summary>
     /// <param name="_amount">回復量</param>
-    public void HealHP(int _amount)
+    public override void HealHP(int _amount)
     {
         currentHp += _amount;
 
         if (currentHp > HP) currentHp = HP;
 
-        // 回復演出
-    }
+        hpGuage.Add(_amount);
 
-    /// <summary>
-    /// MP使用
-    /// </summary>
-    /// <param name="_amount">使用量</param>
-    /// <returns>発動不可ならfalseを返す</returns>
-    public bool CostMP(int _amount)
-    {
-        // MPが足りなければ発動不可
-        if (currentMp < _amount)
-            return false;
-
-        currentMp -= _amount;
-
-        if (currentMp < 0) currentMp = 0;
-
-        return true;
-    }
-
-    /// <summary>
-    /// MP回復
-    /// </summary>
-    /// <param name="_amount">回復量</param>
-    public void HealMP(int _amount)
-    {
-        currentMp += _amount;
-
-        if (currentMp > MP) currentMp = MP;
         // 回復演出
     }
 
     /// <summary>
     /// 死亡
     /// </summary>
-    public void Dead()
+    public override void Dead()
     {
-        // 敗北演出・モーション再生
+        Debug.Log("敵" + POSITION + "を倒した");
+
+        // Todo モーション再生
+
+        // ドロップ抽選
+        int drop = dropController.DropLottery();
+
+        // ドロップ量表示
+        string str = "+" + drop.ToString() + "Pt";
+        StartCoroutine(DispText(dropText, str));
     }
 
     /// <summary>

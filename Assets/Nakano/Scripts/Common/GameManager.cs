@@ -202,6 +202,10 @@ public class GameManager : MonoBehaviour
             DropController d = FindObjectOfType<DropController>();
             d.Initialize();
         }
+        if (Input.GetKeyDown(KeyCode.Delete))
+        {
+            CharaSelectManager.DeleteSaveData();
+        }
     }
 
     IEnumerator LoadComplete()

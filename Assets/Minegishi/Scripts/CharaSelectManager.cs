@@ -81,7 +81,7 @@ public class CharaSelectManager : MonoBehaviour
         // ファイルを削除
         if (File.Exists(Application.persistentDataPath + "/savedata.json"))
         {
-            File.Delete("/savedata.json");
+            File.Delete(Application.persistentDataPath + "/savedata.json");
             Debug.Log("セーブデータを削除しました: ");
         }
     }

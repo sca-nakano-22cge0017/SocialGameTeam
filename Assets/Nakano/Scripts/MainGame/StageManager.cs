@@ -42,30 +42,67 @@ public class StageManager : MonoBehaviour
     [SerializeField, Range(1, 6), Header("ステージ番号")] private int stageId = 1;
     [SerializeField, Range(1, 5), Header("難易度")] private int difficultyId = 1;
 
+    [SerializeField] WindowController windowController;
+
+    private void Awake()
+    {
+        Load();
+    }
+
     private void Start()
     {
+        Load();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            enemies[0].Damage(100);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            windowController.Open();
+        }
+    }
+
+    private void Load()
+    {
+        if (isSetCompleted) return;
+
         stageDataManager = FindObjectOfType<StageDataManager>();
 
+        if (!stageDataManager) return;
+
+        // ステージデータ未ロードなら
         if (!StageDataManager.StageDataLoadComplete)
         {
+            // ロード完了後の処理
             stageDataManager.LoadCompleteProcess += () =>
             {
-                PlayerDataSet();
-                EnemyDataSet();
-                isSetCompleted = true;
+                Setting();
             };
 
+            // 指定したステージのデータをロード
             GameManager.SelectDifficulty = difficultyId;
             GameManager.SelectArea = areaId;
             GameManager.SelectStage = stageId;
 
             stageDataManager.LoadData(difficultyId, areaId, stageId);
         }
+        
+        else
+        {
+            Setting();
+        }
     }
 
-    void Update()
+    void Setting()
     {
-        
+        PlayerDataSet();
+        EnemyDataSet();
+        isSetCompleted = true;
     }
 
     /// <summary>

@@ -46,6 +46,9 @@ public class SpecialTecniqueManager : MonoBehaviour
         ReleaseSpecialTecnique();
     }
 
+    /// <summary>
+    /// 全てのランクのステータスを確認して解放する
+    /// </summary>
     public void ReleaseSpecialTecnique()
     {
         for (int t = 0; t < System.Enum.GetValues(typeof(StatusType)).Length; t++)
@@ -79,5 +82,28 @@ public class SpecialTecniqueManager : MonoBehaviour
                 specialTecniques[i].m_released = true;
             }
         }
+    }
+
+    /// <summary>
+    /// 特殊技能解放　解放した技能の情報を返す
+    /// </summary>
+    /// <param name="_rank">ランク</param>
+    /// <param name="_type">ステータスの種類</param>
+    /// <returns></returns>
+    public SpecialTecnique ReleaseSpecialTecniqueAndGetData(Rank _rank, StatusType _type)
+    {
+        Master.CharaInitialStutas status = PlayerDataManager.player.StatusData;
+
+        int id = status.rankPoint.releaseSTId[_rank].GetStatus(_type);
+        for (int i = 0; i < specialTecniques.Length; i++)
+        {
+            if (id == specialTecniques[i].m_id)
+            {
+                specialTecniques[i].m_released = true;
+                return specialTecniques[i];
+            }
+        }
+
+        return null;
     }
 }

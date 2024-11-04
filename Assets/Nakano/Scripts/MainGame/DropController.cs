@@ -36,8 +36,11 @@ public class DropController : MonoBehaviour
     /// <summary>
     /// ドロップ抽選
     /// </summary>
-    public void DropLottery()
+    /// <returns>ドロップ量</returns>
+    public int DropLottery()
     {
+        int drop = 0;
+
         if (StageDataManager.DropData != null)
         {
             data = StageDataManager.DropData;
@@ -58,12 +61,13 @@ public class DropController : MonoBehaviour
             if (range[i] <= rnd && rnd < range[i + 1])
             {
                 AddDropAmount(data[i].itemType, data[i].dropAmount);
-
+                drop = data[i].dropAmount;
                 break;
             }
         }
 
         range.Clear();
+        return drop;
     }
 
     /// <summary>
