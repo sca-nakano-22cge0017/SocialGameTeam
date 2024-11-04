@@ -11,7 +11,6 @@ public class PlayerData : Character
 {
     // 特殊技能・スキルは別スクリプト
 
-    [SerializeField] private MainGameGuage hpGuage;
     [SerializeField] private MainGameGuage mpGuage;
 
     // 攻撃倍率
@@ -134,11 +133,13 @@ public class PlayerData : Character
     /// HP回復
     /// </summary>
     /// <param name="_amount">回復量</param>
-    public void HealHP(int _amount)
+    public override void HealHP(int _amount)
     {
         currentHp += _amount;
 
         if (currentHp > HP) currentHp = HP;
+
+        hpGuage.Add(_amount);
 
         // Todo 回復演出
     }

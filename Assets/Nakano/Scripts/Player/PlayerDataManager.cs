@@ -239,7 +239,7 @@ public class PlayerDataManager : MonoBehaviour
             StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
             int rankPt = player.GetRankPt(type);               // 現在のランクPt
             int rankPt_NextUp = player.GetRankPtNextUp(type); // 次にランクアップするときの累積Pt
-            
+
             if (rankPt >= rankPt_NextUp && player.GetRank(type) != Rank.SS)
             {
                 RankUp(type);

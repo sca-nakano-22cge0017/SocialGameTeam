@@ -42,6 +42,7 @@ public class ResultGuage : MonoBehaviour
 
     private int addCount = 0;
     private int count = 0;
+    private bool isFinalUp = false;
 
     private void Update()
     {
@@ -54,7 +55,7 @@ public class ResultGuage : MonoBehaviour
                 int max = PlayerDataManager.player.GetRankPtNextUp(type);
 
                 // 増加量計算
-                float amount = (float)(current - min) / (max - min);
+                float amount = (float)(current - min) / (float)(max - min);
                 
                 // 増加
                 if (guage.fillAmount <= amount)
@@ -64,6 +65,16 @@ public class ResultGuage : MonoBehaviour
 
                 else
                 {
+                    if (guage.fillAmount >= 1)
+                    {
+                        // ランクアップ
+                        int n = count + (int)lastRank + 1;
+                        Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
+                        rankText.text = r.ToString();
+
+                        guage.fillAmount = 0;
+                    }
+
                     guage.fillAmount = amount;
                     increaseCompleted = true;
                     increaseStart = false;
@@ -73,7 +84,7 @@ public class ResultGuage : MonoBehaviour
             else
             {
                 // ランクが変わった回数分、ゲージを最大まで上昇させる演出を挟む
-                if (count <= addCount)
+                if (count <= addCount && !isFinalUp)
                 {
                     if (guage.fillAmount <= 1)
                     {
@@ -90,7 +101,31 @@ public class ResultGuage : MonoBehaviour
                         guage.fillAmount = 0;
 
                         count++;
-                        if(count >= addCount) addCount = 0;
+                        if(count >= addCount) isFinalUp = true;
+                    }
+                }
+
+                if (isFinalUp)
+                {
+                    int current = PlayerDataManager.player.GetRankPt(type);
+                    int min = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[lastRank].GetStatus(type);
+                    int max = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[currentRank].GetStatus(type);
+
+                    // 増加量計算
+                    float amount = (float)(current - min) / (float)(max - min);
+                    //Debug.Log(current + " - " + min + " / " + max + " - " + min + " = " + amount);
+
+                    // 増加
+                    if (guage.fillAmount <= amount)
+                    {
+                        guage.fillAmount += increaseSpeed * Time.deltaTime;
+                    }
+
+                    else
+                    {
+                        guage.fillAmount = amount;
+                        increaseCompleted = true;
+                        increaseStart = false;
                     }
                 }
             }
@@ -133,5 +168,6 @@ public class ResultGuage : MonoBehaviour
         int c = (int)currentRank;
         addCount = c - l;
         count = 0;
+        isFinalUp = false;
     }
 }

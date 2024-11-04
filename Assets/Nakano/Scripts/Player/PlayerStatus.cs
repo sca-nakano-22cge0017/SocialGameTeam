@@ -304,7 +304,7 @@ public class PlayerStatus
             // ランクに応じてランクポイント最小値/最大値更新
             int lastRankNum = rankNum - 1 > 0 ? rankNum - 1 : 0;
             Rank lastRank = (Rank)System.Enum.ToObject(typeof(Rank), lastRankNum);
-            rankPoint_LastUp = new(StatusData.rankPoint.rankPt_NextUp[lastRank]);
+            rankPoint_LastUp = (int)lastRank == 0 ? new(0,0,0,0,0,0) : new(StatusData.rankPoint.rankPt_NextUp[lastRank]);
             rankPoint_NextUp = new(rankPtNextUp);
 
             // ステータス最小/最大値更新
@@ -467,6 +467,13 @@ public class PlayerStatus
         return rank;
     }
 
+    public Status GetRank()
+    {
+        Status rank = new((int)statusRank[StatusType.HP], (int)statusRank[StatusType.MP], (int)statusRank[StatusType.ATK], 
+            (int)statusRank[StatusType.DEF], (int)statusRank[StatusType.AGI], (int)statusRank[StatusType.DEX]);
+        return rank;
+    }
+
     /// <summary>
     /// 指定したステータスのランクを変更
     /// </summary>
@@ -478,11 +485,6 @@ public class PlayerStatus
     }
 
     // ランクPt
-    public Status GetRankPt()
-    {
-        return rankPoint;
-    }
-
     /// <summary>
     /// 指定したステータスのランクポイント現在値を取得
     /// </summary>
