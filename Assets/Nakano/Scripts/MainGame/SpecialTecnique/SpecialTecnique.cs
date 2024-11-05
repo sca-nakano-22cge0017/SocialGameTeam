@@ -44,25 +44,35 @@ public class SpecialTecnique : ScriptableObject
         m_value2 = _value2;
         m_effects = _effects;
 
-        if (m_effects.Contains("{"))
-        {
-            string str = _effects;
-            int start = str.IndexOf('{');
-            int end = str.IndexOf('}');
-            m_effects = str.Remove(start, (end - start + 1));
-        }
         if (_effects.Contains("V"))
         {
             string value = m_value1.ToString();
-            string str = _effects;
+            string str = m_effects;
             m_effects = str.Replace("V", value);
         }
 
         if (m_effects.Contains("W"))
         {
             string value = m_value2.ToString();
-            string str = _effects;
+            string str = m_effects;
             m_effects = str.Replace("W", value);
         }
+        if (m_effects.Contains("{"))
+        {
+            string str = m_effects;
+            int start = str.IndexOf('{');
+            int end = str.IndexOf('}');
+            m_effects = str.Remove(start, (end - start + 1));
+        }
     }
+}
+
+public interface SpecialTecniqueMethod
+{
+    public void Turn();
+    public void RankC();
+    public void RankB();
+    public void RankA();
+    public void RankS();
+    public void RankSS();
 }

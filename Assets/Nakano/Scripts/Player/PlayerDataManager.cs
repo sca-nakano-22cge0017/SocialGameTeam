@@ -289,6 +289,7 @@ public class PlayerDataManager : MonoBehaviour
         // ステータス最小/最大値更新
         int statusMin = player.StatusData.statusInit[rank].GetStatus(_type);
         int statusMax = player.StatusData.statusMax[rank].GetStatus(_type);
+
         player.SetStatusMin(_type, statusMin);
         player.SetStatusMax(_type, statusMax);
     }
@@ -326,7 +327,7 @@ public class PlayerDataManager : MonoBehaviour
 
         if (currentRankPt >= player.GetRankPtMax(_type))
         {
-            int s = player.StatusData.statusMax[(Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)].GetStatus(_type);
+            int s = player.StatusData.statusMax[(Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)].GetStatus(_type) + player.GetAdditionalEffects_Max(_type, false);
             player.SetStatus(_type, s);
             return;
         }
@@ -343,6 +344,7 @@ public class PlayerDataManager : MonoBehaviour
         player.SetStatus(_type, currentStatus);
 
         //Debug.Log(_type + " / " + a +  " * " + (currentRankPt - rankPtMin) + " + " + (statusMax - a * rankPtMax) + " = " +  currentStatus);
+        Debug.Log(_type + " : " + statusMin + " / " + statusMax);
     }
 
     /// <summary>
@@ -405,8 +407,10 @@ public class PlayerDataManager : MonoBehaviour
 
             if (player.GetRank(status) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
-                int st = player.GetAdditionalEffects(status, true);
-                t += StutasTypeToString(status) + "ステータス +" + st + "\n";
+                int st1 = player.GetAdditionalEffects(status, true);
+                int st2 = player.GetAdditionalEffects_Max(status, true);
+                t += StutasTypeToString(status) + "ステータス +" + st1 + "\n";
+                t += StutasTypeToString(status) + "ステータス上限 +" + st2 + "\n";
             }
         }
 
@@ -434,12 +438,14 @@ public class PlayerDataManager : MonoBehaviour
 
         for (int s = 0; s < statusAmount; s++)
         {
-            StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
 
-            if (player.GetRank(status) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
+            if (player.GetRank(type) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
             {
-                int current = player.GetPlusStatus(status);
-                player.SetPlusStatus(status, current + 1);
+                int current = player.GetPlusStatus(type);
+                player.SetPlusStatus(type, current + 1);
+
+                player.SetRankPt(type, 0);
             }
         }
     }
