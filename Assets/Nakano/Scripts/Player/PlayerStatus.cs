@@ -118,8 +118,9 @@ public class PlayerStatus
     private Dictionary<CombiType, int> combiRankPt_NextUp = new(); // 次にランクアップするときの累積ランクPt
     private Dictionary<CombiType, int> combiRankPtMax = new();     // 複合ステータスのランクPt最大値 プラスステータスを除き、上昇しない
 
-    private const int resetBonusCoefficient = 1000;       // リセット時のステータス上昇量の係数　上昇量 = resetBonusCoefficient * plusStatus
-    private Status plusStatus = new(0, 0, 0, 0, 0, 0);     // 周回によるプラスステータス 1～99
+    private const int resetBonusCoefficient = 100;       // リセット時のステータス上昇量の係数　上昇量 = resetBonusCoefficient * plusStatus
+    private const int resetBonusCoefficient_Max = 1000;  // リセット時のステータス最大値上昇量の係数　上昇量 = resetBonusCoefficient_Max * plusStatus
+    private Status plusStatus = new(0, 0, 0, 0, 0, 0);    // 周回によるプラスステータス 1～99
 
     public CombiType evolutionType = CombiType.NORMAL; // 現在の進化形態
 
@@ -308,10 +309,10 @@ public class PlayerStatus
             rankPoint_NextUp = new(rankPtNextUp);
 
             // ステータス最小/最大値更新
-            status_Min.SetStatus(type, StatusData.statusInit[rank].GetStatus(type));
-            status_Max.SetStatus(type, StatusData.statusMax[rank].GetStatus(type));
-            
-            // Todo 育成リセットボーナスの加算
+            int statusMin = StatusData.statusInit[rank].GetStatus(type);
+            SetStatusMin(type, statusMin);
+            int statusMax = StatusData.statusMax[rank].GetStatus(type);
+            SetStatusMax(type, statusMax);
         }
 
         // 複合ランク系
@@ -416,7 +417,8 @@ public class PlayerStatus
     /// <param name="_num">変更後の最小値</param>
     public void SetStatusMin(StatusType _type, int _num)
     {
-        status_Min.SetStatus(_type, _num);
+        int plusBonus = GetAdditionalEffects(_type, false);
+        status_Min.SetStatus(_type, _num + plusBonus);
     }
 
     /// <summary>
@@ -436,7 +438,10 @@ public class PlayerStatus
     /// <param name="_num">変更後の最大値</param>
     public void SetStatusMax(StatusType _type, int _num)
     {
-        status_Max.SetStatus(_type, _num);
+        int plusBonus = GetAdditionalEffects(_type, false);
+        if (GetRank(_type) == Rank.SS) plusBonus = GetAdditionalEffects_Max(_type, false);
+
+        status_Max.SetStatus(_type, _num + plusBonus);
     }
 
     /// <summary>
@@ -695,6 +700,21 @@ public class PlayerStatus
             a = (plus + 1) * resetBonusCoefficient;
         }
         else a = plus * resetBonusCoefficient;
+
+        return a;
+    }
+
+    public int GetAdditionalEffects_Max(StatusType _type, bool isNextEffects)
+    {
+        int a = 0;
+
+        int plus = plusStatus.GetStatus(_type);
+
+        if (isNextEffects)
+        {
+            a = (plus + 1) * resetBonusCoefficient_Max;
+        }
+        else a = plus * resetBonusCoefficient_Max;
 
         return a;
     }

@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     public Image image; // イラスト
     [SerializeField] protected MainGameGuage hpGuage;
     [SerializeField] protected Text damageText;
-    [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 1.0f;
+    [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 3.0f;
 
     // ステータス
     public int ATK; // 攻撃
@@ -37,13 +37,21 @@ public class Character : MonoBehaviour
     public float powerDex = 1;
     public float powerAgi = 1;
 
-    // バフ総量
+    // バフ総量 割合
     public float buffMp = 0;
     public float buffAtk = 0;
     public float buffHp = 0;
     public float buffDef = 0;
     public float buffDex = 0;
     public float buffAgi = 0;
+
+    // デバフ総量 割合
+    public float debuffMp = 0;
+    public float debuffAtk = 0;
+    public float debuffHp = 0;
+    public float debuffDef = 0;
+    public float debuffDex = 0;
+    public float debuffAgi = 0;
 
     // 会心率
     public float criticalProbability;
@@ -59,6 +67,8 @@ public class Character : MonoBehaviour
         currentDef = DEF;
         currentDex = DEX;
         currentAgi = AGI;
+
+        damageText.enabled = false;
     }
 
     /// <summary>
@@ -85,15 +95,17 @@ public class Character : MonoBehaviour
     public virtual void Damage(int _amount)
     {
         // 被ダメ - 防御力 を実際の被ダメージにする
-        currentHp -= (_amount - (int)(DEF * powerDef));
+        int damage = _amount - (int)(DEF * powerDef);
+        currentHp -= damage;
 
         if (currentHp < 0)
         {
             currentHp = 0;
-            // 死亡判定？
+            // 死亡判定
         }
 
         // Todo ダメージ演出・モーション再生
+        StartCoroutine(DispText(damageText, damage.ToString()));
     }
 
     /// <summary>
@@ -115,6 +127,46 @@ public class Character : MonoBehaviour
     public virtual void Dead()
     {
 
+    }
+
+    public void AddBuff(StatusType _type, float _amount)
+    {
+        switch(_type)
+        {
+            case StatusType.HP:
+                buffHp += _amount;
+                break;
+            case StatusType.MP:
+                buffMp += _amount;
+                break;
+            case StatusType.ATK:
+                buffAtk += _amount;
+                break;
+            case StatusType.DEF:
+                buffDef += _amount;
+                break;
+            case StatusType.AGI:
+                buffAgi += _amount;
+                break;
+            case StatusType.DEX:
+                buffDex += _amount;
+                break;
+        }
+
+        CalcPower();
+    }
+
+    /// <summary>
+    /// ステータス倍率計算
+    /// </summary>
+    void CalcPower()
+    {
+        powerHp = 1 + buffHp - debuffHp;
+        powerMp = 1 + buffMp - debuffMp;
+        powerAtk = 1 + buffAtk - debuffAtk;
+        powerDef = 1 + buffDef - debuffDef;
+        powerAgi = 1 + buffAgi - debuffAgi;
+        powerDex = 1 + buffDex - debuffDex;
     }
 
     /// <summary>

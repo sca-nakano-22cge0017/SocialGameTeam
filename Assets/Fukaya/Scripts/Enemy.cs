@@ -15,14 +15,9 @@ public class Enemy : Character
 
     [SerializeField, Header("ドロップ")] private Text dropText;
 
-    private void Awake()
-    {
-        dropController = FindObjectOfType<DropController>();
-    }
-
     void Start()
     {
-
+        dropController = FindObjectOfType<DropController>();
     }
 
     void Update()
@@ -43,6 +38,9 @@ public class Enemy : Character
         currentAgi = AGI;
 
         hpGuage.Initialize(HP);
+
+        damageText.enabled = false;
+        dropText.enabled = false;
     }
 
     public override void Move()
@@ -64,8 +62,11 @@ public class Enemy : Character
     /// <param name="_amount">ダメージ量</param>
     public override void Damage(int _amount)
     {
-        currentHp -= _amount;
-        hpGuage.Sub(_amount); // ゲージ減少演出
+        // 被ダメ - 防御力 を実際の被ダメージにする
+        int damage = _amount - (int)(DEF * powerDef);
+
+        currentHp -= damage;
+        hpGuage.Sub(damage); // ゲージ減少演出
 
         if (currentHp < 0)
         {
@@ -76,6 +77,7 @@ public class Enemy : Character
         }
 
         // Todo ダメージ演出・モーション再生
+        StartCoroutine(DispText(damageText, damage.ToString()));
     }
 
     /// <summary>
@@ -102,8 +104,19 @@ public class Enemy : Character
 
         // Todo モーション再生
 
+        StartCoroutine(DropDirection());
+    }
+
+    /// <summary>
+    /// ドロップ抽選・演出
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator DropDirection()
+    {
         // ドロップ抽選
         int drop = dropController.DropLottery();
+
+        yield return new WaitForSeconds(1.0f);
 
         // ドロップ量表示
         string str = "+" + drop.ToString() + "Pt";

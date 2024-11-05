@@ -2,64 +2,106 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HP_SpecialTecnique : MonoBehaviour
+public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
 {
+    [SerializeField] PlayerData player;
+    [SerializeField] BattleSystem battleSystem;
+
     [SerializeField] SpecialTecnique rankC;
     [SerializeField] SpecialTecnique rankB;
     [SerializeField] SpecialTecnique rankA;
     [SerializeField] SpecialTecnique rankS;
     [SerializeField] SpecialTecnique rankSS;
 
-    void Start()
+    void Awake()
     {
         
     }
 
-    void Update()
+    /// <summary>
+    /// 経過ターン増える毎に呼び出し
+    /// </summary>
+    public void Turn()
     {
-        
+        RankA();
+        RankS();
     }
 
     /// <summary>
     /// クリアヒール　スキル
+    /// 状態異常を回復、HPをV％回復
+    /// ボタン押下時に処理
     /// </summary>
-    public void ClearHeal()
+    public void RankC()
     {
         // 未解放なら処理しない
         if(!rankC.m_released) return;
+
+        // 回復量計算
+        float amount = player.HP * (rankC.m_value1 / 100);
+        player.HealHP((int)amount);
+
+        // デバフ解除
     }
 
     /// <summary>
     /// 痛み分け　スキル
+    /// 一定ターン　ダメージのV％を敵に返す
+    /// ボタン押下から指定ターン経過するまで処理
     /// </summary>
-    public void LoseLose()
+    public void RankB()
     {
         // 未解放なら処理しない
         if (!rankB.m_released) return;
     }
 
     /// <summary>
-    /// オートヒール　常時発動
+    /// オートヒール　パッシブ
+    /// 毎ターンHPをV％回復
+    /// 毎ターン処理
     /// </summary>
-    public void AutoHeal()
+    public void RankA()
     {
         // 未解放なら処理しない
         if (!rankA.m_released) return;
+
+        // 回復量計算
+        float amount = player.HP * (rankA.m_value1 / 100);
+        player.HealHP((int)amount);
     }
 
+    bool isAtkUp_S = false;
+
     /// <summary>
-    /// 不倒の構え　常時発動
+    /// 不倒の構え　パッシブ
+    /// 体力がV％以上のとき、攻撃力W%アップ
+    /// 毎ターン判定/処理
     /// </summary>
-    public void Undefeated()
+    public void RankS()
     {
         // 未解放なら処理しない
         if (!rankS.m_released) return;
+
+        float hpPer = player.currentHp / player.HP * 100;
+        if (hpPer >= rankS.m_value1)
+        {
+            if (!isAtkUp_S) isAtkUp_S = true;
+        }
+        else isAtkUp_S = false;
+
+        if (isAtkUp_S)
+        {
+            float amount = rankS.m_value1 / 100;
+            player.AddBuff(StatusType.ATK, amount);
+        }
     }
 
     /// <summary>
-    /// 女神の加護　常時発動
+    /// 女神の加護　パッシブ
+    /// 3ターン毎にHPをV％回復
+    /// 毎ターン判定/処理
     /// </summary>
-    public void GoddessBlessing()
+    public void RankSS()
     {
         // 未解放なら処理しない
         if (!rankSS.m_released) return;

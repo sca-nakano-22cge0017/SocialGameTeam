@@ -46,6 +46,7 @@ public class StageManager : MonoBehaviour
 
     private void Awake()
     {
+        isSetCompleted = false;
         Load();
     }
 

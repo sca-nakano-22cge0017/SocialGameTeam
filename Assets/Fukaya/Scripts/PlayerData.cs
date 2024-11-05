@@ -61,6 +61,8 @@ public class PlayerData : Character
 
         hpGuage.Initialize(HP);
         mpGuage.Initialize(MP);
+
+        damageText.enabled = false;
     }
 
     public override void Move()
@@ -111,10 +113,11 @@ public class PlayerData : Character
         // Todo 回避判定
 
         // 被ダメ - 防御力 を実際の被ダメージにする
-        currentHp -= (_amount - (int)(DEF * powerDef));
+        int damage = (_amount - (int)(DEF * powerDef));
+        currentHp -= damage;
 
         // ゲージ減少演出
-        hpGuage.Sub(_amount);
+        hpGuage.Sub(damage);
 
         if (currentHp < 0)
         {
@@ -127,6 +130,7 @@ public class PlayerData : Character
         else UpSpecialMoveGuage(sm_Damage.guageUpAmount);
 
         // Todo ダメージ演出・モーション再生
+        StartCoroutine(DispText(damageText, damage.ToString()));
     }
 
     /// <summary>
