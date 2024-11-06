@@ -23,8 +23,6 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
     /// </summary>
     public void Turn()
     {
-        RankA();
-        RankS();
     }
 
     /// <summary>
@@ -42,6 +40,7 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
         player.HealHP((int)amount);
 
         // デバフ解除
+        player.ResetDebuff();
     }
 
     /// <summary>
@@ -58,7 +57,7 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
     /// <summary>
     /// オートヒール　パッシブ
     /// 毎ターンHPをV％回復
-    /// 毎ターン処理
+    /// 毎ターン終了時に呼ぶ
     /// </summary>
     public void RankA()
     {
@@ -75,7 +74,7 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
     /// <summary>
     /// 不倒の構え　パッシブ
     /// 体力がV％以上のとき、攻撃力W%アップ
-    /// 毎ターン判定/処理
+    /// 毎ターン プレイヤーの行動時判定/処理
     /// </summary>
     public void RankS()
     {
@@ -83,16 +82,26 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
         if (!rankS.m_released) return;
 
         float hpPer = player.currentHp / player.HP * 100;
+        float amount = rankS.m_value1 / 100;
+
+        // HPが指定値以下なら
         if (hpPer >= rankS.m_value1)
         {
-            if (!isAtkUp_S) isAtkUp_S = true;
+            // バフが掛かっていない場合のみバフを掛ける
+            if (!isAtkUp_S)
+            {
+                isAtkUp_S = true;
+                player.AddBuff(StatusType.ATK, amount);
+            }
         }
-        else isAtkUp_S = false;
-
-        if (isAtkUp_S)
+        else
         {
-            float amount = rankS.m_value1 / 100;
-            player.AddBuff(StatusType.ATK, amount);
+            // バフが掛かっている場合、バフを無くす
+            if (isAtkUp_S)
+            {
+                player.AddBuff(StatusType.ATK, -amount);
+                isAtkUp_S = false;
+            }
         }
     }
 

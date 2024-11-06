@@ -129,6 +129,11 @@ public class Character : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// バフ追加
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_amount">バフ量　割合表記</param>
     public void AddBuff(StatusType _type, float _amount)
     {
         switch(_type)
@@ -154,6 +159,64 @@ public class Character : MonoBehaviour
         }
 
         CalcPower();
+    }
+
+    /// <summary>
+    /// バフ状態リセット
+    /// </summary>
+    public void ResetBuff()
+    {
+        buffMp = 0;
+        buffAtk = 0;
+        buffHp = 0;
+        buffDef = 0;
+        buffDex = 0;
+        buffAgi = 0;
+    }
+
+    /// <summary>
+    /// デバフ追加
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    /// <param name="_amount">デバフ量</param>
+    public void AddDebuff(StatusType _type, float _amount)
+    {
+        switch (_type)
+        {
+            case StatusType.HP:
+                debuffHp += _amount;
+                break;
+            case StatusType.MP:
+                debuffMp += _amount;
+                break;
+            case StatusType.ATK:
+                debuffAtk += _amount;
+                break;
+            case StatusType.DEF:
+                debuffDef += _amount;
+                break;
+            case StatusType.AGI:
+                debuffAgi += _amount;
+                break;
+            case StatusType.DEX:
+                debuffDex += _amount;
+                break;
+        }
+
+        CalcPower();
+    }
+
+    /// <summary>
+    /// デバフ状態リセット
+    /// </summary>
+    public void ResetDebuff()
+    {
+        debuffMp = 0;
+        debuffAtk = 0;
+        debuffHp = 0;
+        debuffDef = 0;
+        debuffDex = 0;
+        debuffAgi = 0;
     }
 
     /// <summary>
