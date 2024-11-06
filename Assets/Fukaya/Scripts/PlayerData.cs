@@ -12,7 +12,7 @@ public class PlayerData : Character
     // 特殊技能・スキルは別スクリプト
 
     [SerializeField] private MainGameGuage mpGuage;
-
+    
     // 攻撃倍率
     public float power_NormalAttack;  // 通常攻撃
     public float power_Skill;         // スキル
@@ -35,6 +35,8 @@ public class PlayerData : Character
     public SpecialMoveGuageSetting sm_Turn;
     public SpecialMoveGuageSetting sm_Skill;
 
+    [SerializeField] HP_SpecialTecnique hp_st;
+
     void Start()
     {
         
@@ -50,19 +52,10 @@ public class PlayerData : Character
     /// </summary>
     public override void Initialize()
     {
-        currentMp = MP;
-        currentAtk = ATK;
-        currentHp = HP;
-        currentDef = DEF;
-        currentDex = DEX;
-        currentAgi = AGI;
+        base.Initialize();
 
         specialMoveGuageAmount = 0;
-
-        hpGuage.Initialize(HP);
         mpGuage.Initialize(MP);
-
-        damageText.enabled = false;
     }
 
     public override void Move()
@@ -91,7 +84,7 @@ public class PlayerData : Character
         // Todo 1ターン経過でガード解除（防御力倍率を1に戻す）
 
         // 防御力倍率上昇
-        powerDef = power_Guard;
+        powerDef += power_Guard;
 
         isGuard = true;
     }
@@ -108,29 +101,34 @@ public class PlayerData : Character
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
-    public override void Damage(int _amount)
+    public override int Damage(int _amount)
     {
         // Todo 回避判定
 
-        // 被ダメ - 防御力 を実際の被ダメージにする
-        int damage = (_amount - (int)(DEF * powerDef));
-        currentHp -= damage;
-
-        // ゲージ減少演出
-        hpGuage.Sub(damage);
-
-        if (currentHp < 0)
-        {
-            currentHp = 0;
-            // 死亡判定？
-        }
+        int damage = base.Damage(_amount);
 
         // 必殺ゲージ回復
         if (isGuard) UpSpecialMoveGuage(sm_Guard.guageUpAmount);
         else UpSpecialMoveGuage(sm_Damage.guageUpAmount);
 
         // Todo ダメージ演出・モーション再生
-        StartCoroutine(DispText(damageText, damage.ToString()));
+
+        return damage;
+    }
+
+    /// <summary>
+    /// ダメージ
+    /// </summary>
+    /// <param name="_amount">ダメージ量</param>
+    /// <param name="_enemy">ダメージを与えた敵</param>
+    public override int Damage(int _amount, Enemy _enemy)
+    {
+        int damage = base.Damage(_amount, _enemy);
+
+        // 被ダメージに処理される特殊技能
+        hp_st._RankB(damage, _enemy);
+
+        return damage;
     }
 
     /// <summary>
@@ -139,11 +137,7 @@ public class PlayerData : Character
     /// <param name="_amount">回復量</param>
     public override void HealHP(int _amount)
     {
-        currentHp += _amount;
-
-        if (currentHp > HP) currentHp = HP;
-
-        hpGuage.Add(_amount);
+        base.HealHP(_amount);
 
         // Todo 回復演出
     }
@@ -174,8 +168,9 @@ public class PlayerData : Character
     public void HealMP(int _amount)
     {
         currentMp += _amount;
-
         if (currentMp > MP) currentMp = MP;
+        mpGuage.Add(_amount);
+
         // Todo 回復演出
     }
 

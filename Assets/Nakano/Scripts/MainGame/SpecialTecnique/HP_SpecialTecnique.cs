@@ -2,27 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
+public class HP_SpecialTecnique : SpecialTecniqueMethod
 {
-    [SerializeField] PlayerData player;
-    [SerializeField] BattleSystem battleSystem;
+    bool isRankB_Active = false; // スキル発動中かどうか
+    int elapsedTurn_B = 0;       // スキル発動からの経過ターン
 
-    [SerializeField] SpecialTecnique rankC;
-    [SerializeField] SpecialTecnique rankB;
-    [SerializeField] SpecialTecnique rankA;
-    [SerializeField] SpecialTecnique rankS;
-    [SerializeField] SpecialTecnique rankSS;
+    bool isRankS_Active = false;
 
-    void Awake()
+    int elapsedTurn_SS = 1;
+
+    public override void TurnStart()
     {
-        
+
     }
 
-    /// <summary>
-    /// 経過ターン増える毎に呼び出し
-    /// </summary>
-    public void Turn()
+    public override void PlayerTurnStart()
     {
+        RankS();
+    }
+
+    public override void TurnEnd()
+    {
+        RankA();
+        RankSS();
+
+        // 経過ターンを加算
+        elapsedTurn_B++;
+        elapsedTurn_SS++;
     }
 
     /// <summary>
@@ -30,10 +36,10 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
     /// 状態異常を回復、HPをV％回復
     /// ボタン押下時に処理
     /// </summary>
-    public void RankC()
+    public override void RankC()
     {
         // 未解放なら処理しない
-        if(!rankC.m_released) return;
+        //if(!rankC.m_released) return;
 
         // 回復量計算
         float amount = player.HP * (rankC.m_value1 / 100);
@@ -41,17 +47,45 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
 
         // デバフ解除
         player.ResetDebuff();
+
+        Debug.Log("「クリアヒール」発動");
     }
 
     /// <summary>
     /// 痛み分け　スキル
+    /// </summary>
+    public override void RankB()
+    {
+        // 未解放なら処理しない
+        //if (!rankB.m_released) return;
+
+        elapsedTurn_B = 1;
+        isRankB_Active = true; // スキル発動
+
+        Debug.Log("「痛み分け」発動");
+    }
+
+    /// <summary>
+    /// 被ダメージ時処理
     /// 一定ターン　ダメージのV％を敵に返す
     /// ボタン押下から指定ターン経過するまで処理
     /// </summary>
-    public void RankB()
+    /// <param name="_damage">ダメージ量</param>
+    /// <param name="_enmey">対象の敵</param>
+    public void _RankB(int _damage, Enemy _enemy)
     {
-        // 未解放なら処理しない
-        if (!rankB.m_released) return;
+        // スキル発動中でなければ処理しない
+        if (!isRankB_Active) return;
+
+        // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
+        if (elapsedTurn_B <= rankB.m_continuationTurn)
+        {
+            // カウンターのダメージ量算出
+            float d = (float)_damage * (float)(rankB.m_value1 / 100.0f);
+
+            // カウンター
+            _enemy.Damage((int)d);
+        }
     }
 
     /// <summary>
@@ -59,48 +93,49 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
     /// 毎ターンHPをV％回復
     /// 毎ターン終了時に呼ぶ
     /// </summary>
-    public void RankA()
+    public override void RankA()
     {
         // 未解放なら処理しない
-        if (!rankA.m_released) return;
+        //if (!rankA.m_released) return;
 
         // 回復量計算
-        float amount = player.HP * (rankA.m_value1 / 100);
+        float amount = (float)player.HP * (float)(rankA.m_value1 / 100.0f);
         player.HealHP((int)amount);
-    }
 
-    bool isAtkUp_S = false;
+        Debug.Log("「オートヒール」発動 HP " + amount + "回復");
+    }
 
     /// <summary>
     /// 不倒の構え　パッシブ
     /// 体力がV％以上のとき、攻撃力W%アップ
     /// 毎ターン プレイヤーの行動時判定/処理
     /// </summary>
-    public void RankS()
+    public override void RankS()
     {
         // 未解放なら処理しない
-        if (!rankS.m_released) return;
+        //if (!rankS.m_released) return;
 
-        float hpPer = player.currentHp / player.HP * 100;
-        float amount = rankS.m_value1 / 100;
+        float hpPer = (float)player.currentHp / (float)player.HP * 100.0f;
+        float amount = (float)rankS.m_value2 / 100;
 
         // HPが指定値以下なら
         if (hpPer >= rankS.m_value1)
         {
             // バフが掛かっていない場合のみバフを掛ける
-            if (!isAtkUp_S)
+            if (!isRankS_Active)
             {
-                isAtkUp_S = true;
                 player.AddBuff(StatusType.ATK, amount);
+                isRankS_Active = true;
+                Debug.Log("「不倒の構え」発動 攻撃力 " + amount + "上昇");
             }
         }
         else
         {
             // バフが掛かっている場合、バフを無くす
-            if (isAtkUp_S)
+            if (isRankS_Active)
             {
                 player.AddBuff(StatusType.ATK, -amount);
-                isAtkUp_S = false;
+                isRankS_Active = false;
             }
         }
     }
@@ -110,9 +145,23 @@ public class HP_SpecialTecnique : MonoBehaviour, SpecialTecniqueMethod
     /// 3ターン毎にHPをV％回復
     /// 毎ターン判定/処理
     /// </summary>
-    public void RankSS()
+    public override void RankSS()
     {
         // 未解放なら処理しない
-        if (!rankSS.m_released) return;
+        //if (!rankSS.m_released) return;
+
+        rankSS.m_continuationTurn = 3;
+
+        Debug.Log(elapsedTurn_SS + " / " + rankSS.m_continuationTurn);
+
+        // (m_continuationTurn)ターン経過したら回復
+        if (elapsedTurn_SS >= rankSS.m_continuationTurn)
+        {
+            float heal = (float)player.HP * (float)(rankSS.m_value1 * 100);
+            player.HealHP((int)heal);
+            elapsedTurn_SS = 0;
+
+            Debug.Log("「女神の加護」発動 HP " + heal + " 回復");
+        }
     }
 }

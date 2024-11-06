@@ -1542,6 +1542,7 @@ MonoBehaviour:
   stageId: 1
   difficultyId: 1
   windowController: {fileID: 617070207}
+  hp_st: {fileID: 2088844928}
 --- !u!1001 &2042211204
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1551,9 +1552,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 261726151271494929, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2042211207}
+    - target: {fileID: 261726151271494929, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: dropController
       value: 
       objectReference: {fileID: 617070208}
+    - target: {fileID: 403766972204690754, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2042211207}
     - target: {fileID: 403766972204690754, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: dropController
       value: 
@@ -1638,6 +1647,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1507449044546707396, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: hp_st
+      value: 
+      objectReference: {fileID: 2088844928}
+    - target: {fileID: 1966403935105872048, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2042211207}
     - target: {fileID: 1966403935105872048, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: dropController
       value: 
@@ -1670,6 +1687,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 9152390089841745941, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 2042211207}
     - target: {fileID: 9152390089841745941, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: dropController
       value: 
@@ -1745,6 +1766,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfe102142c463584a97f5b5f0ee1a35a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2088844927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2088844929}
+  - component: {fileID: 2088844928}
+  m_Layer: 0
+  m_Name: SpecialTecnique
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2088844928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088844927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c12d6701c70e004aa312a707d2b80d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2042211207}
+  battleSystem: {fileID: 1723303176}
+  rankC: {fileID: 11400000, guid: a15f4ea0476b6cc47b4e3b21d2c422ff, type: 2}
+  rankB: {fileID: 11400000, guid: dee296cefe92e0d47b097277e5f02824, type: 2}
+  rankA: {fileID: 11400000, guid: f2eaa14883ed12a479b95f1269bd7589, type: 2}
+  rankS: {fileID: 11400000, guid: 7b03a66f2fa473543a488375280202f7, type: 2}
+  rankSS: {fileID: 11400000, guid: 061776c91fd933049a06bbb3938e4f9f, type: 2}
+--- !u!4 &2088844929
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088844927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 649.2026, y: 337.84464, z: -1.4016389}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2132472023
 GameObject:
   m_ObjectHideFlags: 0
@@ -1821,3 +1893,4 @@ SceneRoots:
   - {fileID: 908674115}
   - {fileID: 2042211204}
   - {fileID: 617070206}
+  - {fileID: 2088844929}

@@ -5,33 +5,55 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "SpecialTecnique")]
 public class SpecialTecnique : ScriptableObject
 {
-    // 特殊技能ID
+    /// <summary>
+    /// 特殊技能ID
+    /// </summary>
     public int m_id;
 
-    // 解放済みかどうか
+    /// <summary>
+    /// 解放済みかどうか
+    /// </summary>
     [HideInInspector] public bool m_released = false;
 
-    // 使用アイコン
+    /// <summary>
+    /// 使用アイコン
+    /// </summary>
     public Sprite m_illust;
 
     // 以下はマスターデータで変更あり
-    // 名前
+    /// <summary>
+    /// 名前
+    /// </summary>
     [HideInInspector] public string m_name;
 
-    // スキルかどうか
+    /// <summary>
+    /// スキルかどうか
+    /// </summary>
     [HideInInspector] public bool m_isSkill = false;
 
-    // タイプ
+    /// <summary>
+    /// タイプ
+    /// </summary>
     [HideInInspector] public int m_type;
 
-    // 継続ターン数
+    /// <summary>
+    /// 継続ターン数
+    /// </summary>
     [HideInInspector] public int m_continuationTurn;
 
-    // 効果量
+    /// <summary>
+    /// 効果量1
+    /// </summary>
     [HideInInspector] public int m_value1;
+
+    /// <summary>
+    /// 効果量2
+    /// </summary>
     [HideInInspector] public int m_value2;
 
-    // 効果内容（プレイヤー向け）
+    /// <summary>
+    /// 効果内容（プレイヤー向け）
+    /// </summary>
     [HideInInspector] public string m_effects;
 
     public void Setting(string _name, bool _isSkill, int _type, int _continuationTurn, int _value1, int _value2, string _effects)
@@ -67,12 +89,55 @@ public class SpecialTecnique : ScriptableObject
     }
 }
 
-public interface SpecialTecniqueMethod
+public class SpecialTecniqueMethod : MonoBehaviour
 {
-    public void Turn();
-    public void RankC();
-    public void RankB();
-    public void RankA();
-    public void RankS();
-    public void RankSS();
+    [SerializeField] protected PlayerData player;
+    [SerializeField] protected BattleSystem battleSystem;
+
+    [SerializeField] protected SpecialTecnique rankC;
+    [SerializeField] protected SpecialTecnique rankB;
+    [SerializeField] protected SpecialTecnique rankA;
+    [SerializeField] protected SpecialTecnique rankS;
+    [SerializeField] protected SpecialTecnique rankSS;
+
+    /// <summary>
+    /// ゲーム開始時に呼び出し
+    /// </summary>
+    public virtual void GameStart() { }
+
+    /// <summary>
+    /// ターン開始時に呼び出し
+    /// </summary>
+    public virtual void TurnStart() { }
+
+    /// <summary>
+    /// プレイヤー行動時に呼び出し
+    /// </summary>
+    public virtual void PlayerTurnStart() { }
+
+    /// <summary>
+    /// ターン終了時に呼び出し
+    /// </summary>
+    public virtual void TurnEnd() { }
+
+    // 各ランクの特殊技能
+    public virtual void RankC() { }
+    public virtual void RankB() { }
+    public virtual void RankA() { }
+    public virtual void RankS() { }
+    public virtual void RankSS() { }
+
+    /// <summary>
+    /// 持続ターンありのスキルの経過ターンを加算
+    /// </summary>
+    /// <param name="_turn"></param>
+    protected List<int> TurnPass(List<int> _turn)
+    {
+        List<int> t = _turn;
+        for (int i = 0; i < t.Count; i++)
+        {
+            t[i]++;
+        }
+        return t;
+    }
 }
