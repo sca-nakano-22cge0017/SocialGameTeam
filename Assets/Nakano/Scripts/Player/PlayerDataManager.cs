@@ -344,7 +344,6 @@ public class PlayerDataManager : MonoBehaviour
         player.SetStatus(_type, currentStatus);
 
         //Debug.Log(_type + " / " + a +  " * " + (currentRankPt - rankPtMin) + " + " + (statusMax - a * rankPtMax) + " = " +  currentStatus);
-        Debug.Log(_type + " : " + statusMin + " / " + statusMax);
     }
 
     /// <summary>

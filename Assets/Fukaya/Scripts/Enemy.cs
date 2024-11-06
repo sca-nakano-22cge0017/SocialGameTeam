@@ -13,6 +13,7 @@ public class Enemy : Character
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
 
+    [SerializeField] private PlayerData player;
     [SerializeField, Header("ドロップ")] private Text dropText;
 
     void Start()
@@ -22,7 +23,10 @@ public class Enemy : Character
 
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            player.Damage(NormalAttack(), this);
+        }
     }
 
     /// <summary>
@@ -30,17 +34,10 @@ public class Enemy : Character
     /// </summary>
     public override void Initialize()
     {
-        currentMp = MP;
-        currentAtk = ATK;
-        currentHp = HP;
-        currentDef = DEF;
-        currentDex = DEX;
-        currentAgi = AGI;
+        base.Initialize();
 
-        hpGuage.Initialize(HP);
-
-        damageText.enabled = false;
         dropText.enabled = false;
+        damageText.enabled = false;
     }
 
     public override void Move()
@@ -53,31 +50,18 @@ public class Enemy : Character
 
     public override int NormalAttack()
     {
-        return -1;
+        return 300;
     }
 
     /// <summary>
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
-    public override void Damage(int _amount)
+    public override int Damage(int _amount)
     {
-        // 被ダメ - 防御力 を実際の被ダメージにする
-        int damage = _amount - (int)(DEF * powerDef);
+        int damage = base.Damage(_amount);
 
-        currentHp -= damage;
-        hpGuage.Sub(damage); // ゲージ減少演出
-
-        if (currentHp < 0)
-        {
-            currentHp = 0;
-
-            // 死亡判定
-            Dead();
-        }
-
-        // Todo ダメージ演出・モーション再生
-        StartCoroutine(DispText(damageText, damage.ToString()));
+        return damage;
     }
 
     /// <summary>
@@ -86,13 +70,9 @@ public class Enemy : Character
     /// <param name="_amount">回復量</param>
     public override void HealHP(int _amount)
     {
-        currentHp += _amount;
+        base.HealHP(_amount);
 
-        if (currentHp > HP) currentHp = HP;
-
-        hpGuage.Add(_amount);
-
-        // 回復演出
+        // Todo 回復演出
     }
 
     /// <summary>

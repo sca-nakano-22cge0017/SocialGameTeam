@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
     public Image image; // イラスト
     [SerializeField] protected MainGameGuage hpGuage;
     [SerializeField] protected Text damageText;
+
     [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 3.0f;
 
     // ステータス
@@ -68,16 +69,14 @@ public class Character : MonoBehaviour
         currentDex = DEX;
         currentAgi = AGI;
 
-        damageText.enabled = false;
+        hpGuage.Initialize(HP);
+        if (damageText) damageText.enabled = false;
     }
 
     /// <summary>
     /// 行動
     /// </summary>
-    public virtual void Move()
-    {
-        
-    }
+    public virtual void Move() { }
 
     /// <summary>
     /// 通常攻撃
@@ -92,20 +91,35 @@ public class Character : MonoBehaviour
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
-    public virtual void Damage(int _amount)
+    public virtual int Damage(int _amount)
     {
         // 被ダメ - 防御力 を実際の被ダメージにする
-        int damage = _amount - (int)(DEF * powerDef);
+        int damage = (_amount - (int)(DEF * powerDef));
         currentHp -= damage;
 
         if (currentHp < 0)
         {
             currentHp = 0;
-            // 死亡判定
+            Dead();
         }
 
-        // Todo ダメージ演出・モーション再生
+        // ゲージ減少演出
+        hpGuage.Sub(damage);
+
+        // ダメージ表示
         StartCoroutine(DispText(damageText, damage.ToString()));
+
+        return damage;
+    }
+
+    /// <summary>
+    /// ダメージ
+    /// </summary>
+    /// <param name="_amount">ダメージ量</param>
+    /// <param name="_enemy">ダメージを与えた敵</param>
+    public virtual int Damage(int _amount, Enemy _enemy)
+    {
+        return Damage(_amount);
     }
 
     /// <summary>
@@ -115,19 +129,14 @@ public class Character : MonoBehaviour
     public virtual void HealHP(int _amount)
     {
         currentHp += _amount;
-
         if (currentHp > HP) currentHp = HP;
-
-        // Todo 回復演出
+        hpGuage.Add(_amount);
     }
 
     /// <summary>
     /// 死亡
     /// </summary>
-    public virtual void Dead()
-    {
-
-    }
+    public virtual void Dead() { }
 
     /// <summary>
     /// バフ追加
@@ -244,7 +253,7 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
-    /// テキスト表示　ダメージ等々
+    /// テキスト表示　ダメージ量等々
     /// </summary>
     /// <returns></returns>
     protected IEnumerator DispText(Text _text, string _str)

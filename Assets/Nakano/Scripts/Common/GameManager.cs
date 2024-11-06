@@ -192,11 +192,6 @@ public class GameManager : MonoBehaviour
         {
             PlayerDataManager.TraningReset();
         }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            DropController d = FindObjectOfType<DropController>();
-            d.DropLottery();
-        }
         if (Input.GetKeyDown(KeyCode.Delete))
         {
             CharaSelectManager.DeleteSaveData();
