@@ -420,22 +420,18 @@ public class PlayerDataManager : MonoBehaviour
     /// <summary>
     /// プラスステータスの効果をstringで返す
     /// </summary>
-    /// <returns>育成リセットの追加効果</returns>
-    public static string GetResetCurrentEffects()
+    /// <param name="_type">ステータスの種類</param>
+    /// <returns>効果</returns>
+    public static string GetResetCurrentEffects(StatusType _type)
     {
         string t = "";
 
-        for (int s = 0; s < System.Enum.GetValues(typeof(StatusType)).Length; s++)
+        if (player.GetRank(_type) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
         {
-            StatusType status = (StatusType)System.Enum.ToObject(typeof(StatusType), s);
-
-            if (player.GetRank(status) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
-            {
-                int st1 = player.GetAdditionalEffects(status, false);
-                int st2 = player.GetAdditionalEffects_Max(status, false);
-                t += StutasTypeToString(status) + "ステータス +" + st1 + "\n";
-                t += StutasTypeToString(status) + "ステータス上限 +" + st2 + "\n";
-            }
+            int st1 = player.GetAdditionalEffects(_type, false);
+            int st2 = player.GetAdditionalEffects_Max(_type, false);
+            t += StutasTypeToString(_type) + "ステータス +" + st1 + "\n";
+            t += StutasTypeToString(_type) + "ステータス上限 +" + st2 + "\n";
         }
 
         return t;
