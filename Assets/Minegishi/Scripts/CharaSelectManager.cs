@@ -8,10 +8,12 @@ using UnityEngine.Events;
 
 public class CharaSelectManager : MonoBehaviour
 {
-     [SerializeField] Button[] buttonNum = new Button[8];
+    [SerializeField] Button[] buttonNum = new Button[8];
 
     [SerializeField] GameObject[] charaImage = new GameObject[2];
 
+    [SerializeField] Text[] status = new Text[7];
+    [SerializeField] Text[] rank = new Text[6];
     
     void Start()
     {
@@ -40,11 +42,37 @@ public class CharaSelectManager : MonoBehaviour
     public void CharaButton1()
     {
         SwordsManTrue();
+        status[0].text = PlayerDataManager.player.TotalPower.ToString();
+        status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
+        status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
+        status[3].text = PlayerDataManager.player.GetStatus(StatusType.ATK).ToString();
+        status[4].text = PlayerDataManager.player.GetStatus(StatusType.MP).ToString();
+        status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
+        status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
+        rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
+        rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
+        rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
+        rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
+        rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
+        rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
     }
 
     public void CharaButton2()
     {
         WizardTrue();
+        status[0].text = PlayerDataManager.player.TotalPower.ToString();
+        status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
+        status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
+        status[3].text = PlayerDataManager.player.GetStatus(StatusType.ATK).ToString();
+        status[4].text = PlayerDataManager.player.GetStatus(StatusType.MP).ToString();
+        status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
+        status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
+        rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
+        rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
+        rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
+        rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
+        rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
+        rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
     }
 
     public static void savePlayerData(SaveData player)
