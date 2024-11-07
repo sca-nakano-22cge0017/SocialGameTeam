@@ -44,8 +44,6 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] WindowController windowController;
 
-    [SerializeField] HP_SpecialTecnique hp_st;
-
     private void Awake()
     {
         isSetCompleted = false;
@@ -59,42 +57,7 @@ public class StageManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            //enemies[0].Damage(100);
-            hp_st.PlayerTurnStart();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            //windowController.Open();
-            hp_st.TurnEnd();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            hp_st.RankC();
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            hp_st.RankB();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            hp_st.RankA();
-        }
-
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            hp_st.RankS();
-        }
-
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            hp_st.RankSS();
-        }
+        
     }
 
     private void Load()

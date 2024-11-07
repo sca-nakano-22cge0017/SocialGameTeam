@@ -79,7 +79,7 @@ public class ResultManager : MonoBehaviour
             for (int j = 0; j < resultGuages.Length; j++)
             {
                 int amount = dropController.DropedItems[i].dropAmount;
-                amount *= 200;
+                //amount *= 200;
                 StatusType type = dropController.DropedItems[i].itemType;
 
                 if (type == resultGuages[j].Type && amount > 0)

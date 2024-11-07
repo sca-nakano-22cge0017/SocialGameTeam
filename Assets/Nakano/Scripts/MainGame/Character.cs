@@ -15,44 +15,44 @@ public class Character : MonoBehaviour
     [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 3.0f;
 
     // ステータス
-    public int ATK; // 攻撃
-    public int MP;  // 魔力
-    public int HP;  // 体力
-    public int DEF; // 防御
-    public int AGI; // 速度
-    public int DEX; // 器用
+    [HideInInspector] public int ATK; // 攻撃
+    [HideInInspector] public int MP;  // 魔力
+    [HideInInspector] public int HP;  // 体力
+    [HideInInspector] public int DEF; // 防御
+    [HideInInspector] public int AGI; // 速度
+    [HideInInspector] public int DEX; // 器用
 
     // 計算用 現在値
-    public int currentMp;
-    public int currentAtk;
-    public int currentHp;
-    public int currentDef;
-    public int currentDex;
-    public int currentAgi;
+    [HideInInspector] public int currentMp;
+    [HideInInspector] public int currentAtk;
+    [HideInInspector] public int currentHp;
+    [HideInInspector] public int currentDef;
+    [HideInInspector] public int currentDex;
+    [HideInInspector] public int currentAgi;
 
     // ステータス倍率
-    public float powerMp = 1;
-    public float powerAtk = 1;
-    public float powerHp = 1;
-    public float powerDef = 1;
-    public float powerDex = 1;
-    public float powerAgi = 1;
+    [HideInInspector] public float powerMp = 1;
+    [HideInInspector] public float powerAtk = 1;
+    [HideInInspector] public float powerHp = 1;
+    [HideInInspector] public float powerDef = 1;
+    [HideInInspector] public float powerDex = 1;
+    [HideInInspector] public float powerAgi = 1;
 
     // バフ総量 割合
-    public float buffMp = 0;
-    public float buffAtk = 0;
-    public float buffHp = 0;
-    public float buffDef = 0;
-    public float buffDex = 0;
-    public float buffAgi = 0;
+    [HideInInspector] public float buffMp = 0;
+    [HideInInspector] public float buffAtk = 0;
+    [HideInInspector] public float buffHp = 0;
+    [HideInInspector] public float buffDef = 0;
+    [HideInInspector] public float buffDex = 0;
+    [HideInInspector] public float buffAgi = 0;
 
     // デバフ総量 割合
-    public float debuffMp = 0;
-    public float debuffAtk = 0;
-    public float debuffHp = 0;
-    public float debuffDef = 0;
-    public float debuffDex = 0;
-    public float debuffAgi = 0;
+    [HideInInspector] public float debuffMp = 0;
+    [HideInInspector] public float debuffAtk = 0;
+    [HideInInspector] public float debuffHp = 0;
+    [HideInInspector] public float debuffDef = 0;
+    [HideInInspector] public float debuffDex = 0;
+    [HideInInspector] public float debuffAgi = 0;
 
     // 会心率
     public float criticalProbability;
@@ -79,13 +79,14 @@ public class Character : MonoBehaviour
     public virtual void Move() { }
 
     /// <summary>
+    /// 行動終了
+    /// </summary>
+    public virtual void MoveEnd() { }
+
+    /// <summary>
     /// 通常攻撃
     /// </summary>
-    /// <returns>与ダメージ量</returns>
-    public virtual int NormalAttack()
-    {
-        return -1;
-    }
+    public virtual void NormalAttack() { }
 
     /// <summary>
     /// ダメージ
@@ -95,6 +96,8 @@ public class Character : MonoBehaviour
     {
         // 被ダメ - 防御力 を実際の被ダメージにする
         int damage = (_amount - (int)(DEF * powerDef));
+        damage = damage < 0 ? 0 : damage; // 0未満なら0にする
+
         currentHp -= damage;
 
         if (currentHp < 0)
@@ -115,11 +118,11 @@ public class Character : MonoBehaviour
     /// <summary>
     /// ダメージ
     /// </summary>
-    /// <param name="_amount">ダメージ量</param>
+    /// <param name="_damageAmount">ダメージ量</param>
     /// <param name="_enemy">ダメージを与えた敵</param>
-    public virtual int Damage(int _amount, Enemy _enemy)
+    public virtual int Damage(int _damageAmount, Enemy _enemy)
     {
-        return Damage(_amount);
+        return 0;
     }
 
     /// <summary>
