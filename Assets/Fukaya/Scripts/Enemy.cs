@@ -14,6 +14,7 @@ public class Enemy : Character
     public List<EnemyAttackPattern> attackPattern = new();
 
     [SerializeField] private PlayerData player;
+    [SerializeField] protected GameObject hpGuage_Obj;
     [SerializeField, Header("ドロップ")] private Text dropText;
 
     void Start()
@@ -25,7 +26,7 @@ public class Enemy : Character
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
-            player.Damage(NormalAttack(), this);
+            NormalAttack();
         }
     }
 
@@ -48,9 +49,10 @@ public class Enemy : Character
         Master.EnemyAttackPattern move = MoveLottery();
     }
 
-    public override int NormalAttack()
+    public override void NormalAttack()
     {
-        return 300;
+        int damage = 500;
+        player.Damage(damage, this);
     }
 
     /// <summary>
@@ -83,6 +85,10 @@ public class Enemy : Character
         Debug.Log("敵" + POSITION + "を倒した");
 
         // Todo モーション再生
+
+        // イラスト・HPゲージを非表示にする
+        image.enabled = false;
+        hpGuage_Obj.SetActive(false);
 
         StartCoroutine(DropDirection());
     }

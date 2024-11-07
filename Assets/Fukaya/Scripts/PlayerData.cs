@@ -23,6 +23,9 @@ public class PlayerData : Character
     private bool isGuard;
     public float power_Guard = 1.2f; // ガード時防御倍率
 
+    bool isInvincible = false;       // 無敵状態
+    public bool IsInvincible { get => isInvincible; set => isInvincible = value; }
+
     // 必殺技ゲージ
     private int specialMoveGuageAmount;
     public int specialMoveGuageMax; // 最大量
@@ -36,6 +39,7 @@ public class PlayerData : Character
     public SpecialMoveGuageSetting sm_Skill;
 
     [SerializeField] HP_SpecialTecnique hp_st;
+    [SerializeField] DEF_SpecialTecnique def_st;
 
     void Start()
     {
@@ -44,7 +48,24 @@ public class PlayerData : Character
 
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            //enemies[0].Damage(100);
+
+            Move();
+
+            hp_st.PlayerTurnStart();
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //windowController.Open();
+
+            MoveEnd();
+
+            hp_st.TurnEnd();
+            def_st.TurnEnd();
+        }
     }
 
     /// <summary>
@@ -63,7 +84,14 @@ public class PlayerData : Character
         Debug.Log("プレイヤーの行動");
     }
 
-    public override int NormalAttack()
+    public override void MoveEnd()
+    {
+        Debug.Log("プレイヤーの行動終了");
+
+        isGuard = false;
+    }
+
+    public override void NormalAttack()
     {
         // 会心倍率
         float critical = CriticalLottery() == true ? power_Critical : 1.0f;
@@ -71,9 +99,9 @@ public class PlayerData : Character
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
         int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
 
-        UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
+        // Todo ロックオンした敵にダメージ
 
-        return damage;
+        UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
     }
 
     /// <summary>
@@ -87,6 +115,10 @@ public class PlayerData : Character
         powerDef += power_Guard;
 
         isGuard = true;
+
+        // 防御時に処理される特殊技能
+        def_st.RankC();
+        def_st.RankB();
     }
 
     /// <summary>
@@ -97,36 +129,42 @@ public class PlayerData : Character
         specialMoveGuageAmount = 0;
     }
 
-    /// <summary>
-    /// ダメージ
-    /// </summary>
-    /// <param name="_amount">ダメージ量</param>
-    public override int Damage(int _amount)
+    public override int Damage(int _damageAmount, Enemy _enemy)
     {
         // Todo 回避判定
 
-        int damage = base.Damage(_amount);
+        // 被ダメ - 防御力 を実際の被ダメージにする
+        int damage = (_damageAmount - (int)(DEF * powerDef));
+        damage = damage < 0 ? 0 : damage; // 0未満なら0にする
+
+        // 被ダメージ時に処理される特殊技能
+        hp_st._RankB(damage, _enemy);     // 痛み分け
+        def_st._RankA();                   // 無敵
+
+        if (isGuard) def_st.RankS(damage, _enemy); // 攻防一体
+        damage -= def_st._RankSS(damage); // 守護神の権能
+        
+        if (isInvincible) damage = 0; // 無敵状態なら被ダメ0
+
+        // HP減少
+        currentHp -= damage;
+        if (currentHp < 0)
+        {
+            currentHp = 0;
+            Dead();
+        }
+
+        // HPゲージ減少演出
+        hpGuage.Sub(damage);
+
+        // ダメージ表示
+        StartCoroutine(DispText(damageText, damage.ToString()));
+
+        // Todo ダメージ演出・モーション再生
 
         // 必殺ゲージ回復
         if (isGuard) UpSpecialMoveGuage(sm_Guard.guageUpAmount);
         else UpSpecialMoveGuage(sm_Damage.guageUpAmount);
-
-        // Todo ダメージ演出・モーション再生
-
-        return damage;
-    }
-
-    /// <summary>
-    /// ダメージ
-    /// </summary>
-    /// <param name="_amount">ダメージ量</param>
-    /// <param name="_enemy">ダメージを与えた敵</param>
-    public override int Damage(int _amount, Enemy _enemy)
-    {
-        int damage = base.Damage(_amount, _enemy);
-
-        // 被ダメージに処理される特殊技能
-        hp_st._RankB(damage, _enemy);
 
         return damage;
     }
@@ -193,5 +231,6 @@ public class PlayerData : Character
     public override void Dead()
     {
         // Todo 敗北演出・モーション再生
+        image.enabled = false;
     }
 }

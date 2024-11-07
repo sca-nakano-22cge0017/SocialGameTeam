@@ -29,6 +29,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         // 経過ターンを加算
         elapsedTurn_B++;
         elapsedTurn_SS++;
+
+        Cancell_RankB();
     }
 
     /// <summary>
@@ -42,13 +44,13 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         //if(!rankC.m_released) return;
 
         // 回復量計算
-        float amount = player.HP * (rankC.m_value1 / 100);
+        float amount = player.HP * (rankC.m_value1 / 100.0f);
         player.HealHP((int)amount);
 
         // デバフ解除
         player.ResetDebuff();
 
-        Debug.Log("「クリアヒール」発動");
+        Debug.Log("「クリアヒール」発動 HP " + amount + "回復");
     }
 
     /// <summary>
@@ -67,7 +69,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// 被ダメージ時処理
-    /// 一定ターン　ダメージのV％を敵に返す
+    /// nターン　ダメージのV％を敵に返す n = rankB.m_continuationTurn
     /// ボタン押下から指定ターン経過するまで処理
     /// </summary>
     /// <param name="_damage">ダメージ量</param>
@@ -85,6 +87,18 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
             // カウンター
             _enemy.Damage((int)d);
+            Debug.Log("「痛み分け」 カウンターダメージ " + d);
+        }
+    }
+
+    /// <summary>
+    /// 「痛み分け」 解除
+    /// </summary>
+    void Cancell_RankB()
+    {
+        if (elapsedTurn_B >= rankB.m_continuationTurn)
+        {
+            isRankB_Active = false;
         }
     }
 
@@ -142,7 +156,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// 女神の加護　パッシブ
-    /// 3ターン毎にHPをV％回復
+    /// nターン毎にHPをV％回復　n = rankSS.m_continuationTurn
     /// 毎ターン判定/処理
     /// </summary>
     public override void RankSS()
@@ -150,14 +164,10 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         //if (!rankSS.m_released) return;
 
-        rankSS.m_continuationTurn = 3;
-
-        Debug.Log(elapsedTurn_SS + " / " + rankSS.m_continuationTurn);
-
-        // (m_continuationTurn)ターン経過したら回復
+        // 指定ターン経過したら回復
         if (elapsedTurn_SS >= rankSS.m_continuationTurn)
         {
-            float heal = (float)player.HP * (float)(rankSS.m_value1 * 100);
+            float heal = (float)player.HP * (float)(rankSS.m_value1 / 100.0f);
             player.HealHP((int)heal);
             elapsedTurn_SS = 0;
 
