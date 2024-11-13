@@ -5,7 +5,7 @@ using Master;
 
 public enum StatusType { HP, MP, ATK, DEF, AGI, DEX };
 public enum CombiType { ATK, DEF, TEC, NORMAL };
-public enum Rank { C = 0, B = 1, A = 2, S = 3, SS = 4 };
+public enum Rank { D = 0, C = 1, B = 2, A = 3, S = 4, SS = 5 };
 
 public class Status
 {

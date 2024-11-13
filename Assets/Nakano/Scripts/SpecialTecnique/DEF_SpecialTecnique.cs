@@ -25,7 +25,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// 防御時にMPをV％回復
     /// 防御時に処理
     /// </summary>
-    public override void RankC()
+    public  void RankC()
     {
         // 未解放なら処理しない
         //if(!rankC.m_released) return;
@@ -41,7 +41,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// 防御時にHPをV％回復
     /// 防御時に処理
     /// </summary>
-    public override void RankB()
+    public  void RankB()
     {
         // 未解放なら処理しない
         //if(!rankB.m_released) return;
@@ -49,14 +49,14 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         float amount = (float)player.HP * ((float)rankB.m_value1 / 100.0f);
         player.HealHP((int)amount);
 
-        Debug.Log("「HP吸収」発動 HP" + amount + " 回復");
+        Debug.Log("「HP吸収」発動 HP" + (int)amount + " 回復");
     }
 
     /// <summary>
     /// 無敵　スキル
     /// 1ターンの間無敵状態
     /// </summary>
-    public override void RankA()
+    public  void RankA()
     {
         // 未解放なら処理しない
         //if(!rankA.m_released) return;
@@ -78,7 +78,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
         if (elapsedTurn_A <= rankA.m_continuationTurn)
         {
-            player.IsInvincible = true;
+            player.isInvincible = true;
         }
     }
 
@@ -89,7 +89,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     {
         if (elapsedTurn_A > rankA.m_continuationTurn)
         {
-            player.IsInvincible = false;
+            player.isInvincible = false;
         }
     }
 
@@ -114,7 +114,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// 守護神の権能　スキル
     /// 重ね掛け可
     /// </summary>
-    public override void RankSS()
+    public  void RankSS()
     {
         // 未解放なら処理しない
         //if(!rankSS.m_released) return;

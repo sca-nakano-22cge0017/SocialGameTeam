@@ -92,6 +92,7 @@ public class Character : MonoBehaviour
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
+    /// <returns>防御力分減少させたダメージ量</returns>
     public virtual int Damage(int _amount)
     {
         // 被ダメ - 防御力 を実際の被ダメージにする
@@ -118,11 +119,31 @@ public class Character : MonoBehaviour
     /// <summary>
     /// ダメージ
     /// </summary>
-    /// <param name="_damageAmount">ダメージ量</param>
-    /// <param name="_enemy">ダメージを与えた敵</param>
-    public virtual int Damage(int _damageAmount, Enemy _enemy)
+    /// <param name="_amount">ダメージ量</param>
+    /// <param name="cantGuard">防御無視かどうか　trueなら防御無視</param>
+    /// <returns>防御力分減少させたダメージ量</returns>
+    public virtual int Damage(int _amount, bool cantGuard)
     {
-        return 0;
+        // 被ダメ - 防御力 を実際の被ダメージにする
+        // 防御無視のときは被ダメから防御力分減少させない
+        int damage = cantGuard ? _amount : (_amount - (int)(DEF * powerDef));
+        damage = damage < 0 ? 0 : damage; // 0未満なら0にする
+
+        currentHp -= damage;
+
+        if (currentHp < 0)
+        {
+            currentHp = 0;
+            Dead();
+        }
+
+        // ゲージ減少演出
+        hpGuage.Sub(damage);
+
+        // ダメージ表示
+        StartCoroutine(DispText(damageText, damage.ToString()));
+
+        return damage;
     }
 
     /// <summary>
