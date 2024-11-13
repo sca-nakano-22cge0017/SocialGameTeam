@@ -23,9 +23,6 @@ public class PlayerData : Character
     private bool isGuard;
     public float power_Guard = 1.2f; // ƒK[ƒh–hŒä”{—¦
 
-    bool isInvincible = false;       // –³“Gó‘Ô
-    public bool IsInvincible { get => isInvincible; set => isInvincible = value; }
-
     // •KE‹ZƒQ[ƒW
     private int specialMoveGuageAmount;
     public int specialMoveGuageMax; // Å‘å—Ê
@@ -40,6 +37,17 @@ public class PlayerData : Character
 
     [SerializeField] HP_SpecialTecnique hp_st;
     [SerializeField] DEF_SpecialTecnique def_st;
+    [SerializeField] ATK_SpecialTecnique atk_st;
+    [SerializeField] MP_SpecialTecnique mp_st;
+    [SerializeField] AGI_SpecialTecnique agi_st;
+    [SerializeField] DEX_SpecialTecnique dex_st;
+
+    [SerializeField] Enemy enemy_forDebug;
+
+    /// <summary>
+    /// –³“Gó‘Ô‚©‚Ç‚¤‚©
+    /// </summary>
+    public bool isInvincible = false;
 
     void Start()
     {
@@ -54,17 +62,17 @@ public class PlayerData : Character
 
             Move();
 
+            atk_st.GameStart();
             hp_st.PlayerTurnStart();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //windowController.Open();
-
             MoveEnd();
 
             hp_st.TurnEnd();
             def_st.TurnEnd();
+            atk_st.TurnEnd();
         }
     }
 
@@ -100,6 +108,10 @@ public class PlayerData : Character
         int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
 
         // Todo ƒƒbƒNƒIƒ“‚µ‚½“G‚Éƒ_ƒ[ƒW
+        //enemy_forDebug.Damage(damage);
+
+        // ’ÊíUŒ‚‚Éˆ—‚³‚ê‚é“Áê‹Z”\
+        atk_st.RankA(enemy_forDebug);
 
         UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
     }
@@ -129,7 +141,7 @@ public class PlayerData : Character
         specialMoveGuageAmount = 0;
     }
 
-    public override int Damage(int _damageAmount, Enemy _enemy)
+    public int Damage(int _damageAmount, Enemy _enemy)
     {
         // Todo ‰ñ”ğ”»’è
 
@@ -138,13 +150,13 @@ public class PlayerData : Character
         damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
 
         // ”íƒ_ƒ[ƒW‚Éˆ—‚³‚ê‚é“Áê‹Z”\
-        hp_st._RankB(damage, _enemy);     // ’É‚İ•ª‚¯
-        def_st._RankA();                   // –³“G
-
         if (isGuard) def_st.RankS(damage, _enemy); // U–hˆê‘Ì
+
+        def_st._RankA();                   // –³“G
+        if (isInvincible) damage = 0;      // –³“Gó‘Ô‚È‚ç”íƒ_ƒ0
+
         damage -= def_st._RankSS(damage); // çŒì_‚ÌŒ ”\
-        
-        if (isInvincible) damage = 0; // –³“Gó‘Ô‚È‚ç”íƒ_ƒ0
+        hp_st._RankB(damage, _enemy);     // ’É‚İ•ª‚¯
 
         // HPŒ¸­
         currentHp -= damage;
@@ -153,6 +165,8 @@ public class PlayerData : Character
             currentHp = 0;
             Dead();
         }
+
+        atk_st.RankB();                   // ”w…‚Ìw
 
         // HPƒQ[ƒWŒ¸­‰‰o
         hpGuage.Sub(damage);

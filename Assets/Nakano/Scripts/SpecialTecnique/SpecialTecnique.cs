@@ -120,13 +120,6 @@ public class SpecialTecniqueMethod : MonoBehaviour
     /// </summary>
     public virtual void TurnEnd() { }
 
-    // 各ランクの特殊技能
-    public virtual void RankC() { }
-    public virtual void RankB() { }
-    public virtual void RankA() { }
-    public virtual void RankS() { }
-    public virtual void RankSS() { }
-
     /// <summary>
     /// 持続ターンありのスキルの経過ターンを加算
     /// </summary>

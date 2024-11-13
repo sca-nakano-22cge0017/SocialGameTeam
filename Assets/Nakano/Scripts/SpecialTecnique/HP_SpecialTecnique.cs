@@ -38,7 +38,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// 状態異常を回復、HPをV％回復
     /// ボタン押下時に処理
     /// </summary>
-    public override void RankC()
+    public  void RankC()
     {
         // 未解放なら処理しない
         //if(!rankC.m_released) return;
@@ -56,7 +56,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 痛み分け　スキル
     /// </summary>
-    public override void RankB()
+    public  void RankB()
     {
         // 未解放なら処理しない
         //if (!rankB.m_released) return;
@@ -85,8 +85,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
             // カウンターのダメージ量算出
             float d = (float)_damage * (float)(rankB.m_value1 / 100.0f);
 
-            // カウンター
-            _enemy.Damage((int)d);
+            // 防御無視カウンター
+            _enemy.Damage((int)d, true);
             Debug.Log("「痛み分け」 カウンターダメージ " + d);
         }
     }
@@ -107,7 +107,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// 毎ターンHPをV％回復
     /// 毎ターン終了時に呼ぶ
     /// </summary>
-    public override void RankA()
+    public  void RankA()
     {
         // 未解放なら処理しない
         //if (!rankA.m_released) return;
@@ -124,7 +124,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// 体力がV％以上のとき、攻撃力W%アップ
     /// 毎ターン プレイヤーの行動時判定/処理
     /// </summary>
-    public override void RankS()
+    public  void RankS()
     {
         // 未解放なら処理しない
         //if (!rankS.m_released) return;
@@ -159,7 +159,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// nターン毎にHPをV％回復　n = rankSS.m_continuationTurn
     /// 毎ターン判定/処理
     /// </summary>
-    public override void RankSS()
+    public  void RankSS()
     {
         // 未解放なら処理しない
         //if (!rankSS.m_released) return;

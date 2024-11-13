@@ -17,6 +17,11 @@ public class Enemy : Character
     [SerializeField] protected GameObject hpGuage_Obj;
     [SerializeField, Header("ドロップ")] private Text dropText;
 
+    /// <summary>
+    /// 防御無視状態
+    /// </summary>
+    public bool isIgnoreDeffence = false;
+
     void Start()
     {
         dropController = FindObjectOfType<DropController>();
@@ -59,12 +64,17 @@ public class Enemy : Character
     /// ダメージ
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
+    /// <returns>防御力分減少させたダメージ量</returns>
     public override int Damage(int _amount)
     {
-        int damage = base.Damage(_amount);
+        int damage = 0;
+
+        if (isIgnoreDeffence) damage = base.Damage(_amount, true);
+        else damage = base.Damage(_amount);
 
         return damage;
     }
+
 
     /// <summary>
     /// HP回復
