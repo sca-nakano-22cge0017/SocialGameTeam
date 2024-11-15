@@ -23,7 +23,8 @@ public class CharaSelectManager : MonoBehaviour
 
     void Update()
     {
-        
+        //Debug.Log(PlayerDataManager.player.TotalPower);
+        //Debug.Log(GameManager.SelectChara);
     }
 
     void SwordsManTrue()
@@ -42,6 +43,9 @@ public class CharaSelectManager : MonoBehaviour
     public void CharaButton1()
     {
         SwordsManTrue();
+        GameManager.SelectChara = 1;
+        //PlayerDataManager.Save();
+        //PlayerDataManager.Load();
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
         status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
@@ -60,6 +64,9 @@ public class CharaSelectManager : MonoBehaviour
     public void CharaButton2()
     {
         WizardTrue();
+        GameManager.SelectChara = 2;
+        //PlayerDataManager.Save();
+        //PlayerDataManager.Load();
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
         status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
