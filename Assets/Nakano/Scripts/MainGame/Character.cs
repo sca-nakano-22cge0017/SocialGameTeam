@@ -55,7 +55,8 @@ public class Character : MonoBehaviour
     [HideInInspector] public float debuffAgi = 0;
 
     // 会心率
-    public float criticalProbability;
+    public float criticalProbability;  // 初期値
+    public float _criticalProbability; // 計算用
 
     /// <summary>
     /// 初期化
@@ -71,6 +72,8 @@ public class Character : MonoBehaviour
 
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
+
+        _criticalProbability = criticalProbability;
     }
 
     /// <summary>
@@ -205,6 +208,8 @@ public class Character : MonoBehaviour
         buffDef = 0;
         buffDex = 0;
         buffAgi = 0;
+
+        CalcPower();
     }
 
     /// <summary>
@@ -250,6 +255,8 @@ public class Character : MonoBehaviour
         debuffDef = 0;
         debuffDex = 0;
         debuffAgi = 0;
+
+        CalcPower();
     }
 
     /// <summary>
@@ -263,6 +270,8 @@ public class Character : MonoBehaviour
         powerDef = 1 + buffDef - debuffDef;
         powerAgi = 1 + buffAgi - debuffAgi;
         powerDex = 1 + buffDex - debuffDex;
+
+        Debug.Log($"倍率 HP:{powerHp}, MP:{powerMp}, ATK:{powerAtk}, DEF:{powerDef}, AGI:{powerAgi}, DEX:{powerDex}");
     }
 
     /// <summary>
@@ -272,7 +281,7 @@ public class Character : MonoBehaviour
     {
         int c = Random.Range(0, 100);
 
-        if (c < criticalProbability) return true;
+        if (c < _criticalProbability) return true;
         else return false;
     }
 

@@ -15,6 +15,9 @@ public class DropController : MonoBehaviour
         private set { }
     }
 
+    [SerializeField] DEX_SpecialTecnique dex_st;
+    private float power = 1; // ÉhÉçÉbÉvó è„è∏î{ó¶
+
     void Start()
     {
         Initialize();
@@ -31,6 +34,10 @@ public class DropController : MonoBehaviour
             drop.dropAmount = 0;
             dropedItems.Add(drop);
         }
+
+        if (dex_st == null) return;
+
+        power = 1 + dex_st.RankB(); // ê¨í∑ÇÃìπ
     }
 
     /// <summary>
@@ -60,8 +67,13 @@ public class DropController : MonoBehaviour
         {
             if (range[i] <= rnd && rnd < range[i + 1])
             {
-                AddDropAmount(data[i].itemType, data[i].dropAmount);
-                drop = data[i].dropAmount;
+                float d = data[i].dropAmount * power;
+
+                AddDropAmount(data[i].itemType, (int)d);
+                drop = (int)d;
+
+                Debug.Log("ê¨í∑ÇÃìπ " + power + " / " + d);
+
                 break;
             }
         }

@@ -19,12 +19,14 @@ public class PlayerData : Character
     public float power_Critical;      // 会心時倍率
     public float power_SpecialMove;   // 必殺技
 
+    public float buffCriticalPower;   // 会心時倍率バフ
+
     // ガード
     private bool isGuard;
     public float power_Guard = 1.2f; // ガード時防御倍率
 
     // 必殺技ゲージ
-    private int specialMoveGuageAmount;
+    public int specialMoveGuageAmount;
     public int specialMoveGuageMax; // 最大量
 
     // 必殺ゲージ設定
@@ -34,6 +36,11 @@ public class PlayerData : Character
     public SpecialMoveGuageSetting sm_Damage;
     public SpecialMoveGuageSetting sm_Turn;
     public SpecialMoveGuageSetting sm_Skill;
+
+    /// <summary>
+    /// MP消費量倍率
+    /// </summary>
+    public float power_CostMp = 1;
 
     [SerializeField] HP_SpecialTecnique hp_st;
     [SerializeField] DEF_SpecialTecnique def_st;
@@ -58,12 +65,11 @@ public class PlayerData : Character
     {
         if (Input.GetKeyDown(KeyCode.S))
         {
-            //enemies[0].Damage(100);
-
             Move();
 
             atk_st.GameStart();
             hp_st.PlayerTurnStart();
+            mp_st.TurnStart();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -73,6 +79,9 @@ public class PlayerData : Character
             hp_st.TurnEnd();
             def_st.TurnEnd();
             atk_st.TurnEnd();
+            mp_st.TurnEnd();
+            agi_st.TurnEnd();
+            dex_st.TurnEnd();
         }
     }
 
@@ -102,16 +111,24 @@ public class PlayerData : Character
     public override void NormalAttack()
     {
         // 会心倍率
-        float critical = CriticalLottery() == true ? power_Critical : 1.0f;
+        float critical = 1.0f;
+        if (CriticalLottery())
+        {
+            critical = power_Critical + buffCriticalPower;
+            Debug.Log("会心発動");
+        }
 
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
         int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
 
         // Todo ロックオンした敵にダメージ
-        //enemy_forDebug.Damage(damage);
+        enemy_forDebug.Damage(damage);
 
         // 通常攻撃時に処理される特殊技能
-        atk_st.RankA(enemy_forDebug);
+        atk_st.RankA(enemy_forDebug);        // ガードブレイカー
+        mp_st.RankB();                       // ドレイン
+        dex_st.RankA(enemy_forDebug);        // 小手先のテクニック
+        if (agi_st.RankA()) NormalAttack(); // 再行動
 
         UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
     }
@@ -138,12 +155,13 @@ public class PlayerData : Character
     /// </summary>
     public void SpecialMove()
     {
+        atk_st.RankS(); // 全身全霊
         specialMoveGuageAmount = 0;
     }
 
     public int Damage(int _damageAmount, Enemy _enemy)
     {
-        // Todo 回避判定
+        if (agi_st.RankS()) return 0;     // ステップ
 
         // 被ダメ - 防御力 を実際の被ダメージにする
         int damage = (_damageAmount - (int)(DEF * powerDef));
@@ -151,6 +169,7 @@ public class PlayerData : Character
 
         // 被ダメージ時に処理される特殊技能
         if (isGuard) def_st.RankS(damage, _enemy); // 攻防一体
+        mp_st.RankS(_enemy);
 
         def_st._RankA();                   // 無敵
         if (isInvincible) damage = 0;      // 無敵状態なら被ダメ0
@@ -236,6 +255,15 @@ public class PlayerData : Character
         if (specialMoveGuageAmount > specialMoveGuageMax)
             specialMoveGuageAmount = specialMoveGuageMax;
 
+        // Todo 上昇演出
+    }
+
+    /// <summary>
+    /// 必殺技ゲージを最大まで上昇
+    /// </summary>
+    public void UpSpecialMoveGuage()
+    {
+        specialMoveGuageAmount = specialMoveGuageMax;
         // Todo 上昇演出
     }
 

@@ -67,6 +67,8 @@ public class Enemy : Character
     /// <returns>–hŒä—Í•ªŒ¸­‚³‚¹‚½ƒ_ƒ[ƒW—Ê</returns>
     public override int Damage(int _amount)
     {
+        if (currentHp <= 0) return 0;
+
         int damage = 0;
 
         if (isIgnoreDeffence) damage = base.Damage(_amount, true);

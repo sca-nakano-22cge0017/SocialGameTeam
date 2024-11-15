@@ -7,24 +7,21 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     GameObject[] enemies;
 
     int elapsedTurn_C = 0;
+    bool isActive_C = false;
 
-   int effectAmount_A = 0; // 現在の効果量
+    int effectAmount_A = 0; // 現在の効果量
 
     public override void GameStart()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
 
-    public override void TurnStart() { }
-
-    public override void PlayerTurnStart() { }
-
     public override void TurnEnd()
     {
         // 経過ターンを加算
         elapsedTurn_C++;
 
-        Cancell_RankC();
+        Cancel_RankC();
     }
 
     /// <summary>
@@ -37,6 +34,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         //if(!rankC.m_released) return;
 
         elapsedTurn_C = 1;
+        isActive_C = true;
 
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -49,8 +47,10 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// ピアス解除
     /// </summary>
-    void Cancell_RankC()
+    void Cancel_RankC()
     {
+        if (!isActive_C) return;
+
         if (elapsedTurn_C >= rankC.m_continuationTurn)
         {
             for (int i = 0; i < enemies.Length; i++)
@@ -59,6 +59,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
             }
 
             elapsedTurn_C = 0;
+            isActive_C = false;
+
             Debug.Log("「ピアス」解除");
         }
     }
@@ -109,12 +111,17 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// 全身全霊　パッシブ
-    /// 必殺技を打つ前に攻撃力を大幅に上昇させる
+    /// 必殺技を打つ前に攻撃力をV%上昇させる
     /// </summary>
     public  void RankS()
     {
         // 未解放なら処理しない
         //if(!rankS.m_released) return;
+
+        float amount = (float)rankS.m_value1 / 100.0f;
+        player.AddBuff(StatusType.ATK, amount);
+
+        Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
     }
 
     /// <summary>
@@ -126,5 +133,13 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         //if(!rankSS.m_released) return;
 
+        float amount = (float)rankSS.m_value1 / 100.0f * (float)player.ATK;
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemies[i].GetComponent<Enemy>().Damage((int)amount);
+        }
+
+        Debug.Log("「エクスプロージョン」発動");
     }
 }

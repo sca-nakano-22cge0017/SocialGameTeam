@@ -89,6 +89,15 @@ public class SpecialTecnique : ScriptableObject
     }
 }
 
+public class EnemyBuffTurn
+{
+    // バフデバフが掛かっている敵
+    public Enemy enemy;
+
+    // 経過ターン
+    public int elapsedTurn;
+}
+
 public class SpecialTecniqueMethod : MonoBehaviour
 {
     [SerializeField] protected PlayerData player;
@@ -131,6 +140,18 @@ public class SpecialTecniqueMethod : MonoBehaviour
         {
             t[i]++;
         }
+        return t;
+    }
+
+    protected List<EnemyBuffTurn> TurnPass(List<EnemyBuffTurn> _turn)
+    {
+        List<EnemyBuffTurn> t = _turn;
+
+        for (int i = 0; i < t.Count; i++)
+        {
+            t[i].elapsedTurn++;
+        }
+
         return t;
     }
 }
