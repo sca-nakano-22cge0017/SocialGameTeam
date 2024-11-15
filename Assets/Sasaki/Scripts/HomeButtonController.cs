@@ -48,7 +48,7 @@ public class HomeButtonController : MonoBehaviour
                 SceneManager.LoadScene("SelectScene_Boss");
                 break;
             case "Select": //キャラクター選択画面
-                SceneManager.LoadScene("TitleScene");
+                SceneManager.LoadScene("CharaSelect");
                 break;
             case "CheckInWindow": //確認Window
                 checkWindow.SetActive(true);
