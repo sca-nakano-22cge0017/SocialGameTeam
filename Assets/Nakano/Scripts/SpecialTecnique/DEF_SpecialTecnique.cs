@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DEF_SpecialTecnique : SpecialTecniqueMethod
 {
-    bool isRankA_Active = false; // スキル発動中かどうか
+    bool isActive_A = false; // スキル発動中かどうか
     int elapsedTurn_A = 0;       // スキル発動からの経過ターン
 
-    bool isRankSS_Active = false;     // スキル発動中かどうか
+    bool isActive_SS = false;     // スキル発動中かどうか
     List<int> elapsedTurn_SS = new(); // スキル発動からの経過ターン
 
     public override void TurnEnd()
@@ -16,8 +16,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_A++;
         elapsedTurn_SS = TurnPass(elapsedTurn_SS);
 
-        Cancell_RankA();
-        Cancell_RankSS();
+        Cancel_RankA();
+        Cancel_RankSS();
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         //if(!rankA.m_released) return;
 
         elapsedTurn_A = 1;
-        isRankA_Active = true;
+        isActive_A = true;
 
         Debug.Log("「無敵」発動");
     }
@@ -73,7 +73,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public void _RankA()
     {
         // スキル発動中でなければ処理しない
-        if (!isRankA_Active) return;
+        if (!isActive_A) return;
 
         // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
         if (elapsedTurn_A <= rankA.m_continuationTurn)
@@ -85,7 +85,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「無敵」解除
     /// </summary>
-    void Cancell_RankA()
+    void Cancel_RankA()
     {
         if (elapsedTurn_A > rankA.m_continuationTurn)
         {
@@ -120,7 +120,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         //if(!rankSS.m_released) return;
 
         elapsedTurn_SS.Add(1);
-        isRankSS_Active = true;
+        isActive_SS = true;
 
         Debug.Log("「守護神の権能」発動");
     }
@@ -134,7 +134,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public int _RankSS(int _damage)
     {
         // スキル発動中でなければ処理しない
-        if (!isRankSS_Active) return 0;
+        if (!isActive_SS) return 0;
 
         float cutPercent = 0; // ダメージカット量 %
 
@@ -155,7 +155,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「守護神の権能」解除
     /// </summary>
-    void Cancell_RankSS()
+    void Cancel_RankSS()
     {
         for (int i = 0; i < elapsedTurn_SS.Count; i++)
         {
@@ -173,6 +173,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
             }
         }
 
-        isRankSS_Active = false;
+        isActive_SS = false;
+        Debug.Log("「守護神の権能」解除");
     }
 }

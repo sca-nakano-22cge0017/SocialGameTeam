@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class HP_SpecialTecnique : SpecialTecniqueMethod
 {
-    bool isRankB_Active = false; // スキル発動中かどうか
+    bool isActive_B = false; // スキル発動中かどうか
     int elapsedTurn_B = 0;       // スキル発動からの経過ターン
 
-    bool isRankS_Active = false;
-
+    bool isActive_SS = false;
     int elapsedTurn_SS = 1;
 
     public override void TurnStart()
@@ -30,7 +29,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_B++;
         elapsedTurn_SS++;
 
-        Cancell_RankB();
+        Cancel_RankB();
     }
 
     /// <summary>
@@ -62,7 +61,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         //if (!rankB.m_released) return;
 
         elapsedTurn_B = 1;
-        isRankB_Active = true; // スキル発動
+        isActive_B = true; // スキル発動
 
         Debug.Log("「痛み分け」発動");
     }
@@ -77,7 +76,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     public void _RankB(int _damage, Enemy _enemy)
     {
         // スキル発動中でなければ処理しない
-        if (!isRankB_Active) return;
+        if (!isActive_B) return;
 
         // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
         if (elapsedTurn_B <= rankB.m_continuationTurn)
@@ -94,11 +93,11 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「痛み分け」 解除
     /// </summary>
-    void Cancell_RankB()
+    void Cancel_RankB()
     {
         if (elapsedTurn_B >= rankB.m_continuationTurn)
         {
-            isRankB_Active = false;
+            isActive_B = false;
         }
     }
 
@@ -136,20 +135,20 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         if (hpPer >= rankS.m_value1)
         {
             // バフが掛かっていない場合のみバフを掛ける
-            if (!isRankS_Active)
+            if (!isActive_SS)
             {
                 player.AddBuff(StatusType.ATK, amount);
-                isRankS_Active = true;
+                isActive_SS = true;
                 Debug.Log("「不倒の構え」発動 攻撃力 " + amount + "上昇");
             }
         }
         else
         {
             // バフが掛かっている場合、バフを無くす
-            if (isRankS_Active)
+            if (isActive_SS)
             {
                 player.AddBuff(StatusType.ATK, -amount);
-                isRankS_Active = false;
+                isActive_SS = false;
             }
         }
     }
