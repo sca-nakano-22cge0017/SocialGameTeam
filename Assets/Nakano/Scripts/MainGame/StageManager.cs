@@ -126,16 +126,16 @@ public class StageManager : MonoBehaviour
         {
             player.power_NormalAttack = 1.2f;
             player.power_Skill = 1.0f;
-            player.power_Critical = 1.5f;
-            player.criticalProbability = 10;
+            player.power_CriticalInit = 1.5f;
+            player.criticalProbabilityInitial = 10;
             player.power_SpecialMove = 10;
         }
         if (GameManager.SelectChara == 2)
         {
             player.power_NormalAttack = 0.9f;
             player.power_Skill = 1.3f;
-            player.power_Critical = 1.5f;
-            player.criticalProbability = 10;
+            player.power_CriticalInit = 1.5f;
+            player.criticalProbabilityInitial = 10;
             player.power_SpecialMove = 10;
         }
 

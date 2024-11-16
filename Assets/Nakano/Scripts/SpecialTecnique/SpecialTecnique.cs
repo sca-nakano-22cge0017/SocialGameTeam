@@ -109,6 +109,8 @@ public class SpecialTecniqueMethod : MonoBehaviour
     [SerializeField] protected SpecialTecnique rankS;
     [SerializeField] protected SpecialTecnique rankSS;
 
+    [SerializeField] protected SkillExplainDisplay sed;
+
     /// <summary>
     /// ゲーム開始時に呼び出し
     /// </summary>

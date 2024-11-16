@@ -55,8 +55,12 @@ public class Character : MonoBehaviour
     [HideInInspector] public float debuffAgi = 0;
 
     // 会心率
-    public float criticalProbability;  // 初期値
-    public float _criticalProbability; // 計算用
+    public float criticalProbabilityInitial;  // 初期値
+    public float _criticalProbability;        // 計算用
+
+    public float power_CriticalInit;    // 基本会心時倍率
+    public float buffCriticalPower;     // 会心時倍率バフ
+    protected float critical = 1.0f;    // 会心時倍率　計算用
 
     /// <summary>
     /// 初期化
@@ -73,7 +77,7 @@ public class Character : MonoBehaviour
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
 
-        _criticalProbability = criticalProbability;
+        _criticalProbability = criticalProbabilityInitial;
     }
 
     /// <summary>
@@ -277,12 +281,19 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 会心抽選
     /// </summary>
-    protected bool CriticalLottery()
+    protected void CriticalLottery()
     {
         int c = Random.Range(0, 100);
 
-        if (c < _criticalProbability) return true;
-        else return false;
+        if (c < _criticalProbability)
+        {
+            critical = power_CriticalInit + buffCriticalPower;
+            Debug.Log("会心発動");
+        }
+        else
+        {
+            critical = 1.0f;
+        }
     }
 
     /// <summary>
