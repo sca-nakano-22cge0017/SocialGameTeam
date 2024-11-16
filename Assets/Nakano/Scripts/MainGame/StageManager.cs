@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class EnemiesIllust
 {
     public string enemyId;
+    public int imageId;
     public Sprite sprite;
     public Animation anim;
 }
@@ -186,7 +187,8 @@ public class StageManager : MonoBehaviour
                 // 表示
                 for (int i = 0; i < enemiesIllust.Length; i++)
                 {
-                    if (data[d].enemyStatus.enemyId.Substring(0, 1) == enemiesIllust[i].enemyId)
+                    if (data[d].enemyStatus.enemyId.Substring(0, 1) == enemiesIllust[i].enemyId &&
+                        data[d].enemyStatus.imageId == enemiesIllust[i].imageId)
                     {
                         // イラスト変更
                         enemies[e].image.sprite = enemiesIllust[i].sprite;
