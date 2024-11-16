@@ -185,7 +185,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
             isActive_SS = false;
 
             player.buffCriticalPower = 0;
-            player._criticalProbability = player.criticalProbability;
+            player._criticalProbability = player.criticalProbabilityInitial;
 
             Debug.Log("u–ñ‘©‚³‚ê‚½Ÿ—˜v‰ğœ");
         }

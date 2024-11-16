@@ -5,11 +5,8 @@ using UnityEngine;
 /// <summary>
 /// ‰ŠúƒXƒLƒ‹
 /// </summary>
-public class InitialSkill : MonoBehaviour
+public class InitialSkill : SpecialTecniqueMethod
 {
-    [SerializeField] private PlayerData player;
-    [SerializeField] private BattleSystem battleSystem;
-
     [SerializeField] private SpecialTecnique heal;
     [SerializeField] private SpecialTecnique fire;
 

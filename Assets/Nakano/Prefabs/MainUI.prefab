@@ -356,19 +356,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4127680681914316931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8501128126989100463}
-        m_TargetAssemblyTypeName: AGI_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &6477891636979222784
 Animator:
   serializedVersion: 5
@@ -407,7 +395,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -423,14 +411,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 21
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -557,19 +545,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3595222037341689795}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8428428438153943046}
-        m_TargetAssemblyTypeName: DEX_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankSS
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &557035726767027313
 Animator:
   serializedVersion: 5
@@ -608,7 +584,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -624,14 +600,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 30
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -797,7 +773,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6811160584737150632}
+      - m_Target: {fileID: 3193237472008266103}
         m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
         m_MethodName: Open
         m_Mode: 1
@@ -1268,19 +1244,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8319561136176329383}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1580181687976394623}
-        m_TargetAssemblyTypeName: DEF_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankA
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &631743169167705829
 Animator:
   serializedVersion: 5
@@ -1319,7 +1283,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -1335,14 +1299,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 8
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1544,19 +1508,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3914176894349462636}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8501128126989100463}
-        m_TargetAssemblyTypeName: AGI_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankSS
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &7089306333295224832
 Animator:
   serializedVersion: 5
@@ -1595,7 +1547,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -1611,14 +1563,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 25
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1899,19 +1851,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6077246114242012633}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8428428438153943046}
-        m_TargetAssemblyTypeName: DEX_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankS
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &3371795385627989092
 Animator:
   serializedVersion: 5
@@ -1950,7 +1890,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -1966,14 +1906,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 29
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -2680,19 +2620,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3452595621976744017}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7783639696701952866}
-        m_TargetAssemblyTypeName: MP_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &899898719363678312
 Animator:
   serializedVersion: 5
@@ -2731,7 +2659,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -2747,14 +2675,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 16
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -2960,19 +2888,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1167142854744156312}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7783639696701952866}
-        m_TargetAssemblyTypeName: MP_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankSS
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &3469178834054245552
 Animator:
   serializedVersion: 5
@@ -3011,7 +2927,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -3027,14 +2943,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 20
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -3161,19 +3077,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1027459043204166548}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7626191531467069971}
-        m_TargetAssemblyTypeName: HP_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankB
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &4928685769906293766
 Animator:
   serializedVersion: 5
@@ -3212,7 +3116,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -3228,14 +3132,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -3670,19 +3574,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 242205864296730655}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1580181687976394623}
-        m_TargetAssemblyTypeName: DEF_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankSS
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &4931441454014145509
 Animator:
   serializedVersion: 5
@@ -3721,7 +3613,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -3737,14 +3629,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 10
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -3872,11 +3764,13 @@ MonoBehaviour:
   debuffDef: 0
   debuffDex: 0
   debuffAgi: 0
-  criticalProbability: 0
+  criticalProbabilityInitial: 0
+  _criticalProbability: 0
+  power_CriticalInit: 0
+  buffCriticalPower: 0
   mpGuage: {fileID: 5474815273428881209}
   power_NormalAttack: 0
   power_Skill: 0
-  power_Critical: 0
   power_SpecialMove: 0
   power_Guard: 1.2
   specialMoveGuageAmount: 0
@@ -4355,19 +4249,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3967265399862038512}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8428428438153943046}
-        m_TargetAssemblyTypeName: DEX_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankC
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 3298198796751618661}
-          m_ObjectArgumentAssemblyTypeName: Enemy, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &2208309053413095241
 Animator:
   serializedVersion: 5
@@ -4406,7 +4288,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -4422,14 +4304,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 26
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -4446,7 +4328,8 @@ GameObject:
   - component: {fileID: 5341693994256573654}
   - component: {fileID: 6564816647534129313}
   - component: {fileID: 4981825800277211853}
-  - component: {fileID: 6811160584737150632}
+  - component: {fileID: 6509002635628500275}
+  - component: {fileID: 3193237472008266103}
   m_Layer: 5
   m_Name: MainUI
   m_TagString: Untagged
@@ -4548,7 +4431,250 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6811160584737150632
+--- !u!114 &6509002635628500275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5094798151135463110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba15f85b48d5bf46be172004df45ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skill:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1980767519300707214}
+        m_TargetAssemblyTypeName: InitialSkill, Assembly-CSharp
+        m_MethodName: Heal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1980767519300707214}
+        m_TargetAssemblyTypeName: InitialSkill, Assembly-CSharp
+        m_MethodName: Fire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7626191531467069971}
+        m_TargetAssemblyTypeName: HP_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7626191531467069971}
+        m_TargetAssemblyTypeName: HP_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankB
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1580181687976394623}
+        m_TargetAssemblyTypeName: DEF_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankA
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1580181687976394623}
+        m_TargetAssemblyTypeName: DEF_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankSS
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6410713347637715933}
+        m_TargetAssemblyTypeName: ATK_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6410713347637715933}
+        m_TargetAssemblyTypeName: ATK_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankSS
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7783639696701952866}
+        m_TargetAssemblyTypeName: MP_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7783639696701952866}
+        m_TargetAssemblyTypeName: MP_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankSS
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8501128126989100463}
+        m_TargetAssemblyTypeName: AGI_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8501128126989100463}
+        m_TargetAssemblyTypeName: AGI_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankB
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8501128126989100463}
+        m_TargetAssemblyTypeName: AGI_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankSS
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8428428438153943046}
+        m_TargetAssemblyTypeName: DEX_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankC
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8428428438153943046}
+        m_TargetAssemblyTypeName: DEX_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankS
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8428428438153943046}
+        m_TargetAssemblyTypeName: DEX_SpecialTecnique, Assembly-CSharp
+        m_MethodName: RankSS
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  wc: {fileID: 3193237472008266103}
+  skillDetailWindow: {fileID: 1302506500417952397}
+  skillIcon: {fileID: 8377995227244967091}
+  skillName: {fileID: 620922363607821651}
+  skillExplain: {fileID: 1429420267387710986}
+  isSkillDetailDisp: 0
+--- !u!114 &3193237472008266103
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4917,19 +5043,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1712671706987685702}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6410713347637715933}
-        m_TargetAssemblyTypeName: ATK_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &4069855592676408967
 Animator:
   serializedVersion: 5
@@ -4968,7 +5082,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -4984,14 +5098,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 11
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -5276,19 +5390,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6322549773885779288}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7626191531467069971}
-        m_TargetAssemblyTypeName: HP_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankC
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &5335226457149821210
 Animator:
   serializedVersion: 5
@@ -5327,7 +5429,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -5343,14 +5445,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -5552,19 +5654,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4836447002292578221}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1980767519300707214}
-        m_TargetAssemblyTypeName: InitialSkill, Assembly-CSharp
-        m_MethodName: Fire
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1530070693552604916
 Animator:
   serializedVersion: 5
@@ -5603,7 +5693,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -5619,10 +5709,10 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -6405,7 +6495,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6811160584737150632}
+      - m_Target: {fileID: 3193237472008266103}
         m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
         m_MethodName: Close
         m_Mode: 1
@@ -6560,19 +6650,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6807738029718410469}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8501128126989100463}
-        m_TargetAssemblyTypeName: AGI_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankB
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 3298198796751618661}
-          m_ObjectArgumentAssemblyTypeName: Enemy, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1109534490201921800
 Animator:
   serializedVersion: 5
@@ -6611,7 +6689,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -6627,14 +6705,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 22
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -6761,19 +6839,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7533054249756798643}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1980767519300707214}
-        m_TargetAssemblyTypeName: InitialSkill, Assembly-CSharp
-        m_MethodName: Heal
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1465518784791374025
 Animator:
   serializedVersion: 5
@@ -6812,7 +6878,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -6828,14 +6894,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: -1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -7007,7 +7073,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7942998812932291220}
-  - component: {fileID: 3980907874971948039}
   m_Layer: 5
   m_Name: SkillWindow
   m_TagString: Untagged
@@ -7036,22 +7101,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3980907874971948039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7529980471371689814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ba15f85b48d5bf46be172004df45ae0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillDetailWindow: {fileID: 1302506500417952397}
-  skillIcon: {fileID: 8377995227244967091}
-  skillName: {fileID: 620922363607821651}
-  skillExplain: {fileID: 1429420267387710986}
 --- !u!1 &7746374053491587521
 GameObject:
   m_ObjectHideFlags: 0
@@ -7258,6 +7307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1507449044546707396}
   battleSystem: {fileID: 0}
+  rankC: {fileID: 0}
+  rankB: {fileID: 0}
+  rankA: {fileID: 0}
+  rankS: {fileID: 0}
+  rankSS: {fileID: 0}
+  sed: {fileID: 0}
   heal: {fileID: 11400000, guid: ec2a2b9c964900549bde9deba2c4a0ec, type: 2}
   fire: {fileID: 11400000, guid: 9915ef6d45f1eda4faf39e2612ceb4f3, type: 2}
   enemy: {fileID: 3298198796751618661}
@@ -7280,6 +7335,7 @@ MonoBehaviour:
   rankA: {fileID: 11400000, guid: f2eaa14883ed12a479b95f1269bd7589, type: 2}
   rankS: {fileID: 11400000, guid: 7b03a66f2fa473543a488375280202f7, type: 2}
   rankSS: {fileID: 11400000, guid: 061776c91fd933049a06bbb3938e4f9f, type: 2}
+  sed: {fileID: 0}
 --- !u!114 &1580181687976394623
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7299,6 +7355,7 @@ MonoBehaviour:
   rankA: {fileID: 11400000, guid: 6f19314561566b341a853e86bc2b022f, type: 2}
   rankS: {fileID: 11400000, guid: bb8a0cd10fa094c43af8d8cf28692632, type: 2}
   rankSS: {fileID: 11400000, guid: d6ad1fcf7ce73954797763729ce88c45, type: 2}
+  sed: {fileID: 0}
 --- !u!114 &6410713347637715933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7318,6 +7375,7 @@ MonoBehaviour:
   rankA: {fileID: 11400000, guid: 66ac2c2bf60db0e4ebf7891a74a3b13a, type: 2}
   rankS: {fileID: 11400000, guid: 235fe516c2413b74a915788c4541ec15, type: 2}
   rankSS: {fileID: 11400000, guid: 84f7b36c8baac5e4f833ea677c05fe41, type: 2}
+  sed: {fileID: 0}
 --- !u!114 &7783639696701952866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7337,6 +7395,7 @@ MonoBehaviour:
   rankA: {fileID: 11400000, guid: 5ca2e0e8f016a0d4e8712ec86116cf98, type: 2}
   rankS: {fileID: 11400000, guid: c1ae599d02938f945b22c9f54e17af47, type: 2}
   rankSS: {fileID: 11400000, guid: 623b81910e883be47b7a82c4576f52e1, type: 2}
+  sed: {fileID: 0}
 --- !u!114 &8501128126989100463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7356,6 +7415,7 @@ MonoBehaviour:
   rankA: {fileID: 11400000, guid: 429740195a1b1ab4ba8603923e80b9c0, type: 2}
   rankS: {fileID: 11400000, guid: cc44279f8b903274b8192c68aef9c14c, type: 2}
   rankSS: {fileID: 11400000, guid: 76f1126e1da84fe4cbc1ec64873a87c0, type: 2}
+  sed: {fileID: 0}
 --- !u!114 &8428428438153943046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7375,6 +7435,7 @@ MonoBehaviour:
   rankA: {fileID: 11400000, guid: 0ae39873ced26904c9058a0296a46d4f, type: 2}
   rankS: {fileID: 11400000, guid: 7a06dc302f9bf444eb34e521e1bafd57, type: 2}
   rankSS: {fileID: 11400000, guid: 3f1407d9fc1f4c447853ab5987267223, type: 2}
+  sed: {fileID: 0}
 --- !u!1 &7921795042914057378
 GameObject:
   m_ObjectHideFlags: 0
@@ -8097,19 +8158,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4167462763117021536}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6410713347637715933}
-        m_TargetAssemblyTypeName: ATK_SpecialTecnique, Assembly-CSharp
-        m_MethodName: RankSS
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!95 &1021842360813572506
 Animator:
   serializedVersion: 5
@@ -8148,7 +8197,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -8164,14 +8213,14 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 3980907874971948039}
+        - m_Target: {fileID: 6509002635628500275}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerUp
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 15
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
