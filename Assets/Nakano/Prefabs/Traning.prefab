@@ -2982,7 +2982,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4610378110831336835}
   m_HandleRect: {fileID: 7824420910526153409}
   m_Direction: 0
-  m_Value: -0.0000020344887
+  m_Value: -0.000006103466
   m_Size: 0.97491616
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3053,6 +3053,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790af5c49040b8b4dbe4a7c6cd170c9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyText: {fileID: 7981411712928139218}
+  wc: {fileID: 2976745808127001896}
   selectButtons:
   - {fileID: 4135274738940639603}
   - {fileID: 1485679285617719873}
@@ -4875,7 +4877,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2184779171031081148}
   m_HandleRect: {fileID: 6135956254377607904}
   m_Direction: 2
-  m_Value: 1.0000031
+  m_Value: 1.0000026
   m_Size: 0.876842
   m_NumberOfSteps: 0
   m_OnValueChanged:

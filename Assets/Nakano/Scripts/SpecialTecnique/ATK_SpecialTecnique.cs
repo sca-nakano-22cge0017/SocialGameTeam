@@ -137,7 +137,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i].GetComponent<Enemy>().Damage((int)amount);
+            enemies[i].GetComponent<Enemy>().Damage(amount);
         }
 
         Debug.Log("「エクスプロージョン」発動");

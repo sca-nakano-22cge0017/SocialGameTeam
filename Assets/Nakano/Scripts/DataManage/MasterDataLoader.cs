@@ -198,6 +198,7 @@ public class MasterDataLoader : MonoBehaviour
         const int typeAttackColumn = 3;
         const int typeBuffColumn = 4;
         const int probabilityColumn = 7;
+        const int criticalColumn = 8;
 
         List<EnemyAttackPattern> attackPattern = new();
         List<string[]> datas = textDatas[enemyAttackPatternKey];
@@ -215,6 +216,8 @@ public class MasterDataLoader : MonoBehaviour
                 ap.attackType_BuffId = int.Parse(data[typeBuffColumn]);
 
                 ap.probability = GetProbability(data[probabilityColumn]);
+
+                ap.criticalProbability = GetProbability(data[criticalColumn]);
 
                 attackPattern.Add(ap);
             }
@@ -622,8 +625,7 @@ namespace Master
     /// 敵ステータス
     /// 敵Id(enemyId), 
     /// ステータス(jp/mp/atk/def/spd/dex), 
-    /// アタックパターンのList(attackPattern), 
-    /// ドロップアイテム(dropItem)
+    /// アタックパターンのList(attackPattern)
     /// </summary>
     public class EnemyStatus
     {
@@ -665,6 +667,8 @@ namespace Master
         /// 発動確率
         /// </summary>
         public int probability;
+
+        public float criticalProbability;
     }
 
     /// <summary>
