@@ -2314,37 +2314,47 @@ MonoBehaviour:
   - {fileID: 396128493}
   enemiesIllust:
   - enemyId: A
-    sprite: {fileID: 21300000, guid: 3e36f5bb9e4b4d442b822df4d1a39942, type: 3}
-    anim: {fileID: 0}
-  - enemyId: B
+    imageId: 1
     sprite: {fileID: 21300000, guid: ba2d2e7c5d577874fa6f68dfc984e51e, type: 3}
     anim: {fileID: 0}
-  - enemyId: C
-    sprite: {fileID: 21300000, guid: a9db4decfab58e24ca2735633ca1a03e, type: 3}
-    anim: {fileID: 0}
-  - enemyId: D
-    sprite: {fileID: 21300000, guid: 8751d75cfe01dc149b886f402014c01f, type: 3}
-    anim: {fileID: 0}
-  - enemyId: E
-    sprite: {fileID: 21300000, guid: 633edf7502f8dd2499a2931894b12555, type: 3}
-    anim: {fileID: 0}
-  - enemyId: F
+  - enemyId: A
+    imageId: 2
     sprite: {fileID: 21300000, guid: 7ba49e36b29dab646bd34fd4b073043d, type: 3}
     anim: {fileID: 0}
-  - enemyId: G
+  - enemyId: B
+    imageId: 1
+    sprite: {fileID: 21300000, guid: a92b2651b32c9ad4aa64783f020f6876, type: 3}
+    anim: {fileID: 0}
+  - enemyId: C
+    imageId: 1
     sprite: {fileID: 21300000, guid: 3f9561a3cc171cb4eab9b4e18f2244ba, type: 3}
     anim: {fileID: 0}
-  - enemyId: H
+  - enemyId: D
+    imageId: 1
+    sprite: {fileID: 21300000, guid: 8751d75cfe01dc149b886f402014c01f, type: 3}
+    anim: {fileID: 0}
+  - enemyId: D
+    imageId: 2
     sprite: {fileID: 21300000, guid: bb31e32f18ebb9b468569ce5e2c11a14, type: 3}
     anim: {fileID: 0}
-  - enemyId: I
-    sprite: {fileID: 21300000, guid: 3e36f5bb9e4b4d442b822df4d1a39942, type: 3}
+  - enemyId: E
+    imageId: 1
+    sprite: {fileID: 21300000, guid: a9db4decfab58e24ca2735633ca1a03e, type: 3}
+    anim: {fileID: 0}
+  - enemyId: F
+    imageId: 1
+    sprite: {fileID: 21300000, guid: bb31e32f18ebb9b468569ce5e2c11a14, type: 3}
+    anim: {fileID: 0}
+  - enemyId: F
+    imageId: 1
+    sprite: {fileID: 21300000, guid: 633edf7502f8dd2499a2931894b12555, type: 3}
     anim: {fileID: 0}
   - enemyId: J
-    sprite: {fileID: 21300000, guid: ba2d2e7c5d577874fa6f68dfc984e51e, type: 3}
+    imageId: 1
+    sprite: {fileID: 21300000, guid: 63e20bdcd8d444849b1d0c9f93fc1ab4, type: 3}
     anim: {fileID: 0}
   isSetCompleted: 0
-  areaId: 1
+  areaId: 2
   stageId: 1
   difficultyId: 1
   windowController: {fileID: 617070207}

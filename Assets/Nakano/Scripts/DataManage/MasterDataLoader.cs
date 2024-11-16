@@ -156,7 +156,9 @@ public class MasterDataLoader : MonoBehaviour
     void GetEnemyStatus()
     {
         // 各カラムが何列目にあるか　一番左を0列目とする
-        const int idColumn = 6;
+        const int placeIdColumn = 4;
+        const int idColumn = 5;
+        const int imageIdColumn = 6;
         const int atkColumn = 7;
         const int mpColumn = 8;
         const int hpColumn = 9;
@@ -171,6 +173,7 @@ public class MasterDataLoader : MonoBehaviour
             EnemyStatus enemyStatus = new();
 
             enemyStatus.enemyId = datas[l][idColumn];
+            enemyStatus.imageId = int.Parse(datas[l][imageIdColumn]);
             enemyStatus.atk = int.Parse(datas[l][atkColumn]);
             enemyStatus.mp = int.Parse(datas[l][mpColumn]);
             enemyStatus.hp = int.Parse(datas[l][hpColumn]);
@@ -178,7 +181,7 @@ public class MasterDataLoader : MonoBehaviour
             enemyStatus.spd = int.Parse(datas[l][spdColumn]);
             enemyStatus.dex = int.Parse(datas[l][dexColumn]);
 
-            enemyStatus.attackPattern = GetEnemyAttackPattern(enemyStatus.enemyId);
+            enemyStatus.attackPattern = GetEnemyAttackPattern(enemyStatus.enemyId, int.Parse(datas[l][imageIdColumn]), int.Parse(datas[l][placeIdColumn]));
 
             MasterData.EnemyStatus.Add(enemyStatus);
         }
@@ -191,32 +194,31 @@ public class MasterDataLoader : MonoBehaviour
     /// </summary>
     /// <param name="_enemyId"></param>
     /// <returns></returns>
-    List<EnemyAttackPattern> GetEnemyAttackPattern(string _enemyId)
+    List<EnemyAttackPattern> GetEnemyAttackPattern(string _enemyId, int _imageId, int _positionId)
     {
         const int idColumn = 1;
-        const int attackIdColumn = 2;
-        const int typeAttackColumn = 3;
-        const int typeBuffColumn = 4;
-        const int probabilityColumn = 7;
-        const int criticalColumn = 8;
+        const int imageIdColumn = 2;
+        const int positionIdColumn = 3;
+        const int attackIdColumn = 4;
+        const int turnColumn = 6;
+        const int valueColumn = 7;
+        const int probabilityColumn = 10;
+        const int criticalColumn = 11;
 
         List<EnemyAttackPattern> attackPattern = new();
         List<string[]> datas = textDatas[enemyAttackPatternKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
-            if (_enemyId == datas[l][idColumn])
+            if (_enemyId == datas[l][idColumn] && _imageId == int.Parse(datas[l][imageIdColumn]) && _positionId == int.Parse(datas[l][positionIdColumn]))
             {
                 string[] data = datas[l];
                 EnemyAttackPattern ap = new();
 
                 ap.attackId = int.Parse(data[attackIdColumn]);
-
-                ap.attackType_DirectId = int.Parse(data[typeAttackColumn]);
-                ap.attackType_BuffId = int.Parse(data[typeBuffColumn]);
-
+                ap.turn = int.Parse(data[turnColumn]);
+                ap.value = int.Parse(data[valueColumn]);
                 ap.probability = GetProbability(data[probabilityColumn]);
-
                 ap.criticalProbability = GetProbability(data[criticalColumn]);
 
                 attackPattern.Add(ap);
@@ -266,15 +268,17 @@ public class MasterDataLoader : MonoBehaviour
         const int difficultyColumn = 1;
         const int areaIdColumn = 2;
         const int stageIdColumn = 3;
-        const int placeIdColumn = 5;
-        const int idColumn = 6;
+        const int placeIdColumn = 4;
+        const int idColumn = 5;
 
         List<EnemyPlacement> placement = new();
         List<string[]> datas = textDatas[enemyStatusKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
-            if (_difficulty == int.Parse(datas[l][difficultyColumn]) && _areaId == int.Parse(datas[l][areaIdColumn]) && _stageId == int.Parse(datas[l][stageIdColumn]))
+            if (_difficulty == int.Parse(datas[l][difficultyColumn]) && 
+                _areaId == int.Parse(datas[l][areaIdColumn]) && 
+                _stageId == int.Parse(datas[l][stageIdColumn]))
             {
                 EnemyPlacement pos = new();
                 pos.enemyId = datas[l][idColumn];
@@ -634,6 +638,8 @@ namespace Master
         /// </summary>
         public string enemyId;
 
+        public int imageId;
+
         public int hp;
         public int def;
         public int mp;
@@ -654,20 +660,23 @@ namespace Master
         public int attackId;
 
         /// <summary>
-        /// 直接攻撃ID
+        /// 効果ターン数
         /// </summary>
-        public int attackType_DirectId;
+        public int turn;
 
         /// <summary>
-        /// バフID 0:バフなし　1:対プレイヤーデバフ　2:味方バフ　3:自己バフ
+        /// 効果量
         /// </summary>
-        public int attackType_BuffId;
+        public int value;
 
         /// <summary>
         /// 発動確率
         /// </summary>
         public int probability;
 
+        /// <summary>
+        /// 会心率
+        /// </summary>
         public float criticalProbability;
     }
 
