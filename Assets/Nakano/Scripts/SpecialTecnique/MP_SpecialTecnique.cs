@@ -17,7 +17,6 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
 
     public override void TurnStart()
     {
-        _RankS();
     }
 
     public override void PlayerTurnStart() { }
@@ -25,6 +24,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public override void TurnEnd()
     {
         RankA();
+        _RankS();
         _RankSS();
 
         // åoâﬂÉ^Å[Éìâ¡éZ

@@ -57,6 +57,7 @@ public class ResultManager : MonoBehaviour
         else
         {
             DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
+            GameManager.SelectDifficulty++;
             PlayerDataManager.Save();
         }
     }

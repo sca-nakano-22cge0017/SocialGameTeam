@@ -5,11 +5,8 @@ using UnityEngine;
 /// <summary>
 /// 初期スキル
 /// </summary>
-public class InitialSkill : MonoBehaviour
+public class InitialSkill : SpecialTecniqueMethod
 {
-    [SerializeField] private PlayerData player;
-    [SerializeField] private BattleSystem battleSystem;
-
     [SerializeField] private SpecialTecnique heal;
     [SerializeField] private SpecialTecnique fire;
 
@@ -28,7 +25,7 @@ public class InitialSkill : MonoBehaviour
         // Todo ロックオンした敵を取得
 
         float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f);
-        enemy.Damage((int)amount);
+        enemy.Damage(amount);
 
         Debug.Log("「ファイア」発動");
     }

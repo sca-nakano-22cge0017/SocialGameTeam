@@ -20,6 +20,8 @@ public class DifficultyManager : MonoBehaviour
         set => isClearBossDifficulty = value;
     }
 
+    [SerializeField] private Text difficultyText;
+    [SerializeField] private WindowController wc;
     [SerializeField] private Button[] selectButtons;
 
     [SerializeField] private bool isDebug = false;
@@ -41,6 +43,8 @@ public class DifficultyManager : MonoBehaviour
 
             if (isDebug) selectButtons[i].interactable = true;
         }
+
+        difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
     }
 
     public void SetDifficulty_Button(int _difficulty)
@@ -48,9 +52,29 @@ public class DifficultyManager : MonoBehaviour
         if (isDebug)
         {
             GameManager.SelectDifficulty = _difficulty;
+            difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
+            wc.Close();
         }
 
-        else SetDifficulty(_difficulty);
+        else _SetDifficulty(_difficulty);
+    }
+
+    /// <summary>
+    /// 難易度設定
+    /// </summary>
+    /// <param name="_difficulty">設定後の難易度</param>
+    void _SetDifficulty(int _difficulty)
+    {
+        if (_difficulty < initDifficulty || _difficulty > maxDifficulty)
+            return; // 範囲外
+
+        // ボス戦をクリアした難易度＋１までを選択できる
+        if (_difficulty <= isClearBossDifficulty + 1)
+        {
+            GameManager.SelectDifficulty = _difficulty;
+            difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
+            wc.Close();
+        }
     }
 
     /// <summary>

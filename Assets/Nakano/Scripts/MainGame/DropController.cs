@@ -72,8 +72,6 @@ public class DropController : MonoBehaviour
                 AddDropAmount(data[i].itemType, (int)d);
                 drop = (int)d;
 
-                Debug.Log("ê¨í∑ÇÃìπ " + power + " / " + d);
-
                 break;
             }
         }
