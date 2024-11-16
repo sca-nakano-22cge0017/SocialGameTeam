@@ -25,7 +25,7 @@ public class InitialSkill : SpecialTecniqueMethod
         // Todo ロックオンした敵を取得
 
         float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f);
-        enemy.Damage((int)amount);
+        enemy.Damage(amount);
 
         Debug.Log("「ファイア」発動");
     }

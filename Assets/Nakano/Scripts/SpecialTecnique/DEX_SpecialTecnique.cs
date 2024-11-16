@@ -51,7 +51,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         isActive_C = true;
 
         float damage = (float)rankC.m_value1 / 100.0f * player.ATK;
-        enemy.Damage((int)damage);
+        enemy.Damage(damage);
 
         float debuff = (float)rankC.m_value2 / 100.0f;
         enemy.AddDebuff(StatusType.DEF, debuff);

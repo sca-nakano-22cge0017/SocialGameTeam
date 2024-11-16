@@ -111,7 +111,7 @@ public class PlayerData : Character
         CriticalLottery();
 
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
-        int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
+        float damage = ATK * power_NormalAttack * powerAtk * critical;
 
         // Todo ロックオンした敵にダメージ
         enemy_forDebug.Damage(damage);
@@ -151,7 +151,7 @@ public class PlayerData : Character
         specialMoveGuageAmount = 0;
     }
 
-    public int Damage(int _damageAmount, Enemy _enemy)
+    public int Damage(float _damageAmount, Enemy _enemy)
     {
         if (agi_st.RankS())
         {
@@ -160,7 +160,7 @@ public class PlayerData : Character
         }
 
         // 被ダメ - 防御力 を実際の被ダメージにする
-        int damage = (_damageAmount - (int)(DEF * powerDef));
+        int damage = (int)Mathf.Ceil(_damageAmount - (DEF * powerDef));
         damage = damage < 0 ? 0 : damage; // 0未満なら0にする
 
         // 被ダメージ時に処理される特殊技能

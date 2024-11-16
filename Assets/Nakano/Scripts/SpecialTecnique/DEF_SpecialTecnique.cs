@@ -105,7 +105,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
 
         // ダメージ量計算
         float amount = (float)_damage * ((float)rankS.m_value1 / 100.0f);
-        _enemy.Damage((int)amount);
+        _enemy.Damage(amount);
 
         Debug.Log("「攻防一体」発動 カウンターダメージ " + amount);
     }
