@@ -68,17 +68,6 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    //void onDefenceButton()
-    //{
-    //    if (battleOver) return; // 戦闘終了後はボタンを無効に
-
-    //    if(playerTurn)
-    //    {
-    //        // プレイヤーの防御
-    //        int decreasedamage = Random.Range(5,10);
-    //        UpdateBattleText("プレイヤーの防御！ 敵の攻撃を " + decreasedamage + " に軽減した！");
-    //    }
-    //}
 
     void onMagicButton()
     {
