@@ -55,8 +55,12 @@ public class Character : MonoBehaviour
     [HideInInspector] public float debuffAgi = 0;
 
     // 会心率
-    public float criticalProbability;  // 初期値
-    public float _criticalProbability; // 計算用
+    public float criticalProbabilityInitial;  // 初期値
+    public float _criticalProbability;        // 計算用
+
+    public float power_CriticalInit;    // 基本会心時倍率
+    public float buffCriticalPower;     // 会心時倍率バフ
+    protected float critical = 1.0f;    // 会心時倍率　計算用
 
     /// <summary>
     /// 初期化
@@ -73,7 +77,7 @@ public class Character : MonoBehaviour
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
 
-        _criticalProbability = criticalProbability;
+        _criticalProbability = criticalProbabilityInitial;
     }
 
     /// <summary>
@@ -87,6 +91,11 @@ public class Character : MonoBehaviour
     public virtual void MoveEnd() { }
 
     /// <summary>
+    /// ターン終了
+    /// </summary>
+    public virtual void TurnEnd() { }
+
+    /// <summary>
     /// 通常攻撃
     /// </summary>
     public virtual void NormalAttack() { }
@@ -96,10 +105,10 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
     /// <returns>防御力分減少させたダメージ量</returns>
-    public virtual int Damage(int _amount)
+    public virtual int Damage(float _amount)
     {
         // 被ダメ - 防御力 を実際の被ダメージにする
-        int damage = (_amount - (int)(DEF * powerDef));
+        int damage = (int)Mathf.Ceil(_amount - (DEF * powerDef));
         damage = damage < 0 ? 0 : damage; // 0未満なら0にする
 
         currentHp -= damage;
@@ -125,11 +134,38 @@ public class Character : MonoBehaviour
     /// <param name="_amount">ダメージ量</param>
     /// <param name="cantGuard">防御無視かどうか　trueなら防御無視</param>
     /// <returns>防御力分減少させたダメージ量</returns>
-    public virtual int Damage(int _amount, bool cantGuard)
+    public virtual int Damage(float _amount, bool cantGuard)
     {
         // 被ダメ - 防御力 を実際の被ダメージにする
         // 防御無視のときは被ダメから防御力分減少させない
-        int damage = cantGuard ? _amount : (_amount - (int)(DEF * powerDef));
+        int damage = cantGuard ? (int)Mathf.Ceil(_amount) : (int)Mathf.Ceil(_amount - (DEF * powerDef));
+        damage = damage < 0 ? 0 : damage; // 0未満なら0にする
+
+        currentHp -= damage;
+
+        if (currentHp < 0)
+        {
+            currentHp = 0;
+            Dead();
+        }
+
+        // ゲージ減少演出
+        hpGuage.Sub(damage);
+
+        // ダメージ表示
+        StartCoroutine(DispText(damageText, damage.ToString()));
+
+        return damage;
+    }
+
+    /// <summary>
+    /// 固定ダメージ
+    /// </summary>
+    /// <param name="_amount">ダメージ量</param>
+    /// <returns></returns>
+    public virtual int Damage(int _amount)
+    {
+        int damage = _amount;
         damage = damage < 0 ? 0 : damage; // 0未満なら0にする
 
         currentHp -= damage;
@@ -277,12 +313,19 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 会心抽選
     /// </summary>
-    protected bool CriticalLottery()
+    protected void CriticalLottery()
     {
         int c = Random.Range(0, 100);
 
-        if (c < _criticalProbability) return true;
-        else return false;
+        if (c < _criticalProbability)
+        {
+            critical = power_CriticalInit + buffCriticalPower;
+            Debug.Log("会心発動");
+        }
+        else
+        {
+            critical = 1.0f;
+        }
     }
 
     /// <summary>

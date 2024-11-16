@@ -13,6 +13,18 @@ public class Enemy : Character
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
 
+    int elapsedTurn_Debuff1 = 0;
+    bool isActive_Debuff1 = false;
+
+    int elapsedTurn_Debuff2 = 0;
+    bool isActive_Debuff2 = false;
+
+    int elapsedTurn_Buff = 0;
+    bool isActive_Buff = false;
+
+    int turn_AbsolutelyKill = 0;          // 確殺攻撃までのターン
+    int value_AbsolutelyKill = 999999999;
+
     [SerializeField] private PlayerData player;
     [SerializeField] protected GameObject hpGuage_Obj;
     [SerializeField, Header("ドロップ")] private Text dropText;
@@ -31,7 +43,8 @@ public class Enemy : Character
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
-            NormalAttack();
+            //NormalAttack();
+            AbsolutelyKill();
         }
     }
 
@@ -52,12 +65,75 @@ public class Enemy : Character
 
         // 攻撃方法を抽選
         Master.EnemyAttackPattern move = MoveLottery();
+        Debug.Log(move.criticalProbability);
+    }
+
+    public override void TurnEnd()
+    {
+        elapsedTurn_Debuff1++;
+        elapsedTurn_Debuff2++;
+        elapsedTurn_Buff++;
     }
 
     public override void NormalAttack()
     {
-        int damage = 500;
+        float damage = ATK * powerAtk;
         player.Damage(damage, this);
+    }
+
+    /// <summary>
+    /// デバフ１　プレイヤーにTターンの防御力V％ダウン付与
+    /// </summary>
+    void Debuff1()
+    {
+        elapsedTurn_Debuff1 = 1;
+        isActive_Debuff1 = true;
+
+
+    }
+
+    void Cancel_Debuff1()
+    {
+        if (!isActive_Debuff1) return;
+
+        if (elapsedTurn_Debuff1 >= 2)
+        {
+            
+        }
+    }
+
+    /// <summary>
+    /// デバフ２　プレイヤーにTターンの攻撃力V％ダウン付与
+    /// </summary>
+    void Debuff2()
+    {
+        elapsedTurn_Debuff2 = 1;
+        isActive_Debuff2 = true;
+    }
+
+    /// <summary>
+    /// バフ　自身にTターンの攻撃力V％アップ付与
+    /// </summary>
+    void Buff()
+    {
+        elapsedTurn_Buff = 1;
+        isActive_Buff = true;
+    }
+
+    /// <summary>
+    /// ２連撃　攻撃力 * Vの攻撃を二回行う
+    /// </summary>
+    void DoubleAttack()
+    {
+
+    }
+
+    /// <summary>
+    /// 確殺　プレイヤーに999999999の固定ダメージ
+    /// </summary>
+    void AbsolutelyKill()
+    {
+        player.Damage((int)value_AbsolutelyKill);
     }
 
     /// <summary>
@@ -65,7 +141,7 @@ public class Enemy : Character
     /// </summary>
     /// <param name="_amount">ダメージ量</param>
     /// <returns>防御力分減少させたダメージ量</returns>
-    public override int Damage(int _amount)
+    public override int Damage(float _amount)
     {
         if (currentHp <= 0) return 0;
 

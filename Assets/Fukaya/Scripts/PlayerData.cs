@@ -16,10 +16,7 @@ public class PlayerData : Character
     // 攻撃倍率
     public float power_NormalAttack;  // 通常攻撃
     public float power_Skill;         // スキル
-    public float power_Critical;      // 会心時倍率
     public float power_SpecialMove;   // 必殺技
-
-    public float buffCriticalPower;   // 会心時倍率バフ
 
     // ガード
     private bool isGuard;
@@ -110,16 +107,11 @@ public class PlayerData : Character
 
     public override void NormalAttack()
     {
-        // 会心倍率
-        float critical = 1.0f;
-        if (CriticalLottery())
-        {
-            critical = power_Critical + buffCriticalPower;
-            Debug.Log("会心発動");
-        }
+        // 会心抽選
+        CriticalLottery();
 
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
-        int damage = (int)(ATK * power_NormalAttack * powerAtk * critical);
+        float damage = ATK * power_NormalAttack * powerAtk * critical;
 
         // Todo ロックオンした敵にダメージ
         enemy_forDebug.Damage(damage);
@@ -159,12 +151,16 @@ public class PlayerData : Character
         specialMoveGuageAmount = 0;
     }
 
-    public int Damage(int _damageAmount, Enemy _enemy)
+    public int Damage(float _damageAmount, Enemy _enemy)
     {
-        if (agi_st.RankS()) return 0;     // ステップ
+        if (agi_st.RankS())
+        {
+            UpSpecialMoveGuage(sm_Guard.guageUpAmount);
+            return 0;     // ステップ
+        }
 
         // 被ダメ - 防御力 を実際の被ダメージにする
-        int damage = (_damageAmount - (int)(DEF * powerDef));
+        int damage = (int)Mathf.Ceil(_damageAmount - (DEF * powerDef));
         damage = damage < 0 ? 0 : damage; // 0未満なら0にする
 
         // 被ダメージ時に処理される特殊技能
