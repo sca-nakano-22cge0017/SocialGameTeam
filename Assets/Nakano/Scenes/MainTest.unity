@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &46341600
 Transform:
   m_ObjectHideFlags: 0
@@ -235,7 +235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &103117512
 RectTransform:
   m_ObjectHideFlags: 0
@@ -637,6 +637,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4676899664708572160, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5094798151135463110, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: m_Name
       value: MainUI
@@ -749,6 +753,10 @@ PrefabInstance:
       propertyPath: battleSystem
       value: 
       objectReference: {fileID: 1723303176}
+    - target: {fileID: 7642846635579104373, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7783639696701952866, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
@@ -844,7 +852,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &268543090
 Transform:
   m_ObjectHideFlags: 0
@@ -1138,7 +1146,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448843469}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -1474,6 +1482,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b07815c56b57604f8b8dc92379bf2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &657445577 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4428320787275939282, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+  m_PrefabInstance: {fileID: 192289436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &772912026
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,7 +1504,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &772912027
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1561,6 +1574,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 456902296790292492, guid: ae6145f029be6ea4bbcc441f097579e1, type: 3}
+      propertyPath: m_Color.b
+      value: 0.28749725
+      objectReference: {fileID: 0}
+    - target: {fileID: 456902296790292492, guid: ae6145f029be6ea4bbcc441f097579e1, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5622641
+      objectReference: {fileID: 0}
+    - target: {fileID: 456902296790292492, guid: ae6145f029be6ea4bbcc441f097579e1, type: 3}
+      propertyPath: m_Color.r
+      value: 0.34729287
+      objectReference: {fileID: 0}
     - target: {fileID: 1984066868620147785, guid: ae6145f029be6ea4bbcc441f097579e1, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1732,7 +1757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1087001430
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1903,7 +1928,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1325023317
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2055,7 +2080,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558202530}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2176,7 +2201,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1667540405}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -2277,36 +2302,28 @@ MonoBehaviour:
   playersIllust:
   - charaId: 1
     evolutionType: 3
-    sprite: {fileID: 21300000, guid: d54c4b10ef4ca1f4aac002736ae19650, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 1858131982}
   - charaId: 1
     evolutionType: 0
-    sprite: {fileID: 21300000, guid: e79c547f3b4232b43bce361a09e6edf1, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 1858131982}
   - charaId: 1
     evolutionType: 1
-    sprite: {fileID: 21300000, guid: 67aa8cef6f12df248aa4d3c0b0a7355c, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 1858131982}
   - charaId: 1
     evolutionType: 2
-    sprite: {fileID: 21300000, guid: 971d947566968a047b432d306649b699, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 1858131982}
   - charaId: 2
     evolutionType: 3
-    sprite: {fileID: 21300000, guid: a137697f082024f46a2148fb2c1d4c83, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 657445577}
   - charaId: 2
     evolutionType: 0
-    sprite: {fileID: 21300000, guid: 3fc4801f7591b1e43aa7a6b9a0248b89, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 657445577}
   - charaId: 2
     evolutionType: 1
-    sprite: {fileID: 21300000, guid: c096f592f328afc4e97f1679475cc9ad, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 657445577}
   - charaId: 2
     evolutionType: 2
-    sprite: {fileID: 21300000, guid: 4b41d7818e392734db7b2bee36e2bed3, type: 3}
-    anim: {fileID: 0}
+    playerIllust: {fileID: 657445577}
   enemies:
   - {fileID: 956392061}
   - {fileID: 2021908211}
@@ -2358,6 +2375,11 @@ MonoBehaviour:
   stageId: 1
   difficultyId: 1
   windowController: {fileID: 617070207}
+--- !u!1 &1858131982 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 252139325938367957, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+  m_PrefabInstance: {fileID: 192289436}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &2021908211 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 655389699513201648, guid: c38280de24c583b429d538ab79573aa2, type: 3}

@@ -54,6 +54,9 @@ public class PlayerData : Character
     /// </summary>
     public bool isInvincible = false;
 
+    // モーション関係
+    public Animator motion;
+
     void Start()
     {
         atk_st.GameStart();
@@ -64,8 +67,6 @@ public class PlayerData : Character
         if (Input.GetKeyDown(KeyCode.S))
         {
             Move();
-
-            mp_st.TurnStart();
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -120,6 +121,8 @@ public class PlayerData : Character
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
         float damage = ATK * power_NormalAttack * powerAtk * critical;
 
+        AttackMotion();
+
         // Todo ロックオンした敵にダメージ
         enemy_forDebug.Damage(damage);
 
@@ -156,6 +159,8 @@ public class PlayerData : Character
     {
         atk_st.RankS(); // 全身全霊
         specialMoveGuageAmount = 0;
+
+        AttackMotion();
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)
@@ -276,7 +281,23 @@ public class PlayerData : Character
     public override void Dead()
     {
         // Todo 敗北演出・モーション再生
+
         image.enabled = false;
+    }
+
+    public void AttackMotion()
+    {
+        motion.SetTrigger("attack");
+    }
+
+    public void BuffMotion()
+    {
+        motion.SetTrigger("buff");
+    }
+
+    public void WinMotion()
+    {
+        motion.SetTrigger("win");
     }
 
     /// <summary>

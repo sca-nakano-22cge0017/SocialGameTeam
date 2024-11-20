@@ -17,8 +17,7 @@ public class PlayerIllust
 {
     public int charaId;
     public CombiType evolutionType; // 形態
-    public Sprite sprite;
-    public Animation anim;
+    public GameObject playerIllust;
 }
 
 /// <summary>
@@ -76,6 +75,7 @@ public class StageManager : MonoBehaviour
             stageDataManager.LoadCompleteProcess += () =>
             {
                 Setting();
+                playersIllust[0].playerIllust.SetActive(true);
             };
 
             // 指定したステージのデータをロード
@@ -146,8 +146,10 @@ public class StageManager : MonoBehaviour
             if (playersIllust[i].charaId == GameManager.SelectChara &&
                 playersIllust[i].evolutionType == PlayerDataManager.player.GetEvolutionType())
             {
-                player.image.sprite = playersIllust[i].sprite;
+                playersIllust[i].playerIllust.SetActive(true);
+                player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();
             }
+            else playersIllust[i].playerIllust.SetActive(false);
         }
 
         player.Initialize();
