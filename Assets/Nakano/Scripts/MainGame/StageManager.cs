@@ -149,7 +149,6 @@ public class StageManager : MonoBehaviour
                 playersIllust[i].playerIllust.SetActive(true);
                 player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();
             }
-            else playersIllust[i].playerIllust.SetActive(false);
         }
 
         player.Initialize();

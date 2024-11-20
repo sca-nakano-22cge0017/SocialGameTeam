@@ -65,6 +65,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         isActive_A = true;
 
         Debug.Log("「無敵」発動");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -125,6 +127,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         isActive_SS = true;
 
         Debug.Log("「守護神の権能」発動");
+
+        player.BuffMotion();
     }
 
     /// <summary>

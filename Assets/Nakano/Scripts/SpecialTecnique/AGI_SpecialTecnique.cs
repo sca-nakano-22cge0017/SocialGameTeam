@@ -39,6 +39,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         player.AddBuff(StatusType.AGI, amount);
 
         Debug.Log("「加速」発動 速度" + (amount * 100) + "%アップ");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -93,6 +95,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         enemy.AddDebuff(StatusType.AGI, amount);
 
         Debug.Log("「スロウ」発動 敵の速度" + (amount * 100) + "%ダウン");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -131,7 +135,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public bool RankA()
     {
         // 未解放なら処理しない
-        //if(!rankA.m_released) return;
+        //if(!rankA.m_released) return false;
 
         // 再行動時に更に再行動しないように回数制限
         if (effectAmount_A > 0) return false;
@@ -154,7 +158,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public bool RankS()
     {
         // 未解放なら処理しない
-        //if(!rankS.m_released) return;
+        //if(!rankS.m_released) return false;
 
         int result = Random.Range(1, 100);
         if (result <= rankS.m_value1)
@@ -178,5 +182,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         player.UpSpecialMoveGuage();
 
         Debug.Log("「神速の業」発動");
+
+        player.BuffMotion();
     }
 }
