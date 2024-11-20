@@ -217,7 +217,7 @@ public class MasterDataLoader : MonoBehaviour
 
                 ap.attackId = int.Parse(data[attackIdColumn]);
                 ap.turn = int.Parse(data[turnColumn]);
-                ap.value = int.Parse(data[valueColumn]);
+                ap.value = float.Parse(data[valueColumn]);
                 ap.probability = GetProbability(data[probabilityColumn]);
                 ap.criticalProbability = GetProbability(data[criticalColumn]);
 
@@ -667,7 +667,7 @@ namespace Master
         /// <summary>
         /// Œø‰Ê—Ê
         /// </summary>
-        public int value;
+        public float value;
 
         /// <summary>
         /// ”­“®Šm—¦

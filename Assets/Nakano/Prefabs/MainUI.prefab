@@ -3741,11 +3741,7 @@ MonoBehaviour:
   AGI: 0
   DEX: 0
   currentMp: 0
-  currentAtk: 0
   currentHp: 0
-  currentDef: 0
-  currentDex: 0
-  currentAgi: 0
   powerMp: 1
   powerAtk: 1
   powerHp: 1
@@ -3769,6 +3765,11 @@ MonoBehaviour:
   power_CriticalInit: 0
   buffCriticalPower: 0
   mpGuage: {fileID: 5474815273428881209}
+  commands:
+  - {fileID: 284817105075872278}
+  - {fileID: 4281634242781365386}
+  - {fileID: 5053286653192696007}
+  - {fileID: 2625760070029423755}
   power_NormalAttack: 0
   power_Skill: 0
   power_SpecialMove: 0
