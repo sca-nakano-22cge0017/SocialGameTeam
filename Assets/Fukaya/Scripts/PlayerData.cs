@@ -12,6 +12,7 @@ public class PlayerData : Character
     // 特殊技能・スキルは別スクリプト
 
     [SerializeField] private MainGameGuage mpGuage;
+    [SerializeField] private Button[] commands;
     
     // 攻撃倍率
     public float power_NormalAttack;  // 通常攻撃
@@ -55,7 +56,7 @@ public class PlayerData : Character
 
     void Start()
     {
-        
+        atk_st.GameStart();
     }
 
     void Update()
@@ -64,8 +65,6 @@ public class PlayerData : Character
         {
             Move();
 
-            atk_st.GameStart();
-            hp_st.PlayerTurnStart();
             mp_st.TurnStart();
         }
 
@@ -79,6 +78,8 @@ public class PlayerData : Character
             mp_st.TurnEnd();
             agi_st.TurnEnd();
             dex_st.TurnEnd();
+
+            enemy_forDebug.TurnEnd();
         }
     }
 
@@ -91,11 +92,16 @@ public class PlayerData : Character
 
         specialMoveGuageAmount = 0;
         mpGuage.Initialize(MP);
+
+        SetCommandsButton(false);
     }
 
     public override void Move()
     {
         Debug.Log("プレイヤーの行動");
+
+        SetCommandsButton(true);
+        hp_st.PlayerTurnStart();
     }
 
     public override void MoveEnd()
@@ -103,6 +109,7 @@ public class PlayerData : Character
         Debug.Log("プレイヤーの行動終了");
 
         isGuard = false;
+        SetCommandsButton(false);
     }
 
     public override void NormalAttack()
@@ -270,5 +277,27 @@ public class PlayerData : Character
     {
         // Todo 敗北演出・モーション再生
         image.enabled = false;
+    }
+
+    /// <summary>
+    /// コマンド　押せるかどうかを設定
+    /// </summary>
+    /// <param name="_canPut">falseのとき押せない</param>
+    void SetCommandsButton(bool _canPut)
+    {
+        if (_canPut)
+        {
+            for (int i = 0; i < commands.Length; i++)
+            {
+                commands[i].interactable = true;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < commands.Length; i++)
+            {
+                commands[i].interactable = false;
+            }
+        }
     }
 }

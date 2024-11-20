@@ -24,11 +24,7 @@ public class Character : MonoBehaviour
 
     // 計算用 現在値
     [HideInInspector] public int currentMp;
-    [HideInInspector] public int currentAtk;
     [HideInInspector] public int currentHp;
-    [HideInInspector] public int currentDef;
-    [HideInInspector] public int currentDex;
-    [HideInInspector] public int currentAgi;
 
     // ステータス倍率
     [HideInInspector] public float powerMp = 1;
@@ -68,11 +64,7 @@ public class Character : MonoBehaviour
     public virtual void Initialize()
     {
         currentMp = MP;
-        currentAtk = ATK;
         currentHp = HP;
-        currentDef = DEF;
-        currentDex = DEX;
-        currentAgi = AGI;
 
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
@@ -318,6 +310,24 @@ public class Character : MonoBehaviour
         int c = Random.Range(0, 100);
 
         if (c < _criticalProbability)
+        {
+            critical = power_CriticalInit + buffCriticalPower;
+            Debug.Log("会心発動");
+        }
+        else
+        {
+            critical = 1.0f;
+        }
+    }
+
+    /// <summary>
+    /// 会心抽選
+    /// </summary>
+    protected void CriticalLottery(float criticalProbability)
+    {
+        int c = Random.Range(0, 100);
+
+        if (c < criticalProbability)
         {
             critical = power_CriticalInit + buffCriticalPower;
             Debug.Log("会心発動");

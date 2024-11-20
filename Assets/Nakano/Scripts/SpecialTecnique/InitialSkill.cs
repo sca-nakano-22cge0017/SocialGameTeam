@@ -24,6 +24,8 @@ public class InitialSkill : SpecialTecniqueMethod
     {
         // Todo ƒƒbƒNƒIƒ“‚µ‚½“G‚ğæ“¾
 
+        if (enemy == null || enemy.gameObject.activeSelf == false) return;
+
         float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f);
         enemy.Damage(amount);
 

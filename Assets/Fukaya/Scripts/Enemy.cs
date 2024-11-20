@@ -13,16 +13,29 @@ public class Enemy : Character
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
 
-    int elapsedTurn_Debuff1 = 0;
-    bool isActive_Debuff1 = false;
+    float critical_NormalAttack = 1;
 
+    int turn_Debuff1 = 0;          // 継続ターン
+    int elapsedTurn_Debuff1 = 0;   // 発動からの経過ターン
+    float value_Debuff1 = 0;       // 効果量
+    bool isActive_Debuff1 = false; // 発動中かどうか
+
+    int turn_Debuff2 = 0;
     int elapsedTurn_Debuff2 = 0;
+    float value_Debuff2 = 0;
     bool isActive_Debuff2 = false;
 
+    int turn_Buff = 0;
     int elapsedTurn_Buff = 0;
+    float value_Buff = 0;
     bool isActive_Buff = false;
 
-    int turn_AbsolutelyKill = 0;          // 確殺攻撃までのターン
+    float value_DoubleAttack = 0;
+    float critical_DoubleAttack = 1;
+
+    bool hasAbsolutelyKill = false;
+    int turn_AbsolutelyKill = 1;          // 確殺攻撃までのターン
+    int elapsedTurn_AbsolutelyKill = 1;
     int value_AbsolutelyKill = 999999999;
 
     [SerializeField] private PlayerData player;
@@ -41,10 +54,9 @@ public class Enemy : Character
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            //NormalAttack();
-            AbsolutelyKill();
+            Move();
         }
     }
 
@@ -57,15 +69,72 @@ public class Enemy : Character
 
         dropText.enabled = false;
         damageText.enabled = false;
+
+        for (int i = 0; i < attackPattern.Count; i++)
+        {
+            switch(attackPattern[i].attackId)
+            {
+                case 1:
+                    critical_NormalAttack = attackPattern[i].criticalProbability;
+                    break;
+                case 2:
+                    turn_Debuff1 = attackPattern[i].turn;
+                    value_Debuff1 = attackPattern[i].value;
+                    break;
+                case 3:
+                    turn_Debuff2 = attackPattern[i].turn;
+                    value_Debuff2= attackPattern[i].value;
+                    break;
+                case 4:
+                    value_DoubleAttack = attackPattern[i].value;
+                    critical_DoubleAttack = attackPattern[i].criticalProbability;
+                    break;
+                case 5:
+                    turn_Buff = attackPattern[i].turn;
+                    value_Buff = attackPattern[i].value;
+                    break;
+                case 6:
+                    turn_AbsolutelyKill = attackPattern[i].turn;
+                    hasAbsolutelyKill = true;
+                    break;
+            }
+        }
     }
 
     public override void Move()
     {
+        if (!image.enabled || currentHp < 0) return;
+
         Debug.Log("敵" + POSITION + "の行動");
+
+        // 確殺ターンなら確殺攻撃をする
+        if (elapsedTurn_AbsolutelyKill >= turn_AbsolutelyKill && hasAbsolutelyKill)
+        {
+            AbsolutelyKill();
+            return;
+        }
 
         // 攻撃方法を抽選
         Master.EnemyAttackPattern move = MoveLottery();
-        Debug.Log(move.criticalProbability);
+
+        switch(move.attackId)
+        {
+            case 1:
+                NormalAttack();
+                break;
+            case 2:
+                Debuff1();
+                break;
+            case 3:
+                Debuff2();
+                break;
+            case 4:
+                DoubleAttack();
+                break;
+            case 5:
+                Buff();
+                break;
+        }
     }
 
     public override void TurnEnd()
@@ -73,12 +142,21 @@ public class Enemy : Character
         elapsedTurn_Debuff1++;
         elapsedTurn_Debuff2++;
         elapsedTurn_Buff++;
+        elapsedTurn_AbsolutelyKill++;
+
+        Cancel_Debuff1();
+        Cancel_Debuff2();
+        Cancel_Buff();
     }
 
     public override void NormalAttack()
     {
-        float damage = ATK * powerAtk;
+        CriticalLottery(critical_NormalAttack);
+
+        float damage = ATK * powerAtk * critical;
         player.Damage(damage, this);
+
+        Debug.Log("敵 通常攻撃" + damage);
     }
 
     /// <summary>
@@ -89,16 +167,24 @@ public class Enemy : Character
         elapsedTurn_Debuff1 = 1;
         isActive_Debuff1 = true;
 
+        float amount = value_Debuff1 / 100.0f;
+        player.AddDebuff(StatusType.DEF, amount);
 
+        Debug.Log("敵デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
     }
-
     void Cancel_Debuff1()
     {
         if (!isActive_Debuff1) return;
 
-        if (elapsedTurn_Debuff1 >= 2)
+        if (elapsedTurn_Debuff1 > turn_Debuff1)
         {
-            
+            float amount = value_Debuff1 / 100.0f;
+            player.AddDebuff(StatusType.DEF, -amount);
+
+            elapsedTurn_Debuff1 = 0;
+            isActive_Debuff1 = false;
+
+            Debug.Log("敵デバフ１解除");
         }
     }
 
@@ -109,6 +195,26 @@ public class Enemy : Character
     {
         elapsedTurn_Debuff2 = 1;
         isActive_Debuff2 = true;
+
+        float amount = value_Debuff2 / 100.0f;
+        player.AddDebuff(StatusType.ATK, amount);
+
+        Debug.Log("敵デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
+    }
+    void Cancel_Debuff2()
+    {
+        if (!isActive_Debuff2) return;
+
+        if (elapsedTurn_Debuff2 > turn_Debuff2)
+        {
+            float amount = value_Debuff2 / 100.0f;
+            player.AddDebuff(StatusType.ATK, -amount);
+
+            elapsedTurn_Debuff2 = 0;
+            isActive_Debuff2 = false;
+
+            Debug.Log("敵デバフ２解除");
+        }
     }
 
     /// <summary>
@@ -118,6 +224,26 @@ public class Enemy : Character
     {
         elapsedTurn_Buff = 1;
         isActive_Buff = true;
+
+        float amount = value_Buff / 100.0f;
+        AddBuff(StatusType.ATK, amount);
+
+        Debug.Log("敵バフ発動 攻撃力" + (amount * 100) + "%アップ");
+    }
+    void Cancel_Buff()
+    {
+        if (!isActive_Buff) return;
+
+        if (elapsedTurn_Buff > turn_Buff)
+        {
+            float amount = (float)value_Buff / 100.0f;
+            AddBuff(StatusType.ATK, -amount);
+
+            elapsedTurn_Buff = 0;
+            isActive_Buff = false;
+
+            Debug.Log("敵バフ解除");
+        }
     }
 
     /// <summary>
@@ -125,7 +251,20 @@ public class Enemy : Character
     /// </summary>
     void DoubleAttack()
     {
+        StartCoroutine(DoubleAttack_Coroutine());
+        Debug.Log("敵　ダブルアタック発動");
+    }
 
+    IEnumerator DoubleAttack_Coroutine()
+    {
+        CriticalLottery(critical_DoubleAttack);
+
+        float damage = ATK * powerAtk * (value_DoubleAttack / 100.0f) * critical;
+        player.Damage(damage);
+
+        yield return new WaitForSeconds(0.5f);
+
+        player.Damage(damage);
     }
 
     /// <summary>
@@ -133,6 +272,7 @@ public class Enemy : Character
     /// </summary>
     void AbsolutelyKill()
     {
+        Debug.Log("敵　確殺攻撃発動");
         player.Damage((int)value_AbsolutelyKill);
     }
 

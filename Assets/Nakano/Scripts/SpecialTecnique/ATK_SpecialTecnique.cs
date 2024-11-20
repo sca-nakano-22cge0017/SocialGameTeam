@@ -137,6 +137,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         for (int i = 0; i < enemies.Length; i++)
         {
+            if (enemies[i] == null || enemies[i].activeSelf == false) continue;
+
             enemies[i].GetComponent<Enemy>().Damage(amount);
         }
 

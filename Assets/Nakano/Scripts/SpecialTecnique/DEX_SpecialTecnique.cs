@@ -50,6 +50,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_C.Add(e);
         isActive_C = true;
 
+        if (enemy == null || enemy.gameObject.activeSelf == false) return;
+
         float damage = (float)rankC.m_value1 / 100.0f * player.ATK;
         enemy.Damage(damage);
 
