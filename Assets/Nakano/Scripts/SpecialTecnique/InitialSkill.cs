@@ -18,6 +18,8 @@ public class InitialSkill : SpecialTecniqueMethod
         player.HealHP((int)amount);
 
         Debug.Log("「ヒール」発動 HP " + amount + " 回復");
+
+        player.BuffMotion();
     }
 
     public void Fire()
@@ -26,9 +28,11 @@ public class InitialSkill : SpecialTecniqueMethod
 
         if (enemy == null || enemy.gameObject.activeSelf == false) return;
 
-        float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f);
-        enemy.Damage(amount);
-
         Debug.Log("「ファイア」発動");
+
+        float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f);
+        
+        player.AttackMotion();
+        enemy.Damage(amount);
     }
 }

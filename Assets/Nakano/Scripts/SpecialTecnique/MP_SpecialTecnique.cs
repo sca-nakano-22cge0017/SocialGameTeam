@@ -50,6 +50,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         player.AddBuff(StatusType.DEF, amount);
 
         Debug.Log("「オーラ」発動 攻撃力/防御力 " + (amount * 100) + "%アップ");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -195,6 +197,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         player.power_CostMp = (1 - mpAmount);
 
         Debug.Log("「魔術師の結界」発動 MP消費量 " + player.power_CostMp + "倍");
+
+        player.BuffMotion();
     }
 
     void _RankSS()

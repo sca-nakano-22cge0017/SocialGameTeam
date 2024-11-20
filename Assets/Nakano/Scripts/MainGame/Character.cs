@@ -56,13 +56,15 @@ public class Character : MonoBehaviour
 
     public float power_CriticalInit;    // 基本会心時倍率
     public float buffCriticalPower;     // 会心時倍率バフ
-    protected float critical = 1.0f;    // 会心時倍率　計算用
+    protected float critical;    // 会心時倍率　計算用
 
     /// <summary>
     /// 初期化
     /// </summary>
     public virtual void Initialize()
     {
+        critical = 1.0f;
+
         currentMp = MP;
         currentHp = HP;
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Master;
+using System;
 
 /// <summary>
 /// プレイヤーのステータスやコマンド管理
@@ -161,6 +162,7 @@ public class PlayerData : Character
         specialMoveGuageAmount = 0;
 
         AttackMotion();
+        // 必殺技発動
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)

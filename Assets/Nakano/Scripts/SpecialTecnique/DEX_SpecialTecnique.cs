@@ -53,12 +53,14 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         if (enemy == null || enemy.gameObject.activeSelf == false) return;
 
         float damage = (float)rankC.m_value1 / 100.0f * player.ATK;
-        enemy.Damage(damage);
-
         float debuff = (float)rankC.m_value2 / 100.0f;
-        enemy.AddDebuff(StatusType.DEF, debuff);
 
         Debug.Log("「ガードクラッシュ」発動 敵の防御力 " + (debuff * 100) + "%ダウン");
+
+        player.AttackMotion();
+
+        enemy.Damage(damage);
+        enemy.AddDebuff(StatusType.DEF, debuff);
     }
 
     void Cancel_RankC()
@@ -134,6 +136,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         player.buffCriticalPower = amount;
 
         Debug.Log("「バースト」発動 会心時倍率" + (amount * 100) + "%アップ");
+
+        player.BuffMotion();
     }
     
     /// <summary>
@@ -172,6 +176,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         player._criticalProbability = 100;
 
         Debug.Log("「約束された勝利」発動 会心時倍率" + (amount * 100) + "%アップ, クリティカル確定");
+
+        player.BuffMotion();
     }
     
     /// <summary>

@@ -50,6 +50,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         player.ResetDebuff();
 
         Debug.Log("「クリアヒール」発動 HP " + amount + "回復");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -64,6 +66,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         isActive_B = true; // スキル発動
 
         Debug.Log("「痛み分け」発動");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -97,6 +101,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     {
         if (elapsedTurn_B >= rankB.m_continuationTurn)
         {
+            elapsedTurn_B = 0;
             isActive_B = false;
         }
     }
@@ -109,7 +114,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     public  void RankA()
     {
         // 未解放なら処理しない
-        //if (!rankA.m_released) return;
+        if (!rankA.m_released) return;
 
         // 回復量計算
         float amount = (float)player.HP * (float)(rankA.m_value1 / 100.0f);

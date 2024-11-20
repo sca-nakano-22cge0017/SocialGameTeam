@@ -42,6 +42,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         }
 
         Debug.Log("「ピアス」発動");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -122,6 +124,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         player.AddBuff(StatusType.ATK, amount);
 
         Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
+
+        player.BuffMotion();
     }
 
     /// <summary>
@@ -133,7 +137,10 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         //if(!rankSS.m_released) return;
 
+        Debug.Log("「エクスプロージョン」発動");
         float amount = (float)rankSS.m_value1 / 100.0f * (float)player.ATK;
+        
+        player.AttackMotion();
 
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -141,7 +148,5 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
             enemies[i].GetComponent<Enemy>().Damage(amount);
         }
-
-        Debug.Log("「エクスプロージョン」発動");
     }
 }
