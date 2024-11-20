@@ -15,10 +15,6 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
 
     public override void GameStart() { }
 
-    public override void TurnStart()
-    {
-    }
-
     public override void PlayerTurnStart() { }
 
     public override void TurnEnd()
