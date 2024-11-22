@@ -8,7 +8,7 @@ public class EnemiesIllust
 {
     public string enemyId;
     public int imageId;
-    public Sprite sprite;
+    public GameObject prefab;
     public Animation anim;
 }
 
@@ -192,9 +192,14 @@ public class StageManager : MonoBehaviour
                         data[d].enemyStatus.imageId == enemiesIllust[i].imageId)
                     {
                         // イラスト変更
-                        enemies[e].image.sprite = enemiesIllust[i].sprite;
+                        var ene = Instantiate(enemiesIllust[i].prefab, enemies[e].gameObject.transform);
+                        ene.transform.SetSiblingIndex(0);
 
-                        // Todo アニメーション/Spineの変更
+                        var child = ene.transform.GetChild(0).gameObject;
+                        var mr = child.GetComponent<MeshRenderer>();
+                        mr.sortingOrder = 50 - e;
+                        enemies[e].meshRenderer = mr;
+                        enemies[e].motion = child.GetComponent<Animator>();
                     }
                 }
 
