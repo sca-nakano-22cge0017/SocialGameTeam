@@ -10,6 +10,9 @@ public class Enemy : Character
 
     public int POSITION; // 敵の位置
 
+    public MeshRenderer meshRenderer;
+    public Animator motion;
+
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
 
@@ -103,7 +106,7 @@ public class Enemy : Character
 
     public override void Move()
     {
-        if (!image.enabled || currentHp < 0) return;
+        if (!meshRenderer.enabled || currentHp < 0) return;
 
         Debug.Log("敵" + POSITION + "の行動");
 
@@ -315,7 +318,7 @@ public class Enemy : Character
         // Todo モーション再生
 
         // イラスト・HPゲージを非表示にする
-        image.enabled = false;
+        meshRenderer.enabled = false;
         hpGuage_Obj.SetActive(false);
 
         StartCoroutine(DropDirection());
