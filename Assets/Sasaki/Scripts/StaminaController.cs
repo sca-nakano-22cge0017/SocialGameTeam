@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class StaminaController : MonoBehaviour
 {
-    [SerializeField,Header("スライダーバー")] private Slider slider;
+    [SerializeField,Header("スライダーバー")] private Image slider;
     [SerializeField,Header("スタミナ表示のテキスト")] private Text staminaText;
     [SerializeField,Header("スタミナの時間表示ウィンドウ")] private GameObject staminaWindow;
     [SerializeField,Header("スタミナの時間テキスト")] private Text staminaTimeText;
@@ -34,14 +34,14 @@ public class StaminaController : MonoBehaviour
 
         staminaMax = staminaManager.Stamina_Max;
 
-        slider.value = 1; //スライダー満タン
+        slider.fillAmount = 1; //スライダー満タン
     }
 
     // Update is called once per frame
     void Update()
     {
         stamina = staminaManager.Stamina;
-        slider.value = (float)stamina/(float)staminaMax;//バー表示反映
+        slider.fillAmount = (float)stamina/(float)staminaMax;//バー表示反映
         //テキスト表示
         staminaText.text = stamina.ToString() + "/" + staminaMax.ToString();
 
