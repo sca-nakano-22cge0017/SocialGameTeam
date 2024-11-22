@@ -48,6 +48,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankC()
     {
+        if (!isActive_C) return;
+
         for (int i = 0; i < elapsedTurn_C.Count; i++)
         {
             if (elapsedTurn_C[i] > rankC.m_continuationTurn)
@@ -104,6 +106,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankB()
     {
+        if (!isActive_B) return;
+
         for (int i = 0; i < elapsedTurn_B.Count; i++)
         {
             if (elapsedTurn_B[i].elapsedTurn > rankB.m_continuationTurn)

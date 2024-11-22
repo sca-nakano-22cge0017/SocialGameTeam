@@ -101,8 +101,8 @@ public class CharaSelectManager : MonoBehaviour
         StreamReader reader;
 
         // ƒtƒ@ƒCƒ‹‚ª–³‚©‚Á‚½‚çì‚é
-        if (!File.Exists(Application.persistentDataPath + "/savedata.json"))
-            PlayerDataManager.Save();
+        while (!File.Exists(Application.persistentDataPath + "/savedata.json"))
+            PlayerDataManager.CharacterInitialize();
 
         reader = new StreamReader(Application.persistentDataPath + "/savedata.json");
         datastr = reader.ReadToEnd();

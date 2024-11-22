@@ -61,7 +61,8 @@ public class GameManager : MonoBehaviour
             if (selectChara == errorNum)
             {
                 Debug.Log("選択キャラクター：入力値がありません。キャラクター1を選択します");
-                SelectChara = 1;
+                selectChara = 1;
+                PlayerDataManager.CharacterChange(selectChara);
             }
 
             return selectChara;
