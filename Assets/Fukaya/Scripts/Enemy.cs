@@ -286,6 +286,8 @@ public class Enemy : Character
     /// <returns>–hŒä—Í•ªŒ¸­‚³‚¹‚½ƒ_ƒ[ƒW—Ê</returns>
     public override int Damage(float _amount)
     {
+        if (!meshRenderer.enabled || currentHp < 0) return 0;
+
         if (currentHp <= 0) return 0;
 
         int damage = 0;
@@ -313,6 +315,8 @@ public class Enemy : Character
     /// </summary>
     public override void Dead()
     {
+        if (!meshRenderer.enabled || currentHp < 0) return;
+
         Debug.Log("“G" + POSITION + "‚ğ“|‚µ‚½");
 
         // Todo ƒ‚[ƒVƒ‡ƒ“Ä¶

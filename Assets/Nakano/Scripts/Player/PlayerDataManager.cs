@@ -23,6 +23,12 @@ public class PlayerDataManager : MonoBehaviour
     /// </summary>
     public static void Save()
     {
+        if (!MasterDataLoader.MasterDataLoadComplete)
+        {
+            Save();
+            return;
+        }
+
         if (GameManager.SelectChara == 1)
             chara1 = player;
         if (GameManager.SelectChara == 2)
@@ -70,11 +76,11 @@ public class PlayerDataManager : MonoBehaviour
         saveData.selectChara = GameManager.SelectChara == -1 ? 1 : GameManager.SelectChara;
         saveData.isFirstStart = GameManager.isFirstStart;
         saveData.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty;
-        
+
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
     }
-
+    
     /// <summary>
     /// プレイヤーのデータ取得
     /// </summary>
@@ -116,6 +122,19 @@ public class PlayerDataManager : MonoBehaviour
         {
             player = new(2);
         }
+    }
+
+    /// <summary>
+    /// キャラクターデータ初期化
+    /// </summary>
+    /// <param name="_id">キャラクターID</param>
+    public static void CharacterInitialize()
+    {
+        player = new(1);
+        chara1 = new(1);
+        chara2 = new(2);
+
+        Save();
     }
 
     /// <summary>
@@ -168,6 +187,8 @@ public class PlayerDataManager : MonoBehaviour
         {
             player = chara2;
         }
+
+        Save();
     }
 
     /// <summary>
@@ -338,12 +359,10 @@ public class PlayerDataManager : MonoBehaviour
         float rankPtMin = (int)rank == 0 ? 0 : player.GetRankPtLastUp(_type);
         float rankPtMax = player.GetRankPtNextUp(_type);
 
-        float a = (float)(rankPtMax - rankPtMin) / (float)(statusMax - statusMin); // グラフの傾き
+        float a = (float)(statusMax - statusMin) / (float)(rankPtMax - rankPtMin); // グラフの傾き
 
         int currentStatus = (int)(((a * (currentRankPt - rankPtMin)) + (statusMax - a * rankPtMax)));   // 現在のステータス
         player.SetStatus(_type, currentStatus);
-
-        //Debug.Log(_type + " / " + a +  " * " + (currentRankPt - rankPtMin) + " + " + (statusMax - a * rankPtMax) + " = " +  currentStatus);
     }
 
     /// <summary>
