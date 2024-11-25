@@ -48,8 +48,6 @@ public class PlayerData : Character
     [SerializeField] AGI_SpecialTecnique agi_st;
     [SerializeField] DEX_SpecialTecnique dex_st;
 
-    [SerializeField] Enemy enemy_forDebug;
-
     /// <summary>
     /// 無敵状態かどうか
     /// </summary>
@@ -61,28 +59,6 @@ public class PlayerData : Character
     void Start()
     {
         atk_st.GameStart();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            Move();
-        }
-
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            MoveEnd();
-
-            hp_st.TurnEnd();
-            def_st.TurnEnd();
-            atk_st.TurnEnd();
-            mp_st.TurnEnd();
-            agi_st.TurnEnd();
-            dex_st.TurnEnd();
-
-            enemy_forDebug.TurnEnd();
-        }
     }
 
     /// <summary>
@@ -100,6 +76,12 @@ public class PlayerData : Character
 
     public override void Move()
     {
+        if (currentHp <= 0)
+        {
+            MoveEnd();
+            return;
+        }
+
         Debug.Log("プレイヤーの行動");
 
         SetCommandsButton(true);
@@ -112,6 +94,13 @@ public class PlayerData : Character
 
         isGuard = false;
         SetCommandsButton(false);
+
+        mainGameSystem.ActionEnd();
+    }
+    IEnumerator EndWait()
+    {
+        yield return new WaitForSeconds(2.0f);
+        MoveEnd();
     }
 
     public override void NormalAttack()
@@ -125,15 +114,18 @@ public class PlayerData : Character
         AttackMotion();
 
         // Todo ロックオンした敵にダメージ
-        enemy_forDebug.Damage(damage);
+        var target = mainGameSystem.Target;
+        target.Damage(damage);
 
         // 通常攻撃時に処理される特殊技能
-        atk_st.RankA(enemy_forDebug);        // ガードブレイカー
-        mp_st.RankB();                       // ドレイン
-        dex_st.RankA(enemy_forDebug);        // 小手先のテクニック
+        atk_st.RankA(target);        // ガードブレイカー
+        mp_st.RankB();               // ドレイン
+        dex_st.RankA(target);        // 小手先のテクニック
         if (agi_st.RankA()) NormalAttack(); // 再行動
 
         UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
+
+        StartCoroutine(EndWait());
     }
 
     /// <summary>
@@ -151,6 +143,8 @@ public class PlayerData : Character
         // 防御時に処理される特殊技能
         def_st.RankC();
         def_st.RankB();
+
+        StartCoroutine(EndWait());
     }
 
     /// <summary>
@@ -163,6 +157,8 @@ public class PlayerData : Character
 
         AttackMotion();
         // 必殺技発動
+
+        StartCoroutine(EndWait());
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)
@@ -284,7 +280,7 @@ public class PlayerData : Character
     {
         // Todo 敗北演出・モーション再生
 
-        image.enabled = false;
+        meshRenderer.enabled = false;
     }
 
     public void AttackMotion()

@@ -28,7 +28,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // 未解放なら処理しない
-        //if(!rankC.m_released) return;
+        if(!rankC.m_released) return;
 
         float amount = (float)player.MP * ((float)rankC.m_value1 / 100.0f);
         player.HealMP((int)amount);
@@ -44,7 +44,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public  void RankB()
     {
         // 未解放なら処理しない
-        //if(!rankB.m_released) return;
+        if(!rankB.m_released) return;
 
         float amount = (float)player.HP * ((float)rankB.m_value1 / 100.0f);
         player.HealHP((int)amount);
@@ -103,7 +103,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public void RankS(int _damage, Enemy _enemy)
     {
         // 未解放なら処理しない
-        //if(!rankS.m_released) return;
+        if(!rankS.m_released) return;
 
         // ダメージ量計算
         float amount = (float)_damage * ((float)rankS.m_value1 / 100.0f);
@@ -121,7 +121,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public  void RankSS()
     {
         // 未解放なら処理しない
-        //if(!rankSS.m_released) return;
+        if(!rankSS.m_released) return;
 
         elapsedTurn_SS.Add(1);
         isActive_SS = true;
@@ -163,6 +163,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankSS()
     {
+        if (!isActive_SS) return;
+
         for (int i = 0; i < elapsedTurn_SS.Count; i++)
         {
             if (elapsedTurn_SS[i] > rankSS.m_continuationTurn)

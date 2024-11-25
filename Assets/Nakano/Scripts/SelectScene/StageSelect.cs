@@ -27,6 +27,8 @@ public class StageSelect : MonoBehaviour
     [SerializeField] private StageSelectButton firstSelectButton; // 最初に選択しておくボタン
     [SerializeField] private GameObject selectingFrame;           // 選択中のボタンに表示する枠
 
+    SelectButton pressedButton = null;
+
     bool isCoolTime_Select = false;
     const float coolTime = 0.01f;
 
@@ -87,8 +89,6 @@ public class StageSelect : MonoBehaviour
         isCoolTime_Select = true;
 
         // 押下したボタンに応じて情報取得
-        SelectButton pressedButton = null;
-
         for (int i = 0; i < selectButtons.Length; i++)
         {
             if (selectButtons[i].button == _selectingButton)
@@ -112,25 +112,7 @@ public class StageSelect : MonoBehaviour
             stageImage.sprite = pressedButton.sprite;
             selectingButton = _selectingButton;
 
-            // ドロップ内容表示
-            if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
-            {
-                string information = "";
-
-                for (int d = 0; d < MasterData.StageDatas.Count; d++)
-                {
-                    StageData data = MasterData.StageDatas[d];
-                    if (data.difficulty == GameManager.SelectDifficulty && data.areaId == 1 && data.stageId == pressedButton.stageId)
-                    {
-                        for (int i = 0; i < data.dropItem.Count; i++)
-                        {
-                            information += pressedButton.information + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
-                        }
-                    }
-                }
-
-                stageInformationText.text = information;
-            }
+            DropDetailDisplay();
         }
 
         // 押下後、一定時間押下判定を取らない
@@ -138,6 +120,31 @@ public class StageSelect : MonoBehaviour
         {
             isCoolTime_Select = false;
         }));
+    }
+
+    /// <summary>
+    /// ドロップ内容表示
+    /// </summary>
+    public void DropDetailDisplay()
+    {
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
+        {
+            string information = "";
+
+            for (int d = 0; d < MasterData.StageDatas.Count; d++)
+            {
+                StageData data = MasterData.StageDatas[d];
+                if (data.difficulty == GameManager.SelectDifficulty && data.areaId == 1 && data.stageId == pressedButton.stageId)
+                {
+                    for (int i = 0; i < data.dropItem.Count; i++)
+                    {
+                        information += pressedButton.information + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
+                    }
+                }
+            }
+
+            stageInformationText.text = information;
+        }
     }
 
     /// <summary>

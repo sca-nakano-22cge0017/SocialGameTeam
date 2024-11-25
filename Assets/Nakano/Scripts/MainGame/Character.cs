@@ -8,7 +8,10 @@ using UnityEngine.UI;
 /// </summary>
 public class Character : MonoBehaviour
 {
-    public Image image; // ƒCƒ‰ƒXƒg
+    [SerializeField] protected MainGameSystem mainGameSystem;
+
+    public MeshRenderer meshRenderer;
+
     [SerializeField] protected MainGameGuage hpGuage;
     [SerializeField] protected Text damageText;
 

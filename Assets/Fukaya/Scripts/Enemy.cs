@@ -10,7 +10,6 @@ public class Enemy : Character
 
     public int POSITION; // 敵の位置
 
-    public MeshRenderer meshRenderer;
     public Animator motion;
 
     // アタックパターン
@@ -53,14 +52,6 @@ public class Enemy : Character
     void Start()
     {
         dropController = FindObjectOfType<DropController>();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Move();
-        }
     }
 
     /// <summary>
@@ -106,7 +97,11 @@ public class Enemy : Character
 
     public override void Move()
     {
-        if (!meshRenderer.enabled || currentHp < 0) return;
+        if (currentHp <= 0)
+        {
+            MoveEnd();
+            return;
+        }
 
         Debug.Log("敵" + POSITION + "の行動");
 
@@ -140,6 +135,19 @@ public class Enemy : Character
         }
     }
 
+    public override void MoveEnd()
+    {
+        Debug.Log("敵" + POSITION + "の行動終了");
+
+        mainGameSystem.ActionEnd();
+    }
+
+    IEnumerator EndWait()
+    {
+        yield return new WaitForSeconds(2.0f);
+        MoveEnd();
+    }
+
     public override void TurnEnd()
     {
         elapsedTurn_Debuff1++;
@@ -159,7 +167,9 @@ public class Enemy : Character
         float damage = ATK * powerAtk * critical;
         player.Damage(damage, this);
 
-        Debug.Log("敵 通常攻撃" + damage);
+        Debug.Log("敵 " + POSITION + " 通常攻撃" + damage);;
+
+        StartCoroutine(EndWait());
     }
 
     /// <summary>
@@ -173,7 +183,9 @@ public class Enemy : Character
         float amount = value_Debuff1 / 100.0f;
         player.AddDebuff(StatusType.DEF, amount);
 
-        Debug.Log("敵デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
+        Debug.Log("敵 " + POSITION + " デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
+
+        StartCoroutine(EndWait());
     }
     void Cancel_Debuff1()
     {
@@ -187,7 +199,7 @@ public class Enemy : Character
             elapsedTurn_Debuff1 = 0;
             isActive_Debuff1 = false;
 
-            Debug.Log("敵デバフ１解除");
+            Debug.Log("敵 " + POSITION + " デバフ１解除");
         }
     }
 
@@ -202,7 +214,9 @@ public class Enemy : Character
         float amount = value_Debuff2 / 100.0f;
         player.AddDebuff(StatusType.ATK, amount);
 
-        Debug.Log("敵デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
+        Debug.Log("敵 " + POSITION + " デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
+
+        StartCoroutine(EndWait());
     }
     void Cancel_Debuff2()
     {
@@ -216,7 +230,7 @@ public class Enemy : Character
             elapsedTurn_Debuff2 = 0;
             isActive_Debuff2 = false;
 
-            Debug.Log("敵デバフ２解除");
+            Debug.Log("敵 " + POSITION + " デバフ２解除");
         }
     }
 
@@ -231,7 +245,9 @@ public class Enemy : Character
         float amount = value_Buff / 100.0f;
         AddBuff(StatusType.ATK, amount);
 
-        Debug.Log("敵バフ発動 攻撃力" + (amount * 100) + "%アップ");
+        Debug.Log("敵 " + POSITION + " バフ発動 攻撃力" + (amount * 100) + "%アップ");
+
+        StartCoroutine(EndWait());
     }
     void Cancel_Buff()
     {
@@ -245,7 +261,7 @@ public class Enemy : Character
             elapsedTurn_Buff = 0;
             isActive_Buff = false;
 
-            Debug.Log("敵バフ解除");
+            Debug.Log("敵 " + POSITION + " バフ解除");
         }
     }
 
@@ -255,7 +271,7 @@ public class Enemy : Character
     void DoubleAttack()
     {
         StartCoroutine(DoubleAttack_Coroutine());
-        Debug.Log("敵　ダブルアタック発動");
+        Debug.Log("敵 " + POSITION + " ダブルアタック発動");
     }
 
     IEnumerator DoubleAttack_Coroutine()
@@ -268,6 +284,8 @@ public class Enemy : Character
         yield return new WaitForSeconds(0.5f);
 
         player.Damage(damage);
+
+        StartCoroutine(EndWait());
     }
 
     /// <summary>
@@ -275,8 +293,10 @@ public class Enemy : Character
     /// </summary>
     void AbsolutelyKill()
     {
-        Debug.Log("敵　確殺攻撃発動");
+        Debug.Log("敵 " + POSITION + " 確殺攻撃発動");
         player.Damage((int)value_AbsolutelyKill);
+
+        StartCoroutine(EndWait());
     }
 
     /// <summary>

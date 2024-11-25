@@ -18,6 +18,7 @@ public class PlayerIllust
     public int charaId;
     public CombiType evolutionType; // 形態
     public GameObject playerIllust;
+    public Sprite specialAttackIcon;
 }
 
 /// <summary>
@@ -25,6 +26,8 @@ public class PlayerIllust
 /// </summary>
 public class StageManager : MonoBehaviour
 {
+    [SerializeField] private Image specialAttackIcon;
+
     [SerializeField] private PlayerData player;
     [SerializeField, Header("プレイヤーのイラスト/アニメーション")] private PlayerIllust[] playersIllust;
     [SerializeField] private Enemy[] enemies;
@@ -147,7 +150,10 @@ public class StageManager : MonoBehaviour
                 playersIllust[i].evolutionType == PlayerDataManager.player.GetEvolutionType())
             {
                 playersIllust[i].playerIllust.SetActive(true);
+                player.meshRenderer = playersIllust[i].playerIllust.gameObject.GetComponent<MeshRenderer>();
                 player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();
+
+                specialAttackIcon.sprite = playersIllust[i].specialAttackIcon;
             }
         }
 
@@ -197,7 +203,7 @@ public class StageManager : MonoBehaviour
 
                         var child = ene.transform.GetChild(0).gameObject;
                         var mr = child.GetComponent<MeshRenderer>();
-                        mr.sortingOrder = 50 - e;
+                        mr.sortingOrder = 50 - e - 1;
                         enemies[e].meshRenderer = mr;
                         enemies[e].motion = child.GetComponent<Animator>();
                     }

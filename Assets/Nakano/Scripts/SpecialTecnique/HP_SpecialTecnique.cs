@@ -40,7 +40,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // 未解放なら処理しない
-        //if(!rankC.m_released) return;
+        if(!rankC.m_released) return;
 
         // 回復量計算
         float amount = player.HP * (rankC.m_value1 / 100.0f);
@@ -60,7 +60,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     public  void RankB()
     {
         // 未解放なら処理しない
-        //if (!rankB.m_released) return;
+        if (!rankB.m_released) return;
 
         elapsedTurn_B = 1;
         isActive_B = true; // スキル発動
@@ -131,7 +131,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     public  void RankS()
     {
         // 未解放なら処理しない
-        //if (!rankS.m_released) return;
+        if (!rankS.m_released) return;
 
         float hpPer = (float)player.currentHp / (float)player.HP * 100.0f;
         float amount = (float)rankS.m_value2 / 100;
@@ -166,7 +166,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     public  void RankSS()
     {
         // 未解放なら処理しない
-        //if (!rankSS.m_released) return;
+        if (!rankSS.m_released) return;
 
         // 指定ターン経過したら回復
         if (elapsedTurn_SS >= rankSS.m_continuationTurn)
