@@ -40,7 +40,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankC()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankC.m_released) return;
+        if(!rankC.m_released) return;
 
         elapsedTurn_C.Add(1);
         isActive_C = true;
@@ -92,7 +92,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankB()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankB.m_released) return;
+        if(!rankB.m_released) return;
 
         float amount = (float)rankB.m_value1 / 100.0f * player.MP;
         player.HealMP((int)amount);
@@ -107,7 +107,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankA()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankA.m_released) return;
+        if(!rankA.m_released) return;
 
         float amount = (float)rankA.m_value1 / 100.0f * player.MP;
         player.HealMP((int)amount);
@@ -123,7 +123,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankS(Enemy _enemy)
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankS.m_released) return;
+        if(!rankS.m_released) return;
 
         int result = Random.Range(1, 100);
         if (result <= rankS.m_value1)
@@ -188,7 +188,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankSS()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankSS.m_released) return;
+        if(!rankSS.m_released) return;
 
         elapsedTurn_SS = 1;
         isActive_SS = true;

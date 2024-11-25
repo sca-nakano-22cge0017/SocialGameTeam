@@ -38,10 +38,10 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // 未解放なら処理しない
-        //if(!rankC.m_released) return;
+        if(!rankC.m_released) return;
 
-        // Todo ロックオンした敵に攻撃・デバフ
-        Enemy enemy = new();
+        // ロックオンした敵に攻撃・デバフ
+        Enemy enemy = mainGameSystem.Target;
 
         EnemyBuffTurn e = new();
         e.enemy = enemy;
@@ -95,7 +95,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public float RankB()
     {
         // 未解放なら処理しない
-        //if(!rankB.m_released) return 0;
+        if(!rankB.m_released) return 0;
 
         float amount = (float)rankB.m_value1 / 100.0f;
         Debug.Log("「成長の道」発動 ドロップ量" + (amount * 100) + "%アップ");
@@ -110,7 +110,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public  void RankA(Enemy _enemy)
     {
         // 未解放なら処理しない
-        //if(!rankA.m_released) return;
+        if(!rankA.m_released) return;
 
         int result = Random.Range(1, 100);
         if (result <= rankA.m_value1)
@@ -127,7 +127,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public  void RankS()
     {
         // 未解放なら処理しない
-        //if(!rankS.m_released) return;
+        if(!rankS.m_released) return;
 
         elapsedTurn_S = 1;
         isActive_S = true;
@@ -165,7 +165,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public  void RankSS()
     {
         // 未解放なら処理しない
-        //if(!rankSS.m_released) return;
+        if(!rankSS.m_released) return;
 
         elapsedTurn_SS = 1;
         isActive_SS = true;

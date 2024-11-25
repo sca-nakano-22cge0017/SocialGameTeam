@@ -28,6 +28,8 @@ public class DifficultyManager : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.SelectDifficulty = isClearBossDifficulty + 1;
+
         SetSelectButtons();
     }
 
@@ -57,6 +59,12 @@ public class DifficultyManager : MonoBehaviour
         }
 
         else _SetDifficulty(_difficulty);
+
+        StageSelect ss = FindObjectOfType<StageSelect>();
+        if (ss)
+        {
+            ss.DropDetailDisplay();
+        }
     }
 
     /// <summary>

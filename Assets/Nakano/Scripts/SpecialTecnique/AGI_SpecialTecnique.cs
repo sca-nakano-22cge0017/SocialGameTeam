@@ -30,7 +30,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // 未解放なら処理しない
-        //if(!rankC.m_released) return;
+        if(!rankC.m_released) return;
 
         elapsedTurn_C.Add(1);
         isActive_C = true;
@@ -81,10 +81,10 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public void RankB()
     {
         // 未解放なら処理しない
-        //if(!rankB.m_released) return;
+        if(!rankB.m_released) return;
 
-        // Todo ロックオンした敵にデバフ
-        Enemy enemy = new();
+        // ロックオンした敵にデバフ
+        Enemy enemy = mainGameSystem.Target;
 
         EnemyBuffTurn e = new();
         e.enemy = enemy;
@@ -139,7 +139,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public bool RankA()
     {
         // 未解放なら処理しない
-        //if(!rankA.m_released) return false;
+        if(!rankA.m_released) return false;
 
         // 再行動時に更に再行動しないように回数制限
         if (effectAmount_A > 0) return false;
@@ -162,7 +162,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public bool RankS()
     {
         // 未解放なら処理しない
-        //if(!rankS.m_released) return false;
+        if(!rankS.m_released) return false;
 
         int result = Random.Range(1, 100);
         if (result <= rankS.m_value1)
@@ -181,7 +181,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public  void RankSS()
     {
         // 未解放なら処理しない
-        //if(!rankSS.m_released) return;
+        if(!rankSS.m_released) return;
 
         player.UpSpecialMoveGuage();
 

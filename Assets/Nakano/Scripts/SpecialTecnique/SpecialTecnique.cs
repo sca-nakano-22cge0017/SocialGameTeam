@@ -102,6 +102,7 @@ public class SpecialTecniqueMethod : MonoBehaviour
 {
     [SerializeField] protected PlayerData player;
     [SerializeField] protected BattleSystem battleSystem;
+    [SerializeField] protected MainGameSystem mainGameSystem;
 
     [SerializeField] protected SpecialTecnique rankC;
     [SerializeField] protected SpecialTecnique rankB;
