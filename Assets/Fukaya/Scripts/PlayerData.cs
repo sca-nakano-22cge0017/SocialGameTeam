@@ -92,7 +92,6 @@ public class PlayerData : Character
     {
         Debug.Log("プレイヤーの行動終了");
 
-        isGuard = false;
         SetCommandsButton(false);
 
         mainGameSystem.ActionEnd();
@@ -103,8 +102,19 @@ public class PlayerData : Character
         MoveEnd();
     }
 
+    public override void TurnEnd()
+    {
+        if (isGuard)
+        {
+            powerDef -= power_Guard;
+            isGuard = false;
+        }
+    }
+
     public override void NormalAttack()
     {
+        SetCommandsButton(false);
+
         // 会心抽選
         CriticalLottery();
 
@@ -113,7 +123,7 @@ public class PlayerData : Character
 
         AttackMotion();
 
-        // Todo ロックオンした敵にダメージ
+        // ロックオンした敵にダメージ
         var target = mainGameSystem.Target;
         target.Damage(damage);
 
@@ -124,8 +134,6 @@ public class PlayerData : Character
         if (agi_st.RankA()) NormalAttack(); // 再行動
 
         UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
-
-        StartCoroutine(EndWait());
     }
 
     /// <summary>
@@ -133,7 +141,7 @@ public class PlayerData : Character
     /// </summary>
     public void Guard()
     {
-        // Todo 1ターン経過でガード解除（防御力倍率を1に戻す）
+        SetCommandsButton(false);
 
         // 防御力倍率上昇
         powerDef += power_Guard;
@@ -152,13 +160,13 @@ public class PlayerData : Character
     /// </summary>
     public void SpecialMove()
     {
+        SetCommandsButton(false);
+
         atk_st.RankS(); // 全身全霊
         specialMoveGuageAmount = 0;
 
         AttackMotion();
         // 必殺技発動
-
-        StartCoroutine(EndWait());
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)
@@ -168,6 +176,8 @@ public class PlayerData : Character
             UpSpecialMoveGuage(sm_Guard.guageUpAmount);
             return 0;     // ステップ
         }
+
+        if (isGuard) Debug.Log("防御中");
 
         // 被ダメ - 防御力 を実際の被ダメージにする
         int damage = (int)Mathf.Ceil(_damageAmount - (DEF * powerDef));
@@ -285,16 +295,26 @@ public class PlayerData : Character
 
     public void AttackMotion()
     {
+        SetCommandsButton(false);
+
         motion.SetTrigger("attack");
+
+        StartCoroutine(EndWait());
     }
 
     public void BuffMotion()
     {
+        SetCommandsButton(false);
+
         motion.SetTrigger("buff");
+
+        StartCoroutine(EndWait());
     }
 
     public void WinMotion()
     {
+        SetCommandsButton(false);
+
         motion.SetTrigger("win");
     }
 

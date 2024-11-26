@@ -28,9 +28,12 @@ public class ResultManager : MonoBehaviour
 
     private bool resultDispCompleted = false; // •\Ž¦Š®—¹
 
+    StaminaManager staminaManager;
+
     void Start()
     {
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
+        staminaManager = FindObjectOfType<StaminaManager>();
     }
 
     private void Update()
@@ -188,6 +191,10 @@ public class ResultManager : MonoBehaviour
     public void Retry()
     {
         //SceneManager.LoadScene("Main");
+
+        if (GameManager.SelectArea == 1) staminaManager.Traning();
+        if (GameManager.SelectArea == 2) staminaManager.Boss();
+
         SceneManager.LoadScene("MainTest");
     }
 

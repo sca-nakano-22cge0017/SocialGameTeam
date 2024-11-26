@@ -149,11 +149,12 @@ public class StageManager : MonoBehaviour
             if (playersIllust[i].charaId == GameManager.SelectChara &&
                 playersIllust[i].evolutionType == PlayerDataManager.player.GetEvolutionType())
             {
-                playersIllust[i].playerIllust.SetActive(true);
                 player.meshRenderer = playersIllust[i].playerIllust.gameObject.GetComponent<MeshRenderer>();
                 player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();
 
                 specialAttackIcon.sprite = playersIllust[i].specialAttackIcon;
+
+                playersIllust[i].playerIllust.SetActive(true);
             }
         }
 

@@ -28,7 +28,11 @@ public class DifficultyManager : MonoBehaviour
 
     private void Awake()
     {
-        GameManager.SelectDifficulty = isClearBossDifficulty + 1;
+        if (isClearBossDifficulty < 5)
+        {
+            GameManager.SelectDifficulty = isClearBossDifficulty + 1;
+        }
+        else GameManager.SelectDifficulty = isClearBossDifficulty;
 
         SetSelectButtons();
     }

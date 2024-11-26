@@ -79,7 +79,8 @@ public class SpecialTecnique : ScriptableObject
             string str = m_effects;
             m_effects = str.Replace("W", value);
         }
-        if (m_effects.Contains("{"))
+
+        while (m_effects.Contains("{"))
         {
             string str = m_effects;
             int start = str.IndexOf('{');

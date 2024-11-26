@@ -30,28 +30,28 @@ public class Character : MonoBehaviour
     [HideInInspector] public int currentHp;
 
     // ステータス倍率
-    [HideInInspector] public float powerMp = 1;
-    [HideInInspector] public float powerAtk = 1;
-    [HideInInspector] public float powerHp = 1;
-    [HideInInspector] public float powerDef = 1;
-    [HideInInspector] public float powerDex = 1;
-    [HideInInspector] public float powerAgi = 1;
+    [HideInInspector] public float powerMp ;
+    [HideInInspector] public float powerAtk;
+    [HideInInspector] public float powerHp ;
+    [HideInInspector] public float powerDef;
+    [HideInInspector] public float powerDex;
+    [HideInInspector] public float powerAgi;
 
     // バフ総量 割合
-    [HideInInspector] public float buffMp = 0;
-    [HideInInspector] public float buffAtk = 0;
-    [HideInInspector] public float buffHp = 0;
-    [HideInInspector] public float buffDef = 0;
-    [HideInInspector] public float buffDex = 0;
-    [HideInInspector] public float buffAgi = 0;
+    [HideInInspector] public float buffMp ;
+    [HideInInspector] public float buffAtk;
+    [HideInInspector] public float buffHp ;
+    [HideInInspector] public float buffDef;
+    [HideInInspector] public float buffDex;
+    [HideInInspector] public float buffAgi;
 
     // デバフ総量 割合
-    [HideInInspector] public float debuffMp = 0;
-    [HideInInspector] public float debuffAtk = 0;
-    [HideInInspector] public float debuffHp = 0;
-    [HideInInspector] public float debuffDef = 0;
-    [HideInInspector] public float debuffDex = 0;
-    [HideInInspector] public float debuffAgi = 0;
+    [HideInInspector] public float debuffMp ;
+    [HideInInspector] public float debuffAtk;
+    [HideInInspector] public float debuffHp ;
+    [HideInInspector] public float debuffDef;
+    [HideInInspector] public float debuffDex;
+    [HideInInspector] public float debuffAgi;
 
     // 会心率
     public float criticalProbabilityInitial;  // 初期値
@@ -70,6 +70,27 @@ public class Character : MonoBehaviour
 
         currentMp = MP;
         currentHp = HP;
+
+        powerMp = 1;
+        powerAtk = 1;
+        powerHp = 1;
+        powerDef = 1;
+        powerDex = 1;
+        powerAgi = 1;
+
+        buffMp = 0;
+        buffAtk = 0;
+        buffHp = 0;
+        buffDef = 0;
+        buffDex = 0;
+        buffAgi = 0;
+
+        debuffMp = 0;
+        debuffAtk = 0;
+        debuffHp = 0;
+        debuffDef = 0;
+        debuffDex = 0;
+        debuffAgi = 0;
 
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;

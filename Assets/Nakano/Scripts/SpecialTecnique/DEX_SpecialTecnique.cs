@@ -147,7 +147,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     {
         if (!isActive_S) return;
 
-        if (elapsedTurn_S >= rankS.m_continuationTurn)
+        if (elapsedTurn_S > rankS.m_continuationTurn)
         {
             elapsedTurn_S = 0;
             isActive_S = false;
@@ -187,7 +187,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     {
         if (!isActive_SS) return;
 
-        if (elapsedTurn_SS <= rankSS.m_continuationTurn)
+        if (elapsedTurn_SS > rankSS.m_continuationTurn)
         {
             elapsedTurn_SS = 0;
             isActive_SS = false;
