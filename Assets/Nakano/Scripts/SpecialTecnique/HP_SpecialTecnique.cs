@@ -99,7 +99,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankB()
     {
-        if (elapsedTurn_B >= rankB.m_continuationTurn)
+        if (elapsedTurn_B > rankB.m_continuationTurn)
         {
             elapsedTurn_B = 0;
             isActive_B = false;

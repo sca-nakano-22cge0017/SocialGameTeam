@@ -79,6 +79,8 @@ public class PlayerDataManager : MonoBehaviour
 
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
+
+        Debug.Log($"HP:{player.AllStatus.hp}, MP:{player.AllStatus.mp}, ATK:{player.AllStatus.atk}, DEF:{player.AllStatus.def}, DEX:{player.AllStatus.dex}, AGI:{player.AllStatus.agi}");
     }
     
     /// <summary>
@@ -154,14 +156,18 @@ public class PlayerDataManager : MonoBehaviour
             // プラス値は持ち越す
             Status plus = new(player.GetPlusStatus());
             player = new(1);
+            chara1 = new(1);
             player.SetPlusStatus(plus);
         }
         if (_id == 2)
         {
             Status plus = new(player.GetPlusStatus());
             player = new(2);
+            chara2 = new(2);
             player.SetPlusStatus(plus);
         }
+
+        Save();
 
         SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
         if (stm) stm.ReleaseInitialize();
@@ -189,6 +195,9 @@ public class PlayerDataManager : MonoBehaviour
         }
 
         Save();
+
+        SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
+        if (stm) stm.ReleaseInitialize();
     }
 
     /// <summary>
@@ -361,8 +370,10 @@ public class PlayerDataManager : MonoBehaviour
 
         float a = (float)(statusMax - statusMin) / (float)(rankPtMax - rankPtMin); // グラフの傾き
 
-        int currentStatus = (int)(((a * (currentRankPt - rankPtMin)) + (statusMax - a * rankPtMax)));   // 現在のステータス
+        int currentStatus = (int)(((a * currentRankPt) + (statusMin - a * rankPtMin)));   // 現在のステータス
         player.SetStatus(_type, currentStatus);
+
+        player.UpdateTotalPower();
     }
 
     /// <summary>

@@ -26,6 +26,7 @@ public class MainGameSystem : MonoBehaviour
     private delegate void Action();
     private Action action;
 
+    [SerializeField] InitialSkill initialSkill;
     [SerializeField] HP_SpecialTecnique hp_st;
     [SerializeField] DEF_SpecialTecnique def_st;
     [SerializeField] ATK_SpecialTecnique atk_st;
@@ -33,16 +34,21 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] AGI_SpecialTecnique agi_st;
     [SerializeField] DEX_SpecialTecnique dex_st;
 
+    SpecialTecniqueManager stm;
+    [SerializeField] private Button[] skillButtons;
+
     private int elapsedTurn = 1;
     [SerializeField] private Text elapsedTurn_Text;
 
+    private bool isStart = false;
     private bool isInitialized = false;
     private bool isLose = false;
     private bool isWin = false;
 
     void Start()
     {
-
+        stm = FindObjectOfType<SpecialTecniqueManager>();
+        SkillRelease();
     }
 
     void Update()
@@ -67,6 +73,12 @@ public class MainGameSystem : MonoBehaviour
             }
         }
 
+        Invoke("GameStart", 1.0f);
+    }
+
+    void GameStart()
+    {
+        isStart = true;
         OrderAction();
     }
 
@@ -114,10 +126,10 @@ public class MainGameSystem : MonoBehaviour
             agi_st.TurnEnd();
             dex_st.TurnEnd();
 
-            for (int i = 0; i < enemies.Length; i++)
+            for (int i = 0; i < charactersList.Count; i++)
             {
-                if (enemies[i].gameObject.activeSelf && enemies[i].currentHp > 0)
-                    enemies[i].TurnEnd();
+                if (charactersList[i].currentHp > 0)
+                    charactersList[i].TurnEnd();
             }
 
             // ターン経過
@@ -163,5 +175,27 @@ public class MainGameSystem : MonoBehaviour
 
         if (isWin) windowController.Open();
         else if (isLose) SceneManager.LoadScene("HomeScene");
+    }
+
+    /// <summary>
+    /// 使用可能なスキルボタンを表示する
+    /// </summary>
+    void SkillRelease()
+    {
+        for (int j = 0; j < skillButtons.Length; j++)
+        {
+            skillButtons[j].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < stm.specialTecniques.Length; i++)
+        {
+            for (int j = 0; j < skillButtons.Length; j++)
+            {
+                if (stm.specialTecniques[i].name == skillButtons[j].name && stm.specialTecniques[i].m_released)
+                {
+                    skillButtons[j].gameObject.SetActive(true);
+                }
+            }
+        }
     }
 }

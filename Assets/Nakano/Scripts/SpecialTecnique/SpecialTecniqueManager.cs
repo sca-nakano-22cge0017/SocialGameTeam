@@ -21,7 +21,12 @@ public class SpecialTecniqueManager : MonoBehaviour
         for (int i = 0; i < specialTecniques.Length; i++)
         {
             specialTecniques[i].m_released = false;
+
+            if (specialTecniques[i].m_id == 0 || specialTecniques[i].m_id == -1)
+                specialTecniques[i].m_released = true;
         }
+
+        Load();
     }
 
     /// <summary>
@@ -81,6 +86,9 @@ public class SpecialTecniqueManager : MonoBehaviour
             {
                 specialTecniques[i].m_released = true;
             }
+
+            if (specialTecniques[i].m_id == 0 || specialTecniques[i].m_id == -1)
+                specialTecniques[i].m_released = true;
         }
     }
 

@@ -114,6 +114,7 @@ public class Enemy : Character
 
         // UŒ‚•û–@‚ğ’Š‘I
         Master.EnemyAttackPattern move = MoveLottery();
+        if (move == null) return;
 
         switch(move.attackId)
         {
@@ -131,6 +132,8 @@ public class Enemy : Character
                 break;
             case 5:
                 Buff();
+                break;
+            default:
                 break;
         }
     }
@@ -387,6 +390,7 @@ public class Enemy : Character
             }
         }
 
-        return null;
+        range.Clear();
+        return attackPattern[0];
     }
 }

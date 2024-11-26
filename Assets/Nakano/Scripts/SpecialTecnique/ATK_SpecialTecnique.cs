@@ -53,7 +53,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     {
         if (!isActive_C) return;
 
-        if (elapsedTurn_C >= rankC.m_continuationTurn)
+        if (elapsedTurn_C > rankC.m_continuationTurn)
         {
             for (int i = 0; i < enemies.Length; i++)
             {

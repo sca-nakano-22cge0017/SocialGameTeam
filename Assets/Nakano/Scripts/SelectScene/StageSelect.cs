@@ -50,6 +50,7 @@ public class StageSelect : MonoBehaviour
     private void FirstSelect()
     {
         selectingButton = firstSelectButton;
+        pressedButton = selectButtons[0];
 
         stageImage.sprite = selectButtons[0].sprite;
 

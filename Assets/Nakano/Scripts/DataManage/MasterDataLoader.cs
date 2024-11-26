@@ -224,6 +224,7 @@ public class MasterDataLoader : MonoBehaviour
                 attackPattern.Add(ap);
             }
         }
+
         return attackPattern;
     }
 
