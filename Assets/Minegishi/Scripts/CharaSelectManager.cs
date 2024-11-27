@@ -14,6 +14,9 @@ public class CharaSelectManager : MonoBehaviour
 
     [SerializeField] Text[] status = new Text[7];
     [SerializeField] Text[] rank = new Text[6];
+
+    [SerializeField] GameObject plusStatusWindow;
+    [SerializeField] Text plusStatusText;
     
     void Start()
     {
@@ -23,8 +26,7 @@ public class CharaSelectManager : MonoBehaviour
 
     void Update()
     {
-        //Debug.Log(PlayerDataManager.player.TotalPower);
-        //Debug.Log(GameManager.SelectChara);
+        Debug.Log(plusStatusText.text);
     }
 
     void SwordsManTrue()
@@ -44,8 +46,6 @@ public class CharaSelectManager : MonoBehaviour
     {
         SwordsManTrue();
         GameManager.SelectChara = 1;
-        //PlayerDataManager.Save();
-        //PlayerDataManager.Load();
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
         status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
@@ -65,8 +65,6 @@ public class CharaSelectManager : MonoBehaviour
     {
         WizardTrue();
         GameManager.SelectChara = 2;
-        //PlayerDataManager.Save();
-        //PlayerDataManager.Load();
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
         status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
@@ -80,6 +78,47 @@ public class CharaSelectManager : MonoBehaviour
         rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
         rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
         rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+    }
+
+    public void PlusStatusHP()
+    {
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.HP);
+        plusStatusWindow.SetActive(true);
+    }
+
+    public void PlusStatusDEF()
+    {
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEF);
+        plusStatusWindow.SetActive(true);
+    }
+
+    public void PlusStatusATK()
+    {
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.ATK);
+        plusStatusWindow.SetActive(true);
+    }
+
+    public void PlusStatusMP()
+    {
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.MP);
+        plusStatusWindow.SetActive(true);
+    }
+
+    public void PlusStatusAGI()
+    {
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.AGI);
+        plusStatusWindow.SetActive(true);
+    }
+
+    public void PlusStatusDEX()
+    {
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEX);
+        plusStatusWindow.SetActive(true);
+    }
+
+    public void ButtonUp()
+    {
+        plusStatusWindow.SetActive(false);
     }
 
     public static void savePlayerData(SaveData player)
