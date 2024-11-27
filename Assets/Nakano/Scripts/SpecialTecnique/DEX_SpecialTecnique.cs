@@ -52,7 +52,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         if (enemy == null || enemy.gameObject.activeSelf == false) return;
 
-        float damage = (float)rankC.m_value1 / 100.0f * player.ATK;
+        float damage = (float)rankC.m_value1 / 100.0f * player.ATK * player.power_Skill;
         float debuff = (float)rankC.m_value2 / 100.0f;
 
         Debug.Log("「ガードクラッシュ」発動 敵の防御力 " + (debuff * 100) + "%ダウン");

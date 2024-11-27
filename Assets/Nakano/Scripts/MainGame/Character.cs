@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 /// <summary>
 /// メインゲーム上で動くキャラクター　PlayerDataとEnemyに継承
@@ -14,6 +15,7 @@ public class Character : MonoBehaviour
 
     [SerializeField] protected MainGameGuage hpGuage;
     [SerializeField] protected Text damageText;
+    [SerializeField] protected Text buffText;
 
     [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 3.0f;
 
@@ -59,7 +61,7 @@ public class Character : MonoBehaviour
 
     public float power_CriticalInit;    // 基本会心時倍率
     public float buffCriticalPower;     // 会心時倍率バフ
-    protected float critical;    // 会心時倍率　計算用
+    public float critical;    // 会心時倍率　計算用
 
     /// <summary>
     /// 初期化
@@ -94,6 +96,7 @@ public class Character : MonoBehaviour
 
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
+        if (buffText) buffText.enabled = false;
 
         _criticalProbability = criticalProbabilityInitial;
     }
@@ -249,6 +252,13 @@ public class Character : MonoBehaviour
         }
 
         CalcPower();
+
+        if (_amount > 0)
+        {
+            string str = _type.ToString() + " " + (int)(_amount * 100) + " %UP";
+            Color orange = new Color(1.0f, 0.56f, 0.0f, 1.0f);
+            StartCoroutine(DispText(buffText, str, orange));
+        }
     }
 
     /// <summary>
@@ -296,6 +306,12 @@ public class Character : MonoBehaviour
         }
 
         CalcPower();
+
+        if (_amount > 0)
+        {
+            string str = _type.ToString() + " " + (int)(_amount * 100) + " %DOWN";
+            StartCoroutine(DispText(buffText, str, Color.blue));
+        }
     }
 
     /// <summary>
@@ -331,9 +347,9 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 会心抽選
     /// </summary>
-    protected void CriticalLottery()
+    public void CriticalLottery()
     {
-        int c = Random.Range(0, 100);
+        int c = UnityEngine.Random.Range(0, 100);
 
         if (c < _criticalProbability)
         {
@@ -351,7 +367,7 @@ public class Character : MonoBehaviour
     /// </summary>
     protected void CriticalLottery(float criticalProbability)
     {
-        int c = Random.Range(0, 100);
+        int c = UnityEngine.Random.Range(0, 100);
 
         if (c < criticalProbability)
         {
@@ -376,5 +392,26 @@ public class Character : MonoBehaviour
         yield return new WaitForSeconds(textDispTime);
 
         _text.enabled = false;
+    }
+
+    protected IEnumerator DispText(Text _text, string _str, Color _color)
+    {
+        _text.text = _str;
+        _text.enabled = true;
+        _text.color = _color;
+
+        yield return new WaitForSeconds(textDispTime);
+
+        _text.enabled = false;
+    }
+
+    protected IEnumerator HPGuageDirectionCompleteWait(Action _action)
+    {
+        yield return new WaitUntil(() => hpGuage.isDirectionCompleted);
+
+        // 実際には敗北演出が終了するまで待つ
+        yield return new WaitForSeconds(3.0f);
+
+        _action?.Invoke();
     }
 }

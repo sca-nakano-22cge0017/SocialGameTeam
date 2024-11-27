@@ -345,10 +345,13 @@ public class Enemy : Character
         // Todo モーション再生
 
         // イラスト・HPゲージを非表示にする
-        meshRenderer.enabled = false;
-        hpGuage_Obj.SetActive(false);
+        StartCoroutine(HPGuageDirectionCompleteWait(() =>
+        {
+            meshRenderer.enabled = false;
+            hpGuage_Obj.SetActive(false);
 
-        StartCoroutine(DropDirection());
+            StartCoroutine(DropDirection());
+        }));
     }
 
     /// <summary>

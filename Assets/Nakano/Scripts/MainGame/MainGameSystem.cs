@@ -182,6 +182,11 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     void SkillRelease()
     {
+        //　↑で宣言
+        //　SpecialTecniqueManager stm;　StartでFindObjectObType使って取得
+        //　[SerializeField] private Button[] skillButtons;
+
+        // 全て非表示にする
         for (int j = 0; j < skillButtons.Length; j++)
         {
             skillButtons[j].gameObject.SetActive(false);
@@ -191,7 +196,10 @@ public class MainGameSystem : MonoBehaviour
         {
             for (int j = 0; j < skillButtons.Length; j++)
             {
-                if (stm.specialTecniques[i].name == skillButtons[j].name && stm.specialTecniques[i].m_released)
+                // ScriptableObjectとゲームオブジェクト(ボタン)の名前が同じなら
+                // かつ解放済みなら
+                if (stm.specialTecniques[i].name == skillButtons[j].name && 
+                    stm.specialTecniques[i].m_released)
                 {
                     skillButtons[j].gameObject.SetActive(true);
                 }

@@ -139,7 +139,11 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         if(!rankSS.m_released) return;
 
         Debug.Log("「エクスプロージョン」発動");
-        float amount = (float)rankSS.m_value1 / 100.0f * (float)player.ATK;
+
+        // 会心抽選
+        player.CriticalLottery();
+
+        float amount = (float)rankSS.m_value1 / 100.0f * (float)player.ATK * player.power_Skill * player.critical;
         
         player.AttackMotion();
 

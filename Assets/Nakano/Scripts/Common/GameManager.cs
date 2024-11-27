@@ -165,6 +165,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;
+    [SerializeField] private int fps;
 
     private void Awake()
     {
@@ -186,6 +187,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Application.targetFrameRate = fps;
         staminaManager.Recovery();
 
         // Test—p
