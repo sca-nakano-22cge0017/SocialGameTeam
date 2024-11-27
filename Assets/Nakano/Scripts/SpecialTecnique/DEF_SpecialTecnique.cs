@@ -132,7 +132,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     }
 
     /// <summary>
-    /// nターンの間、被ダメージをV％カット n = rankSS.m_continuationTurn
+    /// nターンの間、被ダメージをV％カット
     /// 被ダメージに処理
     /// </summary>
     /// <param name="_damage">被ダメ量</param>

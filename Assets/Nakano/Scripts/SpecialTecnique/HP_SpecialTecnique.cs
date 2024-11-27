@@ -72,7 +72,6 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// 被ダメージ時処理
-    /// nターン　ダメージのV％を敵に返す n = rankB.m_continuationTurn
     /// ボタン押下から指定ターン経過するまで処理
     /// </summary>
     /// <param name="_damage">ダメージ量</param>

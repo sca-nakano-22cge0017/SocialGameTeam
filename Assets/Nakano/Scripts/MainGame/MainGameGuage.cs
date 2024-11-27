@@ -8,8 +8,8 @@ public class MainGameGuage : MonoBehaviour
     [SerializeField, Header("一瞬で減るゲージ")] private Image guage_first;
     [SerializeField, Header("徐々に減るゲージ")] private Image guage_second;
     [SerializeField] private Text text;
-    [SerializeField, Header("減少速度")] private float decreaseSpeed;
-    [SerializeField, Header("減少時間")] private float decreaseTime;
+    [SerializeField, Header("減少/増加速度")] private float in_decreaseSpeed;
+    [SerializeField, Header("減少/増加時間")] private float in_decreaseTime;
     private float t_speed;
     [SerializeField, Header("0:一定速度で減少させる 1:一定時間内に減少終了させる")]
     private bool choice;
@@ -18,7 +18,10 @@ public class MainGameGuage : MonoBehaviour
     private int current = 100; // 現在の数値
     private int max = 100;     // 最大値
 
-    private bool didChange = false; // 数値に変更があったか
+    private bool didDecrease = false; // 数値が減少したか
+    private bool didIncrease = false; // 数値が増加したか
+
+    public bool isDirectionCompleted = true; // 演出終了
 
     /// <summary>
     /// ゲージ初期化
@@ -30,7 +33,20 @@ public class MainGameGuage : MonoBehaviour
         diff = max;
         current = max;
 
-        text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
+        if (text != null) text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
+    }
+
+    /// <summary>
+    /// ゲージ初期化
+    /// </summary>
+    /// <param name="_maxAmount">最大値</param>
+    public void Initialize(int _maxAmount, int _current)
+    {
+        max = _maxAmount;
+        diff = _current;
+        current = _current;
+
+        if (text != null) text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
     }
 
     /// <summary>
@@ -39,12 +55,16 @@ public class MainGameGuage : MonoBehaviour
     /// <param name="_amount">増加量</param>
     public void Add(int _amount)
     {
+        isDirectionCompleted = false;
+
         current += _amount;
         if (current > max) current = max;
 
-        text.text = current.ToString() + "/" + max.ToString();
-        guage_first.fillAmount = (float)current / max;
-        guage_second.fillAmount = (float)current / max;
+        if (text != null) text.text = current.ToString() + "/" + max.ToString();
+        if (guage_first != null) guage_first.fillAmount = (float)current / max;
+        if (guage_second != null) guage_second.fillAmount = (float)current / max;
+
+        IncreaseFirstGuage();
     }
 
     /// <summary>
@@ -53,10 +73,12 @@ public class MainGameGuage : MonoBehaviour
     /// <param name="_amount">減少量</param>
     public void Sub(int _amount)
     {
+        isDirectionCompleted = false;
+
         current -= _amount;
         if (current < 0) current = 0;
 
-        ChangeFirstGuage();
+        DecreaseFirstGuage();
     }
 
     /// <summary>
@@ -65,40 +87,78 @@ public class MainGameGuage : MonoBehaviour
     /// <param name="_currentAmount">指定量</param>
     public void SetCurrent(int _currentAmount)
     {
+        isDirectionCompleted = false;
         current = _currentAmount;
 
-        ChangeFirstGuage();
+        DecreaseFirstGuage();
     }
 
     /// <summary>
     /// 一つ目のゲージを一瞬で減少させる
     /// </summary>
-    void ChangeFirstGuage()
+    void DecreaseFirstGuage()
     {
-        text.text = current.ToString() + "/" + max.ToString();
-        guage_first.fillAmount = (float)current / max;
+        if (text != null) text.text = current.ToString() + "/" + max.ToString();
+        if (guage_first != null) guage_first.fillAmount = (float)current / max;
 
-        didChange = true;
-        t_speed = (float)(diff - current) / decreaseTime;
+        didDecrease = true;
+        t_speed = (float)(diff - current) / in_decreaseTime;
+    }
+
+    /// <summary>
+    /// 一つ目のゲージを一瞬で増加させる
+    /// </summary>
+    void IncreaseFirstGuage()
+    {
+        if (text != null) text.text = current.ToString() + "/" + max.ToString();
+        if (guage_first != null) guage_first.fillAmount = (float)current / max;
+
+        didIncrease = true;
+        t_speed = (float)(current - diff) / in_decreaseTime;
     }
 
     void Update()
     {
-        if (didChange)
+        if (didDecrease)
         {
             if (diff >= current)
             {
                 if (!choice)
                 {
-                    diff -= decreaseSpeed * Time.deltaTime;
+                    diff -= in_decreaseSpeed * Time.deltaTime;
                 }
                 else
                 {
                     diff -= t_speed * Time.deltaTime;
                 }
             }
-            else diff = current;
-            guage_second.fillAmount = diff / max;
+            else
+            {
+                diff = current;
+                isDirectionCompleted = true;
+            }
+            if (guage_second != null) guage_second.fillAmount = diff / max;
+        }
+
+        if (didIncrease)
+        {
+            if (diff <= current)
+            {
+                if (!choice)
+                {
+                    diff += in_decreaseSpeed * Time.deltaTime;
+                }
+                else
+                {
+                    diff += t_speed * Time.deltaTime;
+                }
+            }
+            else
+            {
+                diff = current;
+                isDirectionCompleted = true;
+            }
+            if (guage_second != null) guage_second.fillAmount = diff / max;
         }
     }
 }

@@ -134,8 +134,6 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     void ReleaseSpecialTecnique()
     {
-        // 複数の特殊技能が同時に解放される場合を度外視しているので注意　仕様変更あれば修正
-
         StatusType type = (StatusType)(GameManager.SelectStage - 1);
         currentRank = PlayerDataManager.player.GetRank(type);
 
@@ -145,8 +143,9 @@ public class ResultManager : MonoBehaviour
         
         if (currentRank != lastRank)
         {
-            st = specialTecniqueManager.ReleaseSpecialTecniqueAndGetData(currentRank, type);
+            st = specialTecniqueManager.ReleaseSpecialTecniqueAndGetData((Rank)(lastRank + 1), type);
         }
+        else return;
 
         if (st == null) return;
         
@@ -164,6 +163,27 @@ public class ResultManager : MonoBehaviour
             name_st_Passive.text = "特殊技能 " + st.m_name + " 解放";
             explain_st_Passive.text = st.m_effects;
             window_st_Passive.SetActive(true);
+        }
+
+        Invoke("CanBack", 0.1f);
+    }
+
+    private bool canBack = false;
+
+    void CanBack()
+    {
+        canBack = true;
+    }
+
+    public void BackSpecialTecnique()
+    {
+        if (canBack)
+        {
+            window_st_Skill.SetActive(false);
+            window_st_Passive.SetActive(false);
+
+            lastRank++;
+            Invoke("ReleaseSpecialTecnique", 0.1f);
         }
     }
 

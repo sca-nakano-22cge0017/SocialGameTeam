@@ -13,8 +13,9 @@ public class PlayerData : Character
     // 特殊技能・スキルは別スクリプト
 
     [SerializeField] private MainGameGuage mpGuage;
+    [SerializeField] private MainGameGuage specialMoveGuage;
     [SerializeField] private Button[] commands;
-    
+
     // 攻撃倍率
     public float power_NormalAttack;  // 通常攻撃
     public float power_Skill;         // スキル
@@ -72,6 +73,8 @@ public class PlayerData : Character
         mpGuage.Initialize(MP);
 
         SetCommandsButton(false);
+
+        specialMoveGuage.Initialize(specialMoveGuageMax, 0);
     }
 
     public override void Move()
@@ -160,13 +163,25 @@ public class PlayerData : Character
     /// </summary>
     public void SpecialMove()
     {
+        if (specialMoveGuageAmount < specialMoveGuageMax) return;
+
         SetCommandsButton(false);
+        specialMoveGuage.SetCurrent(0);
 
         atk_st.RankS(); // 全身全霊
         specialMoveGuageAmount = 0;
 
+        // 会心抽選
+        CriticalLottery();
+
+        // ダメージ量 = 攻撃力 * 必殺技倍率 * 攻撃力倍率 * 会心倍率
+        float damage = ATK * power_SpecialMove * powerAtk * critical;
+
         AttackMotion();
-        // 必殺技発動
+
+        // ロックオンした敵にダメージ
+        var target = mainGameSystem.Target;
+        target.Damage(damage);
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)
@@ -271,7 +286,7 @@ public class PlayerData : Character
         if (specialMoveGuageAmount > specialMoveGuageMax)
             specialMoveGuageAmount = specialMoveGuageMax;
 
-        // Todo 上昇演出
+        specialMoveGuage.Add(_amount);
     }
 
     /// <summary>
@@ -279,8 +294,11 @@ public class PlayerData : Character
     /// </summary>
     public void UpSpecialMoveGuage()
     {
+        int amount = specialMoveGuageMax - specialMoveGuageAmount;
+
         specialMoveGuageAmount = specialMoveGuageMax;
-        // Todo 上昇演出
+
+        specialMoveGuage.Add(amount);
     }
 
     /// <summary>
@@ -290,7 +308,19 @@ public class PlayerData : Character
     {
         // Todo 敗北演出・モーション再生
 
-        meshRenderer.enabled = false;
+        StartCoroutine(DirectionCompleteWait(() =>
+        {
+            meshRenderer.enabled = false;
+        }));
+    }
+
+    IEnumerator DirectionCompleteWait(Action _action)
+    {
+        yield return new WaitUntil(() => hpGuage.isDirectionCompleted);
+
+        yield return new WaitForSeconds(0.5f);
+
+        _action?.Invoke();
     }
 
     public void AttackMotion()
@@ -329,6 +359,7 @@ public class PlayerData : Character
             for (int i = 0; i < commands.Length; i++)
             {
                 commands[i].interactable = true;
+                commands[i].image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
         }
         else
@@ -336,7 +367,14 @@ public class PlayerData : Character
             for (int i = 0; i < commands.Length; i++)
             {
                 commands[i].interactable = false;
+                commands[i].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
             }
+        }
+
+        if (specialMoveGuageAmount < specialMoveGuageMax)
+        {
+            commands[0].interactable = false;
+            commands[0].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
         }
     }
 }

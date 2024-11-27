@@ -27,7 +27,9 @@ public class InitialSkill : SpecialTecniqueMethod
 
         Debug.Log("「ファイア」発動");
 
-        float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f);
+        player.CriticalLottery();
+
+        float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f) * player.power_Skill * player.critical;
         
         player.AttackMotion();
         target.Damage(amount);
