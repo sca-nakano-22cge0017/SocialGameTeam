@@ -244,6 +244,9 @@ public class PlayerData : Character
         base.HealHP(_amount);
 
         // Todo ‰ñ•œ‰‰o
+
+        // ‰ñ•œ—Ê•\¦
+        StartCoroutine(DispText(healText, _amount.ToString()));
     }
 
     /// <summary>

@@ -16,9 +16,10 @@ public class Character : MonoBehaviour
     [SerializeField] protected MainGameGuage hpGuage;
     [SerializeField] protected Text criticalText;
     [SerializeField] protected Text damageText;
+    [SerializeField] protected Text healText;
     [SerializeField] protected Text buffText;
 
-    [SerializeField, Header("テキスト表示時間")] protected float textDispTime = 3.0f;
+    [SerializeField, Header("テキスト表示時間")] protected float textDispTime;
 
     // ステータス
     [HideInInspector] public int ATK; // 攻撃
@@ -97,6 +98,7 @@ public class Character : MonoBehaviour
 
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
+        if (healText) healText.enabled = false;
         if (buffText) buffText.enabled = false;
         if (criticalText) criticalText.enabled = false;
 

@@ -398,4 +398,9 @@ public class Enemy : Character
         range.Clear();
         return attackPattern[0];
     }
+
+    public void TargetChange()
+    {
+        mainGameSystem.TargetChange(this);
+    }
 }

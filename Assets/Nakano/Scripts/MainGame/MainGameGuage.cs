@@ -136,7 +136,9 @@ public class MainGameGuage : MonoBehaviour
             {
                 diff = current;
                 isDirectionCompleted = true;
+                didDecrease = false;
             }
+
             if (guage_second != null) guage_second.fillAmount = diff / max;
         }
 
@@ -157,7 +159,10 @@ public class MainGameGuage : MonoBehaviour
             {
                 diff = current;
                 isDirectionCompleted = true;
+
+                didIncrease = false;
             }
+
             if (guage_second != null) guage_second.fillAmount = diff / max;
         }
     }

@@ -17,14 +17,12 @@ public class MainGameSystem : MonoBehaviour
 
     private Enemy target = new();
     public Enemy Target { get => target; private set => target = value; }
+    [SerializeField] private Image targetImage;
 
     [SerializeField] private Character[] characters;
     private List<Character> charactersList = new();
 
     private int actionNum = 0;
-
-    private delegate void Action();
-    private Action action;
 
     [SerializeField] InitialSkill initialSkill;
     [SerializeField] HP_SpecialTecnique hp_st;
@@ -90,12 +88,16 @@ public class MainGameSystem : MonoBehaviour
         // 速度値で降順ソート
         charactersList.Sort((x, y) => y.AGI - x.AGI);
 
-        for (int i = 0; i < enemies.Length; i++)
+        // ターゲットが死亡していたらターゲットを変更する
+        if (target.currentHp <= 0)
         {
-            if (enemies[i].currentHp > 0)
+            for (int i = 0; i < enemies.Length; i++)
             {
-                target = enemies[i];
-                break;
+                if (enemies[i].currentHp > 0)
+                {
+                    TargetChange(enemies[i]);
+                    break;
+                }
             }
         }
 
@@ -205,5 +207,19 @@ public class MainGameSystem : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// ターゲット変更
+    /// </summary>
+    /// <param name="_enemy"></param>
+    public void TargetChange(Enemy _enemy)
+    {
+        target = _enemy;
+        
+        // ターゲットマークを移動
+        targetImage.gameObject.transform.SetParent(target.gameObject.transform);
+        targetImage.gameObject.transform.localPosition = new Vector3(-173, 245, 0);
+        targetImage.gameObject.transform.SetAsLastSibling();
     }
 }
