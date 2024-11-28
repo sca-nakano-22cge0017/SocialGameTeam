@@ -114,7 +114,8 @@ public class PlayerData : Character
 
     public override void TurnEnd()
     {
-        
+        // ターン経過によるゲージ上昇
+        UpSpecialMoveGuage(sm_Turn.guageUpAmount);
     }
 
     public override void NormalAttack()

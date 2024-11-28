@@ -9,6 +9,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     int elapsedTurn_C = 0;
     bool isActive_C = false;
 
+    bool isActive_S = false;
+
     int effectAmount_A = 0; // 現在の効果量
 
     public override void GameStart()
@@ -22,6 +24,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_C++;
 
         Cancel_RankC();
+        Cancel_RankS();
     }
 
     /// <summary>
@@ -129,6 +132,16 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
 
         player.BuffMotion();
+        isActive_S = true;
+    }
+
+    void Cancel_RankS()
+    {
+        if (!isActive_S) return;
+
+        float amount = (float)rankS.m_value1 / 100.0f;
+        player.AddBuff(StatusType.ATK, -amount);
+        isActive_S = false;
     }
 
     /// <summary>
