@@ -109,7 +109,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -70}
   m_SizeDelta: {x: 700, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1632086552994357409
@@ -736,6 +736,7 @@ MonoBehaviour:
   hpGuage: {fileID: 7186745082041268131}
   criticalText: {fileID: 6790280715905832684}
   damageText: {fileID: 6551850381852823495}
+  healText: {fileID: 0}
   buffText: {fileID: 1116076693497573643}
   textDispTime: 1
   ATK: 0
