@@ -33,6 +33,9 @@ public class MainGameGuage : MonoBehaviour
         diff = max;
         current = max;
 
+        didDecrease = false;
+        didIncrease = false;
+
         if (text != null) text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
     }
 
@@ -45,6 +48,9 @@ public class MainGameGuage : MonoBehaviour
         max = _maxAmount;
         diff = _current;
         current = _current;
+
+        didDecrease = false;
+        didIncrease = false;
 
         if (text != null) text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
     }
