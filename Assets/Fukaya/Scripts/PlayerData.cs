@@ -119,7 +119,7 @@ public class PlayerData : Character
         SetCommandsButton(false);
 
         // 会心抽選
-        CriticalLottery();
+        var cri = CriticalLottery();
 
         // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
         float damage = ATK * power_NormalAttack * powerAtk * critical;
@@ -129,6 +129,7 @@ public class PlayerData : Character
         // ロックオンした敵にダメージ
         var target = mainGameSystem.Target;
         target.Damage(damage);
+        if (cri) target.CriticalDamage();
 
         // 通常攻撃時に処理される特殊技能
         atk_st.RankA(target);        // ガードブレイカー
@@ -172,7 +173,7 @@ public class PlayerData : Character
         specialMoveGuageAmount = 0;
 
         // 会心抽選
-        CriticalLottery();
+        var cri = CriticalLottery();
 
         // ダメージ量 = 攻撃力 * 必殺技倍率 * 攻撃力倍率 * 会心倍率
         float damage = ATK * power_SpecialMove * powerAtk * critical;
@@ -182,6 +183,7 @@ public class PlayerData : Character
         // ロックオンした敵にダメージ
         var target = mainGameSystem.Target;
         target.Damage(damage);
+        if (cri) target.CriticalDamage();
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)

@@ -14,6 +14,7 @@ public class Character : MonoBehaviour
     public MeshRenderer meshRenderer;
 
     [SerializeField] protected MainGameGuage hpGuage;
+    [SerializeField] protected Text criticalText;
     [SerializeField] protected Text damageText;
     [SerializeField] protected Text buffText;
 
@@ -97,6 +98,7 @@ public class Character : MonoBehaviour
         hpGuage.Initialize(HP);
         if (damageText) damageText.enabled = false;
         if (buffText) buffText.enabled = false;
+        if (criticalText) criticalText.enabled = false;
 
         _criticalProbability = criticalProbabilityInitial;
     }
@@ -347,7 +349,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 会心抽選
     /// </summary>
-    public void CriticalLottery()
+    public bool CriticalLottery()
     {
         int c = UnityEngine.Random.Range(0, 100);
 
@@ -355,17 +357,19 @@ public class Character : MonoBehaviour
         {
             critical = power_CriticalInit + buffCriticalPower;
             Debug.Log("会心発動");
+            return true;
         }
         else
         {
             critical = 1.0f;
+            return false;
         }
     }
 
     /// <summary>
     /// 会心抽選
     /// </summary>
-    protected void CriticalLottery(float criticalProbability)
+    protected bool CriticalLottery(float criticalProbability)
     {
         int c = UnityEngine.Random.Range(0, 100);
 
@@ -373,11 +377,21 @@ public class Character : MonoBehaviour
         {
             critical = power_CriticalInit + buffCriticalPower;
             Debug.Log("会心発動");
+            return true;
         }
         else
         {
             critical = 1.0f;
+            return false;
         }
+    }
+
+    /// <summary>
+    /// 「Critical!」を表示する
+    /// </summary>
+    public void CriticalDamage()
+    {
+        StartCoroutine(DispText(criticalText, "Critical!"));
     }
 
     /// <summary>
