@@ -165,10 +165,11 @@ public class Enemy : Character
 
     public override void NormalAttack()
     {
-        CriticalLottery(critical_NormalAttack);
+        var cri = CriticalLottery(critical_NormalAttack);
 
         float damage = ATK * powerAtk * critical;
         player.Damage(damage, this);
+        if (cri) player.CriticalDamage();
 
         Debug.Log("ìG " + POSITION + " í èÌçUåÇ" + damage);;
 
@@ -279,10 +280,11 @@ public class Enemy : Character
 
     IEnumerator DoubleAttack_Coroutine()
     {
-        CriticalLottery(critical_DoubleAttack);
+        var cri = CriticalLottery(critical_DoubleAttack);
 
         float damage = ATK * powerAtk * (value_DoubleAttack / 100.0f) * critical;
         player.Damage(damage);
+        if (cri) player.CriticalDamage();
 
         yield return new WaitForSeconds(0.5f);
 

@@ -141,7 +141,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         Debug.Log("「エクスプロージョン」発動");
 
         // 会心抽選
-        player.CriticalLottery();
+        var cri = player.CriticalLottery();
 
         float amount = (float)rankSS.m_value1 / 100.0f * (float)player.ATK * player.power_Skill * player.critical;
         
@@ -151,7 +151,9 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         {
             if (enemies[i] == null || enemies[i].activeSelf == false) continue;
 
-            enemies[i].GetComponent<Enemy>().Damage(amount);
+            var ene = enemies[i].GetComponent<Enemy>();
+            ene.Damage(amount);
+            if (cri) ene.CriticalDamage();
         }
     }
 }
