@@ -25,6 +25,7 @@ public class WindowController : MonoBehaviour
 
     public void ToHome()
     {
-        SceneManager.LoadScene("HomeScene");
+        //SceneManager.LoadScene("HomeScene");
+        SceneLoader.LoadScene("HomeScene");
     }
 }

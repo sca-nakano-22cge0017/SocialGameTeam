@@ -534,6 +534,7 @@ public class MasterDataLoader : MonoBehaviour
         const int value1Column = 6;
         const int value2Column = 7;
         const int effectsColumn = 8;
+        const int costColumn = 1;
 
         List<string[]> datas = textDatas[specialTecniqueKey];
 
@@ -549,6 +550,7 @@ public class MasterDataLoader : MonoBehaviour
             d.value1 = int.Parse(datas[l][value1Column]);
             d.value2 = int.Parse(datas[l][value2Column]);
             d.effects = datas[l][effectsColumn];
+            d.cost = int.Parse(datas[l][costColumn]);
 
             MasterData.SpecialTecniques.Add(d);
         }
@@ -834,5 +836,8 @@ namespace Master
 
         // 効果内容（プレイヤー向け）
         public string effects;
+
+        // 消費MP
+        public int cost;
     }
 }

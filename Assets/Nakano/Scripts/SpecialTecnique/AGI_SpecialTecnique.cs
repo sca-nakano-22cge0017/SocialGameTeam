@@ -32,6 +32,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankC.m_released) return;
 
+        if (!player.CostMP(rankC.m_cost)) return;
+
         elapsedTurn_C.Add(1);
         isActive_C = true;
 
@@ -82,6 +84,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     {
         // 未解放なら処理しない
         if(!rankB.m_released) return;
+
+        if (!player.CostMP(rankB.m_cost)) return;
 
         // ロックオンした敵にデバフ
         Enemy enemy = mainGameSystem.Target;
@@ -182,6 +186,8 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     {
         // 未解放なら処理しない
         if(!rankSS.m_released) return;
+
+        if (!player.CostMP(rankSS.m_cost)) return;
 
         player.UpSpecialMoveGuage();
 

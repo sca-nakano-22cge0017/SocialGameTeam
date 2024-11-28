@@ -40,6 +40,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankC.m_released) return;
 
+        if (!player.CostMP(rankC.m_cost)) return;
+
         // ロックオンした敵に攻撃・デバフ
         Enemy enemy = mainGameSystem.Target;
 
@@ -129,6 +131,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankS.m_released) return;
 
+        if (!player.CostMP(rankS.m_cost)) return;
+
         elapsedTurn_S = 1;
         isActive_S = true;
 
@@ -166,6 +170,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     {
         // 未解放なら処理しない
         if(!rankSS.m_released) return;
+
+        if (!player.CostMP(rankSS.m_cost)) return;
 
         elapsedTurn_SS = 1;
         isActive_SS = true;

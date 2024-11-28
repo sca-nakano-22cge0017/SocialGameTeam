@@ -42,6 +42,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
         if(!rankC.m_released) return;
 
+        if (!player.CostMP(rankC.m_cost)) return;
+
         // ‰ñ•œ—ÊŒvZ
         float amount = player.HP * (rankC.m_value1 / 100.0f);
         player.HealHP((int)amount);
@@ -61,6 +63,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
         if (!rankB.m_released) return;
+
+        if (!player.CostMP(rankB.m_cost)) return;
 
         elapsedTurn_B = 1;
         isActive_B = true; // ƒXƒLƒ‹”­“®

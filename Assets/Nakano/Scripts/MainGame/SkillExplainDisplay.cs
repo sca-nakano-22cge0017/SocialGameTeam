@@ -12,11 +12,19 @@ public class SkillExplainDisplay : MonoBehaviour
 {
     private float longTapTime = 0.5f;
 
-    [SerializeField] UnityEvent[] skill;
+    [SerializeField] InitialSkill initialSkill;
+    [SerializeField] HP_SpecialTecnique hp_st;
+    [SerializeField] DEF_SpecialTecnique def_st;
+    [SerializeField] ATK_SpecialTecnique atk_st;
+    [SerializeField] MP_SpecialTecnique mp_st;
+    [SerializeField] AGI_SpecialTecnique agi_st;
+    [SerializeField] DEX_SpecialTecnique dex_st;
+
     [SerializeField] private WindowController wc;
     [SerializeField] private GameObject skillDetailWindow;
     [SerializeField] private Image skillIcon;
     [SerializeField] private Text skillName;
+    [SerializeField] private Text skillCost;
     [SerializeField] private Text skillExplain;
 
     private bool isTapping = false;
@@ -47,6 +55,7 @@ public class SkillExplainDisplay : MonoBehaviour
         {
             skillIcon.sprite = st.m_illust;
             skillName.text = st.m_name;
+            skillCost.text = $"è¡îÔMP : {st.m_cost}";
             skillExplain.text = st.m_effects;
 
             skillDetailWindow.SetActive(true);
@@ -94,52 +103,52 @@ public class SkillExplainDisplay : MonoBehaviour
         switch (_skillId)
         {
             case -1:
-                skill[0].Invoke();
+                initialSkill.Heal();
                 break;
             case 0:
-                skill[1].Invoke();
+                initialSkill.Fire();
                 break;
             case 1:
-                skill[2].Invoke();
+                hp_st.RankC();
                 break;
             case 2:
-                skill[3].Invoke();
+                hp_st.RankB();
                 break;
             case 8:
-                skill[4].Invoke();
+                def_st.RankA();
                 break;
             case 10:
-                skill[5].Invoke();
+                def_st.RankSS();
                 break;
             case 11:
-                skill[6].Invoke();
+                atk_st.RankC();
                 break;
             case 15:
-                skill[7].Invoke();
+                atk_st.RankSS();
                 break;
             case 16:
-                skill[8].Invoke();
+                mp_st.RankC();
                 break;
             case 20:
-                skill[9].Invoke();
+                mp_st.RankSS();
                 break;
             case 21:
-                skill[10].Invoke();
+                agi_st.RankC();
                 break;
             case 22:
-                skill[11].Invoke();
+                agi_st.RankB();
                 break;
             case 25:
-                skill[12].Invoke();
+                agi_st.RankSS();
                 break;
             case 26:
-                skill[13].Invoke();
+                dex_st.RankC();
                 break;
             case 29:
-                skill[14].Invoke();
+                dex_st.RankS();
                 break;
             case 30:
-                skill[15].Invoke();
+                dex_st.RankSS();
                 break;
         }
     }

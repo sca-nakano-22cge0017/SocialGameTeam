@@ -33,6 +33,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankC.m_released) return;
 
+        if (!player.CostMP(rankC.m_cost)) return;
+
         elapsedTurn_C = 1;
         isActive_C = true;
 
@@ -137,6 +139,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     {
         // 未解放なら処理しない
         if(!rankSS.m_released) return;
+
+        if (!player.CostMP(rankSS.m_cost)) return;
 
         Debug.Log("「エクスプロージョン」発動");
 

@@ -56,7 +56,12 @@ public class SpecialTecnique : ScriptableObject
     /// </summary>
     [HideInInspector] public string m_effects;
 
-    public void Setting(string _name, bool _isSkill, int _type, int _continuationTurn, int _value1, int _value2, string _effects)
+    /// <summary>
+    /// è¡îÔMP
+    /// </summary>
+    [HideInInspector] public int m_cost;
+
+    public void Setting(string _name, bool _isSkill, int _type, int _continuationTurn, int _value1, int _value2, string _effects, int _cost)
     {
         m_name = _name;
         m_isSkill = _isSkill;
@@ -65,6 +70,7 @@ public class SpecialTecnique : ScriptableObject
         m_value1 = _value1;
         m_value2 = _value2;
         m_effects = _effects;
+        m_cost = _cost;
 
         if (_effects.Contains("V"))
         {

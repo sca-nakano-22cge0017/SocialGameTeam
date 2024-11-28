@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
-    public static void Load(string scene)
+    public static void LoadScene(string scene)
     {
         LoadManager loadManager;
 

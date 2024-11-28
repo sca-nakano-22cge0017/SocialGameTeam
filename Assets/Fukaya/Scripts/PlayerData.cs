@@ -23,7 +23,7 @@ public class PlayerData : Character
 
     // ƒK[ƒh
     private bool isGuard;
-    public float power_Guard = 1.2f; // ƒK[ƒh–hŒä”{—¦
+    public float power_Guard = 0.2f; // ƒK[ƒh–hŒä”{—¦
 
     // •KE‹ZƒQ[ƒW
     public int specialMoveGuageAmount;
@@ -79,6 +79,13 @@ public class PlayerData : Character
 
     public override void Move()
     {
+        // ƒK[ƒh‚µ‚Ä‚ê‚ÎƒK[ƒh‰ğœ
+        if (isGuard)
+        {
+            AddBuff(StatusType.DEF, -power_Guard);
+            isGuard = false;
+        }
+
         if (currentHp <= 0)
         {
             MoveEnd();
@@ -107,11 +114,7 @@ public class PlayerData : Character
 
     public override void TurnEnd()
     {
-        if (isGuard)
-        {
-            powerDef -= power_Guard;
-            isGuard = false;
-        }
+        
     }
 
     public override void NormalAttack()
@@ -148,7 +151,7 @@ public class PlayerData : Character
         SetCommandsButton(false);
 
         // –hŒä—Í”{—¦ã¸
-        powerDef += power_Guard;
+        AddBuff(StatusType.DEF, power_Guard);
 
         isGuard = true;
 
@@ -194,7 +197,8 @@ public class PlayerData : Character
             return 0;     // ƒXƒeƒbƒv
         }
 
-        if (isGuard) Debug.Log("–hŒä’†");
+        //if (!isGuard) Debug.Log($"”ñ–hŒä {DEF} * {powerDef} = {DEF * powerDef}");
+        //if (isGuard) Debug.Log($"–hŒä’† {DEF} * {powerDef} = {DEF * powerDef}");
 
         // ”íƒ_ƒ - –hŒä—Í ‚ğÀÛ‚Ì”íƒ_ƒ[ƒW‚É‚·‚é
         int damage = (int)Mathf.Ceil(_damageAmount - (DEF * powerDef));
