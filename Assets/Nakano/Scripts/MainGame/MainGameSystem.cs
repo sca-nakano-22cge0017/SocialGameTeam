@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class MainGameSystem : MonoBehaviour
 {
+    private LoadManager loadManager;
     [SerializeField] private StageManager stageManager;
     [SerializeField] private WindowController windowController;
     
@@ -46,11 +47,14 @@ public class MainGameSystem : MonoBehaviour
     void Start()
     {
         stm = FindObjectOfType<SpecialTecniqueManager>();
+        loadManager = FindObjectOfType<LoadManager>();
         SkillRelease();
     }
 
     void Update()
     {
+        if (loadManager && !loadManager.DidFadeComplete) return;
+
         if (!isInitialized && stageManager.isSetCompleted)
         {
             Initialize();
@@ -176,7 +180,7 @@ public class MainGameSystem : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
 
         if (isWin) windowController.Open();
-        else if (isLose) SceneManager.LoadScene("HomeScene");
+        else if (isLose) SceneLoader.LoadScene("HomeScene");
     }
 
     /// <summary>

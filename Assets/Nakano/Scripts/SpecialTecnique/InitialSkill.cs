@@ -12,6 +12,8 @@ public class InitialSkill : SpecialTecniqueMethod
 
     public void Heal()
     {
+        if (!player.CostMP(heal.m_cost)) return;
+
         float amount = (float)player.HP * ((float)heal.m_value1 / 100.0f);
         player.HealHP((int)amount);
 
@@ -22,6 +24,8 @@ public class InitialSkill : SpecialTecniqueMethod
 
     public void Fire()
     {
+        if (!player.CostMP(fire.m_cost)) return;
+
         Enemy target = mainGameSystem.Target;
         if (target == null || target.currentHp <= 0) return;
 

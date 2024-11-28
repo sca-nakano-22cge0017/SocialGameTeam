@@ -42,6 +42,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
         if(!rankC.m_released) return;
 
+        if (!player.CostMP(rankC.m_cost)) return;
+
         elapsedTurn_C.Add(1);
         isActive_C = true;
 
@@ -189,6 +191,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
         if(!rankSS.m_released) return;
+
+        if (!player.CostMP(rankSS.m_cost)) return;
 
         elapsedTurn_SS = 1;
         isActive_SS = true;

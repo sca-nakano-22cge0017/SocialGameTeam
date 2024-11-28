@@ -53,6 +53,8 @@ public class SoundController : MonoBehaviour
 
     private void Start()
     {
+        PlayMainTheme();
+
         //BGM
         //audioMixer.GetFloat("BGM", out float bgmVolume);
         //BGMSlider.value = bgmVolume;
@@ -77,14 +79,29 @@ public class SoundController : MonoBehaviour
         mainTheme.Play();
     }
 
+    public void StopMainTheme()
+    {
+        mainTheme.Stop();
+    }
+
     public void PlayBattleTheme()
     {
         battle.Play();
     }
 
+    public void StopBattleTheme()
+    {
+        battle.Stop();
+    }
+
     public void PlayBossTheme()
     {
         boss.Play();
+    }
+
+    public void StopBossTheme()
+    {
+        boss.Stop();
     }
 
     public void PlayClearJingle()

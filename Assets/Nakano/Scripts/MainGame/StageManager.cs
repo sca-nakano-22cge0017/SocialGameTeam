@@ -186,6 +186,8 @@ public class StageManager : MonoBehaviour
                 enemies[e].DEX = data[d].enemyStatus.dex;
                 enemies[e].AGI = data[d].enemyStatus.spd;
 
+                enemies[e].power_CriticalInit = 1.2f;
+
                 // アタックパターン取得
                 for (int i = 0; i < data[d].enemyStatus.attackPattern.Count; i++)
                 {

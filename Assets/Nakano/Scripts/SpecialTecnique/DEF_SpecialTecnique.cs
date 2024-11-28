@@ -59,7 +59,9 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public  void RankA()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankA.m_released) return;
+        if(!rankA.m_released) return;
+
+        if(!player.CostMP(rankA.m_cost)) return;
 
         elapsedTurn_A = 1;
         isActive_A = true;
@@ -122,6 +124,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
         if(!rankSS.m_released) return;
+
+        if (!player.CostMP(rankSS.m_cost)) return;
 
         elapsedTurn_SS.Add(1);
         isActive_SS = true;
