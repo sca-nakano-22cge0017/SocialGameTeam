@@ -70,6 +70,16 @@ public class SpecialTecniqueManager : MonoBehaviour
                 }
             }
         }
+
+        if (GameManager.SelectChara == 1)
+        {
+            // ファイアは剣士は使えない
+            specialTecniques[31].m_released = false;
+        }
+        if (GameManager.SelectChara == 2)
+        {
+            specialTecniques[31].m_released = true;
+        }
     }
 
     /// <summary>
