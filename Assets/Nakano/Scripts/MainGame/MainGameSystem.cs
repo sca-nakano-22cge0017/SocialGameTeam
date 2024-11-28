@@ -179,8 +179,18 @@ public class MainGameSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(1.0f);
 
-        if (isWin) windowController.Open();
-        else if (isLose) SceneLoader.LoadScene("HomeScene");
+        if (isWin)
+        {
+            player.WinMotion();
+
+            yield return new WaitForSeconds(3.0f);
+
+            windowController.Open();
+        }
+        else if (isLose)
+        {
+            SceneLoader.LoadScene("HomeScene");
+        }
     }
 
     /// <summary>
@@ -188,7 +198,6 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     void SkillRelease()
     {
-        //　↑で宣言
         //　SpecialTecniqueManager stm;　StartでFindObjectObType使って取得
         //　[SerializeField] private Button[] skillButtons;
 
