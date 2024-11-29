@@ -764,17 +764,35 @@ namespace Master
             }
         }
 
+        public CharacterRankPoint(CharacterRankPoint _init)
+        {
+            for (int r = 0; r < Enum.GetValues(typeof(Rank)).Length; r++)
+            {
+                Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
+
+                rankPt_NextUp[rank] = _init.rankPt_NextUp[rank];
+                releaseSTId[rank] = _init.releaseSTId[rank];
+
+                atkRankPt_NextUp[rank] = _init.atkRankPt_NextUp[rank];
+                defRankPt_NextUp[rank] = _init.defRankPt_NextUp[rank];
+                tecRankPt_NextUp[rank] = _init.tecRankPt_NextUp[rank];
+            }
+        }
+
         public int GetCombiRankNextPt(CombiType _type, Rank _rank)
         {
             switch (_type)
             {
                 case CombiType.ATK:
+                    if (_rank >= Rank.SS) return atkRankPt_NextUp[Rank.SS];
                     return atkRankPt_NextUp[_rank];
 
                 case CombiType.DEF:
+                    if (_rank >= Rank.SS) return defRankPt_NextUp[Rank.SS];
                     return defRankPt_NextUp[_rank];
 
                 case CombiType.TEC:
+                    if (_rank >= Rank.SS) return tecRankPt_NextUp[Rank.SS];
                     return tecRankPt_NextUp[_rank];
 
                 default:

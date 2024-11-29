@@ -83,15 +83,23 @@ public class ResultManager : MonoBehaviour
             for (int j = 0; j < resultGuages.Length; j++)
             {
                 int amount = dropController.DropedItems[i].dropAmount;
-                //amount *= 200;
                 StatusType type = dropController.DropedItems[i].itemType;
 
                 if (type == resultGuages[j].Type && amount > 0)
                 {
+                    var cType = PlayerDataManager.NormalStatusToCombiStatus(type);
+
+                    // 最大までポイントがたまっていたら0Pt表記
+                    if (PlayerDataManager.player.GetRankPt(type) >= PlayerDataManager.player.GetRankPtMax(type) || 
+                        PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
+                    {
+                        amount = 0;
+                    }
+
                     resultGuages[j].SetPointText(amount);
 
                     PlayerDataManager.RankPtUp(type, amount);
-                    
+
                     resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
                 }
             }

@@ -511,7 +511,7 @@ PrefabInstance:
     - target: {fileID: 1580181687976394623, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 1580181687976394623, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -575,7 +575,7 @@ PrefabInstance:
     - target: {fileID: 1980767519300707214, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 1980767519300707214, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -971,7 +971,7 @@ PrefabInstance:
     - target: {fileID: 6410713347637715933, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 6410713347637715933, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -1027,7 +1027,7 @@ PrefabInstance:
     - target: {fileID: 7626191531467069971, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 7626191531467069971, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -1039,7 +1039,7 @@ PrefabInstance:
     - target: {fileID: 7783639696701952866, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 7783639696701952866, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -1071,7 +1071,7 @@ PrefabInstance:
     - target: {fileID: 8428428438153943046, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 8428428438153943046, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -1087,7 +1087,7 @@ PrefabInstance:
     - target: {fileID: 8501128126989100463, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: battleSystem
       value: 
-      objectReference: {fileID: 1723303176}
+      objectReference: {fileID: 0}
     - target: {fileID: 8501128126989100463, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: mainGameSystem
       value: 
@@ -1837,6 +1837,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6497761143436027301, guid: 6d085eeaf2d140f49a6dd4df1c491b54, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 8a3be339340817641a73d3100fc573f1, type: 2}
+    - target: {fileID: 6497761143436027301, guid: 6d085eeaf2d140f49a6dd4df1c491b54, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6497761143436027301, guid: 6d085eeaf2d140f49a6dd4df1c491b54, type: 3}
+      propertyPath: m_FontData.m_LineSpacing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6681420612536626589, guid: 6d085eeaf2d140f49a6dd4df1c491b54, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -1883,17 +1895,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 24b2dc596f551cb48a8a40f676223a38, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &617070208 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2369668610070591956, guid: 6d085eeaf2d140f49a6dd4df1c491b54, type: 3}
-  m_PrefabInstance: {fileID: 617070206}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b07815c56b57604f8b8dc92379bf2a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &657445577 stripped
@@ -2792,7 +2793,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723303173}
-  - component: {fileID: 1723303176}
   - component: {fileID: 1723303177}
   - component: {fileID: 1723303178}
   m_Layer: 0
@@ -2817,27 +2817,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 192289437}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1723303176
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1723303172}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18876c989377f944a5bc98d0d65273c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 46341599}
-  enemy: {fileID: 268543089}
-  playerMaxHP: 100
-  enemyMaxHP: 100
-  battleText: {fileID: 772912029}
-  attackButton: {fileID: 448843470}
-  defenceButton: {fileID: 0}
-  windowController: {fileID: 617070207}
-  dropController: {fileID: 617070208}
 --- !u!114 &1723303177
 MonoBehaviour:
   m_ObjectHideFlags: 0

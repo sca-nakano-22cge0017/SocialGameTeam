@@ -14,6 +14,9 @@ public class MainGameGuage : MonoBehaviour
     [SerializeField, Header("0:一定速度で減少させる 1:一定時間内に減少終了させる")]
     private bool choice;
 
+    [SerializeField] private GameObject headImage;
+    [SerializeField] private Vector2 specialIconCenter;
+
     private float diff = 100;
     private int current = 100; // 現在の数値
     private int max = 100;     // 最大値
@@ -146,6 +149,7 @@ public class MainGameGuage : MonoBehaviour
             }
 
             if (guage_second != null) guage_second.fillAmount = diff / max;
+            HeadImageMove();
         }
 
         if (didIncrease)
@@ -170,6 +174,21 @@ public class MainGameGuage : MonoBehaviour
             }
 
             if (guage_second != null) guage_second.fillAmount = diff / max;
+            HeadImageMove();
         }
+    }
+
+    void HeadImageMove()
+    {
+        if (headImage == null) return;
+
+        float angle = 360.0f * guage_second.fillAmount - 180.0f;
+        
+        var pos = headImage.transform.localPosition;
+
+        pos.x = -Mathf.Cos(-angle * Mathf.Deg2Rad) * 90;
+        pos.y = -Mathf.Sin(-angle * Mathf.Deg2Rad) * 90;
+
+        headImage.transform.localPosition = pos;
     }
 }

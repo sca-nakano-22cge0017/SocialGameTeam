@@ -311,10 +311,6 @@ public class PlayerDataManager : MonoBehaviour
 
         // ランクに応じてランクポイント最大値更新
         Rank rank = player.GetRank(_type);
-        Status nextPt = rankPtData.rankPt_NextUp[rank];
-
-        player.SetRankPtLastUp(_type, lastPt.GetStatus(_type));
-        player.SetRankPtNextUp(_type, nextPt.GetStatus(_type));
 
         // ステータス最小/最大値更新
         int statusMin = player.StatusData.statusInit[rank].GetStatus(_type);
@@ -326,7 +322,7 @@ public class PlayerDataManager : MonoBehaviour
 
     static void CombiRankUp(CombiType _type)
     {
-        if (player.GetCombiRank(_type) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1)) return;
+        if (player.GetCombiRank(_type) == Rank.SS) return;
 
         // ランク上昇
         int rankNum = (int)player.GetCombiRank(_type);
@@ -504,7 +500,7 @@ public class PlayerDataManager : MonoBehaviour
     /// </summary>
     /// <param name="_type">調べるステータスの種類</param>
     /// <returns>引数のステータスを利用する複合ステータスの種類</returns>
-    static CombiType NormalStatusToCombiStatus(StatusType _type)
+    public static CombiType NormalStatusToCombiStatus(StatusType _type)
     {
         switch (_type)
         {

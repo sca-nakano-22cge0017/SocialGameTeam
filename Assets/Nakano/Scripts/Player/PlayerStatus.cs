@@ -1,7 +1,6 @@
-using System.Collections;
+using Master;
 using System.Collections.Generic;
 using UnityEngine;
-using Master;
 
 public enum StatusType { HP, MP, ATK, DEF, AGI, DEX };
 public enum CombiType { ATK, DEF, TEC, NORMAL };
@@ -108,8 +107,6 @@ public class PlayerStatus
     private Status status_Max = new(0, 0, 0, 0, 0, 0);       // 最大値
 
     private Status rankPoint = new(0, 0, 0, 0, 0, 0);        // 累積ランクPt
-    private Status rankPoint_LastUp = new(0, 0, 0, 0, 0, 0); // 前回ランクアップしたときの累積ランクPt
-    private Status rankPoint_NextUp = new(0, 0, 0, 0, 0, 0); // 次にランクアップするときの累積ランクPt
     private Status rankPoint_Max = new(0, 0, 0, 0, 0, 0);    // ステータスのランクPt最大値 プラスステータスを除き、上昇しない
     private Dictionary<StatusType, Rank> statusRank = new(); // 各ステータスのランク
 
@@ -212,11 +209,9 @@ public class PlayerStatus
                     status_Max = new(statusData.statusMax[initRank]);
 
                     // ランクPt初期化
-                    CharacterRankPoint rankPtData = statusData.rankPoint;
+                    CharacterRankPoint rankPtData = new(statusData.rankPoint);
 
                     rankPoint = new Status(0, 0, 0, 0, 0, 0);
-                    rankPoint_LastUp = new Status(0, 0, 0, 0, 0, 0);
-                    rankPoint_NextUp = new(rankPtData.rankPt_NextUp[initRank]);
 
                     rankPoint_Max = new(rankPtData.rankPt_NextUp[highestRank]);
 
@@ -236,8 +231,6 @@ public class PlayerStatus
             status_Max = new Status(14000, 3000, 40000, 5000, 120, 100);
 
             rankPoint = new Status(0, 0, 0, 0, 0, 0);
-            rankPoint_LastUp = new Status(0, 0, 0, 0, 0, 0);
-            rankPoint_NextUp = new Status(12000, 6000, 12000, 6000, 12000, 6000);
             rankPoint_Max = new Status(12000, 6000, 12000, 6000, 12000, 6000);
 
             combiRankPt_NextUp[CombiType.ATK] = 1000;
@@ -301,12 +294,6 @@ public class PlayerStatus
 
             // ランク変更
             statusRank[type] = (Rank)System.Enum.ToObject(typeof(Rank), rankNum);
-
-            // ランクに応じてランクポイント最小値/最大値更新
-            int lastRankNum = rankNum - 1 > 0 ? rankNum - 1 : 0;
-            Rank lastRank = (Rank)System.Enum.ToObject(typeof(Rank), lastRankNum);
-            rankPoint_LastUp = (int)lastRank == 0 ? new(0,0,0,0,0,0) : new(StatusData.rankPoint.rankPt_NextUp[lastRank]);
-            rankPoint_NextUp = new(rankPtNextUp);
 
             // ステータス最小/最大値更新
             int statusMin = StatusData.statusInit[rank].GetStatus(type);
@@ -517,18 +504,14 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetRankPtLastUp(StatusType _type)
     {
-        int n = rankPoint_LastUp.GetStatus(_type);
-        return n;
-    }
+        var rank = GetRank(_type);
+        int a = 0;
+        if ((int)rank > 0)
+        {
+            a = StatusData.rankPoint.rankPt_NextUp[(Rank)(rank - 1)].GetStatus(_type);
+        }
 
-    /// <summary>
-    /// 指定したステータスの、前回ランクアップしたときの累積Ptを変更
-    /// </summary>
-    /// <param name="_type">ステータスの種類</param>
-    /// <param name="_num">変更後の値</param>
-    public void SetRankPtLastUp(StatusType _type, int _num)
-    {
-        rankPoint_LastUp.SetStatus(_type, _num);
+        return a;
     }
 
     public int GetRankPtUp(StatusType _type, Rank _rank)
@@ -543,18 +526,9 @@ public class PlayerStatus
     /// <param name="_type">ステータスの種類</param>
     public int GetRankPtNextUp(StatusType _type)
     {
-        int a = rankPoint_NextUp.GetStatus(_type);
+        var rank = GetRank(_type);
+        int a = StatusData.rankPoint.rankPt_NextUp[rank].GetStatus(_type);
         return a;
-    }
-
-    /// <summary>
-    /// 指定したステータスの、次にランクアップするときの累積Ptを変更
-    /// </summary>
-    /// <param name="_type">ステータスの種類</param>
-    /// <param name="_num">変更後の値</param>
-    public void SetRankPtNextUp(StatusType _type, int _num)
-    {
-        rankPoint_NextUp.SetStatus(_type, _num);
     }
 
     /// <summary>

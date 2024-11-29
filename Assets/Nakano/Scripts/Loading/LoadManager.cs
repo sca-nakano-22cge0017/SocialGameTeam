@@ -101,10 +101,60 @@ public class LoadManager : MonoBehaviour
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }
 
+    /// <summary>
+    /// ローディング時にデータを読み込む
+    /// </summary>
+    /// <param name="sceneName">遷移先シーン名</param>
+    public void LoadScene_LoadData(string sceneName)
+    {
+        // 既にロード中なら実行しない
+        if (isLoading) return;
+
+        isLoading = true;
+
+        // フェードイン開始
+        isFadeIn = true;
+
+        // 読み込み開始
+        StartCoroutine(LoadSceneCoroutine_LoadData(sceneName));
+    }
+
     private IEnumerator LoadSceneCoroutine(string sceneName)
     {
         // フェードイン終わってからシーンロード
         yield return new WaitUntil(() => !isFadeIn);
+
+        // シーン読み込み開始
+        async = SceneManager.LoadSceneAsync(sceneName);
+        async.allowSceneActivation = false;
+
+        while (async.progress < 0.9f)
+        {
+            yield return null;
+        }
+        //ロード完了
+
+        // 遷移
+        async.allowSceneActivation = true;
+
+        // 最低限待ってからフェードアウト
+        yield return new WaitForSeconds(lowestLoadTime);
+
+        // フェードアウト
+        isFadeOut = true;
+
+        isLoading = false;
+    }
+
+    private IEnumerator LoadSceneCoroutine_LoadData(string sceneName)
+    {
+        yield return new WaitUntil(() => !isFadeIn);
+
+        // マスターデータ読み込み完了したら
+        yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
+
+        // セーブデータ読み込み完了したら
+        yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
 
         // シーン読み込み開始
         async = SceneManager.LoadSceneAsync(sceneName);

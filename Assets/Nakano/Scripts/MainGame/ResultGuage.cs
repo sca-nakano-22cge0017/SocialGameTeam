@@ -44,18 +44,23 @@ public class ResultGuage : MonoBehaviour
     private int count = 0;
     private bool isFinalUp = false;
 
+    private int current = 0;
+    private int min = 0;
+    private int max = 0;
+    private float amount = 0;
+
     private void Update()
     {
         if (increaseStart)
         {
             if (addCount == 0)
             {
-                int current = PlayerDataManager.player.GetRankPt(type);
-                int min = PlayerDataManager.player.GetRankPtLastUp(type);
-                int max = PlayerDataManager.player.GetRankPtNextUp(type);
+                current = PlayerDataManager.player.GetRankPt(type);
+                min = PlayerDataManager.player.GetRankPtLastUp(type);
+                max = PlayerDataManager.player.GetRankPtNextUp(type);
 
                 // 増加量計算
-                float amount = (float)(current - min) / (float)(max - min);
+                amount = (float)(current - min) / (float)(max - min);
                 
                 // 増加
                 if (guage.fillAmount <= amount)
@@ -107,13 +112,12 @@ public class ResultGuage : MonoBehaviour
 
                 if (isFinalUp)
                 {
-                    int current = PlayerDataManager.player.GetRankPt(type);
-                    int min = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[lastRank].GetStatus(type);
-                    int max = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[currentRank].GetStatus(type);
+                    current = PlayerDataManager.player.GetRankPt(type);
+                    min = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[lastRank].GetStatus(type);
+                    max = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[currentRank].GetStatus(type);
 
                     // 増加量計算
-                    float amount = (float)(current - min) / (float)(max - min);
-                    //Debug.Log(current + " - " + min + " / " + max + " - " + min + " = " + amount);
+                    amount = (float)(current - min) / (float)(max - min);
 
                     // 増加
                     if (guage.fillAmount <= amount)
@@ -138,15 +142,17 @@ public class ResultGuage : MonoBehaviour
     public void Initialize()
     {
         getPointText.gameObject.SetActive(false);
-        getPointText.text = "+0pt";
+        getPointText.text = "+0p/";
         rankText.text = PlayerDataManager.player.GetRank(type).ToString();
 
-        int current = PlayerDataManager.player.GetRankPt(type);
-        int min = PlayerDataManager.player.GetRankPtLastUp(type);
-        int max = PlayerDataManager.player.GetRankPtNextUp(type);
+        current = PlayerDataManager.player.GetRankPt(type);
+        min = PlayerDataManager.player.GetRankPtLastUp(type);
+        max = PlayerDataManager.player.GetRankPtNextUp(type);
 
-        float amount = (float)(current - min) / (max - min);
+        amount = (float)(current - min) / (max - min);
         guage.fillAmount = amount;
+
+        //Debug.Log($"現在値：{current}　最小値：{min}　最大値：{max}　ゲージ量：{amount}");
     }
 
     /// <summary>
@@ -156,7 +162,7 @@ public class ResultGuage : MonoBehaviour
     public void SetPointText(int _amount)
     {
         getPointText.gameObject.SetActive(true);
-        getPointText.text = "+" + _amount + "pt";
+        getPointText.text = "+" + _amount + "p/";
     }
 
     public void IncreaseAmount()
