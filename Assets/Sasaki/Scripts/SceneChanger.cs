@@ -20,7 +20,8 @@ public class SceneChanger : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "TitleScene")
         {
-            SceneManager.LoadScene("HomeScene");
+            //SceneManager.LoadScene("HomeScene");
+            SceneLoader.LoadScene("HomeScene", true);
         }
     }
 }
