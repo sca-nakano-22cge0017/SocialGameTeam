@@ -3917,7 +3917,7 @@ RectTransform:
   m_GameObject: {fileID: 3341566146019398035}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8624202392288252930}
@@ -5288,6 +5288,7 @@ MonoBehaviour:
   power_CriticalInit: 0
   buffCriticalPower: 0
   critical: 0
+  motion: {fileID: 0}
   mpGuage: {fileID: 5474815273428881209}
   specialMoveGuage: {fileID: 922749713679069831}
   commands:
@@ -5309,7 +5310,6 @@ MonoBehaviour:
   agi_st: {fileID: 8501128126989100463}
   dex_st: {fileID: 8428428438153943046}
   isInvincible: 0
-  motion: {fileID: 0}
 --- !u!1 &4332797692614366568
 GameObject:
   m_ObjectHideFlags: 0
@@ -5432,9 +5432,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6512306125395779613}
+      - m_Target: {fileID: 1818884250515471350}
         m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: ToSelect
+        m_MethodName: Cancel_ToSelect
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6839,7 +6839,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

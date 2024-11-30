@@ -41,6 +41,22 @@ public class WindowController : MonoBehaviour
         }
     }
 
+    public void Cancel_ToSelect()
+    {
+        if (GameManager.SelectArea == 1)
+        {
+            var staminaManager = FindObjectOfType<StaminaManager>();
+            staminaManager.TraningExit();
+            SceneLoader.LoadScene("SelectScene_Traning");
+        }
+        if (GameManager.SelectArea == 2)
+        {
+            var staminaManager = FindObjectOfType<StaminaManager>();
+            staminaManager.BossExit();
+            SceneLoader.LoadScene("SelectScene_Boss");
+        }
+    }
+
     public void ToMain()
     {
         //SceneLoader.LoadScene("Main");

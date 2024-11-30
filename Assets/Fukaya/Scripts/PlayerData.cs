@@ -54,9 +54,6 @@ public class PlayerData : Character
     /// </summary>
     public bool isInvincible = false;
 
-    // モーション関係
-    public Animator motion;
-
     void Start()
     {
         atk_st.GameStart();
@@ -316,6 +313,8 @@ public class PlayerData : Character
     /// </summary>
     public override void Dead()
     {
+        mainGameSystem.Judge();
+
         // Todo 敗北演出・モーション再生
 
         StartCoroutine(DirectionCompleteWait(() =>

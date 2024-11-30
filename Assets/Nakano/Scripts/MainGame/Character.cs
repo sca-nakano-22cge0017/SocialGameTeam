@@ -65,6 +65,9 @@ public class Character : MonoBehaviour
     public float buffCriticalPower;     // 会心時倍率バフ
     public float critical;    // 会心時倍率　計算用
 
+    // モーション関係
+    public Animator motion;
+
     /// <summary>
     /// 初期化
     /// </summary>
