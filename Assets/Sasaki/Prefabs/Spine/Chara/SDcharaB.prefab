@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8031213136708828461}
+  - component: {fileID: 2173525369695829154}
   m_Layer: 0
   m_Name: SDcharaB
   m_TagString: Untagged
@@ -32,6 +33,21 @@ Transform:
   - {fileID: 3282657559793288353}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2173525369695829154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355776666845798789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43acab2fa03a93d469acd8a629a8a87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buffTime: 3.7
+  attackTime: 1.8
+  anim: {fileID: 5748846924990757917}
 --- !u!1 &804389258910445677
 GameObject:
   m_ObjectHideFlags: 0
