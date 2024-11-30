@@ -14,9 +14,14 @@ public class CharaSelectManager : MonoBehaviour
 
     [SerializeField] Text[] status = new Text[7];
     [SerializeField] Text[] rank = new Text[6];
+    [SerializeField] Text[] plus = new Text[6];
 
     [SerializeField] GameObject plusStatusWindow;
     [SerializeField] Text plusStatusText;
+
+    [SerializeField] GameObject SkillWindow;
+    [SerializeField] Text SkillText;
+    private bool trueWindow = false;
     
     void Start()
     {
@@ -59,6 +64,12 @@ public class CharaSelectManager : MonoBehaviour
         rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
         rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
         rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+        plus[0].text = PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
+        plus[1].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
+        plus[2].text = PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
+        plus[3].text = PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
+        plus[4].text = PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
+        plus[5].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
     }
 
     public void CharaButton2()
@@ -78,47 +89,64 @@ public class CharaSelectManager : MonoBehaviour
         rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
         rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
         rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+        plus[0].text = PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
+        plus[1].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
+        plus[2].text = PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
+        plus[3].text = PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
+        plus[4].text = PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
+        plus[5].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
     }
 
     public void PlusStatusHP()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.HP);
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.HP).ToString();
         plusStatusWindow.SetActive(true);
     }
 
     public void PlusStatusDEF()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEF);
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEF).ToString();
         plusStatusWindow.SetActive(true);
     }
 
     public void PlusStatusATK()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.ATK);
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.ATK).ToString();
         plusStatusWindow.SetActive(true);
     }
 
     public void PlusStatusMP()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.MP);
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.MP).ToString();
         plusStatusWindow.SetActive(true);
     }
 
     public void PlusStatusAGI()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.AGI);
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.AGI).ToString();
         plusStatusWindow.SetActive(true);
     }
 
     public void PlusStatusDEX()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEX);
+        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEX).ToString();
         plusStatusWindow.SetActive(true);
     }
 
     public void ButtonUp()
     {
         plusStatusWindow.SetActive(false);
+    }
+
+    public void SkillButton()
+    {
+        SkillWindow.SetActive(true);
+        trueWindow = true;
+    }
+
+    public void SkillWindowClose()
+    {
+        SkillWindow.SetActive(false);
     }
 
     public static void savePlayerData(SaveData player)
