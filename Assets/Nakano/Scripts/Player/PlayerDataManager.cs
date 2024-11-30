@@ -23,12 +23,6 @@ public class PlayerDataManager : MonoBehaviour
     /// </summary>
     public static void Save()
     {
-        if (!MasterDataLoader.MasterDataLoadComplete)
-        {
-            Save();
-            return;
-        }
-
         if (GameManager.SelectChara == 1)
             chara1 = player;
         if (GameManager.SelectChara == 2)

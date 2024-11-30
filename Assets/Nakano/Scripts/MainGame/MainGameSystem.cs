@@ -13,6 +13,7 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private StageManager stageManager;
     [SerializeField] private WindowController windowController;
     
+    [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
     [SerializeField] private Enemy[] enemies;
 
@@ -40,6 +41,7 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private Text elapsedTurn_Text;
 
     private bool isStart = false;
+
     private bool isInitialized = false;
     private bool isLose = false;
     private bool isWin = false;
@@ -64,6 +66,8 @@ public class MainGameSystem : MonoBehaviour
 
     public void Initialize()
     {
+        menuButton.interactable = true;
+
         elapsedTurn = 1;
         elapsedTurn_Text.text = elapsedTurn.ToString();
 
@@ -114,8 +118,6 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     public void ActionEnd()
     {
-        Judge();
-
         if (isWin || isLose) return;
         
         actionNum++;
@@ -138,22 +140,30 @@ public class MainGameSystem : MonoBehaviour
                     charactersList[i].TurnEnd();
             }
 
-            // ターン経過
-            elapsedTurn++;
-            elapsedTurn_Text.text = elapsedTurn.ToString();
-
-            OrderAction();
+            StartCoroutine(NextTurn());
         }
+    }
+
+    IEnumerator NextTurn()
+    {
+        yield return new WaitForSeconds(1.0f);
+
+        // ターン経過
+        elapsedTurn++;
+        elapsedTurn_Text.text = elapsedTurn.ToString();
+
+        OrderAction();
     }
 
     /// <summary>
     /// 勝敗判定
     /// </summary>
-    void Judge()
+    public void Judge()
     {
         if (player.currentHp <= 0)
         {
             isLose = true;
+            menuButton.interactable = false;
             StartCoroutine(GameEnd());
             return;
         }
@@ -172,6 +182,7 @@ public class MainGameSystem : MonoBehaviour
         }
 
         isWin = true;
+        menuButton.interactable = false;
         StartCoroutine(GameEnd());
     }
 

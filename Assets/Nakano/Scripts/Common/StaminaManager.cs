@@ -63,7 +63,9 @@ public class StaminaManager : MonoBehaviour
     private const float recoveryIntervalMin = 5.0f; // スタミナ回復のインターバル(分)
 
     private const int cost_Traning = 5;   // 育成ステージでのスタミナ消費量
+    public int GetCost_Traning { get => cost_Traning; }
     private const int cost_Boss = 10;     // ボスステージでのスタミナ消費量
+    public int GetCost_Boss { get => cost_Boss; }
 
     private const int MINUTE_PER_HOUR = 60;
     private const int SECOND_PER_MINUTE = 60;
@@ -142,6 +144,22 @@ public class StaminaManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 途中で終了したときにスタミナ返還
+    /// </summary>
+    public void TraningExit()
+    {
+        Cost(-cost_Traning);
+    }
+
+    /// <summary>
+    /// 途中で終了したときにスタミナ返還
+    /// </summary>
+    public void BossExit()
+    {
+        Cost(-cost_Boss);
+    }
+
+    /// <summary>
     /// スタミナ消費
     /// </summary>
     /// <param name="_cost">消費量</param>
@@ -150,6 +168,8 @@ public class StaminaManager : MonoBehaviour
         if (stamina < _cost)
         {
             Debug.Log("スタミナが足りません");
+
+            // Todo ウィンドウ表示
             return;
         }
 

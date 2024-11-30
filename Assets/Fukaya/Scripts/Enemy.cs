@@ -10,8 +10,6 @@ public class Enemy : Character
 
     public int POSITION; // 敵の位置
 
-    public Animator motion;
-
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
 
@@ -173,7 +171,7 @@ public class Enemy : Character
 
         Debug.Log("敵 " + POSITION + " 通常攻撃" + damage);;
 
-        StartCoroutine(EndWait());
+        AttackMotion();
     }
 
     /// <summary>
@@ -189,7 +187,7 @@ public class Enemy : Character
 
         Debug.Log("敵 " + POSITION + " デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
 
-        StartCoroutine(EndWait());
+        AttackMotion();
     }
     void Cancel_Debuff1()
     {
@@ -220,7 +218,7 @@ public class Enemy : Character
 
         Debug.Log("敵 " + POSITION + " デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
 
-        StartCoroutine(EndWait());
+        AttackMotion();
     }
     void Cancel_Debuff2()
     {
@@ -251,7 +249,7 @@ public class Enemy : Character
 
         Debug.Log("敵 " + POSITION + " バフ発動 攻撃力" + (amount * 100) + "%アップ");
 
-        StartCoroutine(EndWait());
+        AttackMotion();
     }
     void Cancel_Buff()
     {
@@ -290,7 +288,7 @@ public class Enemy : Character
 
         player.Damage(damage);
 
-        StartCoroutine(EndWait());
+        AttackMotion();
     }
 
     /// <summary>
@@ -301,7 +299,7 @@ public class Enemy : Character
         Debug.Log("敵 " + POSITION + " 確殺攻撃発動");
         player.Damage((int)value_AbsolutelyKill);
 
-        StartCoroutine(EndWait());
+        AttackMotion();
     }
 
     /// <summary>
@@ -343,6 +341,8 @@ public class Enemy : Character
         if (!meshRenderer.enabled || currentHp < 0) return;
 
         Debug.Log("敵" + POSITION + "を倒した");
+
+        mainGameSystem.Judge();
 
         // Todo モーション再生
 
@@ -402,5 +402,12 @@ public class Enemy : Character
     public void TargetChange()
     {
         mainGameSystem.TargetChange(this);
+    }
+
+    public void AttackMotion()
+    {
+        motion.SetTrigger("attack");
+
+        StartCoroutine(EndWait());
     }
 }

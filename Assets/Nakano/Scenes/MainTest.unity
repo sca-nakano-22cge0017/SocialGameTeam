@@ -2784,6 +2784,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1698370903 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4736125337913635659, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+  m_PrefabInstance: {fileID: 192289436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1723303172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2929,6 +2940,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageManager: {fileID: 1723303177}
   windowController: {fileID: 617070207}
+  menuButton: {fileID: 1698370903}
   player: {fileID: 63293113}
   enemies:
   - {fileID: 956392061}
