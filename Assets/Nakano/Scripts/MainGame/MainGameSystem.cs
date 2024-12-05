@@ -37,6 +37,8 @@ public class MainGameSystem : MonoBehaviour
     SpecialTecniqueManager stm;
     [SerializeField] private Button[] skillButtons;
 
+    TutorialWindow tutorial;
+
     private int elapsedTurn = 1;
     [SerializeField] private Text elapsedTurn_Text;
 
@@ -47,15 +49,34 @@ public class MainGameSystem : MonoBehaviour
     void Start()
     {
         stm = FindObjectOfType<SpecialTecniqueManager>();
+        tutorial = FindObjectOfType<TutorialWindow>();
         loadManager = FindObjectOfType<LoadManager>();
+
         SkillRelease();
+
+        if (GameManager.SelectArea == 1)
+        {
+            // 初めての育成バトルは必殺技を使用不可にする
+            if (!GameManager.TutorialProgress.checkedBattle)
+            {
+                player.canSpecialMove = false;
+            }
+            else player.canSpecialMove = true;
+
+            tutorial.Battle();
+        }
+        if (GameManager.SelectArea == 2)
+        {
+            tutorial.BossBattle();
+        }
     }
 
     void Update()
     {
         if (loadManager && !loadManager.DidFadeComplete) return;
 
-        if (!isInitialized && stageManager.isSetCompleted)
+        // 初期化完了済み　&　ステージのデータセット済み　&　チュートリアル完了済み
+        if (!isInitialized && stageManager.isSetCompleted && tutorial.CompleteTutorial)
         {
             Initialize();
             isInitialized = true;

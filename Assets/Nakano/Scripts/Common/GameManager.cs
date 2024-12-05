@@ -168,6 +168,12 @@ public class GameManager : MonoBehaviour
     private static bool[] isBossClear = { false, false, false, false, false };
     public static bool[] IsBossClear { get => isBossClear; set => isBossClear = value; }
 
+    /// <summary>
+    /// チュートリアル確認状況
+    /// </summary>
+    private static TutorialProgress tutorialProgress;
+    public static TutorialProgress TutorialProgress { get => tutorialProgress; set => tutorialProgress = value; }
+
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;

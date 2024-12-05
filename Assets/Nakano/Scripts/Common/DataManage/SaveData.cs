@@ -33,6 +33,11 @@ public class SaveData
     /// スタミナ
     /// </summary>
     public StaminaSaveData staminaData = new();
+
+    /// <summary>
+    /// チュートリアル達成状況
+    /// </summary>
+    public TutorialProgress tutorialData = new();
 }
 
 [System.Serializable]
@@ -108,4 +113,64 @@ public class StaminaSaveData
     /// 前回終了時のスタミナ全快するまでの時間
     /// </summary>
     public float lastCompleteRecoveryTime;
+}
+
+[System.Serializable]
+public class TutorialProgress
+{
+    /// <summary>
+    /// 初回起動時、タイトル画面をタップしたとき
+    /// </summary>
+    public bool checkedCharaSelect = false;
+
+    /// <summary>
+    /// ホーム画面に初遷移したとき
+    /// </summary>
+    public bool checkedHome = false;
+
+    /// <summary>
+    /// 育成ステージ選択画面に初遷移したとき
+    /// </summary>
+    public bool checkedStageSelect = false;
+
+    /// <summary>
+    /// バトル画面に初遷移したとき
+    /// </summary>
+    public bool checkedBattle = false;
+
+    /// <summary>
+    /// リザルト画面に初遷移したとき
+    /// </summary>
+    public bool checkedResult = false;
+
+    /// <summary>
+    /// ボスバトル画面に遷移したとき
+    /// </summary>
+    public bool checkedBossBattle = false;
+
+    /// <summary>
+    /// ボス撃破後育成ステージに初遷移したとき
+    /// </summary>
+    public bool checkedStageSelect_BossCleared = false;
+
+    /// <summary>
+    /// 初めてリセットボタンを押したとき
+    /// </summary>
+    public bool checkedReset = false;
+
+    public TutorialProgress() { }
+
+    public TutorialProgress(TutorialProgress _data)
+    {
+        if (_data == null) _data = new();
+
+        checkedCharaSelect = _data.checkedCharaSelect;
+        checkedHome = _data.checkedHome;
+        checkedStageSelect = _data.checkedStageSelect;
+        checkedBattle = _data.checkedBattle;
+        checkedResult = _data.checkedResult;
+        checkedBossBattle = _data.checkedBossBattle;
+        checkedStageSelect_BossCleared = _data.checkedStageSelect_BossCleared;
+        checkedReset = _data.checkedReset;
+    }
 }
