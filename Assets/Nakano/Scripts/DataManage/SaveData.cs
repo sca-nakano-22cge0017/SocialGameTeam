@@ -17,12 +17,22 @@ public class SaveData
     public int isCrearBossDifficulty = 0;
 
     /// <summary>
+    /// 各ボスクリア状況
+    /// </summary>
+    public bool[] isBossClear = { false, false, false, false, false };
+
+    /// <summary>
     /// 選択中キャラクター
     /// </summary>
     public int selectChara = -1;
 
     public PlayerSaveData chara1 = new();
     public PlayerSaveData chara2 = new();
+
+    /// <summary>
+    /// スタミナ
+    /// </summary>
+    public StaminaSaveData staminaData = new();
 }
 
 [System.Serializable]
@@ -74,4 +84,18 @@ public class PlayerSaveData
     public int def_plusStatus = 0;
     public int agi_plusStatus = 0;
     public int dex_plusStatus = 0;
+}
+
+[System.Serializable]
+public class StaminaSaveData
+{
+    /// <summary>
+    /// 前回終了時のスタミナ
+    /// </summary>
+    public int lastStamina;
+
+    /// <summary>
+    /// 前回終了時の時間
+    /// </summary>
+    public string lastTime;
 }

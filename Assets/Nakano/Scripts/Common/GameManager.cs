@@ -162,6 +162,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// ボスクリア状況
+    /// </summary>
+    private static bool[] isBossClear = { false, false, false, false, false };
+    public static bool[] IsBossClear { get => isBossClear; set => isBossClear = value; }
+
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;
@@ -179,7 +185,6 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        staminaManager.Initialize();
         masterDataLoader.DataLoad();
 
         StartCoroutine(LoadComplete());
@@ -208,5 +213,7 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
         specialTecniqueManager.Load();
+
+        staminaManager.Initialize();
     }
 }

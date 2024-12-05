@@ -27,6 +27,8 @@ public class StageSelect : MonoBehaviour
     [SerializeField] private StageSelectButton firstSelectButton; // 最初に選択しておくボタン
     [SerializeField] private GameObject selectingFrame;           // 選択中のボタンに表示する枠
 
+    [SerializeField] private Text costStamina;
+
     SelectButton pressedButton = null;
 
     bool isCoolTime_Select = false;
@@ -39,6 +41,15 @@ public class StageSelect : MonoBehaviour
     {
         sm = FindObjectOfType<StaminaManager>();
         sdm = FindObjectOfType<StageDataManager>();
+
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
+        {
+            costStamina.text = "-" + sm.GetCost_Traning;
+        }
+        if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
+        {
+            costStamina.text = "-" + sm.GetCost_Boss;
+        }
 
         FirstSelect();
     }
@@ -55,29 +66,10 @@ public class StageSelect : MonoBehaviour
         stageImage.sprite = selectButtons[0].sprite;
 
         // ドロップ内容表示
-        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
-        {
-            string information = "";
-
-            for (int d = 0; d < MasterData.StageDatas.Count; d++)
-            {
-                StageData data = MasterData.StageDatas[d];
-                if (data.difficulty == GameManager.SelectDifficulty && data.areaId == 1 && data.stageId == selectButtons[0].stageId)
-                {
-                    for (int i = 0; i < data.dropItem.Count; i++)
-                    {
-                        information += selectButtons[0].information + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
-                    }
-                }
-            }
-
-            stageInformationText.text = information;
-        }
+        DropDetailFirstDisplay();
 
         selectingFrame.transform.SetParent(selectButtons[0].button.gameObject.transform);
         selectingFrame.transform.localPosition = Vector3.zero;
-
-        selectButtons[0].button.FirstSelected();
     }
 
     /// <summary>
@@ -100,10 +92,6 @@ public class StageSelect : MonoBehaviour
                 selectingFrame.transform.localPosition = Vector3.zero;
                 selectingFrame.transform.localScale = Vector3.one;
             }
-            else
-            {
-                selectButtons[i].button.TapCountReset();
-            }
         }
         if (pressedButton == null) return;
 
@@ -112,6 +100,11 @@ public class StageSelect : MonoBehaviour
         {
             stageImage.sprite = pressedButton.sprite;
             selectingButton = _selectingButton;
+
+            if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
+            {
+                GameManager.SelectDifficulty = _selectingButton.Difficluty;
+            }
 
             DropDetailDisplay();
         }
@@ -128,77 +121,63 @@ public class StageSelect : MonoBehaviour
     /// </summary>
     public void DropDetailDisplay()
     {
-        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
-        {
-            string information = "";
+        int area = 1;
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning") area = 1;
+        if (SceneManager.GetActiveScene().name == "SelectScene_Boss") area = 2;
 
-            for (int d = 0; d < MasterData.StageDatas.Count; d++)
+        string information = "";
+
+        for (int d = 0; d < MasterData.StageDatas.Count; d++)
+        {
+            StageData data = MasterData.StageDatas[d];
+            if (data.difficulty == GameManager.SelectDifficulty && data.areaId == area && data.stageId == pressedButton.stageId)
             {
-                StageData data = MasterData.StageDatas[d];
-                if (data.difficulty == GameManager.SelectDifficulty && data.areaId == 1 && data.stageId == pressedButton.stageId)
+                for (int i = 0; i < data.dropItem.Count; i++)
                 {
-                    for (int i = 0; i < data.dropItem.Count; i++)
-                    {
-                        information += pressedButton.information + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
-                    }
+                    information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
                 }
             }
-
-            stageInformationText.text = information;
         }
+
+        stageInformationText.text = information;
+    }
+
+    void DropDetailFirstDisplay()
+    {
+        int area = 1;
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning") area = 1;
+        if (SceneManager.GetActiveScene().name == "SelectScene_Boss") area = 2;
+
+        string information = "";
+
+        for (int d = 0; d < MasterData.StageDatas.Count; d++)
+        {
+            StageData data = MasterData.StageDatas[d];
+            if (data.difficulty == GameManager.SelectDifficulty && data.areaId == area && data.stageId == selectButtons[0].stageId)
+            {
+                for (int i = 0; i < data.dropItem.Count; i++)
+                {
+                    information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
+                }
+            }
+        }
+
+        stageInformationText.text = information;
     }
 
     /// <summary>
     /// ボタン押下によるステージ遷移
     /// </summary>
-    public void Transition(StageSelectButton _selectingButton, int _difficulty,  int _areaId, int _stageId)
+    public void Transition()
     {
+        Debug.Log("遷移");
+
         // クールタイム中なら終了
         if (isCoolTime_Select) return;
         isCoolTime_Select = true;
 
-        // 押下したボタンに応じて情報取得
-        SelectButton pressedButton = null;
-        for (int i = 0; i < selectButtons.Length; i++)
-        {
-            if (selectButtons[i].button == _selectingButton)
-            {
-                pressedButton = selectButtons[i];
-                break;
-            }
-        }
-        if (pressedButton == null) return;
-
-        // 押下処理
-        if (selectingButton == _selectingButton)
-        {
-            GameManager.SelectArea = _areaId;
-            GameManager.SelectStage = _stageId;
-
-            int difficulty = -1;
-            if (_areaId == 1) difficulty = GameManager.SelectDifficulty;
-            if (_areaId == 2) difficulty = _difficulty;
-            GameManager.SelectDifficulty = difficulty;
-
-            ConsumeStamina(_areaId);
-
-            // ステージデータ読み込み完了時の処理
-            sdm.LoadCompleteProcess += () =>
-            {
-                // バトル画面への遷移
-                //SceneManager.LoadScene("Main");
-                //SceneManager.LoadScene("MainTest");
-
-                SceneLoader.LoadScene("MainTest");
-            };
-            sdm.LoadData(GameManager.SelectDifficulty, _areaId, _stageId);
-        }
-
-        // 押下後、一定時間押下判定を取らない
-        StartCoroutine(DelayCoroutine(coolTime, () =>
-        {
-            isCoolTime_Select = false;
-        }));
+        // スタミナがあるかどうか確認
+        ConsumeStamina(selectingButton.AreaID);
     }
     
     /// <summary>
@@ -207,18 +186,43 @@ public class StageSelect : MonoBehaviour
     /// <param name="_stageId"></param>
     private void ConsumeStamina(int _areaId)
     {
+        Debug.Log("スタミナ消費");
         if (sm == null) return;
+
+        bool canPlay = false;
 
         switch (_areaId)
         {
             case 1:
-                sm.Traning();
+                canPlay = sm.Traning();
                 break;
 
             case 2:
-                sm.Boss();
+                canPlay = sm.Boss();
                 break;
         }
+
+        // 押下処理
+        GameManager.SelectArea = selectingButton.AreaID;
+        GameManager.SelectStage = selectingButton.StageID;
+
+        int difficulty = -1;
+        if (selectingButton.AreaID == 1) difficulty = GameManager.SelectDifficulty;
+        if (selectingButton.AreaID == 2) difficulty = selectingButton.Difficluty;
+        GameManager.SelectDifficulty = difficulty;
+
+        // ステージデータ読み込み完了時の処理
+        sdm.LoadCompleteProcess += () =>
+        {
+            if (canPlay == true) SceneLoader.LoadScene("MainTest");
+        };
+        sdm.LoadData(GameManager.SelectDifficulty, selectingButton.AreaID, selectingButton.StageID);
+
+        // 押下後、一定時間押下判定を取らない
+        StartCoroutine(DelayCoroutine(coolTime, () =>
+        {
+            isCoolTime_Select = false;
+        }));
     }
 
     IEnumerator DelayCoroutine(float _time, Action _action)

@@ -80,6 +80,14 @@ public class DropController : MonoBehaviour
         return drop;
     }
 
+    public void BossDrop()
+    {
+        for (int i = 0; i < StageDataManager.DropData.Count; i++)
+        {
+            dropedItems.Add(StageDataManager.DropData[i]);
+        }
+    }
+
     /// <summary>
     /// ƒhƒƒbƒvŒ‹‰Ê‚Ì‰ÁZ
     /// </summary>
