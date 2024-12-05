@@ -70,10 +70,29 @@ public class StaminaManager : MonoBehaviour
     private const int MINUTE_PER_HOUR = 60;
     private const int SECOND_PER_MINUTE = 60;
 
+    [SerializeField] private GameObject staminaWindow;
+
+    public static int lastStamina = 0;
+    public static string lastTimeStr = "";
+    public System.DateTime lastTime;
+
     public void Initialize()
     {
-        stamina = max_Initial;
-        stamina_Max = max_Initial;
+        if (GameManager.isFirstStart)
+        {
+            stamina = max_Initial;
+            stamina_Max = max_Initial;
+        }
+        else
+        {
+            lastTime = System.DateTime.Parse(lastTimeStr);
+            System.TimeSpan span = System.DateTime.Now - lastTime;
+            double spantime = span.TotalSeconds;
+
+            float value = (float)spantime / (recoveryIntervalMin * MINUTE_PER_HOUR);
+            stamina = lastStamina + (int)value;
+            stamina_Max = max_Initial;
+        }
     }
 
     /// <summary>
@@ -133,14 +152,14 @@ public class StaminaManager : MonoBehaviour
         Debug.Log("現在のスタミナ最大値は" + stamina_Max + ", 現在のスタミナは" + stamina);
     }
 
-    public void Traning()
+    public bool Traning()
     {
-        Cost(cost_Traning);
+        return Cost(cost_Traning);
     }
 
-    public void Boss()
+    public bool Boss()
     {
-        Cost(cost_Boss);
+        return Cost(cost_Boss);
     }
 
     /// <summary>
@@ -163,19 +182,18 @@ public class StaminaManager : MonoBehaviour
     /// スタミナ消費
     /// </summary>
     /// <param name="_cost">消費量</param>
-    private void Cost(int _cost)
+    private bool Cost(int _cost)
     {
         if (stamina < _cost)
         {
-            Debug.Log("スタミナが足りません");
-
-            // Todo ウィンドウ表示
-            return;
+            StartCoroutine(DisplayWindow());
+            return false;
         }
 
         stamina -= _cost;
 
         Debug.Log("現在のスタミナは" + stamina);
+        return true;
     }
 
     private string ConvertTimeToString(int _time, bool needHour)
@@ -219,5 +237,24 @@ public class StaminaManager : MonoBehaviour
         str += sec.ToString("d2");
 
         return str;
+    }
+
+    IEnumerator DisplayWindow()
+    {
+        staminaWindow.SetActive(true);
+
+        yield return new WaitForSeconds(1.0f);
+
+        staminaWindow.SetActive(false);
+
+        yield break;
+    }
+
+    void OnApplicationQuit()
+    {
+        lastTimeStr = System.DateTime.Now.ToString();
+        lastStamina = stamina;
+
+        PlayerDataManager.Save();
     }
 }

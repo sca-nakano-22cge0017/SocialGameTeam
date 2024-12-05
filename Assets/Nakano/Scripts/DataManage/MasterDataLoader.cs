@@ -251,8 +251,7 @@ public class MasterDataLoader : MonoBehaviour
                     sd.areaId = a;
                     sd.stageId = s;
                     sd.enemyPlacement = GetEnemyPlacement(d, a, s);
-                    if (a == 1) sd.dropItem = GetDropItem(sd.difficulty, sd.stageId);
-                    else sd.dropItem = null;
+                    sd.dropItem = GetDropItem(sd.difficulty, sd.areaId, sd.stageId);
 
                     stageDatas.Add(sd);
                 }
@@ -292,20 +291,21 @@ public class MasterDataLoader : MonoBehaviour
         return placement;
     }
 
-    List<DropItem> GetDropItem(int _difficulty, int _stageId)
+    List<DropItem> GetDropItem(int _difficulty,int _areaId, int _stageId)
     {
         const int difficultyColumn = 1;
-        const int stageIdColumn = 2;
-        const int typeIdColumn = 3;
-        const int amountColumn = 4;
-        const int probabilityColmun = 7;
+        const int areaIdColumn = 2;
+        const int stageIdColumn = 3;
+        const int typeIdColumn = 4;
+        const int amountColumn = 5;
+        const int probabilityColmun = 8;
 
         List<DropItem> items = new();
         List<string[]> datas = textDatas[dropDataKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
         {
-            if (_difficulty == int.Parse(datas[l][difficultyColumn]) && _stageId == int.Parse(datas[l][stageIdColumn]))
+            if (_difficulty == int.Parse(datas[l][difficultyColumn]) && _areaId == int.Parse(datas[l][areaIdColumn]) && _stageId == int.Parse(datas[l][stageIdColumn]))
             {
                 string[] data = datas[l];
                 DropItem item = new();

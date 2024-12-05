@@ -71,6 +71,14 @@ public class PlayerDataManager : MonoBehaviour
         saveData.isFirstStart = GameManager.isFirstStart;
         saveData.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty;
 
+        for (int i = 0; i < GameManager.IsBossClear.Length; i++)
+        {
+            saveData.isBossClear[i] = GameManager.IsBossClear[i];
+        }
+
+        saveData.staminaData.lastTime = StaminaManager.lastTimeStr;
+        saveData.staminaData.lastStamina = StaminaManager.lastStamina;
+
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
 
@@ -90,9 +98,17 @@ public class PlayerDataManager : MonoBehaviour
 
         player = chara1;
 
+        for (int i = 0; i < GameManager.IsBossClear.Length; i++)
+        {
+            GameManager.IsBossClear[i] = data.isBossClear[i];
+        }
+
         GameManager.isFirstStart = data.isFirstStart;
         DifficultyManager.IsClearBossDifficulty = data.isCrearBossDifficulty;
         GameManager.SelectChara = data.selectChara;
+
+        StaminaManager.lastTimeStr = data.staminaData.lastTime;
+        StaminaManager.lastStamina = data.staminaData.lastStamina;
 
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");

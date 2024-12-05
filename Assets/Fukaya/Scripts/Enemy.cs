@@ -39,7 +39,8 @@ public class Enemy : Character
     int value_AbsolutelyKill = 999999999;
 
     [SerializeField] private PlayerData player;
-    [SerializeField] protected GameObject hpGuage_Obj;
+    [SerializeField] private GameObject hpGuage_Obj;
+    [SerializeField] private Button targetChangeButton;
     [SerializeField, Header("ÉhÉçÉbÉv")] private Text dropText;
 
     /// <summary>
@@ -338,7 +339,7 @@ public class Enemy : Character
     /// </summary>
     public override void Dead()
     {
-        if (!meshRenderer.enabled || currentHp < 0) return;
+        if (currentHp < 0) return;
 
         Debug.Log("ìG" + POSITION + "Çì|ÇµÇΩ");
 
@@ -351,8 +352,13 @@ public class Enemy : Character
         {
             meshRenderer.enabled = false;
             hpGuage_Obj.SetActive(false);
+            targetChangeButton.interactable = false;
 
-            StartCoroutine(DropDirection());
+            if (GameManager.SelectArea == 1) StartCoroutine(DropDirection());
+            if (GameManager.SelectArea == 2)
+            {
+                dropController.BossDrop();
+            }
         }));
     }
 

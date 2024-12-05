@@ -29,18 +29,20 @@ public class ResultManager : MonoBehaviour
     private bool resultDispCompleted = false; // •\Ž¦Š®—¹
 
     StaminaManager staminaManager;
+    [SerializeField] private Text costStamina;
 
     void Start()
     {
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
         staminaManager = FindObjectOfType<StaminaManager>();
-    }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.G))
+        if (GameManager.SelectArea == 1)
         {
-            wc.Close();
+            costStamina.text = "-" + staminaManager.GetCost_Traning;
+        }
+        if (GameManager.SelectArea == 2)
+        {
+            costStamina.text = "-" + staminaManager.GetCost_Boss;
         }
     }
 
@@ -52,17 +54,29 @@ public class ResultManager : MonoBehaviour
 
         StartCoroutine(DispDirection());
 
+        if (dropController.DropedItems.Count == 0) return;
+
         if (GameManager.SelectArea == 1)
         {
-            if (dropController.DropedItems.Count == 0) return;
             AddRankPoint();
         }
         else
         {
+            if (GameManager.IsBossClear[GameManager.SelectDifficulty - 1]) return;
+            AddRankPoint();
+
+            GameManager.IsBossClear[GameManager.SelectDifficulty - 1] = true;
+
             DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
             GameManager.SelectDifficulty++;
             PlayerDataManager.Save();
         }
+    }
+
+    private void OnDisable()
+    {
+        dropController.Initialize();
+        ResultInitialize();
     }
 
     /// <summary>
@@ -100,7 +114,7 @@ public class ResultManager : MonoBehaviour
 
                     PlayerDataManager.RankPtUp(type, amount);
 
-                    resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
+                    resultGuages[j].CurrentRank = PlayerDataManager.player.GetRank(resultGuages[j].Type);
                 }
             }
         }
@@ -220,13 +234,11 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     public void Retry()
     {
-        //SceneManager.LoadScene("Main");
-
-        if (GameManager.SelectArea == 1) staminaManager.Traning();
-        if (GameManager.SelectArea == 2) staminaManager.Boss();
-
-        //SceneManager.LoadScene("MainTest");
-        SceneLoader.LoadScene("MainTest");
+        if ((GameManager.SelectArea == 1 && staminaManager.Traning()) ||
+            (GameManager.SelectArea == 2 && staminaManager.Boss()))
+        {
+            SceneLoader.LoadScene("MainTest");
+        }
     }
 
     /// <summary>
