@@ -62,8 +62,6 @@ public class TutorialWindow : MonoBehaviour
 
         ChangeExplain(charaSelect);
 
-        tutorialWindow.SetActive(true);
-
         GameManager.TutorialProgress.checkedCharaSelect = true;
     }
 
@@ -76,8 +74,6 @@ public class TutorialWindow : MonoBehaviour
         }
 
         ChangeExplain(home);
-
-        tutorialWindow.SetActive(true);
 
         GameManager.TutorialProgress.checkedHome = true;
     }
@@ -92,8 +88,6 @@ public class TutorialWindow : MonoBehaviour
 
         ChangeExplain(stageSelect);
 
-        tutorialWindow.SetActive(true);
-
         GameManager.TutorialProgress.checkedStageSelect = true;
     }
 
@@ -106,8 +100,6 @@ public class TutorialWindow : MonoBehaviour
         }
 
         ChangeExplain(battle);
-
-        tutorialWindow.SetActive(true);
 
         GameManager.TutorialProgress.checkedBattle = true;
     }
@@ -122,8 +114,6 @@ public class TutorialWindow : MonoBehaviour
 
         ChangeExplain(result);
 
-        tutorialWindow.SetActive(true);
-
         GameManager.TutorialProgress.checkedResult = true;
     }
 
@@ -136,8 +126,6 @@ public class TutorialWindow : MonoBehaviour
         }
 
         ChangeExplain(bossBattle);
-
-        tutorialWindow.SetActive(true);
 
         GameManager.TutorialProgress.checkedBossBattle = true;
     }
@@ -152,8 +140,6 @@ public class TutorialWindow : MonoBehaviour
 
         ChangeExplain(stageSelect_BossCleared);
 
-        tutorialWindow.SetActive(true);
-
         GameManager.TutorialProgress.checkedStageSelect_BossCleared = true;
     }
 
@@ -166,8 +152,6 @@ public class TutorialWindow : MonoBehaviour
         }
 
         ChangeExplain(reset);
-
-        tutorialWindow.SetActive(true);
 
         GameManager.TutorialProgress.checkedReset = true;
     }
@@ -185,6 +169,8 @@ public class TutorialWindow : MonoBehaviour
 
         page = 1;
         ChangePage();
+
+        tutorialWindow.SetActive(true);
     }
 
     public void NextPage()
