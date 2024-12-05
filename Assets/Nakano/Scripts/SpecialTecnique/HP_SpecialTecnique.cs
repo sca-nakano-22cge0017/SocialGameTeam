@@ -46,14 +46,16 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
         // 回復量計算
         float amount = player.HP * (rankC.m_value1 / 100.0f);
-        player.HealHP((int)amount);
+        
+        player.BuffMotion(() => 
+        {
+            player.HealHP((int)amount);
 
-        // デバフ解除
-        player.ResetDebuff();
+            // デバフ解除
+            player.ResetDebuff();
 
-        Debug.Log("「クリアヒール」発動 HP " + amount + "回復");
-
-        player.BuffMotion();
+            Debug.Log("「クリアヒール」発動 HP " + amount + "回復");
+        });
     }
 
     /// <summary>
@@ -69,9 +71,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_B = 1;
         isActive_B = true; // スキル発動
 
-        Debug.Log("「痛み分け」発動");
-
-        player.BuffMotion();
+        player.BuffMotion(() => { Debug.Log("「痛み分け」発動"); });
     }
 
     /// <summary>

@@ -38,11 +38,13 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         isActive_C = true;
 
         float amount = (float)rankC.m_value1 / 100.0f;
-        player.AddBuff(StatusType.AGI, amount);
+        
+        player.BuffMotion(() => 
+        {
+            player.AddBuff(StatusType.AGI, amount);
 
-        Debug.Log("「加速」発動 速度" + (amount * 100) + "%アップ");
-
-        player.BuffMotion();
+            Debug.Log("「加速」発動 速度" + (amount * 100) + "%アップ");
+        });
     }
 
     /// <summary>
@@ -98,11 +100,13 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         isActive_B = true;
 
         float amount = (float)rankB.m_value1 / 100.0f;
-        enemy.AddDebuff(StatusType.AGI, amount);
+        
+        player.BuffMotion(() => 
+        {
+            enemy.AddDebuff(StatusType.AGI, amount);
 
-        Debug.Log("「スロウ」発動 敵の速度" + (amount * 100) + "%ダウン");
-
-        player.BuffMotion();
+            Debug.Log("「スロウ」発動 敵の速度" + (amount * 100) + "%ダウン");
+        });
     }
 
     /// <summary>
@@ -189,10 +193,11 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
 
         if (!player.CostMP(rankSS.m_cost)) return;
 
-        player.UpSpecialMoveGuage();
+        player.BuffMotion(() => 
+        {
+            player.UpSpecialMoveGuage();
 
-        Debug.Log("「神速の業」発動");
-
-        player.BuffMotion();
+            Debug.Log("「神速の業」発動");
+        });
     }
 }

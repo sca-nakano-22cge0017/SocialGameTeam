@@ -48,12 +48,14 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         isActive_C = true;
 
         float amount = (float)rankC.m_value1 / 100.0f;
-        player.AddBuff(StatusType.ATK, amount);
-        player.AddBuff(StatusType.DEF, amount);
+        
+        player.BuffMotion(() =>
+        {
+            player.AddBuff(StatusType.ATK, amount);
+            player.AddBuff(StatusType.DEF, amount);
 
-        Debug.Log("「オーラ」発動 攻撃力/防御力 " + (amount * 100) + "%アップ");
-
-        player.BuffMotion();
+            Debug.Log("「オーラ」発動 攻撃力/防御力 " + (amount * 100) + "%アップ");
+        });
     }
 
     /// <summary>
@@ -198,11 +200,13 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         isActive_SS = true;
 
         float mpAmount = (float)rankSS.m_value1 / 100.0f;
-        player.power_CostMp = (1 - mpAmount);
+        
+        player.BuffMotion(() => 
+        {
+            player.power_CostMp = (1 - mpAmount);
 
-        Debug.Log("「魔術師の結界」発動 MP消費量 " + player.power_CostMp + "倍");
-
-        player.BuffMotion();
+            Debug.Log("「魔術師の結界」発動 MP消費量 " + player.power_CostMp + "倍");
+        });
     }
 
     void _RankSS()

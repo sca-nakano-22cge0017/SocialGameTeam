@@ -67,6 +67,7 @@ public class Character : MonoBehaviour
 
     // ƒ‚[ƒVƒ‡ƒ“ŠÖŒW
     public Animator motion;
+    public SpineAnim spineAnim;
 
     /// <summary>
     /// ‰Šú‰»

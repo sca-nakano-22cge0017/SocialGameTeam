@@ -41,14 +41,15 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_C = 1;
         isActive_C = true;
 
-        for (int i = 0; i < enemies.Length; i++)
+        player.BuffMotion(() => 
         {
-            enemies[i].GetComponent<Enemy>().isIgnoreDeffence = true;
-        }
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                enemies[i].GetComponent<Enemy>().isIgnoreDeffence = true;
+            }
 
-        Debug.Log("「ピアス」発動");
-
-        player.BuffMotion();
+            Debug.Log("「ピアス」発動");
+        });
     }
 
     /// <summary>
@@ -126,13 +127,15 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankS.m_released) return;
 
-        float amount = (float)rankS.m_value1 / 100.0f;
-        player.AddBuff(StatusType.ATK, amount);
-
-        Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
-
-        player.BuffMotion();
         isActive_S = true;
+        float amount = (float)rankS.m_value1 / 100.0f;
+        
+        player.BuffMotion(() => 
+        {
+            player.AddBuff(StatusType.ATK, amount);
+
+            Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
+        });
     }
 
     void Cancel_RankS()
@@ -162,15 +165,16 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankSS.m_value1 / 100.0f * (float)player.ATK * player.power_Skill * player.critical;
         
-        player.AttackMotion();
-
-        for (int i = 0; i < enemies.Length; i++)
+        player.AttackMotion(() => 
         {
-            if (enemies[i] == null || enemies[i].activeSelf == false) continue;
+            for (int i = 0; i < enemies.Length; i++)
+            {
+                if (enemies[i] == null || enemies[i].activeSelf == false) continue;
 
-            var ene = enemies[i].GetComponent<Enemy>();
-            ene.Damage(amount);
-            if (cri) ene.CriticalDamage();
-        }
+                var ene = enemies[i].GetComponent<Enemy>();
+                ene.Damage(amount);
+                if (cri) ene.CriticalDamage();
+            }
+        });
     }
 }

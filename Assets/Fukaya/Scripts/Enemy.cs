@@ -167,12 +167,14 @@ public class Enemy : Character
         var cri = CriticalLottery(critical_NormalAttack);
 
         float damage = ATK * powerAtk * critical;
-        player.Damage(damage, this);
-        if (cri) player.CriticalDamage();
+        
+        AttackMotion(() => 
+        {
+            player.Damage(damage, this);
+            if (cri) player.CriticalDamage();
 
-        Debug.Log("敵 " + POSITION + " 通常攻撃" + damage);;
-
-        AttackMotion();
+            Debug.Log("敵 " + POSITION + " 通常攻撃" + damage);
+        });
     }
 
     /// <summary>
@@ -184,11 +186,13 @@ public class Enemy : Character
         isActive_Debuff1 = true;
 
         float amount = value_Debuff1 / 100.0f;
-        player.AddDebuff(StatusType.DEF, amount);
+        
+        AttackMotion(() => 
+        {
+            player.AddDebuff(StatusType.DEF, amount);
 
-        Debug.Log("敵 " + POSITION + " デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
-
-        AttackMotion();
+            Debug.Log("敵 " + POSITION + " デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
+        });
     }
     void Cancel_Debuff1()
     {
@@ -215,11 +219,13 @@ public class Enemy : Character
         isActive_Debuff2 = true;
 
         float amount = value_Debuff2 / 100.0f;
-        player.AddDebuff(StatusType.ATK, amount);
+        
+        AttackMotion(() => 
+        {
+            player.AddDebuff(StatusType.ATK, amount);
 
-        Debug.Log("敵 " + POSITION + " デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
-
-        AttackMotion();
+            Debug.Log("敵 " + POSITION + " デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
+        });
     }
     void Cancel_Debuff2()
     {
@@ -246,11 +252,13 @@ public class Enemy : Character
         isActive_Buff = true;
 
         float amount = value_Buff / 100.0f;
-        AddBuff(StatusType.ATK, amount);
+        
+        AttackMotion(() => 
+        {
+            AddBuff(StatusType.ATK, amount);
 
-        Debug.Log("敵 " + POSITION + " バフ発動 攻撃力" + (amount * 100) + "%アップ");
-
-        AttackMotion();
+            Debug.Log("敵 " + POSITION + " バフ発動 攻撃力" + (amount * 100) + "%アップ");
+        });
     }
     void Cancel_Buff()
     {
@@ -273,23 +281,25 @@ public class Enemy : Character
     /// </summary>
     void DoubleAttack()
     {
-        StartCoroutine(DoubleAttack_Coroutine());
         Debug.Log("敵 " + POSITION + " ダブルアタック発動");
-    }
 
-    IEnumerator DoubleAttack_Coroutine()
-    {
         var cri = CriticalLottery(critical_DoubleAttack);
 
         float damage = ATK * powerAtk * (value_DoubleAttack / 100.0f) * critical;
-        player.Damage(damage);
-        if (cri) player.CriticalDamage();
 
+        AttackMotion(() =>
+        {
+            player.Damage(damage);
+            if (cri) player.CriticalDamage();
+
+            StartCoroutine(SecondAttack(damage));
+        });
+    }
+
+    IEnumerator SecondAttack(float damage)
+    {
         yield return new WaitForSeconds(0.5f);
-
         player.Damage(damage);
-
-        AttackMotion();
     }
 
     /// <summary>
@@ -297,10 +307,11 @@ public class Enemy : Character
     /// </summary>
     void AbsolutelyKill()
     {
-        Debug.Log("敵 " + POSITION + " 確殺攻撃発動");
-        player.Damage((int)value_AbsolutelyKill);
-
-        AttackMotion();
+        AttackMotion(() => 
+        {
+            Debug.Log("敵 " + POSITION + " 確殺攻撃発動");
+            player.Damage((int)value_AbsolutelyKill);
+        });
     }
 
     /// <summary>
@@ -410,10 +421,9 @@ public class Enemy : Character
         mainGameSystem.TargetChange(this);
     }
 
-    public void AttackMotion()
+    public void AttackMotion(System.Action _action)
     {
-        motion.SetTrigger("attack");
-
-        StartCoroutine(EndWait());
+        spineAnim.callBack = () => { _action?.Invoke(); StartCoroutine(EndWait()); };
+        spineAnim.PlayAttackMotion();
     }
 }

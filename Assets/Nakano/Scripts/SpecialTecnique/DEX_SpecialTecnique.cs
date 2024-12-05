@@ -59,10 +59,11 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         Debug.Log("「ガードクラッシュ」発動 敵の防御力 " + (debuff * 100) + "%ダウン");
 
-        player.AttackMotion();
-
-        enemy.Damage(damage);
-        enemy.AddDebuff(StatusType.DEF, debuff);
+        player.AttackMotion(() => 
+        {
+            enemy.Damage(damage);
+            enemy.AddDebuff(StatusType.DEF, debuff);
+        });
     }
 
     void Cancel_RankC()
@@ -137,11 +138,13 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         isActive_S = true;
 
         float amount = (float)rankS.m_value1 / 100.0f;
-        player.buffCriticalPower = amount;
+        
+        player.BuffMotion(() => 
+        {
+            player.buffCriticalPower = amount;
 
-        Debug.Log("「バースト」発動 会心時倍率" + (amount * 100) + "%アップ");
-
-        player.BuffMotion();
+            Debug.Log("「バースト」発動 会心時倍率" + (amount * 100) + "%アップ");
+        });
     }
     
     /// <summary>
@@ -177,13 +180,15 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         isActive_SS = true;
 
         float amount = (float)rankS.m_value1 / 100.0f;
-        player.buffCriticalPower = amount;
+        
+        player.BuffMotion(() => 
+        {
+            player.buffCriticalPower = amount;
 
-        player._criticalProbability = 100;
+            player._criticalProbability = 100;
 
-        Debug.Log("「約束された勝利」発動 会心時倍率" + (amount * 100) + "%アップ, クリティカル確定");
-
-        player.BuffMotion();
+            Debug.Log("「約束された勝利」発動 会心時倍率" + (amount * 100) + "%アップ, クリティカル確定");
+        });
     }
     
     /// <summary>

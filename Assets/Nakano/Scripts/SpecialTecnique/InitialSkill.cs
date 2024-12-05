@@ -15,11 +15,13 @@ public class InitialSkill : SpecialTecniqueMethod
         if (!player.CostMP(heal.m_cost)) return;
 
         float amount = (float)player.HP * ((float)heal.m_value1 / 100.0f);
-        player.HealHP((int)amount);
+        
+        player.BuffMotion(() => 
+        {
+            player.HealHP((int)amount);
 
-        Debug.Log("「ヒール」発動 HP " + amount + " 回復");
-
-        player.BuffMotion();
+            Debug.Log("「ヒール」発動 HP " + amount + " 回復");
+        });
     }
 
     public void Fire()
@@ -35,8 +37,10 @@ public class InitialSkill : SpecialTecniqueMethod
 
         float amount = (float)player.ATK * ((float)fire.m_value1 / 100.0f) * player.power_Skill * player.critical;
         
-        player.AttackMotion();
-        target.Damage(amount);
-        if (cri) target.CriticalDamage();
+        player.AttackMotion(() => 
+        {
+            target.Damage(amount);
+            if (cri) target.CriticalDamage();
+        });
     }
 }
