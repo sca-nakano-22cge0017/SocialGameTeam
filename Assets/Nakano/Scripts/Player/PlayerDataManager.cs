@@ -76,8 +76,11 @@ public class PlayerDataManager : MonoBehaviour
             saveData.isBossClear[i] = GameManager.IsBossClear[i];
         }
 
+        // スタミナ関連
         saveData.staminaData.lastTime = StaminaManager.lastTimeStr;
         saveData.staminaData.lastStamina = StaminaManager.lastStamina;
+        saveData.staminaData.lastRecoveryTime = StaminaManager.lastRecoveryTime;
+        saveData.staminaData.lastCompleteRecoveryTime = StaminaManager.lastCompleteRecoveryTime;
 
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
@@ -107,8 +110,11 @@ public class PlayerDataManager : MonoBehaviour
         DifficultyManager.IsClearBossDifficulty = data.isCrearBossDifficulty;
         GameManager.SelectChara = data.selectChara;
 
+        // スタミナ関連
         StaminaManager.lastTimeStr = data.staminaData.lastTime;
         StaminaManager.lastStamina = data.staminaData.lastStamina;
+        StaminaManager.lastRecoveryTime = data.staminaData.lastRecoveryTime;
+        StaminaManager.lastCompleteRecoveryTime = data.staminaData.lastCompleteRecoveryTime;
 
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");

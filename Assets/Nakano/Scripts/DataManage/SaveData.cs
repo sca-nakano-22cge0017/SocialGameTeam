@@ -98,4 +98,14 @@ public class StaminaSaveData
     /// 前回終了時の時間
     /// </summary>
     public string lastTime;
+
+    /// <summary>
+    /// 前回終了時の次にスタミナ回復するまでの時間
+    /// </summary>
+    public float lastRecoveryTime;
+
+    /// <summary>
+    /// 前回終了時のスタミナ全快するまでの時間
+    /// </summary>
+    public float lastCompleteRecoveryTime;
 }

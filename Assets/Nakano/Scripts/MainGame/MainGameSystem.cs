@@ -40,8 +40,6 @@ public class MainGameSystem : MonoBehaviour
     private int elapsedTurn = 1;
     [SerializeField] private Text elapsedTurn_Text;
 
-    private bool isStart = false;
-
     private bool isInitialized = false;
     private bool isLose = false;
     private bool isWin = false;
@@ -84,7 +82,6 @@ public class MainGameSystem : MonoBehaviour
 
     void GameStart()
     {
-        isStart = true;
         OrderAction();
     }
 

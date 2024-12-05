@@ -173,6 +173,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;
     [SerializeField] private int fps;
 
+    bool loadCompleted = false;
+
     private void Awake()
     {
         if (instance == null)
@@ -193,8 +195,12 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         Application.targetFrameRate = fps;
-        staminaManager.Recovery();
 
+        if (loadCompleted)
+        {
+            staminaManager.Recovery();
+        }
+        
         // Test—p
         if (Input.GetKeyDown(KeyCode.C))
         {
@@ -215,5 +221,7 @@ public class GameManager : MonoBehaviour
         specialTecniqueManager.Load();
 
         staminaManager.Initialize();
+
+        loadCompleted = true;
     }
 }

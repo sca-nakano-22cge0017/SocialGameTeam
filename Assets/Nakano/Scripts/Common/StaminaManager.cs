@@ -61,6 +61,7 @@ public class StaminaManager : MonoBehaviour
     private const int add_LevelUp = 3;         // レベルアップ時のスタミナ増加量
     private const int add_Recovery = 1;        // 一定時間毎のスタミナ回復量
     private const float recoveryIntervalMin = 5.0f; // スタミナ回復のインターバル(分)
+    float recoveryIntervalSec = 0;                   // スタミナ回復のインターバル(秒)
 
     private const int cost_Traning = 5;   // 育成ステージでのスタミナ消費量
     public int GetCost_Traning { get => cost_Traning; }
@@ -75,9 +76,13 @@ public class StaminaManager : MonoBehaviour
     public static int lastStamina = 0;
     public static string lastTimeStr = "";
     public System.DateTime lastTime;
+    public static float lastRecoveryTime = 0;
+    public static float lastCompleteRecoveryTime = 0;
 
     public void Initialize()
     {
+        recoveryIntervalSec = (float)recoveryIntervalMin * (float)SECOND_PER_MINUTE;
+
         if (GameManager.isFirstStart)
         {
             stamina = max_Initial;
@@ -89,9 +94,19 @@ public class StaminaManager : MonoBehaviour
             System.TimeSpan span = System.DateTime.Now - lastTime;
             double spantime = span.TotalSeconds;
 
-            float value = (float)spantime / (recoveryIntervalMin * MINUTE_PER_HOUR);
-            stamina = lastStamina + (int)value;
             stamina_Max = max_Initial;
+            float rCompTime = lastCompleteRecoveryTime - (float)spantime;
+            if (rCompTime < 0) stamina = stamina_Max;
+            else
+            {
+                float value = ((float)spantime - lastRecoveryTime) / recoveryIntervalSec;
+                value = value < 0 ? 0 : value;
+
+                int currentAmount = lastStamina + (int)value;
+                stamina = currentAmount > stamina_Max ? stamina_Max : currentAmount;
+
+                elapsedTimeSec = ((lastStamina + 1) * recoveryIntervalSec - lastRecoveryTime + (float)spantime) % recoveryIntervalSec;
+            }
         }
     }
 
@@ -254,6 +269,8 @@ public class StaminaManager : MonoBehaviour
     {
         lastTimeStr = System.DateTime.Now.ToString();
         lastStamina = stamina;
+        lastRecoveryTime = recoveryTimeSec;
+        lastCompleteRecoveryTime = completeRecoveryTimeSec;
 
         PlayerDataManager.Save();
     }
