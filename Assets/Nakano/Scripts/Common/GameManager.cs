@@ -58,12 +58,12 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            if (selectChara == errorNum)
-            {
-                Debug.Log("選択キャラクター：入力値がありません。キャラクター1を選択します");
-                selectChara = 1;
-                PlayerDataManager.CharacterChange(selectChara);
-            }
+            //if (selectChara == errorNum)
+            //{
+            //    Debug.Log("選択キャラクター：入力値がありません。キャラクター1を選択します");
+            //    selectChara = 1;
+            //    PlayerDataManager.CharacterChange(selectChara);
+            //}
 
             return selectChara;
         }
@@ -171,7 +171,7 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// チュートリアル確認状況
     /// </summary>
-    private static TutorialProgress tutorialProgress;
+    private static TutorialProgress tutorialProgress = new();
     public static TutorialProgress TutorialProgress { get => tutorialProgress; set => tutorialProgress = value; }
 
     [SerializeField] private StaminaManager staminaManager;
