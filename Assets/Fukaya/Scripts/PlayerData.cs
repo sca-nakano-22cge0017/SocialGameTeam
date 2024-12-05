@@ -110,7 +110,7 @@ public class PlayerData : Character
     }
     IEnumerator EndWait()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         MoveEnd();
     }
 
@@ -124,26 +124,29 @@ public class PlayerData : Character
     {
         SetCommandsButton(false);
 
-        // 会心抽選
-        var cri = CriticalLottery();
+        AttackMotion(() =>
+        { 
+            // 会心抽選
+            var cri = CriticalLottery();
 
-        // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
-        float damage = ATK * power_NormalAttack * powerAtk * critical;
+            // ダメージ量 = 攻撃力 * 通常攻撃倍率 * 攻撃力倍率 * 会心倍率
+            float damage = ATK * power_NormalAttack * powerAtk * critical;
 
-        AttackMotion();
+            // ロックオンした敵にダメージ
+            var target = mainGameSystem.Target;
+            target.Damage(damage);
+            if (cri) target.CriticalDamage();
 
-        // ロックオンした敵にダメージ
-        var target = mainGameSystem.Target;
-        target.Damage(damage);
-        if (cri) target.CriticalDamage();
+            // 通常攻撃時に処理される特殊技能
+            atk_st.RankA(target);        // ガードブレイカー
+            mp_st.RankB();               // ドレイン
+            dex_st.RankA(target);        // 小手先のテクニック
+            if (agi_st.RankA()) NormalAttack(); // 再行動
 
-        // 通常攻撃時に処理される特殊技能
-        atk_st.RankA(target);        // ガードブレイカー
-        mp_st.RankB();               // ドレイン
-        dex_st.RankA(target);        // 小手先のテクニック
-        if (agi_st.RankA()) NormalAttack(); // 再行動
+            UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
 
-        UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
+            StartCoroutine(EndWait());
+        });
     }
 
     /// <summary>
@@ -176,21 +179,24 @@ public class PlayerData : Character
         SetCommandsButton(false);
         specialMoveGuage.SetCurrent(0);
 
-        atk_st.RankS(); // 全身全霊
-        specialMoveGuageAmount = 0;
+        AttackMotion(() => 
+        {
+            atk_st.RankS(); // 全身全霊
+            specialMoveGuageAmount = 0;
 
-        // 会心抽選
-        var cri = CriticalLottery();
+            // 会心抽選
+            var cri = CriticalLottery();
 
-        // ダメージ量 = 攻撃力 * 必殺技倍率 * 攻撃力倍率 * 会心倍率
-        float damage = ATK * power_SpecialMove * powerAtk * critical;
+            // ダメージ量 = 攻撃力 * 必殺技倍率 * 攻撃力倍率 * 会心倍率
+            float damage = ATK * power_SpecialMove * powerAtk * critical;
 
-        AttackMotion();
+            // ロックオンした敵にダメージ
+            var target = mainGameSystem.Target;
+            target.Damage(damage);
+            if (cri) target.CriticalDamage();
 
-        // ロックオンした敵にダメージ
-        var target = mainGameSystem.Target;
-        target.Damage(damage);
-        if (cri) target.CriticalDamage();
+            StartCoroutine(EndWait());
+        });
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)
@@ -335,22 +341,20 @@ public class PlayerData : Character
         _action?.Invoke();
     }
 
-    public void AttackMotion()
+    public void AttackMotion(Action _action)
     {
         SetCommandsButton(false);
 
-        motion.SetTrigger("attack");
-
-        StartCoroutine(EndWait());
+        spineAnim.callBack = () => { _action?.Invoke(); };
+        spineAnim.PlayAttackMotion();
     }
 
-    public void BuffMotion()
+    public void BuffMotion(Action _action)
     {
         SetCommandsButton(false);
 
-        motion.SetTrigger("buff");
-
-        StartCoroutine(EndWait());
+        spineAnim.callBack = () => { _action?.Invoke(); StartCoroutine(EndWait()); };
+        spineAnim.PlaybuffMotion();
     }
 
     public void WinMotion()

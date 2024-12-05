@@ -9,7 +9,6 @@ public class EnemiesIllust
     public string enemyId;
     public int imageId;
     public GameObject prefab;
-    public Animation anim;
 }
 
 [System.Serializable]
@@ -19,6 +18,7 @@ public class PlayerIllust
     public CombiType evolutionType; // Œ`‘Ô
     public GameObject playerIllust;
     public Sprite specialAttackIcon;
+    public SpineAnim spineAnim;
 }
 
 /// <summary>
@@ -151,6 +151,7 @@ public class StageManager : MonoBehaviour
             {
                 player.meshRenderer = playersIllust[i].playerIllust.gameObject.GetComponent<MeshRenderer>();
                 player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();
+                player.spineAnim = playersIllust[i].spineAnim;
 
                 specialAttackIcon.sprite = playersIllust[i].specialAttackIcon;
 
@@ -208,7 +209,7 @@ public class StageManager : MonoBehaviour
                         var mr = child.GetComponent<MeshRenderer>();
                         mr.sortingOrder = 50 - e - 1;
                         enemies[e].meshRenderer = mr;
-                        enemies[e].motion = child.GetComponent<Animator>();
+                        enemies[e].spineAnim = ene.GetComponent<SpineAnim>();
                     }
                 }
 

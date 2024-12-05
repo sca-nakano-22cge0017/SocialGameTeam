@@ -66,9 +66,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_A = 1;
         isActive_A = true;
 
-        Debug.Log("「無敵」発動");
-
-        player.BuffMotion();
+        player.BuffMotion(() => 
+        { Debug.Log("「無敵」発動"); });
     }
 
     /// <summary>
@@ -130,9 +129,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         elapsedTurn_SS.Add(1);
         isActive_SS = true;
 
-        Debug.Log("「守護神の権能」発動");
-
-        player.BuffMotion();
+        player.BuffMotion(() => 
+        { Debug.Log("「守護神の権能」発動"); });
     }
 
     /// <summary>

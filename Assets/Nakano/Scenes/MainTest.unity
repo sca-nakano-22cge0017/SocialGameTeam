@@ -360,6 +360,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 423939462932897333, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: attackTime
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 502145318355126128, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -635,6 +639,10 @@ PrefabInstance:
     - target: {fileID: 2698758511298701311, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2915135457903030557, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+      propertyPath: attackTime
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2963451175258265727, guid: c38280de24c583b429d538ab79573aa2, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2795,6 +2803,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1711024309 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2915135457903030557, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+  m_PrefabInstance: {fileID: 192289436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43acab2fa03a93d469acd8a629a8a87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1711024310 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 423939462932897333, guid: c38280de24c583b429d538ab79573aa2, type: 3}
+  m_PrefabInstance: {fileID: 192289436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43acab2fa03a93d469acd8a629a8a87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1723303172
 GameObject:
   m_ObjectHideFlags: 0
@@ -2847,34 +2877,42 @@ MonoBehaviour:
     evolutionType: 3
     playerIllust: {fileID: 1858131982}
     specialAttackIcon: {fileID: 21300000, guid: 2bab64330261b06479c496ea912f4435, type: 3}
+    spineAnim: {fileID: 1711024310}
   - charaId: 1
     evolutionType: 0
     playerIllust: {fileID: 1858131982}
     specialAttackIcon: {fileID: 21300000, guid: 2bab64330261b06479c496ea912f4435, type: 3}
+    spineAnim: {fileID: 1711024310}
   - charaId: 1
     evolutionType: 1
     playerIllust: {fileID: 1858131982}
     specialAttackIcon: {fileID: 21300000, guid: 2bab64330261b06479c496ea912f4435, type: 3}
+    spineAnim: {fileID: 1711024310}
   - charaId: 1
     evolutionType: 2
     playerIllust: {fileID: 1858131982}
     specialAttackIcon: {fileID: 21300000, guid: 2bab64330261b06479c496ea912f4435, type: 3}
+    spineAnim: {fileID: 1711024310}
   - charaId: 2
     evolutionType: 3
     playerIllust: {fileID: 657445577}
     specialAttackIcon: {fileID: 21300000, guid: 7d1e9984d0bdd6b4f95ff4f62514f7d2, type: 3}
+    spineAnim: {fileID: 1711024309}
   - charaId: 2
     evolutionType: 0
     playerIllust: {fileID: 657445577}
     specialAttackIcon: {fileID: 21300000, guid: 7d1e9984d0bdd6b4f95ff4f62514f7d2, type: 3}
+    spineAnim: {fileID: 1711024309}
   - charaId: 2
     evolutionType: 1
     playerIllust: {fileID: 657445577}
     specialAttackIcon: {fileID: 21300000, guid: 7d1e9984d0bdd6b4f95ff4f62514f7d2, type: 3}
+    spineAnim: {fileID: 1711024309}
   - charaId: 2
     evolutionType: 2
     playerIllust: {fileID: 657445577}
     specialAttackIcon: {fileID: 21300000, guid: 7d1e9984d0bdd6b4f95ff4f62514f7d2, type: 3}
+    spineAnim: {fileID: 1711024309}
   enemies:
   - {fileID: 956392061}
   - {fileID: 2021908211}
