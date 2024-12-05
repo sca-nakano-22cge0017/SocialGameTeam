@@ -82,6 +82,9 @@ public class PlayerDataManager : MonoBehaviour
         saveData.staminaData.lastRecoveryTime = StaminaManager.lastRecoveryTime;
         saveData.staminaData.lastCompleteRecoveryTime = StaminaManager.lastCompleteRecoveryTime;
 
+        // チュートリアル進捗
+        saveData.tutorialData = new TutorialProgress(GameManager.TutorialProgress);
+
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
 
@@ -115,6 +118,9 @@ public class PlayerDataManager : MonoBehaviour
         StaminaManager.lastStamina = data.staminaData.lastStamina;
         StaminaManager.lastRecoveryTime = data.staminaData.lastRecoveryTime;
         StaminaManager.lastCompleteRecoveryTime = data.staminaData.lastCompleteRecoveryTime;
+
+        // チュートリアル進捗
+        GameManager.TutorialProgress = new TutorialProgress(data.tutorialData);
 
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");

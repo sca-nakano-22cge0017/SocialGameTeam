@@ -54,6 +54,11 @@ public class PlayerData : Character
     /// </summary>
     public bool isInvincible = false;
 
+    /// <summary>
+    /// 必殺技解放済みかどうか
+    /// </summary>
+    public bool canSpecialMove = false;
+
     void Start()
     {
         atk_st.GameStart();
@@ -166,6 +171,7 @@ public class PlayerData : Character
     public void SpecialMove()
     {
         if (specialMoveGuageAmount < specialMoveGuageMax) return;
+        if (!canSpecialMove) return;
 
         SetCommandsButton(false);
         specialMoveGuage.SetCurrent(0);
@@ -194,9 +200,6 @@ public class PlayerData : Character
             UpSpecialMoveGuage(sm_Guard.guageUpAmount);
             return 0;     // ステップ
         }
-
-        //if (!isGuard) Debug.Log($"非防御 {DEF} * {powerDef} = {DEF * powerDef}");
-        //if (isGuard) Debug.Log($"防御中 {DEF} * {powerDef} = {DEF * powerDef}");
 
         // 被ダメ - 防御力 を実際の被ダメージにする
         int damage = (int)Mathf.Ceil(_damageAmount - (DEF * powerDef));
@@ -380,7 +383,7 @@ public class PlayerData : Character
             }
         }
 
-        if (specialMoveGuageAmount < specialMoveGuageMax)
+        if (specialMoveGuageAmount < specialMoveGuageMax || !canSpecialMove)
         {
             commands[0].interactable = false;
             commands[0].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);

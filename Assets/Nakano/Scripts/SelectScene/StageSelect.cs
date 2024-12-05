@@ -36,15 +36,23 @@ public class StageSelect : MonoBehaviour
 
     StaminaManager sm = null;
     StageDataManager sdm = null;
+    TutorialWindow tutorial = null;
 
     void Start()
     {
         sm = FindObjectOfType<StaminaManager>();
         sdm = FindObjectOfType<StageDataManager>();
+        tutorial = FindObjectOfType<TutorialWindow>();
 
         if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
         {
             costStamina.text = "-" + sm.GetCost_Traning;
+            
+            if (GameManager.TutorialProgress.checkedBossBattle)
+            {
+                tutorial.StageSelect_BossCleared();
+            }
+            else tutorial.StageSelect();
         }
         if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
         {

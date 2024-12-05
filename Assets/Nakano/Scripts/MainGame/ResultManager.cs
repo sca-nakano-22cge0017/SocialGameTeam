@@ -31,10 +31,13 @@ public class ResultManager : MonoBehaviour
     StaminaManager staminaManager;
     [SerializeField] private Text costStamina;
 
+    TutorialWindow tutorial = null;
+
     void Start()
     {
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
         staminaManager = FindObjectOfType<StaminaManager>();
+        tutorial = FindObjectOfType<TutorialWindow>();
 
         if (GameManager.SelectArea == 1)
         {
@@ -48,6 +51,9 @@ public class ResultManager : MonoBehaviour
 
     private void OnEnable()
     {
+        tutorial = FindObjectOfType<TutorialWindow>();
+        tutorial.Result();
+
         ResultInitialize();
         window_st_Skill.SetActive(false);
         window_st_Passive.SetActive(false);
@@ -56,21 +62,24 @@ public class ResultManager : MonoBehaviour
 
         if (dropController.DropedItems.Count == 0) return;
 
-        if (GameManager.SelectArea == 1)
+        StartCoroutine(WaitTutorial(() =>
         {
-            AddRankPoint();
-        }
-        else
-        {
-            if (GameManager.IsBossClear[GameManager.SelectDifficulty - 1]) return;
-            AddRankPoint();
+            if (GameManager.SelectArea == 1)
+            {
+                AddRankPoint();
+            }
+            else
+            {
+                if (GameManager.IsBossClear[GameManager.SelectDifficulty - 1]) return;
+                AddRankPoint();
 
-            GameManager.IsBossClear[GameManager.SelectDifficulty - 1] = true;
+                GameManager.IsBossClear[GameManager.SelectDifficulty - 1] = true;
 
-            DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
-            GameManager.SelectDifficulty++;
-            PlayerDataManager.Save();
-        }
+                DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
+                GameManager.SelectDifficulty++;
+                PlayerDataManager.Save();
+            }
+        }));
     }
 
     private void OnDisable()
@@ -266,5 +275,12 @@ public class ResultManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
         ReleaseSpecialTecnique();
+    }
+
+    IEnumerator WaitTutorial(System.Action _action)
+    {
+        yield return new WaitUntil(() => tutorial.CompleteTutorial);
+
+        _action?.Invoke();
     }
 }
