@@ -13,11 +13,17 @@ public static class CharaNum
 public class CharaSelect : MonoBehaviour
 {
     [SerializeField,Header("キャラオブジェクト")] private GameObject CharaObjects = null;
+    private TutorialWindow tutorialWindow;
 
     private void Awake()
     {
         CharaObjects.SetActive(false);
         StartCoroutine(Loader());
+    }
+    private void Start()
+    {
+        tutorialWindow = FindObjectOfType<TutorialWindow>();
+        tutorialWindow.CharaSelect();
     }
     //どのキャラクターを選んだか
     //選択されたキャラとその育成状況によって変わるスプライト流用できるプログラムを作る
@@ -41,6 +47,7 @@ public class CharaSelect : MonoBehaviour
         GameManager.isFirstStart = false;
         PlayerDataManager.Save();
         CharaObjects.SetActive(false);
+        tutorialWindow.Home();
     }
     IEnumerator Loader()
     {
