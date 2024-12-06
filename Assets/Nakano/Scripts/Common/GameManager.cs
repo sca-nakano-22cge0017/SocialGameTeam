@@ -180,6 +180,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int fps;
 
     bool loadCompleted = false;
+    public static bool isDelete = false;
 
     private void Awake()
     {
@@ -212,10 +213,6 @@ public class GameManager : MonoBehaviour
         {
             PlayerDataManager.TraningReset();
         }
-        if (Input.GetKeyDown(KeyCode.Delete))
-        {
-            CharaSelectManager.DeleteSaveData();
-        }
     }
 
     IEnumerator LoadComplete()
@@ -229,5 +226,11 @@ public class GameManager : MonoBehaviour
         staminaManager.Initialize();
 
         loadCompleted = true;
+    }
+
+    public void DataDelete()
+    {
+        isDelete = true;
+        CharaSelectManager.DeleteSaveData();
     }
 }

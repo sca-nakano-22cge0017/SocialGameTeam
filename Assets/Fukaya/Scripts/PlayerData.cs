@@ -144,8 +144,6 @@ public class PlayerData : Character
             if (agi_st.RankA()) NormalAttack(); // Äs“®
 
             UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
-
-            StartCoroutine(EndWait());
         });
     }
 
@@ -194,8 +192,6 @@ public class PlayerData : Character
             var target = mainGameSystem.Target;
             target.Damage(damage);
             if (cri) target.CriticalDamage();
-
-            StartCoroutine(EndWait());
         });
     }
 
@@ -345,7 +341,7 @@ public class PlayerData : Character
     {
         SetCommandsButton(false);
 
-        spineAnim.callBack = () => { _action?.Invoke(); };
+        spineAnim.callBack = () => { _action?.Invoke(); StartCoroutine(EndWait()); };
         spineAnim.PlayAttackMotion();
     }
 

@@ -267,11 +267,29 @@ public class StaminaManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        Save();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            Save();
+        }
+    }
+
+    void Save()
+    {
         lastTimeStr = System.DateTime.Now.ToString();
         lastStamina = stamina;
         lastRecoveryTime = recoveryTimeSec;
         lastCompleteRecoveryTime = completeRecoveryTimeSec;
 
-        PlayerDataManager.Save();
+        if (!GameManager.isDelete)
+        {
+            PlayerDataManager.Save();
+        }
+
+        GameManager.isDelete = false;
     }
 }
