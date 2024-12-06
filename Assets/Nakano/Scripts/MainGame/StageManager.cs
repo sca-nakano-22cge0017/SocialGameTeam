@@ -16,6 +16,7 @@ public class PlayerIllust
 {
     public int charaId;
     public CombiType evolutionType; // 形態
+    public GameObject playerObj;
     public GameObject playerIllust;
     public Sprite specialAttackIcon;
     public SpineAnim spineAnim;
@@ -78,7 +79,7 @@ public class StageManager : MonoBehaviour
             stageDataManager.LoadCompleteProcess += () =>
             {
                 Setting();
-                playersIllust[0].playerIllust.SetActive(true);
+                playersIllust[0].playerObj.SetActive(true);
             };
 
             // 指定したステージのデータをロード
@@ -155,7 +156,7 @@ public class StageManager : MonoBehaviour
 
                 specialAttackIcon.sprite = playersIllust[i].specialAttackIcon;
 
-                playersIllust[i].playerIllust.SetActive(true);
+                playersIllust[i].playerObj.SetActive(true);
             }
         }
 

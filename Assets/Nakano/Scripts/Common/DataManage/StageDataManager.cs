@@ -90,7 +90,8 @@ public class StageDataManager : MonoBehaviour
 
             for (int ed = 0; ed < enemyStatus.Count; ed++)
             {
-                if (enemyStatus[ed].enemyId == stageData.enemyPlacement[sd].enemyId)
+                if (enemyStatus[ed].enemyId == stageData.enemyPlacement[sd].enemyId && 
+                    enemyStatus[ed].imageId == stageData.enemyPlacement[sd].imageId)
                 {
                     enemyData.enemyStatus = enemyStatus[ed];
                 }
