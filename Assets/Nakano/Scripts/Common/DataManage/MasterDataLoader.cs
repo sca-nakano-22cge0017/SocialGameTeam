@@ -270,6 +270,7 @@ public class MasterDataLoader : MonoBehaviour
         const int stageIdColumn = 3;
         const int placeIdColumn = 4;
         const int idColumn = 5;
+        const int imageIdColumn = 6;
 
         List<EnemyPlacement> placement = new();
         List<string[]> datas = textDatas[enemyStatusKey];
@@ -283,6 +284,7 @@ public class MasterDataLoader : MonoBehaviour
                 EnemyPlacement pos = new();
                 pos.enemyId = datas[l][idColumn];
                 pos.placementId = int.Parse(datas[l][placeIdColumn]);
+                pos.imageId = int.Parse(datas[l][imageIdColumn]);
 
                 placement.Add(pos);
             }
@@ -605,6 +607,8 @@ namespace Master
     public class EnemyPlacement
     {
         public string enemyId;
+
+        public int imageId;
 
         /// <summary>
         /// 配置位置番号 1～4の数値
