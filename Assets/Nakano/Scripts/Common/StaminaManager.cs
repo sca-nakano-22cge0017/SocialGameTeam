@@ -57,8 +57,8 @@ public class StaminaManager : MonoBehaviour
 
     private const int max_Initial = 100;  // スタミナ最大値の初期値
 
-    private const int maxAdd_LevelUp = 3;      // レベルアップ時のスタミナ上限増加量
-    private const int add_LevelUp = 3;         // レベルアップ時のスタミナ増加量
+    private const int maxAdd_LevelUp = 30;      // レベルアップ時のスタミナ上限増加量
+    private const int add_LevelUp = 30;         // レベルアップ時のスタミナ増加量
     private const int add_Recovery = 1;        // 一定時間毎のスタミナ回復量
     private const float recoveryIntervalMin = 5.0f; // スタミナ回復のインターバル(分)
     float recoveryIntervalSec = 0;                   // スタミナ回復のインターバル(秒)

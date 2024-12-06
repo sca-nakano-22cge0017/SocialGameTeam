@@ -9,6 +9,7 @@ public class Enemy : Character
     private DropController dropController;
 
     public int POSITION; // 敵の位置
+    public Image image;
 
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
@@ -321,8 +322,6 @@ public class Enemy : Character
     /// <returns>防御力分減少させたダメージ量</returns>
     public override int Damage(float _amount)
     {
-        if (!meshRenderer.enabled || currentHp < 0) return 0;
-
         if (currentHp <= 0) return 0;
 
         int damage = 0;
@@ -332,7 +331,6 @@ public class Enemy : Character
 
         return damage;
     }
-
 
     /// <summary>
     /// HP回復
@@ -356,20 +354,21 @@ public class Enemy : Character
 
         mainGameSystem.Judge();
 
-        // Todo モーション再生
-
         // イラスト・HPゲージを非表示にする
         StartCoroutine(HPGuageDirectionCompleteWait(() =>
         {
-            meshRenderer.enabled = false;
-            hpGuage_Obj.SetActive(false);
-            targetChangeButton.interactable = false;
-
-            if (GameManager.SelectArea == 1) StartCoroutine(DropDirection());
-            if (GameManager.SelectArea == 2)
+            // 死亡演出
+            StartCoroutine(DeadMotion(() => 
             {
-                dropController.BossDrop();
-            }
+                hpGuage_Obj.SetActive(false);
+                targetChangeButton.interactable = false;
+
+                if (GameManager.SelectArea == 1) StartCoroutine(DropDirection());
+                if (GameManager.SelectArea == 2)
+                {
+                    dropController.BossDrop();
+                }
+            }));
         }));
     }
 
@@ -421,9 +420,41 @@ public class Enemy : Character
         mainGameSystem.TargetChange(this);
     }
 
-    public void AttackMotion(System.Action _action)
+    void AttackMotion(System.Action _action)
     {
         spineAnim.callBack = () => { _action?.Invoke(); StartCoroutine(EndWait()); };
         spineAnim.PlayAttackMotion();
+    }
+
+    [SerializeField] private float deadMotionTime = 1.0f;
+    [SerializeField] private float deadMotionDist = 100;
+
+    /// <summary>
+    /// 死亡演出再生
+    /// </summary>
+    /// <param name="_action"></param>
+    /// <returns></returns>
+    IEnumerator DeadMotion(System.Action _action)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        float time = 0;
+        float alpha = 1;
+
+        while (time < deadMotionTime)
+        {
+            Vector3 pos = image.rectTransform.localPosition;
+            pos.y -= (deadMotionDist / deadMotionTime * Time.deltaTime);
+            image.rectTransform.localPosition = pos;
+
+            alpha -= 1 / deadMotionTime * Time.deltaTime;
+            image.color = new Color(1,1,1,alpha);
+
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+
+        _action?.Invoke();
     }
 }
