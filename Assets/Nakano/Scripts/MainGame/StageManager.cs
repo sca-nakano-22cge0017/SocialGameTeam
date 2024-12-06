@@ -205,10 +205,27 @@ public class StageManager : MonoBehaviour
                         var ene = Instantiate(enemiesIllust[i].prefab, enemies[e].gameObject.transform);
                         ene.transform.SetSiblingIndex(0);
 
+                        switch (e)
+                        {
+                            case 0:
+                                ene.transform.localPosition = new Vector3(602, -2000, 0);
+                                break;
+                            case 1:
+                                ene.transform.localPosition = new Vector3(1245, -2121, 0);
+                                break;
+                            case 2:
+                                ene.transform.localPosition = new Vector3(1886, -2224, 0);
+                                break;
+                            case 3:
+                                ene.transform.localPosition = new Vector3(2545, -2326, 0);
+                                break;
+                        }
+
                         var child = ene.transform.GetChild(0).gameObject;
+
                         var mr = child.GetComponent<MeshRenderer>();
                         mr.sortingOrder = 50 - e - 1;
-                        enemies[e].meshRenderer = mr;
+
                         enemies[e].spineAnim = ene.GetComponent<SpineAnim>();
                     }
                 }

@@ -429,9 +429,6 @@ public class Character : MonoBehaviour
     {
         yield return new WaitUntil(() => hpGuage.isDirectionCompleted);
 
-        // ÀÛ‚É‚Í”s–k‰‰o‚ªI—¹‚·‚é‚Ü‚Å‘Ò‚Â
-        yield return new WaitForSeconds(3.0f);
-
         _action?.Invoke();
     }
 }
