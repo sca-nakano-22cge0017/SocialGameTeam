@@ -57,7 +57,7 @@ public class MainGameSystem : MonoBehaviour
         if (GameManager.SelectArea == 1)
         {
             // 初めての育成バトルは必殺技を使用不可にする
-            if (!GameManager.TutorialProgress.checkedBattle)
+            if (!GameManager.TutorialProgress.checkedBossBattle)
             {
                 player.canSpecialMove = false;
             }
@@ -68,6 +68,7 @@ public class MainGameSystem : MonoBehaviour
         if (GameManager.SelectArea == 2)
         {
             tutorial.BossBattle();
+            player.canSpecialMove = true;
         }
     }
 
