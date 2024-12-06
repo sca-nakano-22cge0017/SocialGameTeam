@@ -11,6 +11,8 @@ public class HomeButtonController : MonoBehaviour
     [SerializeField, Header("警告window")] private GameObject warningWindow = null;
     [SerializeField,Header("最終確認window")] private GameObject decisionWindow = null;
 
+    private TutorialWindow tutorialWindow;
+
     bool effectCheck;
     // Start is called before the first frame update
     void Start()
@@ -19,6 +21,8 @@ public class HomeButtonController : MonoBehaviour
         checkWindow.SetActive(false);
         warningWindow.SetActive(false);
         decisionWindow.SetActive(false);
+
+        tutorialWindow = FindObjectOfType<TutorialWindow>();
     }
 
     // Update is called once per frame
@@ -52,6 +56,7 @@ public class HomeButtonController : MonoBehaviour
                 break;
             case "CheckInWindow": //確認Window
                 checkWindow.SetActive(true);
+                tutorialWindow.TraningReset();
                 break;
             case "BackWindow": //ホーム画面に戻る
                 Debug.Log("ホームに戻る");
