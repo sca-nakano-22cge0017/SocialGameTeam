@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// シーン遷移演出再生
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
-    public static void LoadScene(string scene)
+    public static void LoadFade(string scene)
     {
         LoadManager loadManager;
 
@@ -27,6 +28,21 @@ public class SceneLoader : MonoBehaviour
         {
             loadManager.LoadScene(scene);
         }
+    }
+
+    public static void Load(string scene)
+    {
+        GameManager.lastScene = SceneManager.GetActiveScene().name;
+
+        SceneManager.LoadScene(scene);
+    }
+
+    /// <summary>
+    /// 前のシーンに戻る
+    /// </summary>
+    public static void Back()
+    {
+        SceneManager.LoadScene(GameManager.lastScene);
     }
 
     /// <summary>

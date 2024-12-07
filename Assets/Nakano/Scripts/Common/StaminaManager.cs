@@ -65,7 +65,7 @@ public class StaminaManager : MonoBehaviour
 
     private const int cost_Traning = 5;   // 育成ステージでのスタミナ消費量
     public int GetCost_Traning { get => cost_Traning; }
-    private const int cost_Boss = 10;     // ボスステージでのスタミナ消費量
+    private const int cost_Boss = 100;     // ボスステージでのスタミナ消費量
     public int GetCost_Boss { get => cost_Boss; }
 
     private const int MINUTE_PER_HOUR = 60;
@@ -197,7 +197,7 @@ public class StaminaManager : MonoBehaviour
     /// スタミナ消費
     /// </summary>
     /// <param name="_cost">消費量</param>
-    private bool Cost(int _cost)
+    public bool Cost(int _cost)
     {
         if (stamina < _cost)
         {
@@ -256,6 +256,8 @@ public class StaminaManager : MonoBehaviour
 
     IEnumerator DisplayWindow()
     {
+        if (staminaWindow.activeSelf) yield break;
+
         staminaWindow.SetActive(true);
 
         yield return new WaitForSeconds(1.0f);
