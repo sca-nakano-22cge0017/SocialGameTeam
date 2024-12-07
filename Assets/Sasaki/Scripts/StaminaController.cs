@@ -16,10 +16,13 @@ public class StaminaController : MonoBehaviour
     private int staminaMax;
     private string staminaTime; //1回復の時間
 
+    [SerializeField, Header("アイコンを押した時window")] private GameObject iconWindow = null;
 
     // Start is called before the first frame update
     void Start()
     {
+        iconWindow.SetActive(false);
+
         staminaWindow.SetActive(false);
         staminaManager = FindObjectOfType<StaminaManager>();
         //staminaManagerがnullだったら作る
@@ -67,5 +70,27 @@ public class StaminaController : MonoBehaviour
     void StaminaHidden()
     {
         staminaWindow.SetActive(false);
+    }
+
+    public void OnIconWindow(string str)
+    {
+        switch (str)
+        {
+            case "IconWindow": //アイコンボタン
+                iconWindow.SetActive(true);
+                break;
+            case "DetachedButton": //アイコンボタンを離した時
+                iconWindow.SetActive(false);
+                break;
+            case "HomeWindow": //ホーム画面に戻る
+                SceneLoader.Load("HomeScene");
+                break;
+            case "BackButton": //1つ前のシーンに戻る
+                SceneLoader.Back();
+                break;
+            default:
+                SceneLoader.LoadFade("TitleScene");
+                break;
+        }
     }
 }
