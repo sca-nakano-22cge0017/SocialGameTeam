@@ -16,7 +16,6 @@ public class StaminaController : MonoBehaviour
     private int staminaMax;
     private string staminaTime; //1‰ñ•œ‚ÌŠÔ
 
-    int tapNum = 0; //‰Ÿ‚µ‚½‰ñ”
 
     // Start is called before the first frame update
     void Start()
