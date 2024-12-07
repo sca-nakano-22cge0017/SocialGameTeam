@@ -535,9 +535,9 @@ public class MasterDataLoader : MonoBehaviour
         const int continuationTurnColumn = 5;
         const int value1Column = 6;
         const int value2Column = 7;
-        const int effectsColumn = 8;
-        const int costColumn = 1;
-
+        const int costColumn = 8;
+        const int effectsColumn = 9;
+        
         List<string[]> datas = textDatas[specialTecniqueKey];
 
         for (int l = 0; l < datas.Count - 1; l++)
