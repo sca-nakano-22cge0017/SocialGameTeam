@@ -182,7 +182,7 @@ public class GameManager : MonoBehaviour
     bool loadCompleted = false;
     public static bool isDelete = false;
 
-    public static string lastScene = "";
+    public static string lastScene = "HomeScene";
 
     private void Awake()
     {
