@@ -110,7 +110,7 @@ public class PlayerData : Character
     }
     IEnumerator EndWait()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.1f);
         MoveEnd();
     }
 
