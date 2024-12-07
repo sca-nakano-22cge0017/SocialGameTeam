@@ -231,14 +231,14 @@ public class ResultManager : MonoBehaviour
         if (GameManager.SelectArea == 1)
         {
             //SceneManager.LoadScene("SelectScene_Traning");
-            SceneLoader.LoadScene("SelectScene_Traning");
+            SceneLoader.LoadFade("SelectScene_Traning");
         }
         else if (GameManager.SelectArea == 2)
         {
             //SceneManager.LoadScene("SelectScene_Boss");
-            SceneLoader.LoadScene("SelectScene_Boss");
+            SceneLoader.LoadFade("SelectScene_Boss");
         }
-        else SceneLoader.LoadScene("SelectScene_Traning");
+        else SceneLoader.LoadFade("SelectScene_Traning");
     }
 
     /// <summary>
@@ -249,7 +249,7 @@ public class ResultManager : MonoBehaviour
         if ((GameManager.SelectArea == 1 && staminaManager.Traning()) ||
             (GameManager.SelectArea == 2 && staminaManager.Boss()))
         {
-            SceneLoader.LoadScene("MainTest");
+            SceneLoader.LoadFade("MainTest");
         }
     }
 

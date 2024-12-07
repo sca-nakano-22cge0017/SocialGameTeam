@@ -26,18 +26,18 @@ public class WindowController : MonoBehaviour
 
     public void ToHome()
     {
-        SceneLoader.LoadScene("HomeScene");
+        SceneLoader.LoadFade("HomeScene");
     }
 
     public void ToSelect()
     {
         if (GameManager.SelectArea == 1)
         {
-            SceneLoader.LoadScene("SelectScene_Traning");
+            SceneLoader.LoadFade("SelectScene_Traning");
         }
         if (GameManager.SelectArea == 2)
         {
-            SceneLoader.LoadScene("SelectScene_Boss");
+            SceneLoader.LoadFade("SelectScene_Boss");
         }
     }
 
@@ -47,19 +47,19 @@ public class WindowController : MonoBehaviour
         {
             var staminaManager = FindObjectOfType<StaminaManager>();
             staminaManager.TraningExit();
-            SceneLoader.LoadScene("SelectScene_Traning");
+            SceneLoader.LoadFade("SelectScene_Traning");
         }
         if (GameManager.SelectArea == 2)
         {
             var staminaManager = FindObjectOfType<StaminaManager>();
             staminaManager.BossExit();
-            SceneLoader.LoadScene("SelectScene_Boss");
+            SceneLoader.LoadFade("SelectScene_Boss");
         }
     }
 
     public void ToMain()
     {
         //SceneLoader.LoadScene("Main");
-        SceneLoader.LoadScene("MainTest");
+        SceneLoader.LoadFade("MainTest");
     }
 }

@@ -219,7 +219,7 @@ public class MainGameSystem : MonoBehaviour
         }
         else if (isLose)
         {
-            SceneLoader.LoadScene("HomeScene");
+            SceneLoader.LoadFade("HomeScene");
         }
     }
 

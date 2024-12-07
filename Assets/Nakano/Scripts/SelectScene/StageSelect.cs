@@ -48,7 +48,7 @@ public class StageSelect : MonoBehaviour
         {
             costStamina.text = "-" + sm.GetCost_Traning;
             
-            if (GameManager.TutorialProgress.checkedBossBattle)
+            if (DifficultyManager.IsClearBossDifficulty > 0)
             {
                 tutorial.StageSelect_BossCleared();
             }
@@ -194,21 +194,7 @@ public class StageSelect : MonoBehaviour
     /// <param name="_stageId"></param>
     private void ConsumeStamina(int _areaId)
     {
-        Debug.Log("スタミナ消費");
         if (sm == null) return;
-
-        bool canPlay = false;
-
-        switch (_areaId)
-        {
-            case 1:
-                canPlay = sm.Traning();
-                break;
-
-            case 2:
-                canPlay = sm.Boss();
-                break;
-        }
 
         // 押下処理
         GameManager.SelectArea = selectingButton.AreaID;
@@ -222,7 +208,11 @@ public class StageSelect : MonoBehaviour
         // ステージデータ読み込み完了時の処理
         sdm.LoadCompleteProcess += () =>
         {
-            if (canPlay == true) SceneLoader.LoadScene("MainTest");
+            if ((_areaId == 1 && sm.Cost(sm.GetCost_Traning)) ||
+            (_areaId == 2 && sm.Cost(sm.GetCost_Boss)))
+            {
+                SceneLoader.LoadFade("MainTest");
+            }
         };
         sdm.LoadData(GameManager.SelectDifficulty, selectingButton.AreaID, selectingButton.StageID);
 
