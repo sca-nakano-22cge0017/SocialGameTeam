@@ -159,6 +159,14 @@ public class StaminaManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// スタミナ全快 デバッグ用
+    /// </summary>
+    public void DebugRecovery()
+    {
+        stamina = stamina_Max;
+    }
+
     public void LevelUp()
     {
         stamina_Max += maxAdd_LevelUp;

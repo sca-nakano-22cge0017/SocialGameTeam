@@ -90,6 +90,9 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankA()
     {
+        // ƒXƒLƒ‹”­“®’†‚Å‚È‚¯‚ê‚Îˆ—‚µ‚È‚¢
+        if (!isActive_A) return;
+
         if (elapsedTurn_A > rankA.m_continuationTurn)
         {
             player.isInvincible = false;

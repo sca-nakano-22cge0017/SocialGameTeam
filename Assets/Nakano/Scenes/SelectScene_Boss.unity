@@ -1579,6 +1579,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToHome
       objectReference: {fileID: 0}
+    - target: {fileID: 6104206556573260539, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4608608984129940567}
+    - target: {fileID: 6104206556573260539, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StaminaRecovery
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104206556573260539, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: StageSelect, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6104206556573260539, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8835324359742048091, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_Name
       value: SelectWindow_Common
