@@ -60,12 +60,12 @@ public class StaminaManager : MonoBehaviour
     private const int maxAdd_LevelUp = 30;      // レベルアップ時のスタミナ上限増加量
     private const int add_LevelUp = 30;         // レベルアップ時のスタミナ増加量
     private const int add_Recovery = 1;        // 一定時間毎のスタミナ回復量
-    private const float recoveryIntervalMin = 5.0f; // スタミナ回復のインターバル(分)
+    private const float recoveryIntervalMin = 1.0f; // スタミナ回復のインターバル(分)
     float recoveryIntervalSec = 0;                   // スタミナ回復のインターバル(秒)
 
     private const int cost_Traning = 5;   // 育成ステージでのスタミナ消費量
     public int GetCost_Traning { get => cost_Traning; }
-    private const int cost_Boss = 100;     // ボスステージでのスタミナ消費量
+    private const int cost_Boss = 10;     // ボスステージでのスタミナ消費量
     public int GetCost_Boss { get => cost_Boss; }
 
     private const int MINUTE_PER_HOUR = 60;

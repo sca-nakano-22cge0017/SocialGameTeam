@@ -12,6 +12,7 @@ public class MainGameSystem : MonoBehaviour
     private LoadManager loadManager;
     [SerializeField] private StageManager stageManager;
     [SerializeField] private WindowController windowController;
+    private SoundController soundController;
     
     [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
@@ -51,6 +52,7 @@ public class MainGameSystem : MonoBehaviour
         stm = FindObjectOfType<SpecialTecniqueManager>();
         tutorial = FindObjectOfType<TutorialWindow>();
         loadManager = FindObjectOfType<LoadManager>();
+        soundController = FindObjectOfType<SoundController>();
 
         SkillRelease();
 

@@ -8,9 +8,32 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
+    private static SoundController soundController;
+
+    private void Start()
+    {
+        soundController = FindObjectOfType<SoundController>();
+    }
+
     public static void LoadFade(string scene)
     {
         LoadManager loadManager;
+
+        if (soundController != null && scene == "MainTest")
+        {
+            soundController.StopMainTheme();
+
+            if (GameManager.SelectArea == 1) soundController.PlayBattleTheme();
+            if (GameManager.SelectArea == 2) soundController.PlayBossTheme();
+        }
+
+        if (GameManager.lastScene == "MainTest")
+        {
+            soundController.StopBattleTheme();
+            soundController.StopBossTheme();
+
+            soundController.PlayMainTheme();
+        }
 
         if (FindObjectOfType<LoadManager>() == null)
         {
