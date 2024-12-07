@@ -165,7 +165,7 @@ public class MainGameSystem : MonoBehaviour
 
     IEnumerator NextTurn()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(0.1f);
 
         // É^Å[Éìåoâﬂ
         elapsedTurn++;

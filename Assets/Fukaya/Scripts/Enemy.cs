@@ -147,7 +147,7 @@ public class Enemy : Character
 
     IEnumerator EndWait()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(0.5f);
         MoveEnd();
     }
 
