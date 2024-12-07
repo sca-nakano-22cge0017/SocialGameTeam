@@ -76,9 +76,6 @@ public class SoundController : MonoBehaviour
 
     public void PlayMainTheme()
     {
-        StopBattleTheme();
-
-
         mainTheme.Play();
     }
 
