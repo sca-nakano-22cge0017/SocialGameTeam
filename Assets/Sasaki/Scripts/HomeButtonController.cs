@@ -12,7 +12,6 @@ public class HomeButtonController : MonoBehaviour
     [SerializeField, Header("警告window")] private GameObject warningWindow = null;
     [SerializeField,Header("最終確認window")] private GameObject decisionWindow = null;
 
-    [SerializeField,Header("アイコンを押した時window")] private GameObject iconWindow = null;
     [SerializeField,Header("未実装window")] private GameObject nmWindow = null;
 
     private TutorialWindow tutorialWindow;
@@ -26,7 +25,6 @@ public class HomeButtonController : MonoBehaviour
         warningWindow.SetActive(false);
         decisionWindow.SetActive(false);
         nmWindow.SetActive(false); 
-        iconWindow.SetActive(false);
 
         tutorialWindow = FindObjectOfType<TutorialWindow>();
     }
@@ -71,22 +69,13 @@ public class HomeButtonController : MonoBehaviour
                 checkWindow.SetActive(true);
                 tutorialWindow.TraningReset();
                 break;
-            case "IconWindow":
-                iconWindow.SetActive(true);
-                break;
-            case "DetachedButton":
-                iconWindow.SetActive(false);
-                break;
-            case "BackButton":
-                SceneLoader.Back();
-                break;
             case "HomeWindow": //ホーム画面に戻る
                 SceneLoader.Load("HomeScene");
                 break;
             case "NextWindow": //追加効果があるか判定
                 effectInCheck();
                 break;
-            case "NMWindow":
+            case "NMWindow": //未実装window
                 nmWindow.SetActive(true);
                 break;
             default:
