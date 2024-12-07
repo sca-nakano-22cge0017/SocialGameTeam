@@ -26,6 +26,7 @@ public class SceneLoader : MonoBehaviour
         // ƒ[ƒh’†‚Å‚È‚¢‚È‚ç
         if (!loadManager.IsLoading)
         {
+            GameManager.lastScene = SceneManager.GetActiveScene().name;
             loadManager.LoadScene(scene);
         }
     }
