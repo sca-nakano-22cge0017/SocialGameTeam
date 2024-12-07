@@ -62,10 +62,6 @@ public class StageSelect : MonoBehaviour
         FirstSelect();
     }
 
-    private void Update()
-    {
-    }
-
     private void FirstSelect()
     {
         selectingButton = firstSelectButton;
@@ -227,5 +223,13 @@ public class StageSelect : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
         _action?.Invoke();
+    }
+
+    /// <summary>
+    /// スタミナ全快
+    /// </summary>
+    public void StaminaRecovery()
+    {
+        sm.DebugRecovery();
     }
 }
