@@ -144,6 +144,9 @@ public class LoadManager : MonoBehaviour
         isFadeOut = true;
 
         isLoading = false;
+
+        // ì«Ç›çûÇ›äÆóπÇµÇΩÇÁBGMçƒê∂
+        PlayBGM(sceneName);
     }
 
     private IEnumerator LoadSceneCoroutine_LoadData(string sceneName)
@@ -176,5 +179,19 @@ public class LoadManager : MonoBehaviour
         isFadeOut = true;
 
         isLoading = false;
+
+        // ì«Ç›çûÇ›äÆóπÇµÇΩÇÁBGMçƒê∂
+        PlayBGM(sceneName);
+    }
+
+    void PlayBGM(string sceneName)
+    {
+        SoundController sc = FindObjectOfType<SoundController>();
+
+        if (sceneName == "MainTest")
+        {
+            if (GameManager.SelectArea == 1) sc.PlayBattleTheme();
+            if (GameManager.SelectArea == 2) sc.PlayBossTheme();
+        }
     }
 }

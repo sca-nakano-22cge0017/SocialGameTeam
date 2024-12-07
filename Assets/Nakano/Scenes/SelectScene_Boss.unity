@@ -277,7 +277,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352740442}
   m_CullTransparentMesh: 1
---- !u!1001 &1559059421
+--- !u!1001 &738606106
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -285,22 +285,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2271797618094834191}
     m_Modifications:
-    - target: {fileID: 237890550147339469, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 237890550147339469, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 237890550147339469, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
-      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOnClick
-      objectReference: {fileID: 0}
-    - target: {fileID: 237890550147339469, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
-      propertyPath: m_Delegates.Array.data[1].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SelectOnClick
-      objectReference: {fileID: 0}
     - target: {fileID: 2386547516999384821, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -390,10 +374,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
---- !u!224 &1559059422 stripped
+--- !u!224 &738606107 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2386547516999384821, guid: e086273fe2fdf194f9432cc7333c1b5e, type: 3}
-  m_PrefabInstance: {fileID: 1559059421}
+  m_PrefabInstance: {fileID: 738606106}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1613022277
 GameObject:
@@ -1137,7 +1121,7 @@ RectTransform:
   - {fileID: 1613022278}
   - {fileID: 2901517691925624805}
   - {fileID: 8600480289464975122}
-  - {fileID: 1559059422}
+  - {fileID: 738606107}
   m_Father: {fileID: 1837336672287826714}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
