@@ -202,7 +202,7 @@ public class StageSelect : MonoBehaviour
         GameManager.SelectDifficulty = difficulty;
 
         // ステージデータ読み込み完了時の処理
-        sdm.LoadCompleteProcess += () =>
+        sdm.LoadCompleteProcess = () =>
         {
             if ((_areaId == 1 && sm.Cost(sm.GetCost_Traning)) ||
             (_areaId == 2 && sm.Cost(sm.GetCost_Boss)))

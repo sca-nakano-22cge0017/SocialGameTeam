@@ -94,7 +94,8 @@ public class StaminaManager : MonoBehaviour
             System.TimeSpan span = System.DateTime.Now - lastTime;
             double spantime = span.TotalSeconds;
 
-            stamina_Max = max_Initial;
+            stamina_Max = DifficultyManager.IsClearBossDifficulty * add_LevelUp + max_Initial;
+
             float rCompTime = lastCompleteRecoveryTime - (float)spantime;
             if (rCompTime < 0) stamina = stamina_Max;
             else
@@ -165,6 +166,7 @@ public class StaminaManager : MonoBehaviour
     public void DebugRecovery()
     {
         stamina = stamina_Max;
+        Debug.Log(stamina);
     }
 
     public void LevelUp()
