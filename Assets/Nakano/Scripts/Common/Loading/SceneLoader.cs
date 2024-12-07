@@ -8,31 +8,24 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public class SceneLoader : MonoBehaviour
 {
-    private static SoundController soundController;
-
-    private void Start()
-    {
-        soundController = FindObjectOfType<SoundController>();
-    }
-
     public static void LoadFade(string scene)
     {
         LoadManager loadManager;
+        GameManager.lastScene = SceneManager.GetActiveScene().name;
 
-        if (soundController != null && scene == "MainTest")
+        SoundController soundController = FindObjectOfType<SoundController>();
+        if (soundController != null)
         {
-            soundController.StopMainTheme();
+            if (scene == "MainTest")
+                soundController.StopMainTheme();
 
-            if (GameManager.SelectArea == 1) soundController.PlayBattleTheme();
-            if (GameManager.SelectArea == 2) soundController.PlayBossTheme();
-        }
+            if (GameManager.lastScene == "MainTest")
+            {
+                soundController.StopBattleTheme();
+                soundController.StopBossTheme();
 
-        if (GameManager.lastScene == "MainTest")
-        {
-            soundController.StopBattleTheme();
-            soundController.StopBossTheme();
-
-            soundController.PlayMainTheme();
+                soundController.PlayMainTheme();
+            }
         }
 
         if (FindObjectOfType<LoadManager>() == null)
@@ -49,7 +42,6 @@ public class SceneLoader : MonoBehaviour
         // ÉçÅ[ÉhíÜÇ≈Ç»Ç¢Ç»ÇÁ
         if (!loadManager.IsLoading)
         {
-            GameManager.lastScene = SceneManager.GetActiveScene().name;
             loadManager.LoadScene(scene);
         }
     }
@@ -66,7 +58,11 @@ public class SceneLoader : MonoBehaviour
     /// </summary>
     public static void Back()
     {
-        SceneManager.LoadScene(GameManager.lastScene);
+        if (GameManager.lastScene != "MainTest")
+        {
+            SceneManager.LoadScene(GameManager.lastScene);
+        }
+        else GameManager.lastScene = SceneManager.GetActiveScene().name;
     }
 
     /// <summary>
