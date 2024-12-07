@@ -33,10 +33,10 @@ public class CharaStatus : MonoBehaviour
             case "Reset": //ˆç¬Š®—¹(ƒz[ƒ€‚É–ß‚é)
                 PlayerDataManager.TraningReset();
                 Debug.Log("ˆç¬Š®—¹");
-                SceneManager.LoadScene("HomeScene");
+                SceneLoader.LoadFade("HomeScene");
                 break;
             default:
-                SceneManager.LoadScene("TitleScene");
+                SceneLoader.LoadFade("TitleScene");
                 break;
         }
     }

@@ -59,13 +59,13 @@ public class HomeButtonController : MonoBehaviour
         switch (str)
         {
             case "Traning": //育成
-                SceneManager.LoadScene("SelectScene_Traning");
+                SceneLoader.LoadFade("SelectScene_Traning");
                 break;
             case "Boss": //ボス
-                SceneManager.LoadScene("SelectScene_Boss");
+                SceneLoader.LoadFade("SelectScene_Boss");
                 break;
             case "Select": //キャラクター選択画面
-                SceneManager.LoadScene("CharaSelect");
+                SceneLoader.LoadFade("CharaSelect");
                 break;
             case "CheckInWindow": //確認Window
                 checkWindow.SetActive(true);
@@ -77,8 +77,11 @@ public class HomeButtonController : MonoBehaviour
             case "DetachedButton":
                 iconWindow.SetActive(false);
                 break;
+            case "BackButton":
+                SceneLoader.Back();
+                break;
             case "HomeWindow": //ホーム画面に戻る
-                SceneManager.LoadScene("HomeScene");
+                SceneLoader.Load("HomeScene");
                 break;
             case "NextWindow": //追加効果があるか判定
                 effectInCheck();
@@ -87,7 +90,7 @@ public class HomeButtonController : MonoBehaviour
                 nmWindow.SetActive(true);
                 break;
             default:
-                SceneManager.LoadScene("TitleScene");
+                SceneLoader.LoadFade("TitleScene");
                 break;
         }
     }

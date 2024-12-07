@@ -24,4 +24,10 @@ public class SceneChanger : MonoBehaviour
             SceneLoader.LoadScene("HomeScene", true);
         }
     }
+    public void DebugReset()
+    {
+        Debug.Log("ƒŠƒZƒbƒg");
+        GameManager.isDelete = true;
+        CharaSelectManager.DeleteSaveData();
+    }
 }
