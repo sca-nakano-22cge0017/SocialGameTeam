@@ -184,6 +184,9 @@ public class GameManager : MonoBehaviour
 
     public static string lastScene = "HomeScene";
 
+    public static int lastSelectDifficulty = 0;
+    public static int lastSelectButton = -1;
+
     private void Awake()
     {
         if (instance == null)

@@ -28,12 +28,19 @@ public class DifficultyManager : MonoBehaviour
 
     private void Awake()
     {
-        if (isClearBossDifficulty < 5)
+        if (GameManager.lastSelectDifficulty > 0)
         {
-            GameManager.SelectDifficulty = isClearBossDifficulty + 1;
+            GameManager.SelectDifficulty = GameManager.lastSelectDifficulty;
         }
-        else GameManager.SelectDifficulty = isClearBossDifficulty;
-
+        else
+        {
+            if (isClearBossDifficulty < 5)
+            {
+                GameManager.SelectDifficulty = isClearBossDifficulty + 1;
+            }
+            else GameManager.SelectDifficulty = isClearBossDifficulty;
+        }
+        
         SetSelectButtons();
     }
 
@@ -61,7 +68,6 @@ public class DifficultyManager : MonoBehaviour
             difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
             wc.Close();
         }
-
         else _SetDifficulty(_difficulty);
 
         StageSelect ss = FindObjectOfType<StageSelect>();

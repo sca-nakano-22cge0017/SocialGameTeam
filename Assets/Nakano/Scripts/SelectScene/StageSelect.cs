@@ -64,16 +64,30 @@ public class StageSelect : MonoBehaviour
 
     private void FirstSelect()
     {
-        selectingButton = firstSelectButton;
-        pressedButton = selectButtons[0];
+        if (GameManager.lastScene == "MainTest")
+        {
+            int last = GameManager.lastSelectButton;
 
-        stageImage.sprite = selectButtons[0].sprite;
+            selectingButton = selectButtons[last].button;
+            pressedButton = selectButtons[last];
+            stageImage.sprite = selectButtons[last].sprite;
+
+            selectingFrame.transform.SetParent(selectButtons[last].button.gameObject.transform);
+            selectingFrame.transform.localPosition = Vector3.zero;
+        }
+        else
+        {
+            selectingButton = firstSelectButton;
+            pressedButton = selectButtons[0];
+
+            stageImage.sprite = selectButtons[0].sprite;
+
+            selectingFrame.transform.SetParent(selectButtons[0].button.gameObject.transform);
+            selectingFrame.transform.localPosition = Vector3.zero;
+        }
 
         // ドロップ内容表示
         DropDetailFirstDisplay();
-
-        selectingFrame.transform.SetParent(selectButtons[0].button.gameObject.transform);
-        selectingFrame.transform.localPosition = Vector3.zero;
     }
 
     /// <summary>
@@ -81,6 +95,8 @@ public class StageSelect : MonoBehaviour
     /// </summary>
     public void Select(StageSelectButton _selectingButton)
     {
+        int select = 0;
+
         // クールタイム中なら終了
         if (isCoolTime_Select) return;
         isCoolTime_Select = true;
@@ -95,6 +111,8 @@ public class StageSelect : MonoBehaviour
                 selectingFrame.transform.SetParent(selectButtons[i].button.gameObject.transform);
                 selectingFrame.transform.localPosition = Vector3.zero;
                 selectingFrame.transform.localScale = Vector3.one;
+
+                select = i;
             }
         }
         if (pressedButton == null) return;
@@ -109,6 +127,9 @@ public class StageSelect : MonoBehaviour
             {
                 GameManager.SelectDifficulty = _selectingButton.Difficluty;
             }
+
+            GameManager.lastSelectButton = select;
+            GameManager.lastSelectDifficulty = GameManager.SelectDifficulty;
 
             DropDetailDisplay();
         }
