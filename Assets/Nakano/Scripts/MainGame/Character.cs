@@ -9,11 +9,12 @@ using System;
 /// </summary>
 public class Character : MonoBehaviour
 {
+    protected SoundController soundController;
     [SerializeField] protected MainGameSystem mainGameSystem;
 
     public MeshRenderer meshRenderer;
 
-    [SerializeField] protected MainGameGuage hpGuage;
+    [SerializeField] public MainGameGuage hpGuage;
     [SerializeField] protected Text criticalText;
     [SerializeField] protected Text damageText;
     [SerializeField] protected Text healText;
@@ -235,7 +236,7 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="_amount">バフ量　割合表記</param>
-    public void AddBuff(StatusType _type, float _amount)
+    public virtual void AddBuff(StatusType _type, float _amount)
     {
         switch(_type)
         {
@@ -289,7 +290,7 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="_amount">デバフ量</param>
-    public void AddDebuff(StatusType _type, float _amount)
+    public virtual void AddDebuff(StatusType _type, float _amount)
     {
         switch (_type)
         {

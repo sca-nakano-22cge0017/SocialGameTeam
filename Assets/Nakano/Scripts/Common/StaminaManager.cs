@@ -166,7 +166,6 @@ public class StaminaManager : MonoBehaviour
     public void DebugRecovery()
     {
         stamina = stamina_Max;
-        Debug.Log(stamina);
     }
 
     public void LevelUp()

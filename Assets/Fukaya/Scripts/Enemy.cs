@@ -40,7 +40,7 @@ public class Enemy : Character
     int value_AbsolutelyKill = 999999999;
 
     [SerializeField] private PlayerData player;
-    [SerializeField] private GameObject hpGuage_Obj;
+    [SerializeField] public GameObject hpGuage_Obj;
     [SerializeField] private Button targetChangeButton;
     [SerializeField, Header("ÉhÉçÉbÉv")] private Text dropText;
 
@@ -51,6 +51,7 @@ public class Enemy : Character
 
     void Start()
     {
+        soundController = FindObjectOfType<SoundController>();
         dropController = FindObjectOfType<DropController>();
     }
 
@@ -168,9 +169,11 @@ public class Enemy : Character
         var cri = CriticalLottery(critical_NormalAttack);
 
         float damage = ATK * powerAtk * critical;
-        
+
         AttackMotion(() => 
         {
+            mainGameSystem.DamageImpulse();
+
             player.Damage(damage, this);
             if (cri) player.CriticalDamage();
 
@@ -290,6 +293,7 @@ public class Enemy : Character
 
         AttackMotion(() =>
         {
+            mainGameSystem.DamageImpulse();
             player.Damage(damage);
             if (cri) player.CriticalDamage();
 
@@ -312,6 +316,8 @@ public class Enemy : Character
         {
             Debug.Log("ìG " + POSITION + " äméEçUåÇî≠ìÆ");
             player.Damage((int)value_AbsolutelyKill);
+
+            mainGameSystem.AbsolutelyImpulse();
         });
     }
 

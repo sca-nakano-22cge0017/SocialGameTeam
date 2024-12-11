@@ -6,12 +6,10 @@ using Master;
 using System;
 
 /// <summary>
-/// プレイヤーのステータスやコマンド管理
+/// プレイヤーのステータスやコマンド管理 特殊技能・スキルは別スクリプト
 /// </summary>
 public class PlayerData : Character
 {
-    // 特殊技能・スキルは別スクリプト
-
     [SerializeField] private MainGameGuage mpGuage;
     [SerializeField] private MainGameGuage specialMoveGuage;
     [SerializeField] private Button[] commands;
@@ -61,6 +59,7 @@ public class PlayerData : Character
 
     void Start()
     {
+        soundController = FindObjectOfType<SoundController>();
         atk_st.GameStart();
     }
 
@@ -234,6 +233,7 @@ public class PlayerData : Character
         StartCoroutine(DispText(damageText, damage.ToString()));
 
         // Todo ダメージ演出・モーション再生
+        soundController.PlayDamageSE();
 
         // 必殺ゲージ回復
         if (isGuard) UpSpecialMoveGuage(sm_Guard.guageUpAmount);
@@ -286,6 +286,18 @@ public class PlayerData : Character
         mpGuage.Add(_amount);
 
         // Todo 回復演出
+    }
+
+    public override void AddBuff(StatusType _type, float _amount)
+    {
+        base.AddBuff(_type, _amount);
+        if (_amount > 0) soundController.PlayBuffSE();
+    }
+
+    public override void AddDebuff(StatusType _type, float _amount)
+    {
+        base.AddDebuff(_type, _amount);
+        if (_amount > 0) soundController.PlayDebuffSE();
     }
 
     /// <summary>
@@ -341,7 +353,13 @@ public class PlayerData : Character
     {
         SetCommandsButton(false);
 
-        spineAnim.callBack = () => { _action?.Invoke(); StartCoroutine(EndWait()); };
+        spineAnim.callBack = () => 
+        {
+            soundController.PlayAttackSE(GameManager.SelectChara);
+
+            _action?.Invoke();
+            StartCoroutine(EndWait());
+        };
         spineAnim.PlayAttackMotion();
     }
 
