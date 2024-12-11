@@ -136,6 +136,8 @@ public class SoundController : MonoBehaviour
 
     public void PlayAttackSE(int _id)
     {
+        if (attack_Sister == null || attack_Sord == null) return;
+
         if (_id == 1) SE.PlayOneShot(attack_Sord);
         if (_id == 2) SE.PlayOneShot(attack_Sister);
     }
@@ -179,6 +181,7 @@ public class SoundController : MonoBehaviour
 
     public void PlayDamageSE()
     {
+        if (damage == null) return;
         SE.PlayOneShot(damage);
     }
 

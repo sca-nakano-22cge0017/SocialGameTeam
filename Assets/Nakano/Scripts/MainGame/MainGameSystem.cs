@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
+using Cinemachine;
 
 /// <summary>
 /// メインゲーム制御　仮
@@ -13,11 +13,13 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private StageManager stageManager;
     [SerializeField] private WindowController windowController;
     private SoundController soundController;
-    
+
     [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
     [SerializeField] private Enemy[] enemies;
+    [SerializeField] private Canvas commands;
 
+    // ターゲット
     private Enemy target = new();
     public Enemy Target { get => target; private set => target = value; }
     [SerializeField] private Image targetImage;
@@ -27,6 +29,7 @@ public class MainGameSystem : MonoBehaviour
 
     private int actionNum = 0;
 
+    // スキル/特殊技能
     [SerializeField] InitialSkill initialSkill;
     [SerializeField] HP_SpecialTecnique hp_st;
     [SerializeField] DEF_SpecialTecnique def_st;
@@ -38,10 +41,17 @@ public class MainGameSystem : MonoBehaviour
     SpecialTecniqueManager stm;
     [SerializeField] private Button[] skillButtons;
 
+    // チュートリアル
     TutorialWindow tutorial;
 
+    // 経過ターン
     private int elapsedTurn = 1;
     [SerializeField] private Text elapsedTurn_Text;
+
+    // 画面揺れ
+    [SerializeField] private CinemachineImpulseSource impulseSource;
+    [SerializeField] private Vector3 normalDamage;
+    [SerializeField] private Vector3 absolutelyDamage;
 
     private bool isInitialized = false;
     private bool isLose = false;
@@ -71,6 +81,8 @@ public class MainGameSystem : MonoBehaviour
         {
             tutorial.BossBattle();
             player.canSpecialMove = true;
+
+            targetImage.enabled = false;
         }
     }
 
@@ -266,5 +278,21 @@ public class MainGameSystem : MonoBehaviour
         targetImage.gameObject.transform.SetParent(target.gameObject.transform);
         targetImage.gameObject.transform.localPosition = new Vector3(-173, 245, 0);
         targetImage.gameObject.transform.SetAsLastSibling();
+    }
+
+    public void DamageImpulse()
+    {
+        commands.renderMode = RenderMode.ScreenSpaceCamera;
+
+        impulseSource.m_DefaultVelocity = normalDamage;
+        impulseSource.GenerateImpulse();
+    }
+
+    public void AbsolutelyImpulse()
+    {
+        commands.renderMode = RenderMode.WorldSpace;
+
+        impulseSource.m_DefaultVelocity = absolutelyDamage;
+        impulseSource.GenerateImpulse();
     }
 }

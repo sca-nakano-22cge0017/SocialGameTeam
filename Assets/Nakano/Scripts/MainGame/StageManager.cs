@@ -28,6 +28,7 @@ public class PlayerIllust
 public class StageManager : MonoBehaviour
 {
     [SerializeField] private Image specialAttackIcon;
+    [SerializeField] private GameObject bossHpGuage;
 
     [SerializeField] private PlayerData player;
     [SerializeField, Header("プレイヤーのイラスト/アニメーション")] private PlayerIllust[] playersIllust;
@@ -228,6 +229,23 @@ public class StageManager : MonoBehaviour
                         mr.sortingOrder = 50 - e - 1;
 
                         enemies[e].spineAnim = ene.GetComponent<SpineAnim>();
+
+                        if (GameManager.SelectArea == 2)
+                        {
+                            bossHpGuage.SetActive(true);
+                            enemies[e].hpGuage = bossHpGuage.GetComponent<MainGameGuage>();
+                            enemies[e].hpGuage_Obj.SetActive(false);
+
+                            var rect = enemies[e].image.GetComponent<RectTransform>();
+
+                            Vector2 sd = rect.sizeDelta;
+                            sd.x = 1500;
+                            sd.y = 1500;
+                            rect.sizeDelta = sd;
+
+                            enemies[e].transform.localPosition = new Vector3(-602, -90, 0);
+                        }
+                        else bossHpGuage.SetActive(false);
                     }
                 }
 

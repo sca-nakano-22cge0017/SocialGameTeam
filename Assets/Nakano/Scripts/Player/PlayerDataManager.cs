@@ -87,8 +87,6 @@ public class PlayerDataManager : MonoBehaviour
 
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
-
-        Debug.Log($"HP:{player.AllStatus.hp}, MP:{player.AllStatus.mp}, ATK:{player.AllStatus.atk}, DEF:{player.AllStatus.def}, DEX:{player.AllStatus.dex}, AGI:{player.AllStatus.agi}");
     }
     
     /// <summary>

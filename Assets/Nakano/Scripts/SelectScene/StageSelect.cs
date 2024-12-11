@@ -174,8 +174,6 @@ public class StageSelect : MonoBehaviour
     /// </summary>
     public void Transition()
     {
-        Debug.Log("遷移");
-
         // クールタイム中なら終了
         if (isCoolTime_Select) return;
         isCoolTime_Select = true;
