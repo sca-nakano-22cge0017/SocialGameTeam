@@ -13,21 +13,6 @@ public class SceneLoader : MonoBehaviour
         LoadManager loadManager;
         GameManager.lastScene = SceneManager.GetActiveScene().name;
 
-        SoundController soundController = FindObjectOfType<SoundController>();
-        if (soundController != null)
-        {
-            if (scene == "MainTest")
-                soundController.StopMainTheme();
-
-            if (GameManager.lastScene == "MainTest")
-            {
-                soundController.StopBattleTheme();
-                soundController.StopBossTheme();
-
-                soundController.PlayMainTheme();
-            }
-        }
-
         if (FindObjectOfType<LoadManager>() == null)
         {
             // UIÇ™ñ≥ÇØÇÍÇŒÉvÉåÉnÉuê∂ê¨

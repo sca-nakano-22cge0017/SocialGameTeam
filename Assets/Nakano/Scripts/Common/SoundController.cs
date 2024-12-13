@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SoundController : MonoBehaviour
 {
@@ -51,9 +49,17 @@ public class SoundController : MonoBehaviour
     [SerializeField, Header("ランクアップ")] AudioClip rankUp;
     [SerializeField, Header("技能解放")] AudioClip skillRelease;
 
+    bool isCrossFadeOut = false;
+    bool isCrossFadeIn = false;
+    AudioSource crossFadeBefore;
+    AudioSource crossFadeAfter;
+    [SerializeField] private float fadeTime = 0.5f;
+
     private void Start()
     {
         PlayMainTheme();
+        boss.volume = 0;
+        battle.volume = 0;
 
         //BGM
         //audioMixer.GetFloat("BGM", out float bgmVolume);
@@ -62,6 +68,99 @@ public class SoundController : MonoBehaviour
         //SE
         //audioMixer.GetFloat("SE", out float seVolume);
         //SESlider.value = seVolume;
+    }
+
+    private void Update()
+    {
+        if (isCrossFadeOut)
+        {
+            crossFadeBefore.volume -= 1 / fadeTime * Time.deltaTime;
+
+            if (crossFadeBefore.volume <= 0)
+            {
+                crossFadeBefore.volume = 0;
+                crossFadeBefore.Stop();
+                
+                crossFadeAfter.volume = 0;
+                crossFadeAfter.Play();
+
+                isCrossFadeOut = false;
+                isCrossFadeIn = true;
+            }
+        }
+
+        if (isCrossFadeIn)
+        {
+            crossFadeAfter.volume += 1 / fadeTime * Time.deltaTime;
+
+            if (crossFadeAfter.volume >= 1)
+            {
+                crossFadeAfter.volume = 1;
+                isCrossFadeIn = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// BGMクロスフェード
+    /// </summary>
+    /// <param name="_beforeSound">フェードアウトする音声</param>
+    /// <param name="_afterSound">フェードインする音声</param>
+    public void CrossFade(string _beforeSound, string _afterSound)
+    {
+        switch (_beforeSound)
+        {
+            case "Main":
+                crossFadeBefore = mainTheme;
+                break;
+            case "Battle":
+                crossFadeBefore = battle;
+                break;
+            case "Boss":
+                crossFadeBefore = boss;
+                break;
+        }
+
+        switch (_afterSound)
+        {
+            case "Main":
+                crossFadeAfter = mainTheme;
+                break;
+            case "Battle":
+                crossFadeAfter = battle;
+                break;
+            case "Boss":
+                crossFadeAfter = boss;
+                break;
+        }
+        
+        isCrossFadeOut = true;
+    }
+
+    public void MainToBattle()
+    {
+        if (GameManager.SelectArea == 1)
+        {
+            CrossFade("Main", "Battle");
+        }
+        
+        if (GameManager.SelectArea == 2)
+        {
+            CrossFade("Main", "Boss");
+        }
+    }
+
+    public void BattleToMain()
+    {
+        if (battle.isPlaying)
+        {
+            CrossFade("Battle", "Main");
+        }
+
+        if (boss.isPlaying)
+        {
+            CrossFade("Boss", "Main");
+        }
     }
 
     public void SetBGM(float volume)
