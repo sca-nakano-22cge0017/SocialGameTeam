@@ -471,13 +471,13 @@ public class PlayerDataManager : MonoBehaviour
     {
         string t = "";
 
-        if (player.GetRank(_type) == (Rank)(System.Enum.GetValues(typeof(Rank)).Length - 1))
-        {
-            int st1 = player.GetAdditionalEffects(_type, false);
-            int st2 = player.GetAdditionalEffects_Max(_type, false);
-            t += StutasTypeToString(_type) + "ステータス +" + st1 + "\n";
-            t += StutasTypeToString(_type) + "ステータス上限 +" + st2 + "\n";
-        }
+        int st1 = player.GetAdditionalEffects(_type, false);
+        int st2 = player.GetAdditionalEffects_Max(_type, false);
+
+        if (st1 <= 0 || st2 <= 0) return t;
+
+        t += StutasTypeToString(_type) + "ステータス +" + st1 + "\n";
+        t += StutasTypeToString(_type) + "ステータス上限 +" + st2 + "\n";
 
         return t;
     }
