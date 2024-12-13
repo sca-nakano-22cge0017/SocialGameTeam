@@ -92,6 +92,16 @@ public class LoadManager : MonoBehaviour
         // 既にロード中なら実行しない
         if (isLoading) return;
 
+        SoundController soundController = FindObjectOfType<SoundController>();
+        if (soundController != null)
+        {
+            if (sceneName == "MainTest")
+                soundController.MainToBattle();
+
+            if (GameManager.lastScene == "MainTest")
+                soundController.BattleToMain();
+        }
+
         isLoading = true;
 
         // フェードイン開始
@@ -144,9 +154,6 @@ public class LoadManager : MonoBehaviour
         isFadeOut = true;
 
         isLoading = false;
-
-        // 読み込み完了したらBGM再生
-        PlayBGM(sceneName);
     }
 
     private IEnumerator LoadSceneCoroutine_LoadData(string sceneName)
@@ -179,19 +186,5 @@ public class LoadManager : MonoBehaviour
         isFadeOut = true;
 
         isLoading = false;
-
-        // 読み込み完了したらBGM再生
-        PlayBGM(sceneName);
-    }
-
-    void PlayBGM(string sceneName)
-    {
-        SoundController sc = FindObjectOfType<SoundController>();
-
-        if (sceneName == "MainTest")
-        {
-            if (GameManager.SelectArea == 1) sc.PlayBattleTheme();
-            if (GameManager.SelectArea == 2) sc.PlayBossTheme();
-        }
     }
 }

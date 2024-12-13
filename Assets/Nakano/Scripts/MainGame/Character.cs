@@ -11,6 +11,7 @@ public class Character : MonoBehaviour
 {
     protected SoundController soundController;
     [SerializeField] protected MainGameSystem mainGameSystem;
+    [SerializeField] protected MainDirection mainDirection;
 
     public MeshRenderer meshRenderer;
 

@@ -172,7 +172,7 @@ public class Enemy : Character
 
         AttackMotion(() => 
         {
-            mainGameSystem.DamageImpulse();
+            mainDirection.DamageImpulse();
 
             player.Damage(damage, this);
             if (cri) player.CriticalDamage();
@@ -293,7 +293,7 @@ public class Enemy : Character
 
         AttackMotion(() =>
         {
-            mainGameSystem.DamageImpulse();
+            mainDirection.DamageImpulse();
             player.Damage(damage);
             if (cri) player.CriticalDamage();
 
@@ -317,7 +317,7 @@ public class Enemy : Character
             Debug.Log("ìG " + POSITION + " äméEçUåÇî≠ìÆ");
             player.Damage((int)value_AbsolutelyKill);
 
-            mainGameSystem.AbsolutelyImpulse();
+            mainDirection.AbsolutelyImpulse();
         });
     }
 

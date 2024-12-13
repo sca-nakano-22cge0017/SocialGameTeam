@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Cinemachine;
 
 /// <summary>
 /// メインゲーム制御　仮
@@ -13,6 +12,7 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private StageManager stageManager;
     [SerializeField] private WindowController windowController;
     private SoundController soundController;
+    [SerializeField] private MainDirection mainDirection;
 
     [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
@@ -47,11 +47,6 @@ public class MainGameSystem : MonoBehaviour
     // 経過ターン
     private int elapsedTurn = 1;
     [SerializeField] private Text elapsedTurn_Text;
-
-    // 画面揺れ
-    [SerializeField] private CinemachineImpulseSource impulseSource;
-    [SerializeField] private Vector3 normalDamage;
-    [SerializeField] private Vector3 absolutelyDamage;
 
     private bool isInitialized = false;
     private bool isLose = false;
@@ -278,21 +273,5 @@ public class MainGameSystem : MonoBehaviour
         targetImage.gameObject.transform.SetParent(target.gameObject.transform);
         targetImage.gameObject.transform.localPosition = new Vector3(-173, 245, 0);
         targetImage.gameObject.transform.SetAsLastSibling();
-    }
-
-    public void DamageImpulse()
-    {
-        commands.renderMode = RenderMode.ScreenSpaceCamera;
-
-        impulseSource.m_DefaultVelocity = normalDamage;
-        impulseSource.GenerateImpulse();
-    }
-
-    public void AbsolutelyImpulse()
-    {
-        commands.renderMode = RenderMode.WorldSpace;
-
-        impulseSource.m_DefaultVelocity = absolutelyDamage;
-        impulseSource.GenerateImpulse();
     }
 }

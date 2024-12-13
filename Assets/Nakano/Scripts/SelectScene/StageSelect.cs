@@ -64,10 +64,9 @@ public class StageSelect : MonoBehaviour
 
     private void FirstSelect()
     {
-        if (GameManager.lastScene == "MainTest")
+        int last = GameManager.lastSelectButton;
+        if (GameManager.lastScene == "MainTest" && last >= 0 && last < selectButtons.Length)
         {
-            int last = GameManager.lastSelectButton;
-
             selectingButton = selectButtons[last].button;
             pressedButton = selectButtons[last];
             stageImage.sprite = selectButtons[last].sprite;
