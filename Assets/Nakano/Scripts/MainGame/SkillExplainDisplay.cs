@@ -10,7 +10,7 @@ using System;
 /// </summary>
 public class SkillExplainDisplay : MonoBehaviour
 {
-    private float longTapTime = 0.5f;
+    [SerializeField] private float longTapTime = 0.5f;
 
     [SerializeField] InitialSkill initialSkill;
     [SerializeField] HP_SpecialTecnique hp_st;

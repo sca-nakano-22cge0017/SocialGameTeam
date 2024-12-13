@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.IO;
 using UnityEngine.Events;
+using Unity.VisualScripting;
 
 public class CharaSelectManager : MonoBehaviour
 {
@@ -20,13 +21,16 @@ public class CharaSelectManager : MonoBehaviour
     [SerializeField] Text plusStatusText;
 
     [SerializeField] GameObject SkillWindow;
-    [SerializeField] Text SkillText;
+    [SerializeField] Button[] skillButtons;
     private bool trueWindow = false;
-    
+    SpecialTecniqueManager stm;
+
     void Start()
     {
         SaveData player = loadPlayerData();
         Debug.Log(player.chara2);
+        stm = FindObjectOfType<SpecialTecniqueManager>();
+        SkillRelease();
     }
 
     void Update()
@@ -51,25 +55,30 @@ public class CharaSelectManager : MonoBehaviour
     {
         SwordsManTrue();
         GameManager.SelectChara = 1;
-        status[0].text = PlayerDataManager.player.TotalPower.ToString();
+        status[0].text = PlayerDataManager.player.TotalPower.ToString(); 
+
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
         status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
         status[3].text = PlayerDataManager.player.GetStatus(StatusType.ATK).ToString();
         status[4].text = PlayerDataManager.player.GetStatus(StatusType.MP).ToString();
         status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
         status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
+
         rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
         rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
         rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
         rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
         rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
         rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+
         plus[0].text = PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
         plus[1].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         plus[2].text = PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
         plus[3].text = PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
         plus[4].text = PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
         plus[5].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
+
+        SkillRelease();
     }
 
     public void CharaButton2()
@@ -77,24 +86,29 @@ public class CharaSelectManager : MonoBehaviour
         WizardTrue();
         GameManager.SelectChara = 2;
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
+
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
         status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
         status[3].text = PlayerDataManager.player.GetStatus(StatusType.ATK).ToString();
         status[4].text = PlayerDataManager.player.GetStatus(StatusType.MP).ToString();
         status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
         status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
+
         rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
         rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
         rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
         rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
         rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
         rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+
         plus[0].text = PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
         plus[1].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         plus[2].text = PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
         plus[3].text = PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
         plus[4].text = PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
         plus[5].text = PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
+
+        SkillRelease();
     }
 
     public void PlusStatusHP()
@@ -185,6 +199,32 @@ public class CharaSelectManager : MonoBehaviour
         {
             File.Delete(Application.persistentDataPath + "/savedata.json");
             Debug.Log("セーブデータを削除しました: ");
+        }
+    }
+
+    void SkillRelease()
+    {
+        //　SpecialTecniqueManager stm;　StartでFindObjectObType使って取得
+        //　[SerializeField] private Button[] skillButtons;
+
+        // 全て非表示にする
+        for (int j = 0; j < skillButtons.Length; j++)
+        {
+            skillButtons[j].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < stm.specialTecniques.Length; i++)
+        {
+            for (int j = 0; j < skillButtons.Length; j++)
+            {
+                // ScriptableObjectとゲームオブジェクト(ボタン)の名前が同じなら
+                // かつ解放済みなら
+                if (stm.specialTecniques[i].name == skillButtons[j].name &&
+                    stm.specialTecniques[i].m_released)
+                {
+                    skillButtons[j].gameObject.SetActive(true);
+                }
+            }
         }
     }
 }
