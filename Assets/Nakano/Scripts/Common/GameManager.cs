@@ -212,12 +212,6 @@ public class GameManager : MonoBehaviour
         {
             staminaManager.Recovery();
         }
-        
-        // Test—p
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            PlayerDataManager.TraningReset();
-        }
     }
 
     IEnumerator LoadComplete()
