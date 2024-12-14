@@ -19,7 +19,7 @@ public class CharaillustChanger : MonoBehaviour
     {
         charaNumSelect = GameManager.SelectChara;
 
-        CombiType type = PlayerDataManager.player.GetEvolutionType();
+        CombiType type = PlayerDataManager.player.GetSelectEvolutionType();
         if (charaNumSelect == 1)
         {
             switch (type)//Œ•Žm
