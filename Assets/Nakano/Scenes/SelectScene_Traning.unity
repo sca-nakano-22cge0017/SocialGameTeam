@@ -429,7 +429,7 @@ GameObject:
   - component: {fileID: 1256832094761890212}
   - component: {fileID: 5275504113945378919}
   m_Layer: 5
-  m_Name: Stage2_MP
+  m_Name: Stage4_MP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -788,7 +788,7 @@ MonoBehaviour:
   stageSelect: {fileID: 6391323092342007352}
   difficulty: -1
   areaId: 1
-  stageId: 2
+  stageId: 4
 --- !u!222 &1299478068158286748
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2745,6 +2745,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4650830248143984622}
     m_Modifications:
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 5085990709898544602}
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: chara.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: fa1d871ae681b3343aa77d93b7068d25, type: 3}
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: chara.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 99e1cb0161296ae4f93a907b7864d985, type: 3}
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: chara.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 2055930b2b8ee1745859c2bea8b644cc, type: 3}
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: chara.Array.data[5]
+      value: 
+      objectReference: {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: chara.Array.data[6]
+      value: 
+      objectReference: {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
+    - target: {fileID: 1306350009159110928, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+      propertyPath: chara.Array.data[7]
+      value: 
+      objectReference: {fileID: -1410744621, guid: 79f73c92fd8ae124a85f784020d9673d, type: 3}
     - target: {fileID: 2575880587245324024, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -2895,6 +2923,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5085990709898544602 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4631193079820004205, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
+  m_PrefabInstance: {fileID: 5085990709898544598}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &5125354333397832994
@@ -3944,7 +3983,7 @@ MonoBehaviour:
   stageSelect: {fileID: 6391323092342007352}
   difficulty: -1
   areaId: 1
-  stageId: 4
+  stageId: 2
 --- !u!1 &7350960391941754139
 GameObject:
   m_ObjectHideFlags: 0
@@ -3959,7 +3998,7 @@ GameObject:
   - component: {fileID: 7338694121441562203}
   - component: {fileID: 8403197357898764697}
   m_Layer: 5
-  m_Name: Stage4_DEF
+  m_Name: Stage2_DEF
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

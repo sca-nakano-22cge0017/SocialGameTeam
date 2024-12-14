@@ -38,6 +38,8 @@ public class PlayerDataManager : MonoBehaviour
             c.id = i;
 
             c.evolutionType = p.evolutionType.ToString();
+            c.selectEvolutionType = p.selectEvolutionType.ToString();
+
             c.atkTypeReleased = p.atkTypeReleased;
             c.defTypeReleased = p.defTypeReleased;
             c.tecTypeReleased = p.tecTypeReleased;
@@ -171,21 +173,28 @@ public class PlayerDataManager : MonoBehaviour
             return;
         }
 
+        // プラス値は持ち越す
+        Status plus = new(player.GetPlusStatus());
+
+        bool atk = player.atkTypeReleased;
+        bool def = player.defTypeReleased;
+        bool tec = player.tecTypeReleased;
+
         if (_id == 1)
         {
-            // プラス値は持ち越す
-            Status plus = new(player.GetPlusStatus());
             player = new(1);
             chara1 = new(1);
-            player.SetPlusStatus(plus);
         }
         if (_id == 2)
         {
-            Status plus = new(player.GetPlusStatus());
             player = new(2);
             chara2 = new(2);
-            player.SetPlusStatus(plus);
         }
+
+        player.SetPlusStatus(plus);
+        player.atkTypeReleased = atk;
+        player.defTypeReleased = def;
+        player.tecTypeReleased = tec;
 
         Save();
 
