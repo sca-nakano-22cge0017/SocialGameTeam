@@ -320,13 +320,13 @@ public class MasterDataLoader : MonoBehaviour
                         item.itemType = StatusType.HP;
                         break;
                     case 2:
-                        item.itemType = StatusType.MP;
+                        item.itemType = StatusType.DEF;
                         break;
                     case 3:
                         item.itemType = StatusType.ATK;
                         break;
                     case 4:
-                        item.itemType = StatusType.DEF;
+                        item.itemType = StatusType.MP;
                         break;
                     case 5:
                         item.itemType = StatusType.AGI;

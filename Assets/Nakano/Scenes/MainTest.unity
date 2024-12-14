@@ -15092,6 +15092,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ba15f85b48d5bf46be172004df45ae0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  longTapTime: 0.5
   initialSkill: {fileID: 1980767519425362194}
   hp_st: {fileID: 7626191531587256463}
   def_st: {fileID: 1580181688156087779}
@@ -16836,13 +16837,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chara:
   - {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
-  - {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
-  - {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
-  - {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
+  - {fileID: 21300000, guid: fa1d871ae681b3343aa77d93b7068d25, type: 3}
+  - {fileID: 21300000, guid: 99e1cb0161296ae4f93a907b7864d985, type: 3}
+  - {fileID: 21300000, guid: 2055930b2b8ee1745859c2bea8b644cc, type: 3}
   - {fileID: -1634482463, guid: b16d543fc293bcc4ebc68a49cc988593, type: 3}
-  - {fileID: -1634482463, guid: b16d543fc293bcc4ebc68a49cc988593, type: 3}
-  - {fileID: -1634482463, guid: b16d543fc293bcc4ebc68a49cc988593, type: 3}
-  - {fileID: -1634482463, guid: b16d543fc293bcc4ebc68a49cc988593, type: 3}
+  - {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
+  - {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
+  - {fileID: -1410744621, guid: 79f73c92fd8ae124a85f784020d9673d, type: 3}
   image: {fileID: 6856180339850435685}
 --- !u!1 &7377792054546770228
 GameObject:

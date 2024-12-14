@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ゲーム全体で使用する変数等を管理
@@ -211,6 +211,11 @@ public class GameManager : MonoBehaviour
         if (loadCompleted)
         {
             staminaManager.Recovery();
+        }
+
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            SceneManager.LoadScene("Test");
         }
     }
 
