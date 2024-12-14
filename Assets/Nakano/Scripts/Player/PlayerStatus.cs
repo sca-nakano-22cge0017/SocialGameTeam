@@ -356,7 +356,62 @@ public class PlayerStatus
         for (int st = 0; st < System.Enum.GetValues(typeof(StatusType)).Length; st++)
         {
             StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), st);
-            total += status.GetStatus(type);
+
+            if (type == StatusType.MP || type == StatusType.DEF || type == StatusType.DEX)
+            {
+                total += GetStatus(type) * 2;
+            }
+            else total += GetStatus(type);
+
+            // ランクボーナス
+            var rank = GetRank(type);
+            switch (rank)
+            {
+                case Rank.C:
+                    total += 1000;
+                    break;
+                case Rank.B:
+                    total += 2000;
+                    break;
+                case Rank.A:
+                    total += 4000;
+                    break;
+                case Rank.S:
+                    total += 7000;
+                    break;
+                case Rank.SS:
+                    total += 12000;
+                    break;
+            }
+        }
+        
+        // 複合ランクボーナス
+        for (int cr = 0; cr < System.Enum.GetValues(typeof(CombiType)).Length; cr++)
+        {
+            CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), cr);
+
+            if (type == CombiType.NORMAL) continue;
+
+            var rank = GetCombiRank(type);
+
+            switch (rank)
+            {
+                case Rank.C:
+                    total += 500;
+                    break;
+                case Rank.B:
+                    total += 1000;
+                    break;
+                case Rank.A:
+                    total += 2000;
+                    break;
+                case Rank.S:
+                    total += 3000;
+                    break;
+                case Rank.SS:
+                    total += 5000;
+                    break;
+            }
         }
 
         if (total <= totalPower_Max)

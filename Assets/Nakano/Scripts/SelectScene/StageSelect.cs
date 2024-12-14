@@ -73,6 +73,9 @@ public class StageSelect : MonoBehaviour
 
             selectingFrame.transform.SetParent(selectButtons[last].button.gameObject.transform);
             selectingFrame.transform.localPosition = Vector3.zero;
+
+            // ドロップ内容表示
+            DropDetailFirstDisplay(last);
         }
         else
         {
@@ -83,10 +86,10 @@ public class StageSelect : MonoBehaviour
 
             selectingFrame.transform.SetParent(selectButtons[0].button.gameObject.transform);
             selectingFrame.transform.localPosition = Vector3.zero;
-        }
 
-        // ドロップ内容表示
-        DropDetailFirstDisplay();
+            // ドロップ内容表示
+            DropDetailFirstDisplay(0);
+        }
     }
 
     /// <summary>
@@ -166,7 +169,7 @@ public class StageSelect : MonoBehaviour
         stageInformationText.text = information;
     }
 
-    void DropDetailFirstDisplay()
+    void DropDetailFirstDisplay(int _firstSelect)
     {
         int area = 1;
         if (SceneManager.GetActiveScene().name == "SelectScene_Traning") area = 1;
@@ -177,7 +180,7 @@ public class StageSelect : MonoBehaviour
         for (int d = 0; d < MasterData.StageDatas.Count; d++)
         {
             StageData data = MasterData.StageDatas[d];
-            if (data.difficulty == GameManager.SelectDifficulty && data.areaId == area && data.stageId == selectButtons[0].stageId)
+            if (data.difficulty == GameManager.SelectDifficulty && data.areaId == area && data.stageId == selectButtons[_firstSelect].stageId)
             {
                 for (int i = 0; i < data.dropItem.Count; i++)
                 {
