@@ -120,6 +120,7 @@ public class PlayerStatus
     private Status plusStatus = new(0, 0, 0, 0, 0, 0);    // 周回によるプラスステータス 1～99
 
     public CombiType evolutionType = CombiType.NORMAL; // 現在の進化形態
+    public CombiType selectEvolutionType = CombiType.NORMAL; // 現在選択中の進化形態差分
 
     // 各進化形態解放済みかどうか
     public bool atkTypeReleased = false;
@@ -195,6 +196,10 @@ public class PlayerStatus
             combiRankPtMax.Add(combi, 0);
         }
 
+        // 進化形態初期化
+        evolutionType = CombiType.NORMAL;
+        selectEvolutionType = CombiType.NORMAL;
+
         if (MasterDataLoader.MasterDataLoadComplete)
         {
             for (int i = 0; i < MasterData.CharaInitialStatus.Count; i++)
@@ -257,6 +262,8 @@ public class PlayerStatus
         plusStatus = new Status(_data.hp_plusStatus, _data.mp_plusStatus, _data.atk_plusStatus, _data.def_plusStatus, _data.agi_plusStatus, _data.dex_plusStatus);
 
         evolutionType = (CombiType)System.Enum.Parse(typeof(CombiType), _data.evolutionType);
+        selectEvolutionType = (CombiType)System.Enum.Parse(typeof(CombiType), _data.selectEvolutionType);
+
         atkTypeReleased = _data.atkTypeReleased;
         defTypeReleased = _data.defTypeReleased;
         tecTypeReleased = _data.tecTypeReleased;
@@ -498,8 +505,33 @@ public class PlayerStatus
     {
         if (evolutionType == CombiType.NORMAL)
         {
+            Debug.Log("進化");
             evolutionType = _type;
+            SetSelectEvolutionType(_type);
+
+            switch (_type)
+            {
+                case CombiType.ATK:
+                    PlayerDataManager.player.atkTypeReleased = true;
+                    break;
+                case CombiType.DEF:
+                    PlayerDataManager.player.defTypeReleased = true;
+                    break;
+                case CombiType.TEC:
+                    PlayerDataManager.player.tecTypeReleased = true;
+                    break;
+            }
         }
+    }
+
+    public CombiType GetSelectEvolutionType()
+    {
+        return selectEvolutionType;
+    }
+
+    public void SetSelectEvolutionType(CombiType _type)
+    {
+        selectEvolutionType = _type;
     }
 
     // ランク

@@ -54,6 +54,11 @@ public class PlayerSaveData
     public string evolutionType = "NORMAL";
 
     /// <summary>
+    /// 現在選択中の進化形態差分
+    /// </summary>
+    public string selectEvolutionType = "NORMAL";
+
+    /// <summary>
     /// 各進化形態解放済みかどうか
     /// </summary>
     public bool atkTypeReleased = false;
