@@ -170,7 +170,6 @@ public class StageManager : MonoBehaviour
     /// </summary>
     void EnemyDataSet()
     {
-        Debug.Log("“Gî•ñƒ[ƒh");
         for (int e = 0; e < enemies.Length; e++)
         {
             enemies[e].gameObject.SetActive(false);
