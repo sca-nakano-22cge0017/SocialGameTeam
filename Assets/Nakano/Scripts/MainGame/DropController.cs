@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class DropController : MonoBehaviour
 {
     private List<DropItem> data = new();
+    private List<DropItem> rareData = new();
 
     private List<DropItem> dropedItems = new();
     public List<DropItem> DropedItems
@@ -78,6 +79,33 @@ public class DropController : MonoBehaviour
 
         range.Clear();
         return drop;
+    }
+
+    /// <summary>
+    /// レア敵のドロップ抽選
+    /// </summary>
+    public void RareDropLottery()
+    {
+        if (StageDataManager.DropData != null)
+        {
+            rareData = StageDataManager.RareDropData;
+        }
+
+        for (int i = 0; i < rareData.Count; i++)
+        {
+            if (rareData[i].dropProbability >= 100.0f)
+            {
+                dropedItems.Add(data[i]);
+            }
+            else
+            {
+                int rnd = Random.Range(0, 100);
+                if (rnd <= rareData[i].dropProbability)
+                {
+                    dropedItems.Add(rareData[i]);
+                }
+            }
+        }
     }
 
     public void BossDrop()

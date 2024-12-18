@@ -8,6 +8,7 @@ public class Enemy : Character
 {
     private DropController dropController;
 
+    public string enemyId;
     public int POSITION; // 敵の位置
     public Image image;
 
@@ -369,7 +370,16 @@ public class Enemy : Character
                 hpGuage_Obj.SetActive(false);
                 targetChangeButton.interactable = false;
 
-                if (GameManager.SelectArea == 1) StartCoroutine(DropDirection());
+                if (GameManager.SelectArea == 1)
+                {
+                    StartCoroutine(DropDirection()); 
+                    
+                    // レア敵ドロップ
+                    if (enemyId.Substring(0, 1) == "R")
+                    {
+                        dropController.RareDropLottery();
+                    }
+                }
                 if (GameManager.SelectArea == 2)
                 {
                     dropController.BossDrop();

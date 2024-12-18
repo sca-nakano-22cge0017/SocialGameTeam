@@ -48,6 +48,7 @@ public class StageManager : MonoBehaviour
     [SerializeField, Range(1, 5), Header("難易度")] private int difficultyId = 1;
 
     [SerializeField] WindowController windowController;
+    [SerializeField, Header("レア敵出現率")] private float rareEnemyApp = 100;
 
     private void Awake()
     {
@@ -77,7 +78,7 @@ public class StageManager : MonoBehaviour
         if (!StageDataManager.StageDataLoadComplete)
         {
             // ロード完了後の処理
-            stageDataManager.LoadCompleteProcess += () =>
+            stageDataManager.LoadCompleteProcess = () =>
             {
                 Setting();
                 playersIllust[0].playerObj.SetActive(true);
@@ -169,39 +170,57 @@ public class StageManager : MonoBehaviour
     /// </summary>
     void EnemyDataSet()
     {
+        Debug.Log("敵情報ロード");
         for (int e = 0; e < enemies.Length; e++)
         {
             enemies[e].gameObject.SetActive(false);
         }
 
         List<Master.EnemyData> data = StageDataManager.EnemiesData;
+        List<Master.EnemyData> rareData = StageDataManager.RareEnemiesData;
+
         for (int d = 0; d < data.Count; d++)
         {
             for (int e = 0; e < enemies.Length; e++)
             {
                 if (data[d].placementId != enemies[e].POSITION) continue;
 
+                Master.EnemyData enemy = null;
+
+                // レア敵出現抽選
+                int rnd = Random.Range(0, 100);
+                if (rnd <= rareEnemyApp)
+                {
+                    enemy = rareData[0];
+                }
+                else
+                {
+                    enemy = data[d];
+                }
+
+                enemies[e].enemyId = enemy.enemyStatus.enemyId;
+
                 // ステータス取得
-                enemies[e].HP = data[d].enemyStatus.hp;
-                enemies[e].ATK = data[d].enemyStatus.atk;
-                enemies[e].MP = data[d].enemyStatus.mp;
-                enemies[e].DEF = data[d].enemyStatus.def;
-                enemies[e].DEX = data[d].enemyStatus.dex;
-                enemies[e].AGI = data[d].enemyStatus.spd;
+                enemies[e].HP = enemy.enemyStatus.hp;
+                enemies[e].ATK = enemy.enemyStatus.atk;
+                enemies[e].MP = enemy.enemyStatus.mp;
+                enemies[e].DEF = enemy.enemyStatus.def;
+                enemies[e].DEX = enemy.enemyStatus.dex;
+                enemies[e].AGI = enemy.enemyStatus.spd;
 
                 enemies[e].power_CriticalInit = 1.2f;
 
                 // アタックパターン取得
-                for (int i = 0; i < data[d].enemyStatus.attackPattern.Count; i++)
+                for (int i = 0; i < enemy.enemyStatus.attackPattern.Count; i++)
                 {
-                    enemies[e].attackPattern.Add(data[d].enemyStatus.attackPattern[i]);
+                    enemies[e].attackPattern.Add(enemy.enemyStatus.attackPattern[i]);
                 }
 
                 // 表示
                 for (int i = 0; i < enemiesIllust.Length; i++)
                 {
-                    if (data[d].enemyStatus.enemyId.Substring(0, 1) == enemiesIllust[i].enemyId &&
-                        data[d].enemyStatus.imageId == enemiesIllust[i].imageId)
+                    if (enemy.enemyStatus.enemyId.Substring(0, 1) == enemiesIllust[i].enemyId &&
+                        enemy.enemyStatus.imageId == enemiesIllust[i].imageId)
                     {
                         // イラスト変更
                         var ene = Instantiate(enemiesIllust[i].prefab, enemies[e].gameObject.transform);

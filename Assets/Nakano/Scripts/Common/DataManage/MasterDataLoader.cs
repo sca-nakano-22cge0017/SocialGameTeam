@@ -251,7 +251,9 @@ public class MasterDataLoader : MonoBehaviour
                     sd.areaId = a;
                     sd.stageId = s;
                     sd.enemyPlacement = GetEnemyPlacement(d, a, s);
+                    sd.rareEnemy = GetEnemyPlacement(d, a, -s);
                     sd.dropItem = GetDropItem(sd.difficulty, sd.areaId, sd.stageId);
+                    sd.rareDrop = GetDropItem(sd.difficulty, sd.areaId, -sd.stageId);
 
                     stageDatas.Add(sd);
                 }
@@ -597,7 +599,17 @@ namespace Master
         /// </summary>
         public List<EnemyPlacement> enemyPlacement;
 
+        /// <summary>
+        /// レア敵
+        /// </summary>
+        public List<EnemyPlacement> rareEnemy;
+
         public List<DropItem> dropItem;
+
+        /// <summary>
+        /// レアドロップ
+        /// </summary>
+        public List<DropItem> rareDrop;
     }
 
     /// <summary>

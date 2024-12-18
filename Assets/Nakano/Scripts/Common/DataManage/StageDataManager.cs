@@ -7,12 +7,15 @@ using Master;
 public class StageDataManager : MonoBehaviour
 {
     [SerializeField] private MasterDataLoader masterDataLoader;
-
+    
     private StageData stageData = null;
     private List<EnemyStatus> enemyStatus = null;
 
     public static List<EnemyData> EnemiesData = null;
+    public static List<EnemyData> RareEnemiesData = null;
+
     public static List<DropItem> DropData = null;
+    public static List<DropItem> RareDropData = null;
 
     private bool enemiesDataLoaded = false;
     private bool dropDataLoaded = false;
@@ -58,7 +61,7 @@ public class StageDataManager : MonoBehaviour
         for (int d = 0; d < MasterData.StageDatas.Count; d++)
         {
             StageData data = MasterData.StageDatas[d];
-            if (data.difficulty == _difficulty && data.areaId == _areaId && data.stageId == _stageId)
+            if (data.difficulty == _difficulty && data.areaId == _areaId && (data.stageId == _stageId || data.stageId == -_stageId))
             {
                 stageData = data;
                 break;
@@ -101,6 +104,27 @@ public class StageDataManager : MonoBehaviour
         }
 
         EnemiesData = _enemiesData;
+
+        List<EnemyData> _rareEnemiesData = new();
+        for (int sd = 0; sd < stageData.rareEnemy.Count; sd++)
+        {
+            EnemyData enemyData = new();
+            enemyData.placementId = stageData.rareEnemy[sd].placementId;
+
+            for (int ed = 0; ed < enemyStatus.Count; ed++)
+            {
+                if (enemyStatus[ed].enemyId == stageData.rareEnemy[sd].enemyId &&
+                    enemyStatus[ed].imageId == stageData.rareEnemy[sd].imageId)
+                {
+                    enemyData.enemyStatus = enemyStatus[ed];
+                }
+            }
+
+            _rareEnemiesData.Add(enemyData);
+        }
+
+        RareEnemiesData = _rareEnemiesData;
+
         enemiesDataLoaded = true;
     }
 
@@ -110,6 +134,7 @@ public class StageDataManager : MonoBehaviour
     void GetDropData()
     {
         DropData = stageData.dropItem;
+        RareDropData = stageData.rareDrop;
         dropDataLoaded = true;
     }
 
