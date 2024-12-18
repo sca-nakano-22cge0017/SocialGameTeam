@@ -1273,11 +1273,15 @@ MonoBehaviour:
   - enemyId: J
     imageId: 1
     prefab: {fileID: 6836845913321459097, guid: b89576efdc55ec44aaa39a877c6d2fb2, type: 3}
+  - enemyId: R
+    imageId: 1
+    prefab: {fileID: 1126885023338667627, guid: 8e0823d1635f6c8488ce2645a4ff2d9d, type: 3}
   isSetCompleted: 0
   areaId: 2
   stageId: 1
   difficultyId: 1
   windowController: {fileID: 3788328624002176924}
+  rareEnemyApp: 10
 --- !u!114 &1723303178
 MonoBehaviour:
   m_ObjectHideFlags: 0
