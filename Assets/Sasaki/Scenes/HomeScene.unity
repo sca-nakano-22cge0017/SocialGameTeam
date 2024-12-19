@@ -799,7 +799,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5465531399236053493}
-  - {fileID: 831435435}
   - {fileID: 3225533994076595894}
   - {fileID: 629537432}
   - {fileID: 6161298012813066046}
@@ -807,6 +806,7 @@ RectTransform:
   - {fileID: 840574241}
   - {fileID: 1089811637}
   - {fileID: 26037409}
+  - {fileID: 831435435}
   m_Father: {fileID: 2895513729449804978}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5897,7 +5897,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &2297397633474552349
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6585,7 +6585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
+  m_Sprite: {fileID: -1694988787, guid: ae2f13c8e97100048913f0fe44f04446, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7312,9 +7312,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chara:
   - {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
-  - {fileID: 21300000, guid: fa1d871ae681b3343aa77d93b7068d25, type: 3}
-  - {fileID: 21300000, guid: 99e1cb0161296ae4f93a907b7864d985, type: 3}
   - {fileID: 21300000, guid: 2055930b2b8ee1745859c2bea8b644cc, type: 3}
+  - {fileID: -1694988787, guid: ae2f13c8e97100048913f0fe44f04446, type: 3}
+  - {fileID: 21300000, guid: 99e1cb0161296ae4f93a907b7864d985, type: 3}
   - {fileID: -1634482463, guid: b16d543fc293bcc4ebc68a49cc988593, type: 3}
   - {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
   - {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
