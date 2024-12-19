@@ -48,7 +48,7 @@ public class StageManager : MonoBehaviour
     [SerializeField, Range(1, 5), Header("難易度")] private int difficultyId = 1;
 
     [SerializeField] WindowController windowController;
-    [SerializeField, Header("レア敵出現率")] private float rareEnemyApp = 100;
+    [SerializeField, Header("レア敵出現率(%)")] private float rareEnemyApp = 100;
 
     private void Awake()
     {
@@ -188,7 +188,7 @@ public class StageManager : MonoBehaviour
 
                 // レア敵出現抽選
                 int rnd = Random.Range(0, 100);
-                if (rnd <= rareEnemyApp)
+                if (rnd <= rareEnemyApp && rareData.Count > 0)
                 {
                     enemy = rareData[0];
                 }

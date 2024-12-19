@@ -37,12 +37,14 @@ public class StageSelect : MonoBehaviour
     StaminaManager sm = null;
     StageDataManager sdm = null;
     TutorialWindow tutorial = null;
+    SoundController soundController;
 
     void Start()
     {
         sm = FindObjectOfType<StaminaManager>();
         sdm = FindObjectOfType<StageDataManager>();
         tutorial = FindObjectOfType<TutorialWindow>();
+        soundController = FindObjectOfType<SoundController>();
 
         if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
         {
@@ -252,5 +254,10 @@ public class StageSelect : MonoBehaviour
     public void StaminaRecovery()
     {
         sm.DebugRecovery();
+    }
+
+    public void TapSE()
+    {
+        soundController.PlayTap1SE();
     }
 }
