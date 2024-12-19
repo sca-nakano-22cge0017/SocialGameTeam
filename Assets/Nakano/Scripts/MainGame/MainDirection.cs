@@ -34,8 +34,12 @@ public class MainDirection : MonoBehaviour
     [SerializeField] private Vector3 normalDamage;
     [SerializeField] private Vector3 absolutelyDamage;
 
+    SoundController soundController;
+
     void Start()
     {
+        soundController = FindObjectOfType<SoundController>();
+
         if (GameManager.SelectArea == 2)
         {
             defaultCamera.Priority = 1;
@@ -126,5 +130,10 @@ public class MainDirection : MonoBehaviour
 
         impulseSource.m_DefaultVelocity = absolutelyDamage;
         impulseSource.GenerateImpulse();
+    }
+
+    public void TapSE()
+    {
+        soundController.PlayTap1SE();
     }
 }

@@ -177,6 +177,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;
+    [SerializeField] private SoundController soundController;
     [SerializeField] private int fps;
 
     bool loadCompleted = false;
