@@ -392,7 +392,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30B9\u30BF\u30DF\u30CA\u5168\u5FEB"
+  m_Text: "\u30B9\u30BF\u30DF\u30CA\u5168\u5FEB\n(\u30C7\u30D0\u30C3\u30B0)\n"
 --- !u!1 &4113809622883095597
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,6 +880,7 @@ GameObject:
   - component: {fileID: 1401444791360057776}
   - component: {fileID: 4355830409611739626}
   - component: {fileID: 7981104357170717625}
+  - component: {fileID: 6894177448826523992}
   m_Layer: 5
   m_Name: Go
   m_TagString: Untagged
@@ -990,9 +991,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: Close
+      - m_Target: {fileID: 6894177448826523992}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: PlaySE
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1023,6 +1024,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6894177448826523992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6585814329162504015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4662384026163ea4aa639d24439c941d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7002844427886826286
 GameObject:
   m_ObjectHideFlags: 0
@@ -1036,6 +1049,7 @@ GameObject:
   - component: {fileID: 373464155245555817}
   - component: {fileID: 5947717276119686215}
   - component: {fileID: 6391044418028318094}
+  - component: {fileID: 130733369116736729}
   m_Layer: 5
   m_Name: Back
   m_TagString: Untagged
@@ -1146,9 +1160,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: Close
+      - m_Target: {fileID: 130733369116736729}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: PlaySE
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1179,6 +1193,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &130733369116736729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7002844427886826286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4662384026163ea4aa639d24439c941d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7055060067128762340
 GameObject:
   m_ObjectHideFlags: 0
