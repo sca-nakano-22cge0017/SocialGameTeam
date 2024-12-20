@@ -160,12 +160,6 @@ public class LoadManager : MonoBehaviour
     {
         yield return new WaitUntil(() => !isFadeIn);
 
-        // マスターデータ読み込み完了したら
-        yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
-
-        // セーブデータ読み込み完了したら
-        yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
-
         // シーン読み込み開始
         async = SceneManager.LoadSceneAsync(sceneName);
         async.allowSceneActivation = false;
@@ -181,6 +175,14 @@ public class LoadManager : MonoBehaviour
 
         // 最低限待ってからフェードアウト
         yield return new WaitForSeconds(lowestLoadTime);
+
+        // マスターデータ読み込み完了したら
+        yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
+
+        // セーブデータ読み込み完了したら
+        yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
+
+        yield return null;
 
         // フェードアウト
         isFadeOut = true;
