@@ -57,7 +57,14 @@ public class SceneLoader : MonoBehaviour
     /// <param name="didLoadSaveData">シーン読み込み時にセーブデータを読み込むかどうか</param>
     public static void LoadScene(string scene, bool didLoadSaveData)
     {
+        if (!didLoadSaveData)
+        {
+            LoadFade(scene);
+            return;
+        }
+
         LoadManager loadManager;
+        GameManager.lastScene = SceneManager.GetActiveScene().name;
 
         if (FindObjectOfType<LoadManager>() == null)
         {
