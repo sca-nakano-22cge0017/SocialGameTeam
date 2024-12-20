@@ -17,6 +17,10 @@ public class MainGameGuage : MonoBehaviour
     [SerializeField] private GameObject headImage;
     [SerializeField] private Vector2 specialIconCenter;
 
+    [SerializeField, Header("Å‘åŽž‰æ‘œ•ÏX‚·‚é‚©")] private bool isSpriteChange = false;
+    [SerializeField, Header("Å‘åŽž‚Ì‰æ‘œ")] private Sprite maxSprite;
+    [SerializeField, Header("Å‘åŽž‚¶‚á‚È‚¢‚Æ‚«‚Ì‰æ‘œ")] private Sprite notMaxSprite;
+
     private float diff = 100;
     private int current = 100; // Œ»Ý‚Ì”’l
     private int max = 100;     // Å‘å’l
@@ -174,6 +178,20 @@ public class MainGameGuage : MonoBehaviour
 
             if (guage_second != null) guage_second.fillAmount = diff / max;
             HeadImageMove();
+        }
+
+        if (isSpriteChange)
+        {
+            if (guage_second.fillAmount >= 1)
+            {
+                if(guage_second.sprite != maxSprite) guage_second.sprite = maxSprite;
+                if (headImage.activeSelf == true) headImage.SetActive(false);
+            }
+            else
+            {
+                if (guage_second.sprite != notMaxSprite) guage_second.sprite = notMaxSprite;
+                if (headImage.activeSelf == false) headImage.SetActive(true);
+            }
         }
     }
 
