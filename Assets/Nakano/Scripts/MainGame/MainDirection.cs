@@ -36,6 +36,9 @@ public class MainDirection : MonoBehaviour
     [SerializeField] private Vector3 normalDamage;
     [SerializeField] private Vector3 absolutelyDamage;
 
+    // カットイン
+    [SerializeField] private GameObject cutIn;
+
     // ゲーム終了
     [SerializeField] private GameObject gameOverText;
     [SerializeField] private GameObject clearText;
@@ -49,6 +52,7 @@ public class MainDirection : MonoBehaviour
         warning.SetActive(false);
         gameOverText.SetActive(false);
         clearText.SetActive(false);
+        cutIn.SetActive(false);
 
         if (GameManager.SelectArea == 1)
         {
@@ -152,6 +156,21 @@ public class MainDirection : MonoBehaviour
     public void Clear()
     {
         clearText.SetActive(true);
+    }
+
+    public IEnumerator CutIn(Action _action)
+    {
+        var animator = cutIn.GetComponent<Animator>();
+        cutIn.SetActive(true);
+
+        yield return null;
+
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("End"));
+
+        yield return null;
+
+        cutIn.SetActive(false);
+        _action?.Invoke();
     }
 
     public void TapSE()
