@@ -435,7 +435,11 @@ public class Enemy : Character
 
     void AttackMotion(System.Action _action)
     {
-        spineAnim.callBack = () => { _action?.Invoke(); StartCoroutine(EndWait()); };
+        spineAnim.callBack = () => 
+        { 
+            _action?.Invoke(); 
+            StartCoroutine(EndWait()); 
+        };
         spineAnim.PlayAttackMotion();
     }
 
