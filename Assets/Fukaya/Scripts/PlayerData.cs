@@ -176,22 +176,25 @@ public class PlayerData : Character
         SetCommandsButton(false);
         specialMoveGuage.SetCurrent(0);
 
-        AttackMotion(() => 
+        StartCoroutine(mainDirection.CutIn(() =>
         {
-            atk_st.RankS(); // 全身全霊
-            specialMoveGuageAmount = 0;
+            AttackMotion(() =>
+            {
+                atk_st.RankS(); // 全身全霊
+                specialMoveGuageAmount = 0;
 
-            // 会心抽選
-            var cri = CriticalLottery();
+                // 会心抽選
+                var cri = CriticalLottery();
 
-            // ダメージ量 = 攻撃力 * 必殺技倍率 * 攻撃力倍率 * 会心倍率
-            float damage = ATK * power_SpecialMove * powerAtk * critical;
+                // ダメージ量 = 攻撃力 * 必殺技倍率 * 攻撃力倍率 * 会心倍率
+                float damage = ATK * power_SpecialMove * powerAtk * critical;
 
-            // ロックオンした敵にダメージ
-            var target = mainGameSystem.Target;
-            target.Damage(damage);
-            if (cri) target.CriticalDamage();
-        });
+                // ロックオンした敵にダメージ
+                var target = mainGameSystem.Target;
+                target.Damage(damage);
+                if (cri) target.CriticalDamage();
+            });
+        }));
     }
 
     public int Damage(float _damageAmount, Enemy _enemy)
