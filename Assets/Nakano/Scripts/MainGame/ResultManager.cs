@@ -109,6 +109,13 @@ public class ResultManager : MonoBehaviour
             for (int j = 0; j < resultGuages.Length; j++)
             {
                 int amount = dropController.DropedItems[i].dropAmount;
+
+                if (GameManager.isHyperTraningMode)
+                {
+                    // デバッグモードならドロップ量1000倍
+                    amount *= 1000;
+                }
+
                 StatusType type = dropController.DropedItems[i].itemType;
 
                 if (type == resultGuages[j].Type && amount > 0)

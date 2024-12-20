@@ -127,7 +127,7 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// キャラクターデータ初期化
+    /// 指定キャラクターデータ初期化
     /// </summary>
     /// <param name="_id">キャラクターID</param>
     public static void CharacterInitialize(int _id)
@@ -149,7 +149,7 @@ public class PlayerDataManager : MonoBehaviour
     }
 
     /// <summary>
-    /// キャラクターデータ初期化
+    /// 全キャラクターデータ初期化
     /// </summary>
     /// <param name="_id">キャラクターID</param>
     public static void CharacterInitialize()
@@ -176,6 +176,7 @@ public class PlayerDataManager : MonoBehaviour
         // プラス値は持ち越す
         Status plus = new(player.GetPlusStatus());
 
+        // 各差分の解放状態も持ち越す
         bool atk = player.atkTypeReleased;
         bool def = player.defTypeReleased;
         bool tec = player.tecTypeReleased;
@@ -195,6 +196,9 @@ public class PlayerDataManager : MonoBehaviour
         player.atkTypeReleased = atk;
         player.defTypeReleased = def;
         player.tecTypeReleased = tec;
+
+        player.CalcStatusMin();
+        player.UpdateTotalPower();
 
         Save();
 
@@ -236,6 +240,8 @@ public class PlayerDataManager : MonoBehaviour
     /// <param name="_amount">追加量</param>
     public static void RankPtUp(StatusType _type, int _amount)
     {
+        if (_amount <= 0) return;
+
         int rankPt = player.GetRankPt(_type);               // 現在のランクPt
         int rankPt_Max = player.GetRankPtMax(_type);       // 最大ランクPt
         int result = rankPt + _amount;                      // 加算後の数値
@@ -250,7 +256,7 @@ public class PlayerDataManager : MonoBehaviour
         {
             // ステPt・複合ステPt加算
             player.SetRankPt(_type, result);
-            player.SetCombiRankPt(c_type, combiRankPt + _amount);
+            player.SetCombiRankPt(c_type, combiResult);
         }
         // ステPt最大値以上　かつ　複合ステPt最大値未満
         else if (rankPt_Max <= result && combiRankPt_Max > combiResult)
@@ -315,7 +321,7 @@ public class PlayerDataManager : MonoBehaviour
             int combiRankPt = player.GetCombiRankPt(c_type);               // 現在の複合ステランクPt
             int combiRankPt_NextUp = player.GetCombiRankPtNextUp(c_type); // 次にランクアップするときの累積Pt
 
-            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) != Rank.SS)
+            if (combiRankPt >= combiRankPt_NextUp && player.GetCombiRank(c_type) < Rank.SS)
             {
                 CombiRankUp(c_type);
                 CombiRankUpCheck();

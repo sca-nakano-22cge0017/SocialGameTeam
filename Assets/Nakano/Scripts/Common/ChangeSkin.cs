@@ -10,19 +10,11 @@ public class ChangeSkin : MonoBehaviour
     [SerializeField] private WindowController guageWindow;
     [SerializeField] private Image guage1;
     [SerializeField] private Image guage2;
+    [SerializeField] private Text explain;
+    [SerializeField] private Text restText;
 
     // 選択中の複合ランク
     CombiType selectType = CombiType.NORMAL;
-
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
 
     /// <summary>
     /// 差分解放済みかチェック
@@ -73,6 +65,7 @@ public class ChangeSkin : MonoBehaviour
     void DispGuage()
     {
         float max = PlayerDataManager.player.GetCombiRankPtMax(selectType);
+        int rest = 0;
 
         switch (selectType)
         {
@@ -81,24 +74,30 @@ public class ChangeSkin : MonoBehaviour
                 float mp = (float)PlayerDataManager.player.GetRankPt(StatusType.MP);
                 guage1.fillAmount = atk / max;
                 guage2.fillAmount = (atk + mp) / max;
+                explain.text = "Attack値\n攻撃ポイント + 魔力ポイント";
 
-                Debug.Log($"test atk:{atk}, mp:{mp}, max:{max}, {atk / max}, {(atk + mp) / max}");
+                rest = PlayerDataManager.player.StatusData.rankPoint.atkRankPt_NextUp[Rank.SS] - PlayerDataManager.player.GetCombiRankPt(selectType);
+                restText.text = "解放まで残り" + rest + "ポイント";
                 break;
             case CombiType.DEF:
                 float hp = (float)PlayerDataManager.player.GetRankPt(StatusType.HP);
                 float def = (float)PlayerDataManager.player.GetRankPt(StatusType.DEF);
                 guage1.fillAmount = hp / max;
                 guage2.fillAmount = (hp + def) / max;
+                explain.text = "Defense値\n体力ポイント + 守備ポイント";
 
-                Debug.Log($"test hp:{hp}, def:{def}, max:{max}, {hp / max}, {(hp + def) / max}");
+                rest = PlayerDataManager.player.StatusData.rankPoint.defRankPt_NextUp[Rank.SS] - PlayerDataManager.player.GetCombiRankPt(selectType);
+                restText.text = "解放まで残り" + rest + "ポイント";
                 break;
             case CombiType.TEC:
-                float dex = (float)PlayerDataManager.player.GetRankPt(StatusType.DEX);
                 float agi = (float)PlayerDataManager.player.GetRankPt(StatusType.AGI);
-                guage1.fillAmount = dex / max;
-                guage2.fillAmount = (dex + agi) / max;
+                float dex = (float)PlayerDataManager.player.GetRankPt(StatusType.DEX);
+                guage1.fillAmount = agi / max;
+                guage2.fillAmount = (agi + dex) / max;
+                explain.text = "Tecnique値\n速度ポイント + 器用ポイント";
 
-                Debug.Log($"test dex:{dex}, agi:{agi}, max:{max}, {dex/max}, {(dex + agi) / max}");
+                rest = PlayerDataManager.player.StatusData.rankPoint.tecRankPt_NextUp[Rank.SS] - PlayerDataManager.player.GetCombiRankPt(selectType);
+                restText.text = "解放まで残り" + rest + "ポイント";
                 break;
         }
 
