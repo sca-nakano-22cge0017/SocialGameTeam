@@ -115,8 +115,8 @@ public class PlayerStatus
     private Dictionary<CombiType, int> combiRankPt_NextUp = new(); // 次にランクアップするときの累積ランクPt
     private Dictionary<CombiType, int> combiRankPtMax = new();     // 複合ステータスのランクPt最大値 プラスステータスを除き、上昇しない
 
-    private const int resetBonusCoefficient = 100;       // リセット時のステータス上昇量の係数　上昇量 = resetBonusCoefficient * plusStatus
-    private const int resetBonusCoefficient_Max = 1000;  // リセット時のステータス最大値上昇量の係数　上昇量 = resetBonusCoefficient_Max * plusStatus
+    private Status resetBonusCoefficient = new(100,100,100,100,100,100);                // リセット時のステータス上昇量の係数　上昇量 = resetBonusCoefficient * plusStatus
+    private Status resetBonusCoefficient_Max = new(1000, 1000, 1000, 1000, 1000, 1000); // リセット時のステータス最大値上昇量の係数　上昇量 = resetBonusCoefficient_Max * plusStatus
     private Status plusStatus = new(0, 0, 0, 0, 0, 0);    // 周回によるプラスステータス 1～99
 
     public CombiType evolutionType = CombiType.NORMAL; // 現在の進化形態
@@ -739,9 +739,9 @@ public class PlayerStatus
 
         if (isNextEffects)
         {
-            a = (plus + 1) * resetBonusCoefficient;
+            a = (plus + 1) * resetBonusCoefficient.GetStatus(_type);
         }
-        else a = plus * resetBonusCoefficient;
+        else a = plus * resetBonusCoefficient.GetStatus(_type);
 
         return a;
     }
@@ -754,9 +754,9 @@ public class PlayerStatus
 
         if (isNextEffects)
         {
-            a = (plus + 1) * resetBonusCoefficient_Max;
+            a = (plus + 1) * resetBonusCoefficient_Max.GetStatus(_type);
         }
-        else a = plus * resetBonusCoefficient_Max;
+        else a = plus * resetBonusCoefficient_Max.GetStatus(_type);
 
         return a;
     }
