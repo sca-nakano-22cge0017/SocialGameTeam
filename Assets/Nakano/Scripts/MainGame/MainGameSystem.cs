@@ -108,11 +108,20 @@ public class MainGameSystem : MonoBehaviour
             }
         }
 
-        Invoke("GameStart", 1.0f);
+        if (GameManager.SelectArea == 2)
+        {
+            StartCoroutine(mainDirection.BossStart());
+        }
+
+        StartCoroutine(GameStart());
     }
 
-    void GameStart()
+    IEnumerator GameStart()
     {
+        yield return new WaitUntil(() => mainDirection.isCompleteStartDirection);
+
+        yield return new WaitForSeconds(0.3f);
+
         OrderAction();
     }
 
@@ -221,6 +230,7 @@ public class MainGameSystem : MonoBehaviour
         if (isWin)
         {
             player.WinMotion();
+            mainDirection.Clear();
 
             yield return new WaitForSeconds(3.0f);
 
@@ -228,6 +238,10 @@ public class MainGameSystem : MonoBehaviour
         }
         else if (isLose)
         {
+            mainDirection.GameOver();
+
+            yield return new WaitForSeconds(3.0f);
+
             SceneLoader.LoadFade("HomeScene");
         }
     }
