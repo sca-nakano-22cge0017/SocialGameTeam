@@ -22,6 +22,7 @@ public class CharaSelectManager : MonoBehaviour
 
     [SerializeField] GameObject SkillWindow;
     [SerializeField] GameObject skillButton;
+    [SerializeField] GameObject skinButton;
     [SerializeField] Button[] skillButtons;
     private bool trueWindow = false;
     SpecialTecniqueManager stm;
@@ -36,12 +37,13 @@ public class CharaSelectManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(plusStatusText.text);
+        //Debug.Log(plusStatusText.text);
     }
 
     void SwordsManTrue()
     {
         skillButton.SetActive(true);
+        skinButton.SetActive(true);
         charaImage[0].SetActive(true);
         charaImage[1].SetActive(false);
     }
@@ -49,6 +51,7 @@ public class CharaSelectManager : MonoBehaviour
     void WizardTrue()
     {
         skillButton.SetActive(true);
+        skinButton.SetActive(true);
         charaImage[0].SetActive(false);
         charaImage[1].SetActive(true);
     }
@@ -192,17 +195,6 @@ public class CharaSelectManager : MonoBehaviour
     public void ButtonUp()
     {
         plusStatusWindow.SetActive(false);
-    }
-
-    public void SkillButton()
-    {
-        SkillWindow.SetActive(true);
-        trueWindow = true;
-    }
-
-    public void SkillWindowClose()
-    {
-        SkillWindow.SetActive(false);
     }
 
     public static void savePlayerData(SaveData player)
