@@ -164,26 +164,26 @@ public class MainGameSystem : MonoBehaviour
         }
         else
         {
-            hp_st.TurnEnd();
-            def_st.TurnEnd();
-            atk_st.TurnEnd();
-            mp_st.TurnEnd();
-            agi_st.TurnEnd();
-            dex_st.TurnEnd();
-
-            for (int i = 0; i < charactersList.Count; i++)
-            {
-                if (charactersList[i].currentHp > 0)
-                    charactersList[i].TurnEnd();
-            }
-
             StartCoroutine(NextTurn());
         }
     }
 
     IEnumerator NextTurn()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
+
+        hp_st.TurnEnd();
+        def_st.TurnEnd();
+        atk_st.TurnEnd();
+        mp_st.TurnEnd();
+        agi_st.TurnEnd();
+        dex_st.TurnEnd();
+
+        for (int i = 0; i < charactersList.Count; i++)
+        {
+            if (charactersList[i].currentHp > 0)
+                charactersList[i].TurnEnd();
+        }
 
         // ターン経過
         elapsedTurn++;
@@ -225,6 +225,8 @@ public class MainGameSystem : MonoBehaviour
 
     IEnumerator GameEnd()
     {
+        targetImage.enabled = false;
+
         yield return new WaitForSeconds(1.0f);
 
         if (isWin)
@@ -282,7 +284,7 @@ public class MainGameSystem : MonoBehaviour
         
         // ターゲットマークを移動
         targetImage.gameObject.transform.SetParent(target.gameObject.transform);
-        targetImage.gameObject.transform.localPosition = new Vector3(-173, 245, 0);
-        targetImage.gameObject.transform.SetAsLastSibling();
+        targetImage.gameObject.transform.localPosition = new Vector3(0, 0, 0);
+        targetImage.gameObject.transform.SetAsFirstSibling();
     }
 }
