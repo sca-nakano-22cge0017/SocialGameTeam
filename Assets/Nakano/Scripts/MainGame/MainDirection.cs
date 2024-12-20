@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+using System;
 
 public class MainDirection : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class MainDirection : MonoBehaviour
     [SerializeField] CinemachineVirtualCamera bossUpCamera;
 
     // ボス　寄り演出
+    [SerializeField] private GameObject warning;
     [SerializeField, Header("ボスにカメラ寄る長さ(秒)")] private float bossUpTime = 0.5f;
     bool isCompBossUp = false;
     [SerializeField, Header("UIがスライドイン完了するまでの時間(秒)")] private float UISlideInTime = 0.5f;
@@ -34,25 +36,31 @@ public class MainDirection : MonoBehaviour
     [SerializeField] private Vector3 normalDamage;
     [SerializeField] private Vector3 absolutelyDamage;
 
+    // ゲーム終了
+    [SerializeField] private GameObject gameOverText;
+    [SerializeField] private GameObject clearText;
+
     SoundController soundController;
 
     void Start()
     {
         soundController = FindObjectOfType<SoundController>();
 
+        warning.SetActive(false);
+        gameOverText.SetActive(false);
+        clearText.SetActive(false);
+
+        if (GameManager.SelectArea == 1)
+        {
+            isCompleteStartDirection = true;
+        }
         if (GameManager.SelectArea == 2)
         {
             defaultCamera.Priority = 1;
             bossUpCamera.Priority = 100;
 
             ReadyBossStartDirection();
-            StartCoroutine(BossStart());
         }
-    }
-
-    void Update()
-    {
-        
     }
 
     void DirectionCompleteCheck()
@@ -83,14 +91,18 @@ public class MainDirection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator BossStart()
     {
+        yield return new WaitForSeconds(0.5f);
+
         defaultCamera.Priority = 1;
         bossUpCamera.Priority = 100;
 
+        warning.SetActive(true);
+
         yield return new WaitForSeconds(bossUpTime);
 
-        bossUpCamera.Priority = 1;
         defaultCamera.Priority = 100;
-
+        bossUpCamera.Priority = 1;
+        
         yield return new WaitForSeconds(2.0f);
 
         float t = 0;
@@ -130,6 +142,16 @@ public class MainDirection : MonoBehaviour
 
         impulseSource.m_DefaultVelocity = absolutelyDamage;
         impulseSource.GenerateImpulse();
+    }
+
+    public void GameOver()
+    {
+        gameOverText.SetActive(true);
+    }
+
+    public void Clear()
+    {
+        clearText.SetActive(true);
     }
 
     public void TapSE()
