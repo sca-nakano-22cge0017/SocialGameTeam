@@ -111,13 +111,12 @@ public class StageManager : MonoBehaviour
     void PlayerDataSet()
     {
         // ステータス取得
-        Status status = new(PlayerDataManager.player.AllStatus);
-        player.ATK = status.atk;
-        player.MP = status.mp;
-        player.HP = status.hp;
-        player.DEF = status.def;
-        player.AGI = status.agi;
-        player.DEX = status.dex;
+        player.ATK = PlayerDataManager.player.GetStatus(StatusType.ATK);
+        player.MP  = PlayerDataManager.player.GetStatus(StatusType.MP);
+        player.HP  = PlayerDataManager.player.GetStatus(StatusType.HP);
+        player.DEF = PlayerDataManager.player.GetStatus(StatusType.DEF);
+        player.AGI = PlayerDataManager.player.GetStatus(StatusType.AGI);
+        player.DEX = PlayerDataManager.player.GetStatus(StatusType.DEX);
         
         // 必殺ゲージ
         Master.CharaInitialStutas statusData = PlayerDataManager.player.StatusData;
@@ -150,7 +149,7 @@ public class StageManager : MonoBehaviour
         for (int i = 0; i < playersIllust.Length; i++)
         {
             if (playersIllust[i].charaId == GameManager.SelectChara &&
-                playersIllust[i].evolutionType == PlayerDataManager.player.GetEvolutionType())
+                playersIllust[i].evolutionType == PlayerDataManager.player.GetSelectEvolutionType())
             {
                 player.meshRenderer = playersIllust[i].playerIllust.gameObject.GetComponent<MeshRenderer>();
                 player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();

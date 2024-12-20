@@ -188,6 +188,11 @@ public class GameManager : MonoBehaviour
     public static int lastSelectDifficulty = 0;
     public static int lastSelectButton = -1;
 
+    /// <summary>
+    /// オンのときドロップ量が1000倍になる　デバッグ用
+    /// </summary>
+    public static bool isHyperTraningMode = false;
+
     private void Awake()
     {
         if (instance == null)

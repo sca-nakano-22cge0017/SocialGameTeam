@@ -101,8 +101,8 @@ public class PlayerStatus
 
     private int totalPower = 0;          // 戦闘力
     private int totalPower_Max = 999999; // 戦闘力最大値
-
-    private Status status = new(0, 0, 0, 0, 0, 0);           // 現在のステータス
+       
+    private Status status = new(0, 0, 0, 0, 0, 0);      // 追加効果無しのステータス
     private Status status_Min = new(0, 0, 0, 0, 0, 0);       // 現ランクでの最小値
     private Status status_Max = new(0, 0, 0, 0, 0, 0);       // 最大値
 
@@ -141,11 +141,6 @@ public class PlayerStatus
     public CharaInitialStutas StatusData
     {
         get => statusData;
-    }
-
-    public Status AllStatus
-    {
-        get => status;
     }
 
     /// <summary>
@@ -213,6 +208,8 @@ public class PlayerStatus
                     status_Min = new(statusData.statusInit[initRank]);
                     status_Max = new(statusData.statusMax[initRank]);
 
+                    CalcStatusMin();
+
                     // ランクPt初期化
                     CharacterRankPoint rankPtData = new(statusData.rankPoint);
 
@@ -230,22 +227,8 @@ public class PlayerStatus
                 }
             }
         }
-        else
-        {
-            status = new Status(1000, 120, 400, 100, 50, 10);
-            status_Max = new Status(14000, 3000, 40000, 5000, 120, 100);
 
-            rankPoint = new Status(0, 0, 0, 0, 0, 0);
-            rankPoint_Max = new Status(12000, 6000, 12000, 6000, 12000, 6000);
-
-            combiRankPt_NextUp[CombiType.ATK] = 1000;
-            combiRankPt_NextUp[CombiType.DEF] = 1000;
-            combiRankPt_NextUp[CombiType.TEC] = 1000;
-
-            combiRankPtMax[CombiType.ATK] = 14000;
-            combiRankPtMax[CombiType.DEF] = 14000;
-            combiRankPtMax[CombiType.TEC] = 14000;
-        }
+        UpdateTotalPower();
     }
 
     /// <summary>
@@ -505,7 +488,6 @@ public class PlayerStatus
     {
         if (evolutionType == CombiType.NORMAL)
         {
-            Debug.Log("進化");
             evolutionType = _type;
             SetSelectEvolutionType(_type);
 
@@ -744,8 +726,7 @@ public class PlayerStatus
     }
 
     /// <summary>
-    /// 育成リセットによる追加効果量（ステータス上昇量）を取得　
-    /// ステータス初期値 + 育成による上昇量 + 育成リセットによる上昇量
+    /// 育成リセットによる追加効果量（ステータス上昇量）を取得
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="isNextEffects">falseのとき上昇量の現在値を返す　trueのとき次育成リセットした場合の上昇量を返す</param>
@@ -778,5 +759,22 @@ public class PlayerStatus
         else a = plus * resetBonusCoefficient_Max;
 
         return a;
+    }
+
+    public void CalcStatusMin()
+    {
+        status.hp += GetAdditionalEffects(StatusType.HP, false);
+        status.mp += GetAdditionalEffects(StatusType.MP, false);
+        status.atk += GetAdditionalEffects(StatusType.ATK, false);
+        status.def += GetAdditionalEffects(StatusType.DEF, false);
+        status.agi += GetAdditionalEffects(StatusType.AGI, false);
+        status.dex += GetAdditionalEffects(StatusType.DEX, false);
+
+        status_Min.hp += GetAdditionalEffects(StatusType.HP, false);
+        status_Min.mp += GetAdditionalEffects(StatusType.MP, false);
+        status_Min.atk += GetAdditionalEffects(StatusType.ATK, false);
+        status_Min.def += GetAdditionalEffects(StatusType.DEF, false);
+        status_Min.agi += GetAdditionalEffects(StatusType.AGI, false);
+        status_Min.dex += GetAdditionalEffects(StatusType.DEX, false);
     }
 }

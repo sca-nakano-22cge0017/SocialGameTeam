@@ -237,9 +237,6 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     void SkillRelease()
     {
-        //　SpecialTecniqueManager stm;　StartでFindObjectObType使って取得
-        //　[SerializeField] private Button[] skillButtons;
-
         // 全て非表示にする
         for (int j = 0; j < skillButtons.Length; j++)
         {
