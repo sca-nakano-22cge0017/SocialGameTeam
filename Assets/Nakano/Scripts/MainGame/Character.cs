@@ -103,10 +103,10 @@ public class Character : MonoBehaviour
         debuffAgi = 0;
 
         hpGuage.Initialize(HP);
-        if (damageText) damageText.enabled = false;
-        if (healText) healText.enabled = false;
-        if (buffText) buffText.enabled = false;
-        if (criticalText) criticalText.enabled = false;
+        if (damageText) damageText.gameObject.SetActive(false);
+        if (healText) healText.gameObject.SetActive(false);
+        if (buffText) buffText.gameObject.SetActive(false);
+        if (criticalText) criticalText.gameObject.SetActive(false);
 
         _criticalProbability = criticalProbabilityInitial;
     }
@@ -267,7 +267,7 @@ public class Character : MonoBehaviour
         {
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %UP";
             Color orange = new Color(1.0f, 0.56f, 0.0f, 1.0f);
-            StartCoroutine(DispText(buffText, str, orange));
+            StartCoroutine(DispBuffText(buffText, str, orange, true));
         }
     }
 
@@ -320,7 +320,7 @@ public class Character : MonoBehaviour
         if (_amount > 0)
         {
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %DOWN";
-            StartCoroutine(DispText(buffText, str, Color.blue));
+            StartCoroutine(DispBuffText(buffText, str, Color.blue, false));
         }
     }
 
@@ -409,22 +409,32 @@ public class Character : MonoBehaviour
     protected IEnumerator DispText(Text _text, string _str)
     {
         _text.text = _str;
-        _text.enabled = true;
+        _text.gameObject.SetActive(true);
 
         yield return new WaitForSeconds(textDispTime);
 
-        _text.enabled = false;
+        _text.gameObject.SetActive(false);
     }
 
-    protected IEnumerator DispText(Text _text, string _str, Color _color)
+    protected IEnumerator DispBuffText(Text _text, string _str, Color _color, bool _isBuff)
     {
         _text.text = _str;
-        _text.enabled = true;
+        _text.gameObject.SetActive(true);
         _text.color = _color;
+
+        var anim = _text.gameObject.GetComponent<Animator>();
+        if (_isBuff)
+        {
+            anim.SetTrigger("Buff");
+        }
+        else
+        {
+            anim.SetTrigger("Debuff");
+        }
 
         yield return new WaitForSeconds(textDispTime);
 
-        _text.enabled = false;
+        _text.gameObject.SetActive(false);
     }
 
     protected IEnumerator HPGuageDirectionCompleteWait(Action _action)

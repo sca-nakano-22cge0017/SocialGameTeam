@@ -63,9 +63,6 @@ public class Enemy : Character
     {
         base.Initialize();
 
-        dropText.enabled = false;
-        damageText.enabled = false;
-
         for (int i = 0; i < attackPattern.Count; i++)
         {
             switch(attackPattern[i].attackId)
