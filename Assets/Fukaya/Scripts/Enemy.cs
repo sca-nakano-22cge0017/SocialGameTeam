@@ -352,7 +352,7 @@ public class Enemy : Character
     /// </summary>
     public override void Dead()
     {
-        if (currentHp < 0) return;
+        if (currentHp > 0) return;
 
         Debug.Log("“G" + POSITION + "‚ð“|‚µ‚½");
 

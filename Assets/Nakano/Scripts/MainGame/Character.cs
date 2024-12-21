@@ -144,7 +144,7 @@ public class Character : MonoBehaviour
 
         currentHp -= damage;
 
-        if (currentHp < 0)
+        if (currentHp <= 0)
         {
             currentHp = 0;
             Dead();
