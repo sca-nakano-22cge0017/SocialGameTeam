@@ -96,6 +96,7 @@ public class SkillExplainDisplay : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         wc.Close();
+        skillDetailWindow.SetActive(false);
 
         yield return new WaitForSeconds(1.0f);
 
@@ -151,5 +152,14 @@ public class SkillExplainDisplay : MonoBehaviour
                 dex_st.RankSS();
                 break;
         }
+    }
+
+    public void WindowClose()
+    {
+        tapTime = 0;
+        isTapping = false;
+
+        skillDetailWindow.SetActive(false);
+        wc.Close();
     }
 }
