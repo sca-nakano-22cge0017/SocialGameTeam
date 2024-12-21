@@ -163,7 +163,7 @@ public class StageSelect : MonoBehaviour
             {
                 for (int i = 0; i < data.dropItem.Count; i++)
                 {
-                    information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
+                    information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ＋" + data.dropItem[i].dropAmount + "Pt\n";
                 }
             }
         }
@@ -186,7 +186,7 @@ public class StageSelect : MonoBehaviour
             {
                 for (int i = 0; i < data.dropItem.Count; i++)
                 {
-                    information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ×" + data.dropItem[i].dropAmount + "\n";
+                    information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ＋" + data.dropItem[i].dropAmount + "Pt\n";
                 }
             }
         }

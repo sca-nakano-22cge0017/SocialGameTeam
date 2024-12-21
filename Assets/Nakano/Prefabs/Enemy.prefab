@@ -339,6 +339,9 @@ MonoBehaviour:
   choice: 1
   headImage: {fileID: 0}
   specialIconCenter: {x: 0, y: 0}
+  isSpriteChange: 0
+  maxSprite: {fileID: 0}
+  notMaxSprite: {fileID: 0}
   isDirectionCompleted: 1
 --- !u!1 &2575421351273207460
 GameObject:
@@ -1195,7 +1198,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 60}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 800, y: 800}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9156309252626077515
 CanvasRenderer:

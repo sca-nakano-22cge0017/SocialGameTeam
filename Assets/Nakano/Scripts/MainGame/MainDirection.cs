@@ -10,6 +10,7 @@ public class MainDirection : MonoBehaviour
 
     [SerializeField] private GameObject upUI;
     [SerializeField] private GameObject commandsObj;
+    [SerializeField] private GameObject menuButton;
 
     [SerializeField] CinemachineVirtualCamera defaultCamera;
     [SerializeField] CinemachineVirtualCamera bossUpCamera;
@@ -20,10 +21,13 @@ public class MainDirection : MonoBehaviour
     bool isCompBossUp = false;
     [SerializeField, Header("UIがスライドイン完了するまでの時間(秒)")] private float UISlideInTime = 0.5f;
     Vector3 defaultPos_UpUI;
+    Vector3 defaultPos_MenuButton;
     Vector3 defaultPos_Commands;
     [SerializeField] Vector3 initPos_UpUI;
+    [SerializeField] Vector3 initPos_MenuButton;
     [SerializeField] Vector3 initPos_Commands;
     float moveSpeed_UpUI;
+    float moveSpeed_MenuButton;
     float moveSpeed_Commands;
 
     /// <summary>
@@ -81,12 +85,15 @@ public class MainDirection : MonoBehaviour
     {
         defaultPos_Commands = commandsObj.transform.localPosition;
         defaultPos_UpUI = upUI.transform.localPosition;
+        defaultPos_MenuButton = menuButton.transform.localPosition;
 
         commandsObj.transform.localPosition = initPos_Commands;
         upUI.transform.localPosition = initPos_UpUI;
+        menuButton.transform.localPosition = initPos_MenuButton;
 
         moveSpeed_Commands = (defaultPos_Commands.x - initPos_Commands.x) / UISlideInTime;
         moveSpeed_UpUI = (defaultPos_UpUI.y - initPos_UpUI.y) / UISlideInTime;
+        moveSpeed_MenuButton = (defaultPos_MenuButton.y - initPos_MenuButton.y) / UISlideInTime;
     }
 
     /// <summary>
@@ -122,11 +129,16 @@ public class MainDirection : MonoBehaviour
             uiPos.y += moveSpeed_UpUI * Time.deltaTime;
             upUI.transform.localPosition = uiPos;
 
+            var menuPos = menuButton.transform.localPosition;
+            menuPos.y += moveSpeed_MenuButton * Time.deltaTime;
+            menuButton.transform.localPosition = menuPos;
+
             yield return null;
         }
 
         commandsObj.transform.localPosition = defaultPos_Commands;
         upUI.transform.localPosition = defaultPos_UpUI;
+        menuButton.transform.localPosition = defaultPos_MenuButton;
 
         isCompBossUp = true;
         DirectionCompleteCheck();

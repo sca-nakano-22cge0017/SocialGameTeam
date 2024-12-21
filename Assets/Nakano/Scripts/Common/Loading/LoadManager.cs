@@ -95,11 +95,15 @@ public class LoadManager : MonoBehaviour
         SoundController soundController = FindObjectOfType<SoundController>();
         if (soundController != null)
         {
-            if (sceneName == "MainTest")
-                soundController.MainToBattle();
+            if (sceneName == "MainTest" && GameManager.lastScene == "MainTest") { }
+            else
+            {
+                if (sceneName == "MainTest")
+                    soundController.MainToBattle();
 
-            if (GameManager.lastScene == "MainTest")
-                soundController.BattleToMain();
+                if (GameManager.lastScene == "MainTest")
+                    soundController.BattleToMain();
+            }
         }
 
         isLoading = true;
