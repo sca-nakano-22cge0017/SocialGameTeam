@@ -174,7 +174,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.05
-  m_Text: "\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8\xD710\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8\xD710\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8\xD710\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8\xD710\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8\xD710\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8\xD710"
+  m_Text: "\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8+100Pt\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8+100Pt\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8+100Pt\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8+100Pt\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8+100Pt\n\u4F53\u529B\u30E9\u30F3\u30AF\u30DD\u30A4\u30F3\u30C8+100Pt"
 --- !u!222 &162412849
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -199,8 +199,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 310, y: 150}
-  m_SizeDelta: {x: 400, y: 180}
+  m_AnchoredPosition: {x: 280, y: 140}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &352740442
 GameObject:
@@ -726,8 +726,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 300, y: 280}
-  m_SizeDelta: {x: 220, y: 50}
+  m_AnchoredPosition: {x: 300, y: 275}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1983439423
 MonoBehaviour:
@@ -762,7 +762,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u30C9\u30ED\u30C3\u30D7\u5185\u5BB9"
+  m_Text: "\u521D\u56DE\u30AF\u30EA\u30A2\u5831\u916C"
 --- !u!222 &1983439424
 CanvasRenderer:
   m_ObjectHideFlags: 0
