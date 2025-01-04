@@ -48,6 +48,17 @@ public class MainGameSystem : MonoBehaviour
     private int elapsedTurn = 1;
     [SerializeField] private Text elapsedTurn_Text;
 
+    // 倍速
+    [SerializeField, Header("速度倍率")] private float[] speedMagnificationKind;
+    [SerializeField] private Text speedMagnificationText;
+    private int selectSpeedMagNum = 0;
+    private float currentSpeedMagnification = 1.0f;
+    public float CurrentSpeedRatio { get => currentSpeedMagnification; }
+
+    // オート
+    public bool isAutoMode = false;
+    public bool IsAutoMode { get => isAutoMode; }
+
     private bool isInitialized = false;
     private bool isLose = false;
     private bool isWin = false;
@@ -58,6 +69,11 @@ public class MainGameSystem : MonoBehaviour
         tutorial = FindObjectOfType<TutorialWindow>();
         loadManager = FindObjectOfType<LoadManager>();
         soundController = FindObjectOfType<SoundController>();
+
+        // Todo 要変更
+        selectSpeedMagNum = 0;
+        currentSpeedMagnification = 1.0f;
+        speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
 
         SkillRelease();
 
@@ -236,6 +252,7 @@ public class MainGameSystem : MonoBehaviour
 
             yield return new WaitForSeconds(3.0f);
 
+            Time.timeScale = 1.0f;
             windowController.Open();
         }
         else if (isLose)
@@ -244,6 +261,7 @@ public class MainGameSystem : MonoBehaviour
 
             yield return new WaitForSeconds(3.0f);
 
+            Time.timeScale = 1.0f;
             SceneLoader.LoadFade("HomeScene");
         }
     }
@@ -286,5 +304,39 @@ public class MainGameSystem : MonoBehaviour
         targetImage.gameObject.transform.SetParent(target.gameObject.transform);
         targetImage.gameObject.transform.localPosition = new Vector3(0, 0, 0);
         targetImage.gameObject.transform.SetAsLastSibling();
+    }
+
+    /// <summary>
+    /// 速度倍率変更
+    /// </summary>
+    public void SpeedChange()
+    {
+        if (selectSpeedMagNum < speedMagnificationKind.Length - 1)
+        {
+            selectSpeedMagNum++;
+        }
+        else selectSpeedMagNum = 0;
+
+        currentSpeedMagnification = speedMagnificationKind[selectSpeedMagNum];
+        speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
+        Time.timeScale = currentSpeedMagnification;
+    }
+
+    /// <summary>
+    /// オート切替
+    /// </summary>
+    public void AutoModeChange()
+    {
+        isAutoMode = !isAutoMode;
+
+        PlayerData p = charactersList[actionNum].GetComponent<PlayerData>();
+
+        if (p != null && isAutoMode)
+        {
+            if (p.isInputWaiting)
+            {
+                p.NormalAttack();
+            }
+        }
     }
 }

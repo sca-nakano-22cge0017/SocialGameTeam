@@ -57,6 +57,11 @@ public class PlayerData : Character
     /// </summary>
     public bool canSpecialMove = false;
 
+    /// <summary>
+    /// コマンド入力待ちか
+    /// </summary>
+    public bool isInputWaiting = false;
+
     void Start()
     {
         soundController = FindObjectOfType<SoundController>();
@@ -95,7 +100,16 @@ public class PlayerData : Character
 
         Debug.Log("プレイヤーの行動");
 
-        SetCommandsButton(true);
+        if (mainGameSystem.IsAutoMode)
+        {
+            SetCommandsButton(false);
+            NormalAttack();
+        }
+        else
+        {
+            SetCommandsButton(true);
+        }
+
         hp_st.PlayerTurnStart();
     }
 
@@ -409,5 +423,7 @@ public class PlayerData : Character
             commands[0].interactable = false;
             commands[0].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
         }
+
+        isInputWaiting = _canPut;
     }
 }
