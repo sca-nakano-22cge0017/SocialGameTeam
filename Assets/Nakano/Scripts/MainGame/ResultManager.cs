@@ -190,7 +190,7 @@ public class ResultManager : MonoBehaviour
 
         if (st == null) return;
         
-        if (st.m_isSkill)
+        if (st.m_skillType == 1)
         {
             // スキルの場合
             name_st_Skill.text = "スキル " + st.m_name + " 解放";
