@@ -43,7 +43,7 @@ public class SpecialTecniqueManager : MonoBehaviour
                 if (specialTecniques[i].m_id == stData[j].id)
                 {
                     Master.SpecialTecniqueData d = stData[j];
-                    specialTecniques[i].Setting(d.name, d.isSkill, d.type, d.continuationTurn, d.value1, d.value2, d.effects, d.cost);
+                    specialTecniques[i].Setting(d.name, d.skillType, d.type, d.continuationTurn, d.value1, d.value2, d.effects, d.cost);
                 }
             }
         }

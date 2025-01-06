@@ -548,7 +548,7 @@ public class MasterDataLoader : MonoBehaviour
 
             d.id = int.Parse(datas[l][idColumn]);
             d.name = datas[l][nameColumn];
-            d.isSkill = int.Parse(datas[l][isSkillColumn]) == 0 ? false : true;
+            d.skillType = int.Parse(datas[l][isSkillColumn]);
             d.type = int.Parse(datas[l][typeColumn]);
             d.continuationTurn = int.Parse(datas[l][continuationTurnColumn]);
             d.value1 = int.Parse(datas[l][value1Column]);
@@ -856,7 +856,7 @@ namespace Master
         public string name;
 
         // スキルかどうか
-        public bool isSkill = false;
+        public int skillType;
 
         // 技能タイプ
         public int type;

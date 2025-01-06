@@ -29,7 +29,7 @@ public class SpecialTecnique : ScriptableObject
     /// <summary>
     /// スキルかどうか
     /// </summary>
-    [HideInInspector] public bool m_isSkill = false;
+    [HideInInspector] public int m_skillType;
 
     /// <summary>
     /// タイプ
@@ -61,10 +61,10 @@ public class SpecialTecnique : ScriptableObject
     /// </summary>
     [HideInInspector] public int m_cost;
 
-    public void Setting(string _name, bool _isSkill, int _type, int _continuationTurn, int _value1, int _value2, string _effects, int _cost)
+    public void Setting(string _name, int _skillType, int _type, int _continuationTurn, int _value1, int _value2, string _effects, int _cost)
     {
         m_name = _name;
-        m_isSkill = _isSkill;
+        m_skillType = _skillType;
         m_type = _type;
         m_continuationTurn = _continuationTurn;
         m_value1 = _value1;
