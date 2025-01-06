@@ -87,6 +87,9 @@ public class PlayerDataManager : MonoBehaviour
         // チュートリアル進捗
         saveData.tutorialData = new TutorialProgress(GameManager.TutorialProgress);
 
+        // 設定
+        saveData.setting = GameManager.Setting;
+
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
     }
@@ -121,6 +124,9 @@ public class PlayerDataManager : MonoBehaviour
 
         // チュートリアル進捗
         GameManager.TutorialProgress = new TutorialProgress(data.tutorialData);
+
+        // 設定
+        GameManager.Setting = data.setting;
 
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");

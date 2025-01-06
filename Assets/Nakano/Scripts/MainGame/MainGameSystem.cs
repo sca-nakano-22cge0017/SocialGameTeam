@@ -70,10 +70,7 @@ public class MainGameSystem : MonoBehaviour
         loadManager = FindObjectOfType<LoadManager>();
         soundController = FindObjectOfType<SoundController>();
 
-        // Todo 要変更
-        selectSpeedMagNum = 0;
-        currentSpeedMagnification = 1.0f;
-        speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
+        InitializeSetting();
 
         SkillRelease();
 
@@ -250,7 +247,7 @@ public class MainGameSystem : MonoBehaviour
             player.WinMotion();
             mainDirection.Clear();
 
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSeconds(5.0f);
 
             Time.timeScale = 1.0f;
             windowController.Open();
@@ -306,6 +303,24 @@ public class MainGameSystem : MonoBehaviour
         targetImage.gameObject.transform.SetAsLastSibling();
     }
 
+    void InitializeSetting()
+    {
+        if (GameManager.SelectArea == 1)
+        {
+            selectSpeedMagNum = GameManager.Setting.speedForTraning;
+            isAutoMode = GameManager.Setting.isAutoForTraning;
+        }
+        if (GameManager.SelectArea == 2)
+        {
+            selectSpeedMagNum = GameManager.Setting.speedForBoss;
+            isAutoMode = GameManager.Setting.isAutoForBoss;
+        }
+
+        currentSpeedMagnification = speedMagnificationKind[selectSpeedMagNum];
+        speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
+        Time.timeScale = currentSpeedMagnification;
+    }
+
     /// <summary>
     /// 速度倍率変更
     /// </summary>
@@ -320,6 +335,15 @@ public class MainGameSystem : MonoBehaviour
         currentSpeedMagnification = speedMagnificationKind[selectSpeedMagNum];
         speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
         Time.timeScale = currentSpeedMagnification;
+
+        if (GameManager.SelectArea == 1)
+        {
+            GameManager.Setting.speedForTraning = selectSpeedMagNum;
+        }
+        if (GameManager.SelectArea == 2)
+        {
+            GameManager.Setting.speedForBoss = selectSpeedMagNum;
+        }
     }
 
     /// <summary>
@@ -337,6 +361,15 @@ public class MainGameSystem : MonoBehaviour
             {
                 p.NormalAttack();
             }
+        }
+
+        if (GameManager.SelectArea == 1)
+        {
+            GameManager.Setting.isAutoForTraning = isAutoMode;
+        }
+        if (GameManager.SelectArea == 2)
+        {
+            GameManager.Setting.isAutoForBoss = isAutoMode;
         }
     }
 }

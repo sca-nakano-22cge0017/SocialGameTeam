@@ -11,8 +11,11 @@ public class SoundController : MonoBehaviour
 
     [Header("BGM")]
     [SerializeField, Header("メインテーマ")] AudioSource mainTheme;
-    [SerializeField, Header("バトルテーマ")] AudioSource battle;
+    [SerializeField, Header("バトルテーマ　イントロ")] AudioSource battleIntro;
+    [SerializeField, Header("バトルテーマ　ループ")] AudioSource battleLoop;
     [SerializeField, Header("ボス戦テーマ")] AudioSource boss;
+
+    private float battlePlayTime = 0;
 
     [Header("ジングル")]
     [SerializeField, Header("ジングル")] AudioSource jingle;
@@ -59,7 +62,7 @@ public class SoundController : MonoBehaviour
     {
         PlayMainTheme();
         boss.volume = 0;
-        battle.volume = 0;
+        battleIntro.volume = 0;
 
         //BGM
         //audioMixer.GetFloat("BGM", out float bgmVolume);
@@ -72,6 +75,18 @@ public class SoundController : MonoBehaviour
 
     private void Update()
     {
+        if (battleIntro.isPlaying)
+        {
+            battlePlayTime += Time.deltaTime;
+
+            if (battlePlayTime >= 65.170f)
+            {
+                battleLoop.Play();
+                battlePlayTime = 0;
+                battleIntro.Stop();
+            }
+        }
+
         if (isCrossFadeOut)
         {
             crossFadeBefore.volume -= 1 / fadeTime * Time.deltaTime;
@@ -82,6 +97,7 @@ public class SoundController : MonoBehaviour
                 crossFadeBefore.Stop();
                 
                 crossFadeAfter.volume = 0;
+
                 crossFadeAfter.Play();
 
                 isCrossFadeOut = false;
@@ -114,7 +130,8 @@ public class SoundController : MonoBehaviour
                 crossFadeBefore = mainTheme;
                 break;
             case "Battle":
-                crossFadeBefore = battle;
+                if (battleIntro.isPlaying) crossFadeBefore = battleIntro;
+                if (battleLoop.isPlaying) crossFadeBefore = battleLoop;
                 break;
             case "Boss":
                 crossFadeBefore = boss;
@@ -127,7 +144,9 @@ public class SoundController : MonoBehaviour
                 crossFadeAfter = mainTheme;
                 break;
             case "Battle":
-                crossFadeAfter = battle;
+                crossFadeAfter = battleIntro;
+                battleIntro.time = 0f;
+                battlePlayTime = 0f;
                 break;
             case "Boss":
                 crossFadeAfter = boss;
@@ -152,7 +171,7 @@ public class SoundController : MonoBehaviour
 
     public void BattleToMain()
     {
-        if (battle.isPlaying)
+        if (battleIntro.isPlaying)
         {
             CrossFade("Battle", "Main");
         }
@@ -185,12 +204,12 @@ public class SoundController : MonoBehaviour
 
     public void PlayBattleTheme()
     {
-        battle.Play();
+        battleIntro.Play();
     }
 
     public void StopBattleTheme()
     {
-        battle.Stop();
+        battleIntro.Stop();
     }
 
     public void PlayBossTheme()

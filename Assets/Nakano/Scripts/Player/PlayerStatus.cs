@@ -488,6 +488,9 @@ public class PlayerStatus
     {
         if (evolutionType == CombiType.NORMAL)
         {
+            var sound = GameObject.FindObjectOfType<SoundController>();
+            if (sound != null) sound.PlayCharaReleaseJingle();
+
             evolutionType = _type;
             SetSelectEvolutionType(_type);
 

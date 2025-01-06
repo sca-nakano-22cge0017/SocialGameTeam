@@ -162,11 +162,13 @@ public class MainDirection : MonoBehaviour
 
     public void GameOver()
     {
+        soundController.PlayGameOverJingle();
         gameOverText.SetActive(true);
     }
 
     public void Clear()
     {
+        soundController.PlayClearJingle();
         clearText.SetActive(true);
     }
 
