@@ -13,6 +13,9 @@ public class ChangeSkin : MonoBehaviour
     [SerializeField] private Text explain;
     [SerializeField] private Text restText;
 
+    [SerializeField] private WindowController cantReleaseWindow;
+    [SerializeField] private WindowController selectingWindow;
+
     // ëIëíÜÇÃï°çáÉâÉìÉN
     CombiType selectType = CombiType.NORMAL;
 
@@ -56,7 +59,15 @@ public class ChangeSkin : MonoBehaviour
     /// </summary>
     public void Change()
     {
-        PlayerDataManager.player.SetSelectEvolutionType(selectType);
+        if (PlayerDataManager.player.GetSelectEvolutionType() == selectType)
+        {
+            selectingWindow.Open();
+        }
+
+        else
+        {
+            PlayerDataManager.player.SetSelectEvolutionType(selectType);
+        }
     }
 
     /// <summary>
@@ -66,6 +77,12 @@ public class ChangeSkin : MonoBehaviour
     {
         float max = PlayerDataManager.player.GetCombiRankPtMax(selectType);
         int rest = 0;
+
+        if (PlayerDataManager.player.GetEvolutionType() != CombiType.NORMAL)
+        {
+            cantReleaseWindow.Open();
+            return;
+        }
 
         switch (selectType)
         {
