@@ -174,6 +174,12 @@ public class GameManager : MonoBehaviour
     private static TutorialProgress tutorialProgress = new();
     public static TutorialProgress TutorialProgress { get => tutorialProgress; set => tutorialProgress = value; }
 
+    /// <summary>
+    /// ê›íË
+    /// </summary>
+    private static Setting setting = new();
+    public static Setting Setting { get => setting; set => setting = value; }
+
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;

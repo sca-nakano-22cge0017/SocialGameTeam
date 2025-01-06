@@ -38,6 +38,11 @@ public class SaveData
     /// チュートリアル達成状況
     /// </summary>
     public TutorialProgress tutorialData = new();
+
+    /// <summary>
+    /// 設定
+    /// </summary>
+    public Setting setting = new();
 }
 
 [System.Serializable]
@@ -178,4 +183,16 @@ public class TutorialProgress
         checkedStageSelect_BossCleared = _data.checkedStageSelect_BossCleared;
         checkedReset = _data.checkedReset;
     }
+}
+
+[System.Serializable]
+public class Setting
+{
+    // 育成ステージの設定
+    public int speedForTraning = 0;
+    public bool isAutoForTraning = false;
+
+    // ボスステージの設定
+    public int speedForBoss = 0;
+    public bool isAutoForBoss = false;
 }
