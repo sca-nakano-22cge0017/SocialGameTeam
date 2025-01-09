@@ -594,4 +594,25 @@ public class PlayerDataManager : MonoBehaviour
                 return "‘Ì—Í";
         }
     }
+
+    public static StatusType StringToStutasType(string _type)
+    {
+        switch (_type)
+        {
+            case "ATK":
+                return StatusType.ATK;
+            case "MP":
+                return StatusType.MP;
+            case "HP":
+                return StatusType.HP;
+            case "DEF":
+                return StatusType.DEF;
+            case "AGI":
+                return StatusType.AGI;
+            case "DEX":
+                return StatusType.DEX;
+            default:
+                return StatusType.ATK;
+        }
+    }
 }
