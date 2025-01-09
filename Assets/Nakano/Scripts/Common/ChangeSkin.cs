@@ -5,6 +5,10 @@ using UnityEngine.UI;
 
 public class ChangeSkin : MonoBehaviour
 {
+    [SerializeField] private Image[] icons;
+    [SerializeField] private Sprite[] iconCharaA;
+    [SerializeField] private Sprite[] iconCharaB;
+
     [SerializeField] private WindowController confirmWindow;
 
     [SerializeField] private WindowController guageWindow;
@@ -18,6 +22,26 @@ public class ChangeSkin : MonoBehaviour
 
     // 選択中の複合ランク
     CombiType selectType = CombiType.NORMAL;
+
+    private void OnEnable()
+    {
+        for (int i = 0; i < icons.Length; i++)
+        {
+            if (GameManager.SelectChara == 1)
+            {
+                icons[i].sprite = iconCharaA[i];
+            }
+            else if(GameManager.SelectChara == 2)
+            {
+                icons[i].sprite = iconCharaB[i];
+            }
+        }
+
+        // 未解放の衣装はシルエット表示
+        icons[0].color = PlayerDataManager.player.atkTypeReleased ? Color.white : Color.black;
+        icons[1].color = PlayerDataManager.player.defTypeReleased ? Color.white : Color.black;
+        icons[2].color = PlayerDataManager.player.tecTypeReleased ? Color.white : Color.black;
+    }
 
     /// <summary>
     /// 差分解放済みかチェック
