@@ -186,9 +186,4 @@ public class MainDirection : MonoBehaviour
         cutIn.SetActive(false);
         _action?.Invoke();
     }
-
-    public void TapSE()
-    {
-        soundController.PlayTap1SE();
-    }
 }
