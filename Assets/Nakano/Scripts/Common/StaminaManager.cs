@@ -94,7 +94,12 @@ public class StaminaManager : MonoBehaviour
             System.TimeSpan span = System.DateTime.Now - lastTime;
             double spantime = span.TotalSeconds;
 
-            stamina_Max = DifficultyManager.IsClearBossDifficulty * add_LevelUp + max_Initial;
+            int clearBossTopDifficulty = 0;
+            if (DifficultyManager.IsClearBossDifficulty1 >= DifficultyManager.IsClearBossDifficulty2) 
+                clearBossTopDifficulty = DifficultyManager.IsClearBossDifficulty1;
+            else clearBossTopDifficulty = DifficultyManager.IsClearBossDifficulty2;
+
+            stamina_Max = clearBossTopDifficulty * add_LevelUp + max_Initial;
 
             float rCompTime = lastCompleteRecoveryTime - (float)spantime;
             if (rCompTime < 0) stamina = stamina_Max;

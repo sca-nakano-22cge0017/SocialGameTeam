@@ -65,18 +65,32 @@ public class PlayerDataManager : MonoBehaviour
             c.agi_plusStatus = p.GetPlusStatus(StatusType.AGI);
             c.dex_plusStatus = p.GetPlusStatus(StatusType.DEX);
 
+            // クリア状況の保存
+            if (GameManager.SelectChara == 1)
+            {
+                for (int j = 0; j < GameManager.IsBossClear1.Length; j++)
+                {
+                    c.isBossClear[j] = GameManager.IsBossClear1[j];
+                }
+                c.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty1;
+                c.selectDifficulty = GameManager.lastSelectDifficulty1;
+            }
+            if (GameManager.SelectChara == 2)
+            {
+                for (int j = 0; j < GameManager.IsBossClear2.Length; j++)
+                {
+                    c.isBossClear[j] = GameManager.IsBossClear2[j];
+                }
+                c.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty2;
+                c.selectDifficulty = GameManager.lastSelectDifficulty2;
+            }
+
             if (i == 1) saveData.chara1 = c;
             if (i == 2) saveData.chara2 = c;
         }
 
         saveData.selectChara = GameManager.SelectChara == -1 ? 1 : GameManager.SelectChara;
         saveData.isFirstStart = GameManager.isFirstStart;
-        saveData.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty;
-
-        for (int i = 0; i < GameManager.IsBossClear.Length; i++)
-        {
-            saveData.isBossClear[i] = GameManager.IsBossClear[i];
-        }
 
         // スタミナ関連
         saveData.staminaData.lastTime = StaminaManager.lastTimeStr;
@@ -107,13 +121,7 @@ public class PlayerDataManager : MonoBehaviour
 
         player = chara1;
 
-        for (int i = 0; i < GameManager.IsBossClear.Length; i++)
-        {
-            GameManager.IsBossClear[i] = data.isBossClear[i];
-        }
-
         GameManager.isFirstStart = data.isFirstStart;
-        DifficultyManager.IsClearBossDifficulty = data.isCrearBossDifficulty;
         GameManager.SelectChara = data.selectChara;
 
         // スタミナ関連
@@ -210,6 +218,9 @@ public class PlayerDataManager : MonoBehaviour
 
         SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
         if (stm) stm.ReleaseInitialize();
+
+        if (_id == 1) GameManager.lastSelectDifficulty1 = 1;
+        if (_id == 2) GameManager.lastSelectDifficulty2 = 1;
     }
 
     /// <summary>

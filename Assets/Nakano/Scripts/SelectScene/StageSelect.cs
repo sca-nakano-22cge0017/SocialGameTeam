@@ -49,8 +49,10 @@ public class StageSelect : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
         {
             costStamina.text = "-" + sm.GetCost_Traning;
-            
-            if (DifficultyManager.IsClearBossDifficulty > 0)
+
+            var clearBossDifficulty = GameManager.SelectChara == 1 ? DifficultyManager.IsClearBossDifficulty1 : DifficultyManager.IsClearBossDifficulty2;
+
+            if (clearBossDifficulty > 0)
             {
                 tutorial.StageSelect_BossCleared();
             }
@@ -130,11 +132,13 @@ public class StageSelect : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
             {
                 GameManager.SelectDifficulty = _selectingButton.Difficluty;
+                
+                if (GameManager.SelectChara == 1) GameManager.lastSelectDifficulty1 = GameManager.SelectDifficulty;
+                if (GameManager.SelectChara == 2) GameManager.lastSelectDifficulty2 = GameManager.SelectDifficulty;
             }
 
             GameManager.lastSelectButton = select;
-            GameManager.lastSelectDifficulty = GameManager.SelectDifficulty;
-
+            
             DropDetailDisplay();
         }
 

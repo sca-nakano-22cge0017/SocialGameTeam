@@ -252,6 +252,39 @@ public class PlayerStatus
         tecTypeReleased = _data.tecTypeReleased;
 
         SetData();
+
+        // クリア状況
+        if (id == 1)
+        {
+            // クリア状況
+            for (int i = 0; i < GameManager.IsBossClear1.Length; i++)
+            {
+                GameManager.IsBossClear1[i] = _data.isBossClear[i];
+            }
+            DifficultyManager.IsClearBossDifficulty1 = _data.isCrearBossDifficulty;
+            GameManager.lastSelectDifficulty1 = _data.selectDifficulty;
+        }
+        else if (id == 2)
+        {
+            // クリア状況
+            for (int i = 0; i < GameManager.IsBossClear2.Length; i++)
+            {
+                GameManager.IsBossClear2[i] = _data.isBossClear[i];
+            }
+            DifficultyManager.IsClearBossDifficulty2 = _data.isCrearBossDifficulty;
+            GameManager.lastSelectDifficulty2 = _data.selectDifficulty;
+        }
+        else
+        {
+            // クリア状況
+            for (int i = 0; i < GameManager.IsBossClear2.Length; i++)
+            {
+                GameManager.IsBossClear1[i] = false;
+                GameManager.IsBossClear2[i] = false;
+            }
+            DifficultyManager.IsClearBossDifficulty1 = 0;
+            DifficultyManager.IsClearBossDifficulty2 = 0;
+        }
     }
 
     /// <summary>

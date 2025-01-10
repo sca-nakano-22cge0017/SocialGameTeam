@@ -12,16 +12,6 @@ public class SaveData
     public bool isFirstStart = true;
 
     /// <summary>
-    /// クリアしたボスの最高難易度
-    /// </summary>
-    public int isCrearBossDifficulty = 0;
-
-    /// <summary>
-    /// 各ボスクリア状況
-    /// </summary>
-    public bool[] isBossClear = { false, false, false, false, false };
-
-    /// <summary>
     /// 選択中キャラクター
     /// </summary>
     public int selectChara = -1;
@@ -52,6 +42,21 @@ public class PlayerSaveData
     /// キャラクターID　1：剣士　2：シスター
     /// </summary>
     public int id = -1;
+
+    /// <summary>
+    /// 選択中難易度
+    /// </summary>
+    public int selectDifficulty = 0;
+
+    /// <summary>
+    /// クリアしたボスの最高難易度
+    /// </summary>
+    public int isCrearBossDifficulty = 0;
+
+    /// <summary>
+    /// 各ボスクリア状況
+    /// </summary>
+    public bool[] isBossClear = { false, false, false, false, false };
 
     /// <summary>
     /// 現在の進化形態
