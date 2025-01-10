@@ -14,6 +14,8 @@ public class PlayerData : Character
     [SerializeField] private MainGameGuage specialMoveGuage;
     [SerializeField] private Button[] commands;
 
+    [SerializeField] private Image specialMoveForground;
+
     // UŒ‚”{—¦
     public float power_NormalAttack;  // ’ÊíUŒ‚
     public float power_Skill;         // ƒXƒLƒ‹
@@ -404,27 +406,40 @@ public class PlayerData : Character
     /// <param name="_canPut">false‚Ì‚Æ‚«‰Ÿ‚¹‚È‚¢</param>
     void SetCommandsButton(bool _canPut)
     {
+        // ‰Ÿ‚¹‚é
         if (_canPut)
         {
             for (int i = 0; i < commands.Length; i++)
             {
                 commands[i].interactable = true;
-                commands[i].image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+
+                if (i == 0)
+                {
+                    specialMoveForground.color = new Color(0.0f, 0.0f, 0.0f, 0.0f);
+                }
+                else commands[i].image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
             }
         }
+
+        // ‰Ÿ‚¹‚È‚¢
         else
         {
             for (int i = 0; i < commands.Length; i++)
             {
                 commands[i].interactable = false;
-                commands[i].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+
+                if (i == 0)
+                {
+                    specialMoveForground.color = new Color(0.0f, 0.0f, 0.0f, 0.8f);
+                }
+                else commands[i].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
             }
         }
 
         if (specialMoveGuageAmount < specialMoveGuageMax || !canSpecialMove)
         {
             commands[0].interactable = false;
-            commands[0].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+            specialMoveForground.color = new Color(0.0f, 0.0f, 0.0f, 0.8f);
         }
 
         isInputWaiting = _canPut;
