@@ -23,8 +23,9 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private Text name_st_Passive;
     [SerializeField] private Text explain_st_Passive;
 
-    private Rank lastRank;
-    private Rank currentRank;
+    private Dictionary<StatusType, Rank> lastRank = new();
+    private Dictionary<StatusType, Rank> currentRank = new();
+    private StatusType checkType = 0; // 確認中のステータス
 
     private bool resultDispCompleted = false; // 表示完了
 
@@ -38,6 +39,13 @@ public class ResultManager : MonoBehaviour
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
         staminaManager = FindObjectOfType<StaminaManager>();
         tutorial = FindObjectOfType<TutorialWindow>();
+
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            lastRank[type] = Rank.D;
+            currentRank[type] = Rank.D;
+        }
 
         if (GameManager.SelectArea == 1)
         {
@@ -60,6 +68,8 @@ public class ResultManager : MonoBehaviour
         ResultInitialize();
         window_st_Skill.SetActive(false);
         window_st_Passive.SetActive(false);
+
+        checkType = 0;
 
         StartCoroutine(DispDirection());
 
@@ -96,8 +106,12 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     void AddRankPoint()
     {
-        StatusType t = (StatusType)(GameManager.SelectStage - 1);
-        lastRank = PlayerDataManager.player.GetRank(t);
+        // ポイント加算前のランクを保存
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            lastRank[type] = PlayerDataManager.player.GetRank(type);
+        }
 
         for (int i = 0; i < resultGuages.Length; i++)
         {
@@ -175,21 +189,29 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     void ReleaseSpecialTecnique()
     {
-        StatusType type = (StatusType)(GameManager.SelectStage - 1);
-        currentRank = PlayerDataManager.player.GetRank(type);
+        if ((int)checkType >= 0 && (int)checkType < System.Enum.GetValues(typeof(StatusType)).Length) 
+            currentRank[checkType] = PlayerDataManager.player.GetRank(checkType);
 
         if (!specialTecniqueManager) return;
 
         SpecialTecnique st = null;
-        
-        if (currentRank != lastRank)
+
+        if (currentRank[checkType] != lastRank[checkType])
         {
-            st = specialTecniqueManager.ReleaseSpecialTecniqueAndGetData((Rank)(lastRank + 1), type);
+            st = specialTecniqueManager.ReleaseSpecialTecniqueAndGetData((Rank)(lastRank[checkType] + 1), checkType);
         }
-        else return;
+        else
+        {
+            if ((int)checkType < System.Enum.GetValues(typeof(StatusType)).Length - 1)
+            {
+                checkType++;
+                ReleaseSpecialTecnique();
+            }
+            return;
+        }
 
         if (st == null) return;
-        
+
         if (st.m_skillType == 1)
         {
             // スキルの場合
@@ -223,7 +245,8 @@ public class ResultManager : MonoBehaviour
             window_st_Skill.SetActive(false);
             window_st_Passive.SetActive(false);
 
-            lastRank++;
+            lastRank[checkType]++;
+
             Invoke("ReleaseSpecialTecnique", 0.1f);
         }
     }

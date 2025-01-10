@@ -18,7 +18,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankC.m_released) return;
+        if(!rankC.m_released) return;
 
         if (!player.CostMP(rankC.m_cost)) return;
 
@@ -52,7 +52,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public void RankB()
     {
         // –¢‰ğ•ú‚È‚çˆ—‚µ‚È‚¢
-        //if(!rankB.m_released) return;
+        if(!rankB.m_released) return;
 
         if (!player.CostMP(rankB.m_cost)) return;
 

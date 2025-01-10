@@ -18,4 +18,11 @@ public class ButtonController : MonoBehaviour
 
         soundController.PlayTap2SE();
     }
+
+    public void PlaySE_NotButtonClick()
+    {
+        if (!soundController) return;
+
+        soundController.PlayTap1SE();
+    }
 }
