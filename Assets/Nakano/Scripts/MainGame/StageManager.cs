@@ -27,7 +27,6 @@ public class PlayerIllust
 /// </summary>
 public class StageManager : MonoBehaviour
 {
-    [SerializeField] private Image specialAttackIcon;
     [SerializeField] private GameObject bossHpGuage;
 
     [SerializeField] private PlayerData player;
@@ -154,8 +153,6 @@ public class StageManager : MonoBehaviour
                 player.meshRenderer = playersIllust[i].playerIllust.gameObject.GetComponent<MeshRenderer>();
                 player.motion = playersIllust[i].playerIllust.GetComponent<Animator>();
                 player.spineAnim = playersIllust[i].spineAnim;
-
-                specialAttackIcon.sprite = playersIllust[i].specialAttackIcon;
 
                 playersIllust[i].playerObj.SetActive(true);
             }

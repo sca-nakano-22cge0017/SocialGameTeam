@@ -365,7 +365,6 @@ public class Character : MonoBehaviour
         for (int i = 0; i < state.Count; ++i)
         {
             state[i].elapsedTurn++;
-            Debug.Log($"「ID : {state[i].stateId}」  ターン : {state[i].elapsedTurn} / {state[i].continuationTurn}");
 
             // 解除
             if (state[i].elapsedTurn > state[i].continuationTurn)

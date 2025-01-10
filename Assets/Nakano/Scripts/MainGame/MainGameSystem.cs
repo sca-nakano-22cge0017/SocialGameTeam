@@ -29,6 +29,10 @@ public class MainGameSystem : MonoBehaviour
 
     private int actionNum = 0;
 
+    // •KŽE‹Zƒ{ƒ^ƒ“
+    [SerializeField] Image bgSpecialCommand;
+    [SerializeField] Sprite[] bgSpriteSpecialCommand;
+
     // ƒXƒLƒ‹/“ÁŽê‹Z”\
     [SerializeField] InitialSkill initialSkill;
     [SerializeField] HP_SpecialTecnique hp_st;
@@ -92,6 +96,8 @@ public class MainGameSystem : MonoBehaviour
 
             targetImage.enabled = false;
         }
+
+        bgSpecialCommand.sprite = GameManager.SelectChara == 1 ? bgSpriteSpecialCommand[0] : bgSpriteSpecialCommand[1];
     }
 
     void Update()
