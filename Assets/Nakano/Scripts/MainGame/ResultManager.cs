@@ -81,13 +81,28 @@ public class ResultManager : MonoBehaviour
             {
                 AddRankPoint();
             }
-            else
+            else if (GameManager.SelectArea == 2)
             {
-                if (GameManager.IsBossClear[GameManager.SelectDifficulty - 1]) return;
+                var bossClear = GameManager.SelectChara == 1 ? GameManager.IsBossClear1 : GameManager.IsBossClear2;
+
+                if (bossClear[GameManager.SelectDifficulty - 1]) return;
                 AddRankPoint();
 
-                GameManager.IsBossClear[GameManager.SelectDifficulty - 1] = true;
+                bossClear[GameManager.SelectDifficulty - 1] = true;
 
+                var clearDifficulty = GameManager.SelectChara == 1 ? DifficultyManager.IsClearBossDifficulty1 : DifficultyManager.IsClearBossDifficulty2;
+                if (GameManager.SelectDifficulty < 5 && GameManager.SelectDifficulty > clearDifficulty)
+                {
+                    if (GameManager.SelectChara == 1)
+                    {
+                        GameManager.lastSelectDifficulty1 = GameManager.SelectDifficulty + 1;
+                    }
+                    if (GameManager.SelectChara == 2)
+                    {
+                        GameManager.lastSelectDifficulty2 = GameManager.SelectDifficulty + 1;
+                    }
+                }
+                    
                 DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
                 GameManager.SelectDifficulty++;
                 PlayerDataManager.Save();

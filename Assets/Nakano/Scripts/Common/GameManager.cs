@@ -163,10 +163,16 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// ボスクリア状況
+    /// キャラ1のボスクリア状況
     /// </summary>
-    private static bool[] isBossClear = { false, false, false, false, false };
-    public static bool[] IsBossClear { get => isBossClear; set => isBossClear = value; }
+    private static bool[] isBossClear1 = { false, false, false, false, false };
+    public static bool[] IsBossClear1 { get => isBossClear1; set => isBossClear1 = value; }
+
+    /// <summary>
+    /// キャラ2のボスクリア状況
+    /// </summary>
+    private static bool[] isBossClear2 = { false, false, false, false, false };
+    public static bool[] IsBossClear2 { get => isBossClear2; set => isBossClear2 = value; }
 
     /// <summary>
     /// チュートリアル確認状況
@@ -196,7 +202,9 @@ public class GameManager : MonoBehaviour
 
     public static string lastScene = "HomeScene";
 
-    public static int lastSelectDifficulty = 0;
+    // 前回選択した難易度
+    public static int lastSelectDifficulty1 = 0;
+    public static int lastSelectDifficulty2 = 0;
     public static int lastSelectButton = -1;
 
     /// <summary>
