@@ -196,3 +196,15 @@ public class Setting
     public int speedForBoss = 0;
     public bool isAutoForBoss = false;
 }
+
+[System.Serializable]
+public class PauseData
+{
+    int playingDifficulty;
+    int playingArea;
+    int playingStage;
+    
+    int elapsedTurn;
+
+
+}

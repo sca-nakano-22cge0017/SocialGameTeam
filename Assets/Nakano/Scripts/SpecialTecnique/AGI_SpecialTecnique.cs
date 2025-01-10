@@ -4,23 +4,11 @@ using UnityEngine;
 
 public class AGI_SpecialTecnique : SpecialTecniqueMethod
 {
-    bool isActive_C = false;
-    List<int> elapsedTurn_C = new();
-
-    bool isActive_B = false;
-    List<EnemyBuffTurn> elapsedTurn_B = new();
-
     int effectAmount_A = 0;
 
     public override void TurnEnd()
     {
-        // 経過ターンを加算
-        elapsedTurn_C = TurnPass(elapsedTurn_C);
-        elapsedTurn_B = TurnPass(elapsedTurn_B);
         effectAmount_A = 0;
-
-        Cancel_RankC();
-        Cancel_RankB();
     }
 
     /// <summary>
@@ -30,15 +18,14 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // 未解放なら処理しない
-        if(!rankC.m_released) return;
+        //if(!rankC.m_released) return;
 
         if (!player.CostMP(rankC.m_cost)) return;
 
-        elapsedTurn_C.Add(1);
-        isActive_C = true;
-
         float amount = (float)rankC.m_value1 / 100.0f;
-        
+
+        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(); });
+
         player.BuffMotion(() => 
         {
             player.AddBuff(StatusType.AGI, amount);
@@ -52,30 +39,10 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankC()
     {
-        if (!isActive_C) return;
+        float amount = (float)rankC.m_value1 / 100.0f;
+        player.AddBuff(StatusType.AGI, -amount);
 
-        for (int i = 0; i < elapsedTurn_C.Count; i++)
-        {
-            if (elapsedTurn_C[i] > rankC.m_continuationTurn)
-            {
-                elapsedTurn_C.Remove(elapsedTurn_C[i]);
-
-                float amount = (float)rankC.m_value1 / 100.0f;
-                player.AddBuff(StatusType.AGI, -amount);
-
-                Debug.Log("「加速」解除");
-            }
-        }
-
-        for (int i = 0; i < elapsedTurn_C.Count; i++)
-        {
-            if (elapsedTurn_C[i] <= rankC.m_continuationTurn)
-            {
-                return;
-            }
-        }
-
-        isActive_C = false;
+        Debug.Log("「加速」解除");
     }
 
     /// <summary>
@@ -85,22 +52,17 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     public void RankB()
     {
         // 未解放なら処理しない
-        if(!rankB.m_released) return;
+        //if(!rankB.m_released) return;
 
         if (!player.CostMP(rankB.m_cost)) return;
 
         // ロックオンした敵にデバフ
         Enemy enemy = mainGameSystem.Target;
 
-        EnemyBuffTurn e = new();
-        e.enemy = enemy;
-        e.elapsedTurn = 1;
-
-        elapsedTurn_B.Add(e);
-        isActive_B = true;
-
         float amount = (float)rankB.m_value1 / 100.0f;
-        
+
+        enemy.AddState(true, rankB.m_id, rankB.m_continuationTurn, () => { Cancel_RankB(enemy); });
+
         player.BuffMotion(() => 
         {
             enemy.AddDebuff(StatusType.AGI, amount);
@@ -112,32 +74,12 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「スロウ」解除
     /// </summary>
-    void Cancel_RankB()
+    void Cancel_RankB(Enemy _enemy)
     {
-        if (!isActive_B) return;
+        float amount = (float)rankB.m_value1 / 100.0f;
+        _enemy.AddDebuff(StatusType.AGI, -amount);
 
-        for (int i = 0; i < elapsedTurn_B.Count; i++)
-        {
-            if (elapsedTurn_B[i].elapsedTurn > rankB.m_continuationTurn)
-            {
-                float amount = (float)rankB.m_value1 / 100.0f;
-                elapsedTurn_B[i].enemy.AddDebuff(StatusType.AGI, -amount);
-
-                elapsedTurn_B.Remove(elapsedTurn_B[i]);
-
-                Debug.Log("「スロウ」解除");
-            }
-        }
-
-        for (int i = 0; i < elapsedTurn_B.Count; i++)
-        {
-            if (elapsedTurn_B[i].elapsedTurn <= rankB.m_continuationTurn)
-            {
-                return;
-            }
-        }
-
-        isActive_B = false;
+        Debug.Log("「スロウ」解除");
     }
 
     /// <summary>

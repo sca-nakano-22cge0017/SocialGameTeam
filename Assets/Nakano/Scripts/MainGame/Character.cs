@@ -5,10 +5,44 @@ using UnityEngine.UI;
 using System;
 
 /// <summary>
+/// バフ、デバフ、特殊スキル発動中などの特殊状態
+/// </summary>
+public class State
+{
+    /// <summary>
+    /// バフかどうか
+    /// </summary>
+    public bool isBuff;
+
+    /// <summary>
+    /// どの特殊状態か
+    /// プレイヤーバフデバフ→スキル番号
+    /// 敵デバフ１→101、敵デバフ２→102、敵バフ→103
+    /// </summary>
+    public int stateId;
+
+    /// <summary>
+    /// 継続ターン
+    /// </summary>
+    public int continuationTurn;
+
+    /// <summary>
+    /// 経過ターン
+    /// </summary>
+    public int elapsedTurn;
+
+    /// <summary>
+    /// 効果終了時の処理
+    /// </summary>
+    public Action werasOffAction;
+}
+
+/// <summary>
 /// メインゲーム上で動くキャラクター　PlayerDataとEnemyに継承
 /// </summary>
 public class Character : MonoBehaviour
 {
+    protected SpecialTecniqueManager specialTecniqueManager;
     protected SoundController soundController;
     [SerializeField] protected MainGameSystem mainGameSystem;
     [SerializeField] protected MainDirection mainDirection;
@@ -59,6 +93,9 @@ public class Character : MonoBehaviour
     [HideInInspector] public float debuffDex;
     [HideInInspector] public float debuffAgi;
 
+    // バフデバフ
+    List<State> state = new();
+
     // 会心率
     public float criticalProbabilityInitial;  // 初期値
     public float _criticalProbability;        // 計算用
@@ -70,6 +107,11 @@ public class Character : MonoBehaviour
     // モーション関係
     public Animator motion;
     public SpineAnim spineAnim;
+
+    private void Start()
+    {
+        specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
+    }
 
     /// <summary>
     /// 初期化
@@ -109,6 +151,8 @@ public class Character : MonoBehaviour
         if (criticalText) criticalText.gameObject.SetActive(false);
 
         _criticalProbability = criticalProbabilityInitial;
+
+        state.Clear();
     }
 
     /// <summary>
@@ -124,7 +168,7 @@ public class Character : MonoBehaviour
     /// <summary>
     /// ターン終了
     /// </summary>
-    public virtual void TurnEnd() { }
+    public virtual void TurnEnd() { StateUpdate(); }
 
     /// <summary>
     /// 通常攻撃
@@ -233,6 +277,62 @@ public class Character : MonoBehaviour
     public virtual void Dead() { }
 
     /// <summary>
+    /// 状態追加
+    /// </summary>
+    /// <param name="_stateNumber">プレイヤーバフデバフ→スキル番号、 敵デバフ１→101、敵デバフ２→102、敵バフ→103</param>
+    /// <param name="_isBuff">バフかどうか</param>
+    /// <param name="_elapsedTurn">経過ターン</param>
+    /// <param name="_continuationTurn">継続ターン</param>
+    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, Action _wearsOffAction)
+    {
+        State s = new();
+        s.isBuff = _isBuff;
+        s.stateId = _stateNumber;
+        s.elapsedTurn = 1;
+        s.continuationTurn = _continuationTurn;
+        s.werasOffAction = _wearsOffAction;
+
+        state.Add(s);
+    }
+
+    /// <summary>
+    /// 状態更新
+    /// </summary>
+    public void StateUpdate()
+    {
+        for (int i = 0; i < state.Count; ++i)
+        {
+            state[i].elapsedTurn++;
+            Debug.Log("「test」" + i + " / " + state[i].elapsedTurn);
+
+            // 解除
+            if (state[i].elapsedTurn > state[i].continuationTurn)
+            {
+                state[i].werasOffAction?.Invoke();
+                state.Remove(state[i]);
+
+                StateUpdate();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 状態初期化
+    /// </summary>
+    public void ResetState()
+    {
+        state.Clear();
+    }
+
+    /// <summary>
+    /// 途中でゲームを閉じた場合に、終了時の状態を読み込む
+    /// </summary>
+    void SetPauseState()
+    {
+        // stateIdに応じてcontinuationTurnとwearsOffActionを設定する
+    }
+
+    /// <summary>
     /// バフ追加
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
@@ -265,6 +365,7 @@ public class Character : MonoBehaviour
 
         if (_amount > 0)
         {
+            soundController.PlayBuffSE();
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %UP";
             Color orange = new Color(1.0f, 0.56f, 0.0f, 1.0f);
             StartCoroutine(DispBuffText(buffText, str, orange, true));
@@ -276,6 +377,14 @@ public class Character : MonoBehaviour
     /// </summary>
     public void ResetBuff()
     {
+        for (int i = 0; i < state.Count; i++)
+        {
+            if (state[i].isBuff)
+            {
+                state.Remove(state[i]);
+            }
+        }
+
         buffMp = 0;
         buffAtk = 0;
         buffHp = 0;
@@ -319,6 +428,7 @@ public class Character : MonoBehaviour
 
         if (_amount > 0)
         {
+            soundController.PlayDebuffSE();
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %DOWN";
             StartCoroutine(DispBuffText(buffText, str, Color.blue, false));
         }
@@ -329,6 +439,14 @@ public class Character : MonoBehaviour
     /// </summary>
     public void ResetDebuff()
     {
+        for (int i = 0; i < state.Count; i++)
+        {
+            if (!state[i].isBuff)
+            {
+                state.Remove(state[i]);
+            }
+        }
+
         debuffMp = 0;
         debuffAtk = 0;
         debuffHp = 0;
