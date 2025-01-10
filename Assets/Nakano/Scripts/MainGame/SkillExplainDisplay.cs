@@ -77,8 +77,6 @@ public class SkillExplainDisplay : MonoBehaviour
 
     public void PointerUp(int _skillId)
     {
-        if(player != null) player.SkillAct();
-
         isTapping = false;
         tapTime = 0;
 

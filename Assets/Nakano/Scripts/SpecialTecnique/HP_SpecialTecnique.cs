@@ -5,15 +5,10 @@ using UnityEngine;
 public class HP_SpecialTecnique : SpecialTecniqueMethod
 {
     bool isActive_B = false; // スキル発動中かどうか
-    int elapsedTurn_B = 0;       // スキル発動からの経過ターン
 
-    bool isActive_SS = false;
+    bool isActive_S = false;
+
     int elapsedTurn_SS = 1;
-
-    public override void TurnStart()
-    {
-
-    }
 
     public override void PlayerTurnStart()
     {
@@ -63,12 +58,10 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         if (!rankB.m_released) return;
 
         if (!player.CostMP(rankB.m_cost)) return;
-        if (isActive_B) return; // 重複不可
+        
+        isActive_B = true;
 
-        elapsedTurn_B = 1;
-        isActive_B = true; // スキル発動
-
-        player.AddState(true, rankB.m_id, rankB.m_continuationTurn, () => { Cancel_RankB(); });
+        player.AddState(true, rankB.m_id, rankB.m_continuationTurn, () => { Cancel_RankB(); }, true);
 
         player.BuffMotion(() => { Debug.Log("「痛み分け」発動"); });
     }
@@ -81,7 +74,6 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// <param name="_enmey">対象の敵</param>
     public void _RankB(int _damage, Enemy _enemy)
     {
-        // スキル発動中でなければ処理しない
         if (!isActive_B) return;
 
         // カウンターのダメージ量算出
@@ -97,13 +89,9 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankB()
     {
-        if (elapsedTurn_B > rankB.m_continuationTurn)
-        {
-            elapsedTurn_B = 0;
-            isActive_B = false;
+        isActive_B = false;
 
-            Debug.Log("痛み分け　解除");
-        }
+        Debug.Log("痛み分け　解除");
     }
 
     /// <summary>
@@ -136,31 +124,32 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         float hpPer = (float)player.currentHp / (float)player.HP * 100.0f;
         float amount = (float)rankS.m_value2 / 100;
 
-        // HPが指定値以下なら
+        // HPが指定値以上なら
         if (hpPer >= rankS.m_value1)
         {
             // バフが掛かっていない場合のみバフを掛ける
-            if (!isActive_SS)
+            if (!isActive_S)
             {
                 player.AddBuff(StatusType.ATK, amount);
-                isActive_SS = true;
+                isActive_S = true;
                 Debug.Log("「不倒の構え」発動 攻撃力 " + amount + "上昇");
             }
         }
+
         else
         {
             // バフが掛かっている場合、バフを無くす
-            if (isActive_SS)
+            if (isActive_S)
             {
                 player.AddBuff(StatusType.ATK, -amount);
-                isActive_SS = false;
+                isActive_S = false;
             }
         }
     }
 
     /// <summary>
     /// 女神の加護　パッシブ
-    /// nターン毎にHPをV％回復　n = rankSS.m_continuationTurn
+    /// nターン毎にHPをV％回復
     /// 毎ターン判定/処理
     /// </summary>
     public  void RankSS()

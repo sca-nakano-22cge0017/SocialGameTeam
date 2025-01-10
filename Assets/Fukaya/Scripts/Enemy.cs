@@ -179,7 +179,7 @@ public class Enemy : Character
 
         float amount = value_Debuff1 / 100.0f;
 
-        player.AddState(false, 101, turn_Debuff1, () => { Cancel_Debuff1(); });
+        player.AddState(false, 101, turn_Debuff1, () => { Cancel_Debuff1(); }, false);
         
         AttackMotion(() => 
         {
@@ -209,7 +209,7 @@ public class Enemy : Character
 
         float amount = value_Debuff2 / 100.0f;
 
-        player.AddState(false, 102, turn_Debuff2, () => { Cancel_Debuff2(); });
+        player.AddState(false, 102, turn_Debuff2, () => { Cancel_Debuff2(); }, false);
 
         AttackMotion(() => 
         {
@@ -239,7 +239,7 @@ public class Enemy : Character
 
         float amount = value_Buff / 100.0f;
 
-        AddState(true, 101, turn_Buff, () => { Cancel_Buff(); });
+        AddState(true, 101, turn_Buff, () => { Cancel_Buff(); }, false);
 
         AttackMotion(() => 
         {

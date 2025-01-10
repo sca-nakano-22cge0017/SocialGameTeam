@@ -240,7 +240,7 @@ public class GameManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.A))
         {
-            SceneManager.LoadScene("Test");
+            specialTecniqueManager.AllRelease();
         }
     }
 

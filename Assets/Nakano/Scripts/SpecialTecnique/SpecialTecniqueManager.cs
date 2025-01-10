@@ -6,16 +6,6 @@ public class SpecialTecniqueManager : MonoBehaviour
 {
     public SpecialTecnique[] specialTecniques;
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     public void ReleaseInitialize()
     {
         for (int i = 0; i < specialTecniques.Length; i++)
@@ -123,5 +113,17 @@ public class SpecialTecniqueManager : MonoBehaviour
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 全開放　デバッグ用
+    /// </summary>
+    public void AllRelease()
+    {
+        for (int i = 0; i < specialTecniques.Length; i++)
+        {
+            specialTecniques[i].m_released = true;
+            specialTecniques[i].m_cost = 0;
+        }
     }
 }

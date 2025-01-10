@@ -6,25 +6,11 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 {
     GameObject[] enemies;
 
-    int elapsedTurn_C = 0;
-    bool isActive_C = false;
-
-    bool isActive_S = false;
-
     int effectAmount_A = 0; // 現在の効果量
 
     public override void GameStart()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
-    }
-
-    public override void TurnEnd()
-    {
-        // 経過ターンを加算
-        elapsedTurn_C++;
-
-        Cancel_RankC();
-        Cancel_RankS();
     }
 
     /// <summary>
@@ -34,17 +20,17 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     public  void RankC()
     {
         // 未解放なら処理しない
-        if(!rankC.m_released) return;
+        if (!rankC.m_released) return;
 
         if (!player.CostMP(rankC.m_cost)) return;
 
-        elapsedTurn_C = 1;
-        isActive_C = true;
+        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(); }, true);
 
         player.BuffMotion(() => 
         {
             for (int i = 0; i < enemies.Length; i++)
             {
+                // 全ての敵を防御無視状態に変更
                 enemies[i].GetComponent<Enemy>().isIgnoreDeffence = true;
             }
 
@@ -57,20 +43,12 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankC()
     {
-        if (!isActive_C) return;
-
-        if (elapsedTurn_C > rankC.m_continuationTurn)
+        for (int i = 0; i < enemies.Length; i++)
         {
-            for (int i = 0; i < enemies.Length; i++)
-            {
-                enemies[i].GetComponent<Enemy>().isIgnoreDeffence = false;
-            }
-
-            elapsedTurn_C = 0;
-            isActive_C = false;
-
-            Debug.Log("「ピアス」解除");
+            enemies[i].GetComponent<Enemy>().isIgnoreDeffence = false;
         }
+
+        Debug.Log("「ピアス」解除");
     }
 
     /// <summary>
@@ -91,7 +69,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// ガードブレイカー　パッシブ
-    /// 通常攻撃時、V%の確率で敵の防御力を10％下げる　最大80％ダウン
+    /// 通常攻撃時、V%の確率で敵の防御力をW％下げる　最大80％ダウン
     /// </summary>
     public void RankA(Enemy _enemy)
     {
@@ -122,29 +100,31 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     /// 全身全霊　パッシブ
     /// 必殺技を打つ前に攻撃力をV%上昇させる
     /// </summary>
-    public  void RankS()
+    public void RankS(System.Action _specialMove)
     {
         // 未解放なら処理しない
-        if(!rankS.m_released) return;
-
-        isActive_S = true;
-        float amount = (float)rankS.m_value1 / 100.0f;
-        
-        player.BuffMotion(() => 
+        if (!rankS.m_released)
         {
-            player.AddBuff(StatusType.ATK, amount);
+            _specialMove?.Invoke();
+            return;
+        }
 
-            Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
-        });
+        float amount = (float)rankS.m_value1 / 100.0f;
+
+        player.AddState(true, rankS.m_id, 1, () => { Cancel_RankS(); }, false);
+
+        player.AddBuff(StatusType.ATK, amount);
+        Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
+
+        _specialMove?.Invoke();
     }
 
     void Cancel_RankS()
     {
-        if (!isActive_S) return;
-
         float amount = (float)rankS.m_value1 / 100.0f;
         player.AddBuff(StatusType.ATK, -amount);
-        isActive_S = false;
+
+        Debug.Log("「全身全霊」解除");
     }
 
     /// <summary>

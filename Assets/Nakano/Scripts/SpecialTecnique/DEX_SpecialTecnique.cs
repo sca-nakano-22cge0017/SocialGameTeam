@@ -4,36 +4,9 @@ using UnityEngine;
 
 public class DEX_SpecialTecnique : SpecialTecniqueMethod
 {
-    bool isActive_C = false;
-    List<EnemyBuffTurn> elapsedTurn_C = new();
-
-    bool isActive_S = false;
-    int elapsedTurn_S = 0;
-
-    bool isActive_SS = false;
-    int elapsedTurn_SS = 0;
-
-    public override void GameStart() { }
-
-    public override void TurnStart() { }
-
-    public override void PlayerTurnStart() { }
-
-    public override void TurnEnd()
-    {
-        // 経過ターン加算
-        if (isActive_C) elapsedTurn_C = TurnPass(elapsedTurn_C);
-        if (isActive_S) elapsedTurn_S++;
-        if (isActive_SS) elapsedTurn_SS++;
-
-        Cancel_RankC();
-        Cancel_RankS();
-        Cancel_RankSS();
-    }
-
     /// <summary>
     /// ガードクラッシュ　スキル
-    /// 敵単体に攻撃力V%の攻撃　敵の防御力をW%落とす
+    /// 敵単体に攻撃力V%の攻撃　Nターンの間敵の防御力をW%落とす
     /// </summary>
     public  void RankC()
     {
@@ -45,14 +18,9 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         // ロックオンした敵に攻撃・デバフ
         Enemy enemy = mainGameSystem.Target;
 
-        EnemyBuffTurn e = new();
-        e.enemy = enemy;
-        e.elapsedTurn = 1;
-
-        elapsedTurn_C.Add(e);
-        isActive_C = true;
-
         if (enemy == null || enemy.gameObject.activeSelf == false) return;
+
+        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(enemy); }, true);
 
         float damage = (float)rankC.m_value1 / 100.0f * player.ATK * player.power_Skill;
         float debuff = (float)rankC.m_value2 / 100.0f;
@@ -66,29 +34,12 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         });
     }
 
-    void Cancel_RankC()
+    void Cancel_RankC(Enemy _enemy)
     {
-        if (!isActive_C) return;
+        float debuff = (float)rankC.m_value2 / 100.0f;
+        _enemy.AddDebuff(StatusType.DEF, -debuff);
 
-        for (int i = 0; i < elapsedTurn_C.Count; i++)
-        {
-            if (elapsedTurn_C[i].elapsedTurn > rankC.m_continuationTurn)
-            {
-                elapsedTurn_C.Remove(elapsedTurn_C[i]);
-
-                Debug.Log("「ガードクラッシュ」解除");
-            }
-        }
-
-        for (int i = 0; i < elapsedTurn_C.Count; i++)
-        {
-            if (elapsedTurn_C[i].elapsedTurn <= rankC.m_continuationTurn)
-            {
-                return;
-            }
-        }
-
-        isActive_C = false;
+        Debug.Log("「ガードクラッシュ」解除");
     }
 
     /// <summary>
@@ -118,8 +69,8 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         int result = Random.Range(1, 100);
         if (result <= rankA.m_value1)
         {
-            Debug.Log("「小手先のテクニック」発動");
             _enemy.Dead();
+            Debug.Log("「小手先のテクニック」発動");
         }
     }
 
@@ -130,18 +81,17 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public  void RankS()
     {
         // 未解放なら処理しない
-        if(!rankS.m_released) return;
+        if (!rankS.m_released) return;
 
         if (!player.CostMP(rankS.m_cost)) return;
 
-        elapsedTurn_S = 1;
-        isActive_S = true;
+        player.AddState(true, rankS.m_id, rankS.m_continuationTurn, () => { Cancel_RankS(); }, false);
 
         float amount = (float)rankS.m_value1 / 100.0f;
         
         player.BuffMotion(() => 
         {
-            player.buffCriticalPower = amount;
+            player.buffCriticalPower += amount;
 
             Debug.Log("「バースト」発動 会心時倍率" + (amount * 100) + "%アップ");
         });
@@ -152,17 +102,10 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankS()
     {
-        if (!isActive_S) return;
+        float amount = (float)rankS.m_value1 / 100.0f;
+        player.buffCriticalPower -= amount;
 
-        if (elapsedTurn_S > rankS.m_continuationTurn)
-        {
-            elapsedTurn_S = 0;
-            isActive_S = false;
-
-            player.buffCriticalPower = 0;
-
-            Debug.Log("「バースト」解除");
-        }
+        Debug.Log("「バースト」解除");
     }
 
     /// <summary>
@@ -172,15 +115,13 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     public  void RankSS()
     {
         // 未解放なら処理しない
-        if(!rankSS.m_released) return;
-
+        if (!rankSS.m_released) return;
         if (!player.CostMP(rankSS.m_cost)) return;
 
-        elapsedTurn_SS = 1;
-        isActive_SS = true;
-
         float amount = (float)rankS.m_value1 / 100.0f;
-        
+
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, () => { Cancel_RankSS(); }, true);
+
         player.BuffMotion(() => 
         {
             player.buffCriticalPower = amount;
@@ -196,17 +137,9 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankSS()
     {
-        if (!isActive_SS) return;
+        player.buffCriticalPower = 0;
+        player._criticalProbability = player.criticalProbabilityInitial;
 
-        if (elapsedTurn_SS > rankSS.m_continuationTurn)
-        {
-            elapsedTurn_SS = 0;
-            isActive_SS = false;
-
-            player.buffCriticalPower = 0;
-            player._criticalProbability = player.criticalProbabilityInitial;
-
-            Debug.Log("「約束された勝利」解除");
-        }
+        Debug.Log("「約束された勝利」解除");
     }
 }
