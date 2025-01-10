@@ -5,20 +5,8 @@ using UnityEngine;
 public class DEF_SpecialTecnique : SpecialTecniqueMethod
 {
     bool isActive_A = false; // スキル発動中かどうか
-    int elapsedTurn_A = 0;       // スキル発動からの経過ターン
 
-    bool isActive_SS = false;     // スキル発動中かどうか
-    List<int> elapsedTurn_SS = new(); // スキル発動からの経過ターン
-
-    public override void TurnEnd()
-    {
-        // 経過ターンを加算
-        elapsedTurn_A++;
-        elapsedTurn_SS = TurnPass(elapsedTurn_SS);
-
-        Cancel_RankA();
-        Cancel_RankSS();
-    }
+    float cutPercent = 0; // 守護神の権能 ダメージカット量 %
 
     /// <summary>
     /// MP吸収　パッシブ
@@ -63,8 +51,9 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
 
         if(!player.CostMP(rankA.m_cost)) return;
 
-        elapsedTurn_A = 1;
         isActive_A = true;
+
+        player.AddState(true, rankA.m_id, rankA.m_continuationTurn, () => { Cancel_RankA(); }, true);
 
         player.BuffMotion(() => 
         { Debug.Log("「無敵」発動"); });
@@ -78,11 +67,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
         // スキル発動中でなければ処理しない
         if (!isActive_A) return;
 
-        // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
-        if (elapsedTurn_A <= rankA.m_continuationTurn)
-        {
-            player.isInvincible = true;
-        }
+        player.isInvincible = true;
     }
 
     /// <summary>
@@ -90,13 +75,10 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankA()
     {
-        // スキル発動中でなければ処理しない
-        if (!isActive_A) return;
+        player.isInvincible = false;
+        isActive_A = false;
 
-        if (elapsedTurn_A > rankA.m_continuationTurn)
-        {
-            player.isInvincible = false;
-        }
+        Debug.Log("「無敵」解除");
     }
 
     /// <summary>
@@ -120,17 +102,17 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// 守護神の権能　スキル
-    /// 重ね掛け可
     /// </summary>
     public  void RankSS()
     {
         // 未解放なら処理しない
-        if(!rankSS.m_released) return;
+        //if(!rankSS.m_released) return;
 
         if (!player.CostMP(rankSS.m_cost)) return;
 
-        elapsedTurn_SS.Add(1);
-        isActive_SS = true;
+        cutPercent += (float)rankSS.m_value1;
+
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, () => { Cancel_RankSS(); }, false);
 
         player.BuffMotion(() => 
         { Debug.Log("「守護神の権能」発動"); });
@@ -144,19 +126,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// <returns>ダメージカット量</returns>
     public int _RankSS(int _damage)
     {
-        // スキル発動中でなければ処理しない
-        if (!isActive_SS) return 0;
-
-        float cutPercent = 0; // ダメージカット量 %
-
-        for (int i = 0; i < elapsedTurn_SS.Count; i++)
-        {
-            // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
-            if (elapsedTurn_SS[i] <= rankSS.m_continuationTurn)
-            {
-                cutPercent += (float)rankSS.m_value1;
-            }
-        }
+        if (cutPercent <= 0) return 0;
 
         float amount = (float)_damage * (cutPercent / 100.0f);
         Debug.Log("「守護神の権能 ダメージ " + amount + " カット");
@@ -168,25 +138,8 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankSS()
     {
-        if (!isActive_SS) return;
+        cutPercent -= (float)rankSS.m_value1;
 
-        for (int i = 0; i < elapsedTurn_SS.Count; i++)
-        {
-            if (elapsedTurn_SS[i] > rankSS.m_continuationTurn)
-            {
-                elapsedTurn_SS.Remove(elapsedTurn_SS[i]);
-            }
-        }
-
-        for (int i = 0; i < elapsedTurn_SS.Count; i++)
-        {
-            if (elapsedTurn_SS[i] <= rankSS.m_continuationTurn)
-            {
-                return;
-            }
-        }
-
-        isActive_SS = false;
         Debug.Log("「守護神の権能」解除");
     }
 }

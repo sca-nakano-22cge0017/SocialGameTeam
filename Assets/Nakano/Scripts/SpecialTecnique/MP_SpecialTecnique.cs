@@ -4,33 +4,12 @@ using UnityEngine;
 
 public class MP_SpecialTecnique : SpecialTecniqueMethod
 {
-    List<int> elapsedTurn_C = new();
-    bool isActive_C = false;
-
-    List<EnemyBuffTurn> elapsedTurn_S = new();
-    bool isActive_S = false;
-
-    int elapsedTurn_SS = 0;
     bool isActive_SS = false;
-
-    public override void GameStart() { }
-
-    public override void PlayerTurnStart() { }
 
     public override void TurnEnd()
     {
         RankA();
-        _RankS();
         _RankSS();
-
-        // åoâﬂÉ^Å[Éìâ¡éZ
-        elapsedTurn_C = TurnPass(elapsedTurn_C);
-        elapsedTurn_S = TurnPass(elapsedTurn_S);
-        elapsedTurn_SS++;
-
-        Cancel_RankC();
-        Cancel_RankS();
-        Cancel_RankSS();
     }
 
     /// <summary>
@@ -40,15 +19,14 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankC()
     {
         // ñ¢âï˙Ç»ÇÁèàóùÇµÇ»Ç¢
-        if(!rankC.m_released) return;
+        if (!rankC.m_released) return;
 
         if (!player.CostMP(rankC.m_cost)) return;
 
-        elapsedTurn_C.Add(1);
-        isActive_C = true;
-
         float amount = (float)rankC.m_value1 / 100.0f;
-        
+
+        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(); }, false);
+
         player.BuffMotion(() =>
         {
             player.AddBuff(StatusType.ATK, amount);
@@ -63,29 +41,9 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankC()
     {
-        if (!isActive_C) return;
-
-        for (int i = 0; i < elapsedTurn_C.Count; i++)
-        {
-            if (elapsedTurn_C[i] > rankC.m_continuationTurn)
-            {
-                elapsedTurn_C.Remove(elapsedTurn_C[i]);
-
-                float amount = (float)rankC.m_value1 / 100.0f;
-                player.AddBuff(StatusType.ATK, -amount);
-                player.AddBuff(StatusType.DEF, -amount);
-            }
-        }
-
-        for (int i = 0; i < elapsedTurn_C.Count; i++)
-        {
-            if (elapsedTurn_C[i] <= rankC.m_continuationTurn)
-            {
-                return;
-            }
-        }
-
-        isActive_C = false;
+        float amount = (float)rankC.m_value1 / 100.0f;
+        player.AddBuff(StatusType.ATK, -amount);
+        player.AddBuff(StatusType.DEF, -amount);
         Debug.Log("ÅuÉIÅ[ÉâÅvâèú");
     }
 
@@ -132,29 +90,16 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         int result = Random.Range(1, 100);
         if (result <= rankS.m_value1)
         {
-            EnemyBuffTurn e = new();
-            e.enemy = _enemy;
-            e.elapsedTurn = 1;
+            _enemy.AddState(false, rankS.m_id, rankS.m_continuationTurn, () => { Cancel_RankS(); }, () => { _RankS(_enemy); }, true);
 
-            elapsedTurn_S.Add(e);
-            isActive_S = true;
-
-            Debug.Log("ÅuéÙÇ¢Åvî≠ìÆ");
+            Debug.Log("ÅuéÙÇ¢Åvïtó^");
         }
     }
 
-    void _RankS()
+    void _RankS(Enemy _enemy)
     {
-        for (int i = 0; i < elapsedTurn_S.Count; i++)
-        {
-            if (elapsedTurn_S[i].elapsedTurn <= rankS.m_continuationTurn)
-            {
-                Enemy enemy = elapsedTurn_S[i].enemy;
-
-                float amount = (float)rankS.m_value2 / 100.0f * enemy.HP;
-                enemy.Damage((int)amount, true);
-            }
-        }
+        float amount = (float)rankS.m_value2 / 100.0f * _enemy.HP;
+        _enemy.Damage((int)amount, true);
     }
 
     /// <summary>
@@ -162,27 +107,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankS()
     {
-        if (!isActive_S) return;
-
-        for (int i = 0; i < elapsedTurn_S.Count; i++)
-        {
-            if (elapsedTurn_S[i].elapsedTurn > rankS.m_continuationTurn)
-            {
-                elapsedTurn_S.Remove(elapsedTurn_S[i]);
-
-                Debug.Log("ÅuéÙÇ¢Åvâèú");
-            }
-        }
-
-        for (int i = 0; i < elapsedTurn_S.Count; i++)
-        {
-            if (elapsedTurn_S[i].elapsedTurn <= rankS.m_continuationTurn)
-            {
-                return;
-            }
-        }
-
-        isActive_S = false;
+        Debug.Log("ÅuéÙÇ¢Åvâèú");
     }
 
     /// <summary>
@@ -192,15 +117,14 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     public void RankSS()
     {
         // ñ¢âï˙Ç»ÇÁèàóùÇµÇ»Ç¢
-        if(!rankSS.m_released) return;
-
+        if (!rankSS.m_released) return;
         if (!player.CostMP(rankSS.m_cost)) return;
 
-        elapsedTurn_SS = 1;
         isActive_SS = true;
 
         float mpAmount = (float)rankSS.m_value1 / 100.0f;
-        
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, () => { Cancel_RankSS(); }, true);
+
         player.BuffMotion(() => 
         {
             player.power_CostMp = (1 - mpAmount);
@@ -213,13 +137,10 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     {
         if (!isActive_SS) return;
 
-        if (elapsedTurn_SS <= rankSS.m_continuationTurn)
-        {
-            float amount = (float)rankSS.m_value2 / 100.0f * player.specialMoveGuageMax;
-            player.UpSpecialMoveGuage((int)amount);
+        float amount = (float)rankSS.m_value2 / 100.0f * player.specialMoveGuageMax;
+        player.UpSpecialMoveGuage((int)amount);
 
-            Debug.Log("ÅuñÇèpétÇÃåãäEÅvî≠ìÆ ïKéEãZÉQÅ[ÉW " + (int)amount + "âÒïú");
-        }
+        Debug.Log("ÅuñÇèpétÇÃåãäEÅvî≠ìÆ ïKéEãZÉQÅ[ÉW " + (int)amount + "âÒïú");
     }
 
     /// <summary>
@@ -227,14 +148,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankSS()
     {
-        if (!isActive_SS) return;
-
-        if (elapsedTurn_SS > rankSS.m_continuationTurn)
-        {
-            elapsedTurn_SS = 0;
-
-            Debug.Log("ÅuñÇèpétÇÃåãäEÅvâèú");
-        }
+        isActive_SS = false;
+        Debug.Log("ÅuñÇèpétÇÃåãäEÅvâèú");
     }
 }
 

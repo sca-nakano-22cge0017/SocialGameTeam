@@ -35,6 +35,11 @@ public class State
     /// 効果終了時の処理
     /// </summary>
     public Action werasOffAction;
+
+    /// <summary>
+    /// 持続効果　効果終了までターン終了時に呼び出す
+    /// </summary>
+    public Action lastingEffects;
 }
 
 /// <summary>
@@ -281,9 +286,9 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_stateNumber">プレイヤーバフデバフ→スキル番号、 敵デバフ１→101、敵デバフ２→102、敵バフ→103</param>
     /// <param name="_isBuff">バフかどうか</param>
-    /// <param name="_elapsedTurn">経過ターン</param>
-    /// <param name="_continuationTurn">継続ターン</param>
-    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, Action _wearsOffAction)
+    /// <param name="_continuationTurn">効果終了時の処理</param>
+    /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
+    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, Action _wearsOffAction, bool _isRestTurnUpdate)
     {
         State s = new();
         s.isBuff = _isBuff;
@@ -291,8 +296,65 @@ public class Character : MonoBehaviour
         s.elapsedTurn = 1;
         s.continuationTurn = _continuationTurn;
         s.werasOffAction = _wearsOffAction;
+        s.lastingEffects = null;
 
-        state.Add(s);
+        if (!_isRestTurnUpdate)
+        {
+            state.Add(s);
+        }
+        else
+        {
+            for (int i = 0; i < state.Count; i++)
+            {
+                if (state[i].stateId == _stateNumber)
+                {
+                    // 継続ターンを増加
+                    state[i].continuationTurn += _continuationTurn - 1;
+                    return;
+                }
+            }
+
+            state.Add(s);
+        }
+    }
+
+    /// <summary>
+    /// 状態追加
+    /// </summary>
+    /// <param name="_stateNumber">プレイヤーバフデバフ→スキル番号、 敵デバフ１→101、敵デバフ２→102、敵バフ→103</param>
+    /// <param name="_isBuff">バフかどうか</param>
+    /// <param name="_continuationTurn">効果終了時の処理</param>
+    /// <param name="_lastingEffects">ターン中持続する効果 ターン終了時に呼ばれる</param>
+    /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
+    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, Action _wearsOffAction, Action _lastingEffects, bool _isRestTurnUpdate)
+    {
+        State s = new();
+        s.isBuff = _isBuff;
+        s.stateId = _stateNumber;
+        s.elapsedTurn = 1;
+        s.continuationTurn = _continuationTurn;
+        s.werasOffAction = _wearsOffAction;
+        s.lastingEffects = _lastingEffects;
+
+        if (!_isRestTurnUpdate)
+        {
+            state.Add(s);
+        }
+        else
+        {
+            for (int i = 0; i < state.Count; i++)
+            {
+                if (state[i].stateId == _stateNumber)
+                {
+                    // 継続ターンを増加
+                    state[i].continuationTurn += _continuationTurn - 1;
+                    return;
+                }
+                else continue;
+            }
+
+            state.Add(s);
+        }
     }
 
     /// <summary>
@@ -303,7 +365,7 @@ public class Character : MonoBehaviour
         for (int i = 0; i < state.Count; ++i)
         {
             state[i].elapsedTurn++;
-            Debug.Log("「test」" + i + " / " + state[i].elapsedTurn);
+            Debug.Log($"「ID : {state[i].stateId}」  ターン : {state[i].elapsedTurn} / {state[i].continuationTurn}");
 
             // 解除
             if (state[i].elapsedTurn > state[i].continuationTurn)
@@ -312,6 +374,14 @@ public class Character : MonoBehaviour
                 state.Remove(state[i]);
 
                 StateUpdate();
+            }
+
+            else
+            {
+                if (state[i].lastingEffects != null)
+                {
+                    state[i].lastingEffects?.Invoke();
+                }
             }
         }
     }
