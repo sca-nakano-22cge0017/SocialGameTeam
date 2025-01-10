@@ -129,6 +129,8 @@ public class PlayerData : Character
 
     public override void TurnEnd()
     {
+        base.TurnEnd();
+
         // ターン経過によるゲージ上昇
         UpSpecialMoveGuage(sm_Turn.guageUpAmount);
     }
@@ -177,6 +179,14 @@ public class PlayerData : Character
         def_st.RankB();
 
         StartCoroutine(EndWait());
+    }
+
+    /// <summary>
+    /// スキル発動
+    /// </summary>
+    public void SkillAct()
+    {
+        SetCommandsButton(false);
     }
 
     /// <summary>
@@ -303,18 +313,6 @@ public class PlayerData : Character
         mpGuage.Add(_amount);
 
         // Todo 回復演出
-    }
-
-    public override void AddBuff(StatusType _type, float _amount)
-    {
-        base.AddBuff(_type, _amount);
-        if (_amount > 0) soundController.PlayBuffSE();
-    }
-
-    public override void AddDebuff(StatusType _type, float _amount)
-    {
-        base.AddDebuff(_type, _amount);
-        if (_amount > 0) soundController.PlayDebuffSE();
     }
 
     /// <summary>

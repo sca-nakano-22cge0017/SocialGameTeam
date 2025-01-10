@@ -196,6 +196,8 @@ public class MainGameSystem : MonoBehaviour
         {
             if (charactersList[i].currentHp > 0)
                 charactersList[i].TurnEnd();
+
+            yield return null;
         }
 
         // ターン経過
@@ -271,7 +273,7 @@ public class MainGameSystem : MonoBehaviour
         // 全て非表示にする
         for (int j = 0; j < skillButtons.Length; j++)
         {
-            skillButtons[j].gameObject.SetActive(false);
+            //skillButtons[j].gameObject.SetActive(false);
         }
 
         for (int i = 0; i < stm.specialTecniques.Length; i++)

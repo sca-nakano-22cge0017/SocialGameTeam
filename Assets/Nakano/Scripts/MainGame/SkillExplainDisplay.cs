@@ -10,6 +10,8 @@ using System;
 /// </summary>
 public class SkillExplainDisplay : MonoBehaviour
 {
+    [SerializeField] private PlayerData player;
+
     [SerializeField] private float longTapTime = 0.5f;
 
     [SerializeField] InitialSkill initialSkill;
@@ -75,6 +77,8 @@ public class SkillExplainDisplay : MonoBehaviour
 
     public void PointerUp(int _skillId)
     {
+        if(player != null) player.SkillAct();
+
         isTapping = false;
         tapTime = 0;
 

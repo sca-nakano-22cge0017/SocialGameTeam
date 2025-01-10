@@ -25,11 +25,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         RankA();
         RankSS();
 
-        // 経過ターンを加算
-        elapsedTurn_B++;
         elapsedTurn_SS++;
-
-        Cancel_RankB();
     }
 
     /// <summary>
@@ -37,7 +33,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// 状態異常を回復、HPをV％回復
     /// ボタン押下時に処理
     /// </summary>
-    public  void RankC()
+    public void RankC()
     {
         // 未解放なら処理しない
         if(!rankC.m_released) return;
@@ -67,9 +63,12 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         if (!rankB.m_released) return;
 
         if (!player.CostMP(rankB.m_cost)) return;
+        if (isActive_B) return; // 重複不可
 
         elapsedTurn_B = 1;
         isActive_B = true; // スキル発動
+
+        player.AddState(true, rankB.m_id, rankB.m_continuationTurn, () => { Cancel_RankB(); });
 
         player.BuffMotion(() => { Debug.Log("「痛み分け」発動"); });
     }
@@ -85,16 +84,12 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         // スキル発動中でなければ処理しない
         if (!isActive_B) return;
 
-        // スキル発動からの経過ターンが指定ターン以下　＝　スキル持続中なら
-        if (elapsedTurn_B <= rankB.m_continuationTurn)
-        {
-            // カウンターのダメージ量算出
-            float d = (float)_damage * (float)(rankB.m_value1 / 100.0f);
+        // カウンターのダメージ量算出
+        float d = (float)_damage * (float)(rankB.m_value1 / 100.0f);
 
-            // 防御無視カウンター
-            _enemy.Damage((int)d, true);
-            Debug.Log("「痛み分け」 カウンターダメージ " + d);
-        }
+        // 防御無視カウンター
+        _enemy.Damage((int)d, true);
+        Debug.Log("「痛み分け」 カウンターダメージ " + d);
     }
 
     /// <summary>
@@ -106,6 +101,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         {
             elapsedTurn_B = 0;
             isActive_B = false;
+
+            Debug.Log("痛み分け　解除");
         }
     }
 

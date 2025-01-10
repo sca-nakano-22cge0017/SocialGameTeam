@@ -18,17 +18,14 @@ public class Enemy : Character
     float critical_NormalAttack = 1;
 
     int turn_Debuff1 = 0;          // 継続ターン
-    int elapsedTurn_Debuff1 = 0;   // 発動からの経過ターン
     float value_Debuff1 = 0;       // 効果量
     bool isActive_Debuff1 = false; // 発動中かどうか
 
     int turn_Debuff2 = 0;
-    int elapsedTurn_Debuff2 = 0;
     float value_Debuff2 = 0;
     bool isActive_Debuff2 = false;
 
     int turn_Buff = 0;
-    int elapsedTurn_Buff = 0;
     float value_Buff = 0;
     bool isActive_Buff = false;
 
@@ -152,14 +149,8 @@ public class Enemy : Character
 
     public override void TurnEnd()
     {
-        elapsedTurn_Debuff1++;
-        elapsedTurn_Debuff2++;
-        elapsedTurn_Buff++;
+        base.TurnEnd();
         elapsedTurn_AbsolutelyKill++;
-
-        Cancel_Debuff1();
-        Cancel_Debuff2();
-        Cancel_Buff();
     }
 
     public override void NormalAttack()
@@ -184,10 +175,11 @@ public class Enemy : Character
     /// </summary>
     void Debuff1()
     {
-        elapsedTurn_Debuff1 = 1;
         isActive_Debuff1 = true;
 
         float amount = value_Debuff1 / 100.0f;
+
+        player.AddState(false, 101, turn_Debuff1, () => { Cancel_Debuff1(); });
         
         AttackMotion(() => 
         {
@@ -200,16 +192,12 @@ public class Enemy : Character
     {
         if (!isActive_Debuff1) return;
 
-        if (elapsedTurn_Debuff1 > turn_Debuff1)
-        {
-            float amount = value_Debuff1 / 100.0f;
-            player.AddDebuff(StatusType.DEF, -amount);
+        float amount = value_Debuff1 / 100.0f;
+        player.AddDebuff(StatusType.DEF, -amount);
 
-            elapsedTurn_Debuff1 = 0;
-            isActive_Debuff1 = false;
+        isActive_Debuff1 = false;
 
-            Debug.Log("敵 " + POSITION + " デバフ１解除");
-        }
+        Debug.Log("敵 " + POSITION + " デバフ１解除");
     }
 
     /// <summary>
@@ -217,11 +205,12 @@ public class Enemy : Character
     /// </summary>
     void Debuff2()
     {
-        elapsedTurn_Debuff2 = 1;
         isActive_Debuff2 = true;
 
         float amount = value_Debuff2 / 100.0f;
-        
+
+        player.AddState(false, 102, turn_Debuff2, () => { Cancel_Debuff2(); });
+
         AttackMotion(() => 
         {
             player.AddDebuff(StatusType.ATK, amount);
@@ -233,16 +222,12 @@ public class Enemy : Character
     {
         if (!isActive_Debuff2) return;
 
-        if (elapsedTurn_Debuff2 > turn_Debuff2)
-        {
-            float amount = value_Debuff2 / 100.0f;
-            player.AddDebuff(StatusType.ATK, -amount);
+        float amount = value_Debuff2 / 100.0f;
+        player.AddDebuff(StatusType.ATK, -amount);
 
-            elapsedTurn_Debuff2 = 0;
-            isActive_Debuff2 = false;
+        isActive_Debuff2 = false;
 
-            Debug.Log("敵 " + POSITION + " デバフ２解除");
-        }
+        Debug.Log("敵 " + POSITION + " デバフ２解除");
     }
 
     /// <summary>
@@ -250,11 +235,12 @@ public class Enemy : Character
     /// </summary>
     void Buff()
     {
-        elapsedTurn_Buff = 1;
         isActive_Buff = true;
 
         float amount = value_Buff / 100.0f;
-        
+
+        AddState(true, 101, turn_Buff, () => { Cancel_Buff(); });
+
         AttackMotion(() => 
         {
             AddBuff(StatusType.ATK, amount);
@@ -266,16 +252,12 @@ public class Enemy : Character
     {
         if (!isActive_Buff) return;
 
-        if (elapsedTurn_Buff > turn_Buff)
-        {
-            float amount = (float)value_Buff / 100.0f;
-            AddBuff(StatusType.ATK, -amount);
+        float amount = (float)value_Buff / 100.0f;
+        AddBuff(StatusType.ATK, -amount);
 
-            elapsedTurn_Buff = 0;
-            isActive_Buff = false;
+        isActive_Buff = false;
 
-            Debug.Log("敵 " + POSITION + " バフ解除");
-        }
+        Debug.Log("敵 " + POSITION + " バフ解除");
     }
 
     /// <summary>
