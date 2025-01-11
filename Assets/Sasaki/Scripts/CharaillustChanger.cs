@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// 後ですること
-/// 差分のイラストを表示する
-/// </summary>
 public class CharaillustChanger : MonoBehaviour
 {
     [SerializeField,Header("キャラクター")] private Sprite[] chara;
