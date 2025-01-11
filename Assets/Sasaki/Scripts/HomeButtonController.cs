@@ -15,6 +15,8 @@ public class HomeButtonController : MonoBehaviour
     private TutorialWindow tutorialWindow;
 
     bool effectCheck;
+
+    private SoundController soundController;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,7 @@ public class HomeButtonController : MonoBehaviour
         nmWindow.SetActive(false); 
 
         tutorialWindow = FindObjectOfType<TutorialWindow>();
+        soundController = FindObjectOfType<SoundController>();
     }
 
     // Update is called once per frame
@@ -40,10 +43,12 @@ public class HomeButtonController : MonoBehaviour
         {
             if (warningWindow.activeSelf)
             {
+                //soundController.PlayTap1SE();
                 warningWindowChack();
             }
             if (nmWindow.activeSelf)
             {
+                soundController.PlayTap1SE();
                 OnNMButton();
             }
         }

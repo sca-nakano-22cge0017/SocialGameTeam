@@ -18,9 +18,13 @@ public class StaminaController : MonoBehaviour
 
     [SerializeField, Header("アイコンを押した時window")] private GameObject iconWindow = null;
 
+    private SoundController soundController;
+
     // Start is called before the first frame update
     void Start()
     {
+        soundController = FindObjectOfType<SoundController>();
+
         iconWindow.SetActive(false);
 
         staminaWindow.SetActive(false);
@@ -69,6 +73,7 @@ public class StaminaController : MonoBehaviour
     //時間表示のプログラム
     void StaminaHidden()
     {
+        soundController.PlayTap1SE();
         staminaWindow.SetActive(false);
     }
 
@@ -83,9 +88,11 @@ public class StaminaController : MonoBehaviour
                 iconWindow.SetActive(false);
                 break;
             case "HomeWindow": //ホーム画面に戻る
+                soundController.PlayTap2SE();
                 SceneLoader.Load("HomeScene");
                 break;
             case "BackButton": //1つ前のシーンに戻る
+                soundController.PlayTap2SE();
                 SceneLoader.Back();
                 break;
             default:
