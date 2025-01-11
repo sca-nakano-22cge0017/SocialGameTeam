@@ -304,8 +304,6 @@ public class PlayerData : Character
 
         if (currentMp < 0) currentMp = 0;
 
-        SkillAct();
-
         return true;
     }
 
@@ -354,11 +352,13 @@ public class PlayerData : Character
     {
         mainGameSystem.Judge();
 
-        // Todo ”s–k‰‰oEƒ‚[ƒVƒ‡ƒ“Ä¶
-
         StartCoroutine(DirectionCompleteWait(() =>
         {
-            meshRenderer.enabled = false;
+            // Ž€–S‰‰o
+            StartCoroutine(DeadMotion(() =>
+            {
+                meshRenderer.enabled = false;
+            }));
         }));
     }
 

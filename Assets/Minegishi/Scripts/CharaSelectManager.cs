@@ -233,6 +233,8 @@ public class CharaSelectManager : MonoBehaviour
         {
             File.Delete(Application.persistentDataPath + "/savedata.json");
             Debug.Log("セーブデータを削除しました: ");
+
+            GameManager.DataInitialize();
         }
     }
 

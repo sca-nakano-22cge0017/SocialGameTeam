@@ -35,9 +35,11 @@ public class SkillExplainDisplay : MonoBehaviour
     private SpecialTecnique st;
 
     public bool isSkillDetailDisp = false;
+    private SpecialTecniqueManager stm;
 
     private void Start()
     {
+        stm = FindObjectOfType<SpecialTecniqueManager>();
         skillDetailWindow.SetActive(false);
     }
 
@@ -88,13 +90,27 @@ public class SkillExplainDisplay : MonoBehaviour
         else
         {
             skillDetailWindow.SetActive(false);
-            
             StartCoroutine(SkillAct(_skillId));
         }
     }
 
     IEnumerator SkillAct(int _skillId)
     {
+        for (int i = 0; i < stm.specialTecniques.Length; i++)
+        {
+            if (_skillId == stm.specialTecniques[i].m_id && player != null)
+            {
+                // コストが足りなければ押下不可
+                if (player.currentMp < stm.specialTecniques[i].m_cost)
+                {
+                    Debug.Log($"MP不足");
+                    yield break;
+                }
+            }
+
+            continue;
+        }
+
         yield return new WaitForSeconds(0.2f);
 
         wc.Close();
@@ -154,6 +170,8 @@ public class SkillExplainDisplay : MonoBehaviour
                 dex_st.RankSS();
                 break;
         }
+
+        player.SkillAct();
     }
 
     public void WindowClose()
