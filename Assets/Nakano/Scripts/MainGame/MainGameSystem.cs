@@ -60,6 +60,9 @@ public class MainGameSystem : MonoBehaviour
     public float CurrentSpeedRatio { get => currentSpeedMagnification; }
 
     // オート
+    [SerializeField] private Image autoButton;
+    [SerializeField] private Text autoButtonText;
+    [SerializeField] private Sprite[] autoButtonSprites;
     public bool isAutoMode = false;
     public bool IsAutoMode { get => isAutoMode; }
 
@@ -133,6 +136,8 @@ public class MainGameSystem : MonoBehaviour
         }
 
         StartCoroutine(GameStart());
+
+        SkillCanActCheck();
     }
 
     IEnumerator GameStart()
@@ -189,6 +194,8 @@ public class MainGameSystem : MonoBehaviour
 
     IEnumerator NextTurn()
     {
+        SkillCanActCheck();
+
         yield return new WaitForSeconds(0.5f);
 
         hp_st.TurnEnd();
@@ -279,7 +286,7 @@ public class MainGameSystem : MonoBehaviour
         // 全て非表示にする
         for (int j = 0; j < skillButtons.Length; j++)
         {
-            //skillButtons[j].gameObject.SetActive(false);
+            skillButtons[j].gameObject.SetActive(false);
         }
 
         for (int i = 0; i < stm.specialTecniques.Length; i++)
@@ -292,6 +299,32 @@ public class MainGameSystem : MonoBehaviour
                     stm.specialTecniques[i].m_released)
                 {
                     skillButtons[j].gameObject.SetActive(true);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// スキルボタン押せるか確認
+    /// </summary>
+    void SkillCanActCheck()
+    {
+        for (int i = 0; i < stm.specialTecniques.Length; i++)
+        {
+            for (int j = 0; j < skillButtons.Length; j++)
+            {
+                // ScriptableObjectとゲームオブジェクト(ボタン)の名前が同じなら
+                if (stm.specialTecniques[i].name == skillButtons[j].name)
+                {
+                    // MP不足
+                    if (player.currentMp < stm.specialTecniques[i].m_cost)
+                    {
+                        skillButtons[j].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+                    }
+                    else
+                    {
+                        skillButtons[j].image.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+                    }
                 }
             }
         }
@@ -327,6 +360,17 @@ public class MainGameSystem : MonoBehaviour
         currentSpeedMagnification = speedMagnificationKind[selectSpeedMagNum];
         speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
         Time.timeScale = currentSpeedMagnification;
+
+        if (isAutoMode)
+        {
+            autoButton.sprite = autoButtonSprites[0];
+            autoButtonText.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+        else
+        {
+            autoButton.sprite = autoButtonSprites[1];
+            autoButtonText.color = new Color(0.7f, 0.7f, 0.7f, 1.0f);
+        }
     }
 
     /// <summary>
@@ -378,6 +422,17 @@ public class MainGameSystem : MonoBehaviour
         if (GameManager.SelectArea == 2)
         {
             GameManager.Setting.isAutoForBoss = isAutoMode;
+        }
+
+        if (isAutoMode)
+        {
+            autoButton.sprite = autoButtonSprites[0];
+            autoButtonText.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        }
+        else
+        {
+            autoButton.sprite = autoButtonSprites[1];
+            autoButtonText.color = new Color(0.7f, 0.7f, 0.7f, 1.0f);
         }
     }
 }

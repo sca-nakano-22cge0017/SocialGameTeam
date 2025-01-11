@@ -123,7 +123,7 @@ public class SpecialTecniqueManager : MonoBehaviour
         for (int i = 0; i < specialTecniques.Length; i++)
         {
             specialTecniques[i].m_released = true;
-            specialTecniques[i].m_cost = 0;
+            //specialTecniques[i].m_cost = 0;
         }
     }
 }

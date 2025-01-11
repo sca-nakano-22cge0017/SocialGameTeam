@@ -53,6 +53,7 @@ public class Character : MonoBehaviour
     [SerializeField] protected MainDirection mainDirection;
 
     public MeshRenderer meshRenderer;
+    public Image image;
 
     [SerializeField] public MainGameGuage hpGuage;
     [SerializeField] protected Text criticalText;
@@ -189,7 +190,9 @@ public class Character : MonoBehaviour
     {
         // ”íƒ_ƒ - –hŒä—Í ‚ğÀÛ‚Ì”íƒ_ƒ[ƒW‚É‚·‚é
         int damage = (int)Mathf.Ceil(_amount - (DEF * powerDef));
-        damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
+
+        if (this.GetComponent<Enemy>() != null) damage = damage < 0 ? 1 : damage; // “G‚Ìê‡‚Í0–¢–‚È‚ç1‚É‚·‚é
+        else damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
 
         currentHp -= damage;
 
@@ -219,7 +222,9 @@ public class Character : MonoBehaviour
         // ”íƒ_ƒ - –hŒä—Í ‚ğÀÛ‚Ì”íƒ_ƒ[ƒW‚É‚·‚é
         // –hŒä–³‹‚Ì‚Æ‚«‚Í”íƒ_ƒ‚©‚ç–hŒä—Í•ªŒ¸­‚³‚¹‚È‚¢
         int damage = cantGuard ? (int)Mathf.Ceil(_amount) : (int)Mathf.Ceil(_amount - (DEF * powerDef));
-        damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
+
+        if (this.GetComponent<Enemy>() != null) damage = damage < 0 ? 1 : damage; // “G‚Ìê‡‚Í0–¢–‚È‚ç1‚É‚·‚é
+        else damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
 
         currentHp -= damage;
 
@@ -246,7 +251,9 @@ public class Character : MonoBehaviour
     public virtual int Damage(int _amount)
     {
         int damage = _amount;
-        damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
+
+        if (this.GetComponent<Enemy>() != null) damage = damage < 0 ? 1 : damage; // “G‚Ìê‡‚Í0–¢–‚È‚ç1‚É‚·‚é
+        else damage = damage < 0 ? 0 : damage; // 0–¢–‚È‚ç0‚É‚·‚é
 
         currentHp -= damage;
 
@@ -587,6 +594,38 @@ public class Character : MonoBehaviour
     public void CriticalDamage()
     {
         StartCoroutine(DispText(criticalText, "Critical!"));
+    }
+
+    [SerializeField] private float deadMotionTime = 1.0f;
+    [SerializeField] private float deadMotionDist = 100;
+
+    /// <summary>
+    /// €–S‰‰oÄ¶
+    /// </summary>
+    /// <param name="_action"></param>
+    /// <returns></returns>
+    protected IEnumerator DeadMotion(System.Action _action)
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        float time = 0;
+        float alpha = 1;
+
+        while (time < deadMotionTime)
+        {
+            Vector3 pos = image.rectTransform.localPosition;
+            pos.y -= (deadMotionDist / deadMotionTime * Time.deltaTime);
+            image.rectTransform.localPosition = pos;
+
+            alpha -= 1 / deadMotionTime * Time.deltaTime;
+            image.color = new Color(1, 1, 1, alpha);
+
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+
+        _action?.Invoke();
     }
 
     /// <summary>

@@ -7,8 +7,12 @@ public class DebugMode : MonoBehaviour
 {
     [SerializeField] Text text;
 
+    private SpecialTecniqueManager specialTecniqueManager;
+
     private void Start()
     {
+        specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
+
         TextChange();
     }
 
@@ -16,6 +20,8 @@ public class DebugMode : MonoBehaviour
     {
         if (GameManager.isHyperTraningMode) GameManager.isHyperTraningMode = false;
         else GameManager.isHyperTraningMode = true;
+
+        if (GameManager.isHyperTraningMode) specialTecniqueManager.AllRelease();
 
         TextChange();
     }

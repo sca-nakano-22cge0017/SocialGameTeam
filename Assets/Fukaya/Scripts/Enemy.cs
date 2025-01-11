@@ -10,7 +10,6 @@ public class Enemy : Character
 
     public string enemyId;
     public int POSITION; // 敵の位置
-    public Image image;
 
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
@@ -379,7 +378,7 @@ public class Enemy : Character
         yield return new WaitForSeconds(1.0f);
 
         // ドロップ量表示
-        string str = "+" + drop.ToString() + "Pt";
+        string str = "+" + drop.ToString() + "p";
         StartCoroutine(DispText(dropText, str));
     }
 
@@ -423,37 +422,5 @@ public class Enemy : Character
             StartCoroutine(EndWait()); 
         };
         spineAnim.PlayAttackMotion();
-    }
-
-    [SerializeField] private float deadMotionTime = 1.0f;
-    [SerializeField] private float deadMotionDist = 100;
-
-    /// <summary>
-    /// 死亡演出再生
-    /// </summary>
-    /// <param name="_action"></param>
-    /// <returns></returns>
-    IEnumerator DeadMotion(System.Action _action)
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        float time = 0;
-        float alpha = 1;
-
-        while (time < deadMotionTime)
-        {
-            Vector3 pos = image.rectTransform.localPosition;
-            pos.y -= (deadMotionDist / deadMotionTime * Time.deltaTime);
-            image.rectTransform.localPosition = pos;
-
-            alpha -= 1 / deadMotionTime * Time.deltaTime;
-            image.color = new Color(1,1,1,alpha);
-
-            time += Time.deltaTime;
-
-            yield return null;
-        }
-
-        _action?.Invoke();
     }
 }
