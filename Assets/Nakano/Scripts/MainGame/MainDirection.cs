@@ -44,8 +44,8 @@ public class MainDirection : MonoBehaviour
     [SerializeField] private GameObject cutIn;
 
     // ÉQÅ[ÉÄèIóπ
-    [SerializeField] private GameObject gameOverText;
-    [SerializeField] private GameObject clearText;
+    [SerializeField] private GameObject winText;
+    [SerializeField] private GameObject loseText;
 
     SoundController soundController;
 
@@ -54,8 +54,8 @@ public class MainDirection : MonoBehaviour
         soundController = FindObjectOfType<SoundController>();
 
         warning.SetActive(false);
-        gameOverText.SetActive(false);
-        clearText.SetActive(false);
+        winText.SetActive(false);
+        loseText.SetActive(false);
         cutIn.SetActive(false);
 
         if (GameManager.SelectArea == 1)
@@ -102,35 +102,35 @@ public class MainDirection : MonoBehaviour
     /// <returns></returns>
     public IEnumerator BossStart()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         defaultCamera.Priority = 1;
         bossUpCamera.Priority = 100;
 
         warning.SetActive(true);
 
-        yield return new WaitForSeconds(bossUpTime);
+        yield return new WaitForSecondsRealtime(bossUpTime);
 
         defaultCamera.Priority = 100;
         bossUpCamera.Priority = 1;
         
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSecondsRealtime(2.0f);
 
         float t = 0;
         while (t < UISlideInTime)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
 
             var cPos = commandsObj.transform.localPosition;
-            cPos.x += moveSpeed_Commands * Time.deltaTime;
+            cPos.x += moveSpeed_Commands * Time.unscaledDeltaTime;
             commandsObj.transform.localPosition = cPos;
 
             var uiPos = upUI.transform.localPosition;
-            uiPos.y += moveSpeed_UpUI * Time.deltaTime;
+            uiPos.y += moveSpeed_UpUI * Time.unscaledDeltaTime;
             upUI.transform.localPosition = uiPos;
 
             var menuPos = menuButton.transform.localPosition;
-            menuPos.y += moveSpeed_MenuButton * Time.deltaTime;
+            menuPos.y += moveSpeed_MenuButton * Time.unscaledDeltaTime;
             menuButton.transform.localPosition = menuPos;
 
             yield return null;
@@ -163,13 +163,13 @@ public class MainDirection : MonoBehaviour
     public void GameOver()
     {
         soundController.PlayGameOverJingle();
-        gameOverText.SetActive(true);
+        loseText.SetActive(true);
     }
 
     public void Clear()
     {
         soundController.PlayClearJingle();
-        clearText.SetActive(true);
+        winText.SetActive(true);
     }
 
     public IEnumerator CutIn(Action _action)

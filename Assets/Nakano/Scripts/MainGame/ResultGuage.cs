@@ -6,13 +6,23 @@ using System;
 
 public class ResultGuage : MonoBehaviour
 {
+    [SerializeField] private ResultManager resultManager;
+
     [SerializeField] private StatusType type;
     public StatusType Type
     {
         get => type;
         private set => type = value;
     }
-    
+
+    [SerializeField] private CombiType combiType;
+    public CombiType CombiType
+    {
+        get => combiType;
+        private set => combiType = value;
+    }
+    [SerializeField] private bool isCombiGuage = false;
+
     [SerializeField] private Text getPointText;
     [SerializeField] private Text rankText;
     [SerializeField] private Image guage;
@@ -49,18 +59,35 @@ public class ResultGuage : MonoBehaviour
     private int max = 0;
     private float amount = 0;
 
+    private bool isSkip = false;
+
     private void Update()
     {
         if (increaseStart)
         {
             if (addCount == 0)
             {
-                current = PlayerDataManager.player.GetRankPt(type);
-                min = PlayerDataManager.player.GetRankPtLastUp(type);
-                max = PlayerDataManager.player.GetRankPtNextUp(type);
+                if (!isCombiGuage)
+                {
+                    current = PlayerDataManager.player.GetRankPt(type);
+                    min = PlayerDataManager.player.GetRankPtLastUp(type);
+                    max = PlayerDataManager.player.GetRankPtNextUp(type);
+                }
+                else
+                {
+                    current = PlayerDataManager.player.GetCombiRankPt(combiType);
+
+                    Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
+
+                    if (currentRank - 1 < Rank.D) min = 0;
+                    else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
+                    else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
+
+                    max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
+                }
 
                 // 増加量計算
-                amount = (float)(current - min) / (float)(max - min);
+                amount = (float)(current - min) / (max - min);
                 
                 // 増加
                 if (guage.fillAmount <= amount)
@@ -75,6 +102,8 @@ public class ResultGuage : MonoBehaviour
                         // ランクアップ
                         int n = count + (int)lastRank + 1;
                         Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
+                        if (r > Rank.SS) r = Rank.SS;
+
                         rankText.text = r.ToString();
 
                         guage.fillAmount = 0;
@@ -83,6 +112,9 @@ public class ResultGuage : MonoBehaviour
                     guage.fillAmount = amount;
                     increaseCompleted = true;
                     increaseStart = false;
+
+                    if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
+                    else resultManager.CheckSecondDirectionCompleted();
                 }
             }
 
@@ -101,6 +133,8 @@ public class ResultGuage : MonoBehaviour
                         // ランクアップ
                         int n = count + (int)lastRank + 1;
                         Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
+                        if (r > Rank.SS) r = Rank.SS;
+
                         rankText.text = r.ToString();
 
                         guage.fillAmount = 0;
@@ -112,12 +146,27 @@ public class ResultGuage : MonoBehaviour
 
                 if (isFinalUp)
                 {
-                    current = PlayerDataManager.player.GetRankPt(type);
-                    min = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[lastRank].GetStatus(type);
-                    max = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[currentRank].GetStatus(type);
+                    if (!isCombiGuage)
+                    {
+                        current = PlayerDataManager.player.GetRankPt(type);
+                        min = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[lastRank].GetStatus(type);
+                        max = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[currentRank].GetStatus(type);
+                    }
+                    else
+                    {
+                        current = PlayerDataManager.player.GetCombiRankPt(combiType);
+
+                        Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
+
+                        if (currentRank -1 < Rank.D) min = 0;
+                        else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
+                        else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
+
+                        max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
+                    }
 
                     // 増加量計算
-                    amount = (float)(current - min) / (float)(max - min);
+                    amount = (float)(current - min) / (max - min);
 
                     // 増加
                     if (guage.fillAmount <= amount)
@@ -130,6 +179,9 @@ public class ResultGuage : MonoBehaviour
                         guage.fillAmount = amount;
                         increaseCompleted = true;
                         increaseStart = false;
+
+                        if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
+                        else resultManager.CheckSecondDirectionCompleted();
                     }
                 }
             }
@@ -143,16 +195,31 @@ public class ResultGuage : MonoBehaviour
     {
         getPointText.gameObject.SetActive(false);
         getPointText.text = "+0p/";
-        rankText.text = PlayerDataManager.player.GetRank(type).ToString();
 
-        current = PlayerDataManager.player.GetRankPt(type);
-        min = PlayerDataManager.player.GetRankPtLastUp(type);
-        max = PlayerDataManager.player.GetRankPtNextUp(type);
+        if (!isCombiGuage)
+        {
+            currentRank = PlayerDataManager.player.GetRank(type);
+            current = PlayerDataManager.player.GetRankPt(type);
+            min = PlayerDataManager.player.GetRankPtLastUp(type);
+            max = PlayerDataManager.player.GetRankPtNextUp(type);
+        }
+        else
+        {
+            Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
+
+            currentRank = PlayerDataManager.player.GetCombiRank(combiType);
+            current = PlayerDataManager.player.GetCombiRankPt(combiType);
+            
+            if (currentRank - 1 < Rank.D) min = 0;
+            else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
+            else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
+
+            max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
+        }
 
         amount = (float)(current - min) / (max - min);
         guage.fillAmount = amount;
-
-        //Debug.Log($"現在値：{current}　最小値：{min}　最大値：{max}　ゲージ量：{amount}");
+        rankText.text = currentRank.ToString();
     }
 
     /// <summary>
@@ -167,6 +234,8 @@ public class ResultGuage : MonoBehaviour
 
     public void IncreaseAmount()
     {
+        if (isSkip) return;
+
         increaseCompleted = false;
         increaseStart = true;
 
@@ -175,5 +244,42 @@ public class ResultGuage : MonoBehaviour
         addCount = c - l;
         count = 0;
         isFinalUp = false;
+    }
+
+    /// <summary>
+    /// 増加演出スキップ
+    /// </summary>
+    public void Skip()
+    {
+        isSkip = true;
+        increaseStart = false;
+        increaseCompleted = true;
+        
+        Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
+
+        if (!isCombiGuage)
+        {
+            currentRank = PlayerDataManager.player.GetRank(type);
+            current = PlayerDataManager.player.GetRankPt(type);
+            min = currentRank - 1 <= Rank.D ? 0 : rankPtData.rankPt_NextUp[currentRank - 1].GetStatus(type);
+            max = rankPtData.rankPt_NextUp[currentRank].GetStatus(type);
+        }
+        else
+        {
+            currentRank = PlayerDataManager.player.GetCombiRank(combiType);
+            current = PlayerDataManager.player.GetCombiRankPt(combiType);
+
+            if (currentRank - 1 < Rank.D) min = 0;
+            else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
+            else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
+
+            max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
+        }
+
+        // 増加量計算
+        amount = (float)(current - min) / (float)(max - min);
+        guage.fillAmount = amount;
+
+        rankText.text = currentRank.ToString();
     }
 }

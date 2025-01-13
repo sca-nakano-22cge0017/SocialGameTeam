@@ -277,7 +277,7 @@ public class PlayerStatus
         else
         {
             // クリア状況
-            for (int i = 0; i < GameManager.IsBossClear2.Length; i++)
+            for (int i = 0; i < GameManager.IsBossClear1.Length; i++)
             {
                 GameManager.IsBossClear1[i] = false;
                 GameManager.IsBossClear2[i] = false;
@@ -655,7 +655,11 @@ public class PlayerStatus
     /// <returns>指定した複合ステータスのランク</returns>
     public Rank GetCombiRank(CombiType _type)
     {
+        if (_type == CombiType.NORMAL) return 0;
+        
         Rank rank = combiRank[_type];
+        if (rank > Rank.SS) rank = Rank.SS;
+
         return rank;
     }
 
@@ -666,7 +670,9 @@ public class PlayerStatus
     /// <param name="_num">変更後のランク</param>
     public void SetCombiRank(CombiType _type, Rank _rank)
     {
-        combiRank[_type] = _rank;
+        var r = _rank;
+        if (_rank > Rank.SS) r = Rank.SS;
+        combiRank[_type] = r;
     }
 
     // 複合ステータスのランクPt
