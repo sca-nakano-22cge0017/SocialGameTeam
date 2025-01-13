@@ -828,6 +828,7 @@ MonoBehaviour:
   mainGameSystem: {fileID: 0}
   mainDirection: {fileID: 0}
   meshRenderer: {fileID: 0}
+  image: {fileID: 446700306297684710}
   hpGuage: {fileID: 7186745082041268131}
   criticalText: {fileID: 6790280715905832684}
   damageText: {fileID: 6551850381852823495}
@@ -867,16 +868,15 @@ MonoBehaviour:
   critical: 0
   motion: {fileID: 0}
   spineAnim: {fileID: 0}
+  deadMotionTime: 1
+  deadMotionDist: 50
   enemyId: 
   POSITION: 1
-  image: {fileID: 446700306297684710}
   player: {fileID: 0}
   hpGuage_Obj: {fileID: 1523153915180492603}
   targetChangeButton: {fileID: 4392141859046215737}
   dropText: {fileID: 1704113793077738391}
   isIgnoreDeffence: 0
-  deadMotionTime: 1
-  deadMotionDist: 50
 --- !u!1 &7279936480025692576
 GameObject:
   m_ObjectHideFlags: 0
@@ -1150,8 +1150,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d7ff4cbd844854a42af75487332170e2, type: 3}
-    m_FontSize: 30
+    m_Font: {fileID: 12800000, guid: 18448987c7b84c6418d04cf608c95897, type: 3}
+    m_FontSize: 40
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0

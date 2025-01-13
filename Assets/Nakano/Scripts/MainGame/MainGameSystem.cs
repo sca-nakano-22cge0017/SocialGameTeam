@@ -10,10 +10,9 @@ public class MainGameSystem : MonoBehaviour
 {
     private LoadManager loadManager;
     [SerializeField] private StageManager stageManager;
-    [SerializeField] private WindowController windowController;
     private SoundController soundController;
     [SerializeField] private MainDirection mainDirection;
-
+    
     [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
     [SerializeField] private Enemy[] enemies;
@@ -65,6 +64,9 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private Sprite[] autoButtonSprites;
     public bool isAutoMode = false;
     public bool IsAutoMode { get => isAutoMode; }
+
+    // ƒŠƒUƒ‹ƒg
+    [SerializeField] private ResultManager resultManager;
 
     private bool isInitialized = false;
     private bool isLose = false;
@@ -144,7 +146,7 @@ public class MainGameSystem : MonoBehaviour
     {
         yield return new WaitUntil(() => mainDirection.isCompleteStartDirection);
 
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSecondsRealtime(0.3f);
 
         OrderAction();
     }
@@ -196,7 +198,7 @@ public class MainGameSystem : MonoBehaviour
     {
         SkillCanActCheck();
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         hp_st.TurnEnd();
         def_st.TurnEnd();
@@ -255,23 +257,24 @@ public class MainGameSystem : MonoBehaviour
     {
         targetImage.enabled = false;
 
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSecondsRealtime(1.0f);
 
         if (isWin)
         {
             player.WinMotion();
             mainDirection.Clear();
 
-            yield return new WaitForSeconds(5.0f);
+            yield return new WaitForSecondsRealtime(3.0f);
 
             Time.timeScale = 1.0f;
-            windowController.Open();
+
+            resultManager.Initialize();
         }
         else if (isLose)
         {
             mainDirection.GameOver();
 
-            yield return new WaitForSeconds(3.0f);
+            yield return new WaitForSecondsRealtime(3.0f);
 
             Time.timeScale = 1.0f;
             SceneLoader.LoadFade("HomeScene");

@@ -20,12 +20,16 @@ public class DifficultyManager : MonoBehaviour
         set => isClearBossDifficulty1 = value;
     }
 
+    private static int lastClearBoss1 = -1;
+
     private static int isClearBossDifficulty2 = 0;
     public static int IsClearBossDifficulty2
     {
         get => isClearBossDifficulty2;
         set => isClearBossDifficulty2 = value;
     }
+
+    private static int lastClearBoss2 = -1;
 
     [SerializeField] private Text difficultyText;
     [SerializeField] private WindowController wc;
@@ -35,13 +39,29 @@ public class DifficultyManager : MonoBehaviour
 
     private void Awake()
     {
+        SetSelectButtons();
+    }
+
+    void SetSelectButtons()
+    {
+        var difficulty = GameManager.SelectChara == 1 ? isClearBossDifficulty1 : isClearBossDifficulty2;
+
+        // 育成ステージの難易度ボタン解放
+        for (int i = 0; i < selectButtons.Length; i++)
+        {
+            if (i <= difficulty)
+            {
+                selectButtons[i].interactable = true;
+            }
+            else selectButtons[i].interactable = false;
+
+            if (isDebug) selectButtons[i].interactable = true;
+        }
+
+        // クリア状況が変更されていた場合、直近でクリアしたボスの難易度に応じて選択中難易度を変更する
         if (GameManager.SelectChara == 1)
         {
-            if (GameManager.lastSelectDifficulty1 > 0)
-            {
-                GameManager.SelectDifficulty = GameManager.lastSelectDifficulty1;
-            }
-            else
+            if (lastClearBoss1 != isClearBossDifficulty1)
             {
                 if (isClearBossDifficulty1 < 5)
                 {
@@ -52,36 +72,14 @@ public class DifficultyManager : MonoBehaviour
         }
         if (GameManager.SelectChara == 2)
         {
-            if (GameManager.lastSelectDifficulty2 > 0)
+            if (lastClearBoss2 != isClearBossDifficulty2)
             {
-                GameManager.SelectDifficulty = GameManager.lastSelectDifficulty2;
-            }
-            else
-            {
-                if (isClearBossDifficulty1 < 5)
+                if (isClearBossDifficulty2 < 5)
                 {
                     GameManager.SelectDifficulty = isClearBossDifficulty2 + 1;
                 }
                 else GameManager.SelectDifficulty = isClearBossDifficulty2;
             }
-        }
-        
-        SetSelectButtons();
-    }
-
-    void SetSelectButtons()
-    {
-        var difficulty = GameManager.SelectChara == 1 ? isClearBossDifficulty1 : isClearBossDifficulty2;
-
-        for (int i = 0; i < selectButtons.Length; i++)
-        {
-            if (i <= difficulty)
-            {
-                selectButtons[i].interactable = true;
-            }
-            else selectButtons[i].interactable = false;
-
-            if (isDebug) selectButtons[i].interactable = true;
         }
 
         difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
@@ -119,21 +117,23 @@ public class DifficultyManager : MonoBehaviour
             if (_difficulty <= isClearBossDifficulty1 + 1)
             {
                 GameManager.SelectDifficulty = _difficulty;
-                GameManager.lastSelectDifficulty1 = GameManager.SelectDifficulty;
 
                 difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
                 wc.Close();
             }
+
+            lastClearBoss1 = isClearBossDifficulty1;
         }
         if (GameManager.SelectChara == 2)
         {
             if (_difficulty <= isClearBossDifficulty2 + 1)
             {
                 GameManager.SelectDifficulty = _difficulty;
-                GameManager.lastSelectDifficulty2 = GameManager.SelectDifficulty;
 
                 difficultyText.text = "Lv" + (GameManager.SelectDifficulty * 10).ToString();
                 wc.Close();
+
+                lastClearBoss2 = isClearBossDifficulty2;
             }
         }
     }
@@ -153,7 +153,8 @@ public class DifficultyManager : MonoBehaviour
             if (_difficulty <= isClearBossDifficulty1 + 1)
             {
                 GameManager.SelectDifficulty = _difficulty;
-                GameManager.lastSelectDifficulty1 = GameManager.SelectDifficulty;
+
+                lastClearBoss1 = isClearBossDifficulty1;
             }
         }
         if (GameManager.SelectChara == 2)
@@ -161,7 +162,8 @@ public class DifficultyManager : MonoBehaviour
             if (_difficulty <= isClearBossDifficulty2 + 1)
             {
                 GameManager.SelectDifficulty = _difficulty;
-                GameManager.lastSelectDifficulty2 = GameManager.SelectDifficulty;
+
+                lastClearBoss2 = isClearBossDifficulty2;
             }
         }
     }

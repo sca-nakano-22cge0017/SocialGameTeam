@@ -28,6 +28,7 @@ public class StageSelect : MonoBehaviour
     [SerializeField] private GameObject selectingFrame;           // 選択中のボタンに表示する枠
 
     [SerializeField] private Text costStamina;
+    [SerializeField] private Image stamp;
 
     SelectButton pressedButton = null;
 
@@ -69,6 +70,7 @@ public class StageSelect : MonoBehaviour
     private void FirstSelect()
     {
         int last = GameManager.lastSelectButton;
+        // 前回選択したステージを選択状態にしておく
         if (GameManager.lastScene == "MainTest" && last >= 0 && last < selectButtons.Length)
         {
             selectingButton = selectButtons[last].button;
@@ -132,9 +134,6 @@ public class StageSelect : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
             {
                 GameManager.SelectDifficulty = _selectingButton.Difficluty;
-                
-                if (GameManager.SelectChara == 1) GameManager.lastSelectDifficulty1 = GameManager.SelectDifficulty;
-                if (GameManager.SelectChara == 2) GameManager.lastSelectDifficulty2 = GameManager.SelectDifficulty;
             }
 
             GameManager.lastSelectButton = select;
@@ -172,6 +171,20 @@ public class StageSelect : MonoBehaviour
             }
         }
 
+        if (area == 2)
+        {
+            int difficulty = GameManager.SelectDifficulty - 1;
+            if (difficulty < 0) difficulty = 0;
+
+            var isBossClear = GameManager.SelectChara == 1 ? GameManager.IsBossClear1[difficulty] : GameManager.IsBossClear2[difficulty];
+            // クリア済みならスタンプを表示
+            if (isBossClear)
+            {
+                stamp.enabled = true;
+            }
+            else stamp.enabled = false;
+        }
+
         stageInformationText.text = information;
     }
 
@@ -193,6 +206,18 @@ public class StageSelect : MonoBehaviour
                     information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ＋" + data.dropItem[i].dropAmount + "Pt\n";
                 }
             }
+        }
+
+        if (area == 2)
+        {
+            var isBossClear = GameManager.SelectChara == 1 ? GameManager.IsBossClear1[0] : GameManager.IsBossClear2[0];
+
+            // クリア済みならスタンプを表示
+            if (isBossClear)
+            {
+                stamp.enabled = true;
+            }
+            else stamp.enabled = false;
         }
 
         stageInformationText.text = information;

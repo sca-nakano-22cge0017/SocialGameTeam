@@ -6,10 +6,16 @@ using UnityEngine.SceneManagement;
 
 public class ResultManager : MonoBehaviour
 {
-    [SerializeField] private WindowController wc;
+    [SerializeField] private WindowController resultWindowController;
     [SerializeField] private DropController dropController;
+
+    [SerializeField] private GameObject window1;
     [SerializeField] private ResultGuage[] resultGuages;
     [SerializeField] private Text[] plusStatus;
+
+    [SerializeField] private GameObject window2;
+    [SerializeField] ResultGuage[] resultCombiGuages;
+
     private SpecialTecniqueManager specialTecniqueManager;
 
     [Header("特殊技能解放 スキル")]
@@ -27,12 +33,19 @@ public class ResultManager : MonoBehaviour
     private Dictionary<StatusType, Rank> currentRank = new();
     private StatusType checkType = 0; // 確認中のステータス
 
-    private bool resultDispCompleted = false; // 表示完了
+    private Dictionary<CombiType, Rank> lastCombiRank = new();
+    private Dictionary<CombiType, Rank> currentCombiRank = new();
 
     StaminaManager staminaManager;
     [SerializeField] private Text costStamina;
 
     TutorialWindow tutorial = null;
+
+    private bool didSkillReleaseComplete = false;
+    private bool didSkipDirection1 = false;
+    private bool didSkipDirection2 = false;
+
+    private bool didRankUp = false;
 
     void Start()
     {
@@ -40,12 +53,14 @@ public class ResultManager : MonoBehaviour
         staminaManager = FindObjectOfType<StaminaManager>();
         tutorial = FindObjectOfType<TutorialWindow>();
 
-        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
-        {
-            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
-            lastRank[type] = Rank.D;
-            currentRank[type] = Rank.D;
-        }
+        window1.SetActive(true);
+        window2.SetActive(false);
+
+        checkType = 0;
+        didSkillReleaseComplete = false;
+        didSkipDirection1 = false;
+        didSkipDirection2 = false;
+        didRankUp = false;
 
         if (GameManager.SelectArea == 1)
         {
@@ -60,18 +75,36 @@ public class ResultManager : MonoBehaviour
         }
     }
 
-    private void OnEnable()
+    public void Initialize()
     {
         tutorial = FindObjectOfType<TutorialWindow>();
         tutorial.Result();
+
+        window1.SetActive(true);
+        window2.SetActive(false);
 
         ResultInitialize();
         window_st_Skill.SetActive(false);
         window_st_Passive.SetActive(false);
 
         checkType = 0;
+        didSkillReleaseComplete = false;
+        didSkipDirection1 = false;
+        didSkipDirection2 = false;
+        didRankUp = false;
 
-        StartCoroutine(DispDirection());
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            lastRank[type] = Rank.D;
+            currentRank[type] = Rank.D;
+        }
+        for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length - 1; i++)
+        {
+            CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), i);
+            lastCombiRank[type] = Rank.D;
+            currentCombiRank[type] = Rank.D;
+        }
 
         if (dropController.DropedItems.Count == 0) return;
 
@@ -83,37 +116,37 @@ public class ResultManager : MonoBehaviour
             }
             else if (GameManager.SelectArea == 2)
             {
-                var bossClear = GameManager.SelectChara == 1 ? GameManager.IsBossClear1 : GameManager.IsBossClear2;
+                var clearDifficulty = 0;
 
-                if (bossClear[GameManager.SelectDifficulty - 1]) return;
+                // クリア状況の設定
+                if (GameManager.SelectChara == 1)
+                {
+                    if (GameManager.IsBossClear1[GameManager.SelectDifficulty - 1]) return;
+                    GameManager.IsBossClear1[GameManager.SelectDifficulty - 1] = true;
+                    clearDifficulty = DifficultyManager.IsClearBossDifficulty1;
+                }
+                if (GameManager.SelectChara == 2)
+                {
+                    if (GameManager.IsBossClear2[GameManager.SelectDifficulty - 1]) return;
+                    GameManager.IsBossClear2[GameManager.SelectDifficulty - 1] = true;
+                    clearDifficulty = DifficultyManager.IsClearBossDifficulty2;
+                }
+
                 AddRankPoint();
 
-                bossClear[GameManager.SelectDifficulty - 1] = true;
-
-                var clearDifficulty = GameManager.SelectChara == 1 ? DifficultyManager.IsClearBossDifficulty1 : DifficultyManager.IsClearBossDifficulty2;
-                if (GameManager.SelectDifficulty < 5 && GameManager.SelectDifficulty > clearDifficulty)
-                {
-                    if (GameManager.SelectChara == 1)
-                    {
-                        GameManager.lastSelectDifficulty1 = GameManager.SelectDifficulty + 1;
-                    }
-                    if (GameManager.SelectChara == 2)
-                    {
-                        GameManager.lastSelectDifficulty2 = GameManager.SelectDifficulty + 1;
-                    }
-                }
-                    
                 DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
                 GameManager.SelectDifficulty++;
                 PlayerDataManager.Save();
             }
         }));
+        
+        resultWindowController.Open();
     }
 
-    private void OnDisable()
+    private void ResultExit()
     {
+        resultWindowController.Close();
         dropController.Initialize();
-        ResultInitialize();
     }
 
     /// <summary>
@@ -127,10 +160,20 @@ public class ResultManager : MonoBehaviour
             StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
             lastRank[type] = PlayerDataManager.player.GetRank(type);
         }
+        for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length - 1; i++)
+        {
+            CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), i);
+            lastCombiRank[type] = PlayerDataManager.player.GetCombiRank(type);
+        }
 
+        // ポイント加算前のランクを設定
         for (int i = 0; i < resultGuages.Length; i++)
         {
             resultGuages[i].LastRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
+        }
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            resultCombiGuages[i].LastRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
         }
 
         for (int i = 0; i < dropController.DropedItems.Count; i++)
@@ -167,6 +210,18 @@ public class ResultManager : MonoBehaviour
             }
         }
 
+        // いずれかのステータスがランクアップしたかどうか確認
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            if (lastRank[type] < currentRank[type])
+            {
+                didRankUp = true;
+                continue;
+            }
+        }
+
+        if (!didRankUp) didSkillReleaseComplete = true;
         StartCoroutine(AddRankPtDirection());
     }
 
@@ -197,6 +252,11 @@ public class ResultManager : MonoBehaviour
                 plusStatus[i].enabled = true;
             }
         }
+
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            resultCombiGuages[i].Initialize();
+        }
     }
 
     /// <summary>
@@ -204,8 +264,17 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     void ReleaseSpecialTecnique()
     {
-        if ((int)checkType >= 0 && (int)checkType < System.Enum.GetValues(typeof(StatusType)).Length) 
+        if ((int)checkType >= System.Enum.GetValues(typeof(StatusType)).Length - 1 && lastRank[checkType] >= PlayerDataManager.player.GetRank(checkType))
+        {
+            didSkillReleaseComplete = true;
+            CheckFirstDirectionCompleted();
+            return;
+        }
+
+        if ((int)checkType >= 0 && (int)checkType < System.Enum.GetValues(typeof(StatusType)).Length)
+        {
             currentRank[checkType] = PlayerDataManager.player.GetRank(checkType);
+        }
 
         if (!specialTecniqueManager) return;
 
@@ -213,20 +282,19 @@ public class ResultManager : MonoBehaviour
 
         if (currentRank[checkType] != lastRank[checkType])
         {
+            // 特殊技能の詳細を取得する
             st = specialTecniqueManager.ReleaseSpecialTecniqueAndGetData((Rank)(lastRank[checkType] + 1), checkType);
         }
-        else
+        else if (currentRank[checkType] <= lastRank[checkType])
         {
-            if ((int)checkType < System.Enum.GetValues(typeof(StatusType)).Length - 1)
-            {
-                checkType++;
-                ReleaseSpecialTecnique();
-            }
-            return;
+            // 次のステータスを確認する
+            checkType++;
+            ReleaseSpecialTecnique();
         }
 
         if (st == null) return;
 
+        // 解放した特殊技能の詳細を表示
         if (st.m_skillType == 1)
         {
             // スキルの場合
@@ -242,28 +310,226 @@ public class ResultManager : MonoBehaviour
             explain_st_Passive.text = st.m_effects;
             window_st_Passive.SetActive(true);
         }
-
-        Invoke("CanBack", 0.1f);
     }
 
-    private bool canBack = false;
-
-    void CanBack()
-    {
-        canBack = true;
-    }
-
+    /// <summary>
+    /// 特殊技能解放ウィンドウを閉じる
+    /// </summary>
     public void BackSpecialTecnique()
     {
-        if (canBack)
+        window_st_Skill.SetActive(false);
+        window_st_Passive.SetActive(false);
+
+        lastRank[checkType]++;
+
+        // 次に解放した特殊技能を表示
+        Invoke("ReleaseSpecialTecnique", 0.1f);
+    }
+
+    /// <summary>
+    /// Pt加算演出
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator AddRankPtDirection()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < resultGuages.Length; i++)
         {
-            window_st_Skill.SetActive(false);
-            window_st_Passive.SetActive(false);
-
-            lastRank[checkType]++;
-
-            Invoke("ReleaseSpecialTecnique", 0.1f);
+            resultGuages[i].IncreaseAmount();
         }
+
+        yield return new WaitForSeconds(0.5f);
+        
+        ReleaseSpecialTecnique();
+    }
+
+    /// <summary>
+    /// ゲージ増加演出スキップ
+    /// </summary>
+    public void Skip()
+    {
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+
+        if (!didSkipDirection1)
+        {
+            // 通常ステータス 演出スキップ
+            for (int i = 0; i < resultGuages.Length; i++)
+            {
+                resultGuages[i].Skip();
+            }
+
+            didSkipDirection1 = true;
+
+            Invoke("DisplayCombiRankGauge", 0.5f);
+        }
+    }
+
+    /// <summary>
+    /// 複合ステータス　ゲージ増加演出スキップ
+    /// </summary>
+    public void SkipCombiGuageDirection()
+    {
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+
+        if (!didSkipDirection2)
+        {
+            // 複合ステータス 演出スキップ
+            for (int i = 0; i < resultCombiGuages.Length; i++)
+            {
+                resultCombiGuages[i].Skip();
+            }
+
+            didSkipDirection2 = true;
+
+            // 衣装解放
+            PlayerDataManager.Evolution();
+        }
+    }
+
+    /// <summary>
+    /// 通常ステータスのゲージ増加演出が完了したかを確認する
+    /// </summary>
+    public void CheckFirstDirectionCompleted()
+    {
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+
+        for (int i = 0; i < resultGuages.Length; i++)
+        {
+            if (!resultGuages[i].IncreaseCompleted) return;
+        }
+
+        // 演出完了していたら複合ステータスの表示へ
+        Invoke("DisplayCombiRankGauge", 0.5f);
+        didSkipDirection1 = true;
+    }
+
+    /// <summary>
+    /// 複合ステータスのゲージ増加演出が完了したかを確認する
+    /// </summary>
+    public void CheckSecondDirectionCompleted()
+    {
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            if (!resultCombiGuages[i].IncreaseCompleted) return;
+        }
+
+        // 衣装解放
+        PlayerDataManager.Evolution();
+        didSkipDirection2 = true;
+    }
+
+    /// <summary>
+    /// 合算ポイントのゲージ増加演出
+    /// </summary>
+    public void DisplayCombiRankGauge()
+    {
+        if (!tutorial.CompleteTutorial) return;
+
+        // ポイント加算後のランクを設定
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            resultCombiGuages[i].CurrentRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
+        }
+
+        window1.SetActive(false);
+        window2.SetActive(true);
+
+        int amount = 0;
+
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            var cType = resultCombiGuages[i].CombiType;
+
+            for (int j = 0; j < dropController.DropedItems.Count; j++)
+            {
+                var itemType = dropController.DropedItems[j].itemType;
+
+                if (cType == CombiType.DEF)
+                {
+                    if (itemType == StatusType.HP || itemType == StatusType.DEF)
+                    {
+                        int a = dropController.DropedItems[j].dropAmount;
+                        // 最大までポイントがたまっていたら0Pt表記
+                        if (PlayerDataManager.player.GetRankPt(itemType) >= PlayerDataManager.player.GetRankPtMax(itemType) ||
+                            PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
+                        {
+                            a = 0;
+                        }
+
+                        amount += a;
+                    }
+                }
+                if (cType == CombiType.ATK)
+                {
+                    if (itemType == StatusType.ATK || itemType == StatusType.MP)
+                    {
+                        int a = dropController.DropedItems[j].dropAmount;
+                        // 最大までポイントがたまっていたら0Pt表記
+                        if (PlayerDataManager.player.GetRankPt(itemType) >= PlayerDataManager.player.GetRankPtMax(itemType) ||
+                            PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
+                        {
+                            a = 0;
+                        }
+
+                        amount += a;
+                    }
+                }
+                if (cType == CombiType.TEC)
+                {
+                    if (itemType == StatusType.AGI || itemType == StatusType.DEX)
+                    {
+                        int a = dropController.DropedItems[j].dropAmount;
+                        // 最大までポイントがたまっていたら0Pt表記
+                        if (PlayerDataManager.player.GetRankPt(itemType) >= PlayerDataManager.player.GetRankPtMax(itemType) ||
+                            PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
+                        {
+                            a = 0;
+                        }
+
+                        amount += a;
+                    }
+                }
+            }
+
+            if (GameManager.isHyperTraningMode)
+            {
+                // デバッグモードならドロップ量1000倍
+                amount *= 1000;
+            }
+
+            if (amount > 0)
+            {
+                resultCombiGuages[i].SetPointText(amount);
+            }
+            
+            amount = 0;
+        }
+
+        StartCoroutine(AddCombiRankPtDirection());
+    }
+
+    /// <summary>
+    /// Pt加算演出
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator AddCombiRankPtDirection()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            resultCombiGuages[i].IncreaseAmount();
+        }
+    }
+
+    IEnumerator WaitTutorial(System.Action _action)
+    {
+        yield return new WaitUntil(() => tutorial.CompleteTutorial);
+
+        _action?.Invoke();
     }
 
     /// <summary>
@@ -271,7 +537,7 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     public void ToSelect()
     {
-        if (!resultDispCompleted) return;
+        ResultExit();
 
         if (GameManager.SelectArea == 1)
         {
@@ -289,44 +555,12 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     public void Retry()
     {
+        ResultExit();
+
         if ((GameManager.SelectArea == 1 && staminaManager.Traning()) ||
             (GameManager.SelectArea == 2 && staminaManager.Boss()))
         {
             SceneLoader.LoadFade("MainTest");
         }
-    }
-
-    /// <summary>
-    /// リザルト表示演出
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator DispDirection()
-    {
-        yield return new WaitForSeconds(0.1f);
-        resultDispCompleted = true;
-    }
-
-    /// <summary>
-    /// Pt加算演出
-    /// </summary>
-    /// <returns></returns>
-    IEnumerator AddRankPtDirection()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        for (int i = 0; i < resultGuages.Length; i++)
-        {
-            resultGuages[i].IncreaseAmount();
-        }
-
-        yield return new WaitForSeconds(1f);
-        ReleaseSpecialTecnique();
-    }
-
-    IEnumerator WaitTutorial(System.Action _action)
-    {
-        yield return new WaitUntil(() => tutorial.CompleteTutorial);
-
-        _action?.Invoke();
     }
 }

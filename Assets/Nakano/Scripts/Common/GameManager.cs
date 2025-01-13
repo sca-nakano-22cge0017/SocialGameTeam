@@ -203,8 +203,8 @@ public class GameManager : MonoBehaviour
     public static string lastScene = "HomeScene";
 
     // ‘O‰ñ‘I‘ð‚µ‚½“ïˆÕ“x
-    public static int lastSelectDifficulty1 = 1;
-    public static int lastSelectDifficulty2 = 1;
+    public static int lastSelectDifficulty1 = 0;
+    public static int lastSelectDifficulty2 = 0;
     public static int lastSelectButton = -1;
 
     /// <summary>

@@ -73,7 +73,6 @@ public class PlayerDataManager : MonoBehaviour
                     c.isBossClear[j] = GameManager.IsBossClear1[j];
                 }
                 c.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty1;
-                c.selectDifficulty = GameManager.lastSelectDifficulty1;
             }
             if (GameManager.SelectChara == 2)
             {
@@ -82,7 +81,6 @@ public class PlayerDataManager : MonoBehaviour
                     c.isBossClear[j] = GameManager.IsBossClear2[j];
                 }
                 c.isCrearBossDifficulty = DifficultyManager.IsClearBossDifficulty2;
-                c.selectDifficulty = GameManager.lastSelectDifficulty2;
             }
 
             if (i == 1) saveData.chara1 = c;
@@ -160,6 +158,8 @@ public class PlayerDataManager : MonoBehaviour
         {
             player = new(2);
         }
+
+        evolutionType = CombiType.NORMAL;
     }
 
     /// <summary>
@@ -173,6 +173,8 @@ public class PlayerDataManager : MonoBehaviour
         chara2 = new(2);
 
         Save();
+
+        evolutionType = CombiType.NORMAL;
     }
 
     /// <summary>
@@ -186,6 +188,8 @@ public class PlayerDataManager : MonoBehaviour
             Debug.Log("キャラクターIDが誤っています");
             return;
         }
+
+        evolutionType = CombiType.NORMAL;
 
         // プラス値は持ち越す
         Status plus = new(player.GetPlusStatus());
@@ -219,8 +223,9 @@ public class PlayerDataManager : MonoBehaviour
         SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
         if (stm) stm.ReleaseInitialize();
 
-        if (_id == 1) GameManager.lastSelectDifficulty1 = 1;
-        if (_id == 2) GameManager.lastSelectDifficulty2 = 1;
+        GameManager.lastSelectButton = 0;
+
+        evolutionType = CombiType.NORMAL;
     }
 
     /// <summary>
@@ -388,10 +393,21 @@ public class PlayerDataManager : MonoBehaviour
         player.SetCombiRankPtNextUp(_type, rankPtData.GetCombiRankNextPt(_type, rank));
 
         // 進化
-        if (player.GetCombiRank(_type) == Rank.SS)
+        if (player.GetCombiRank(_type) >= Rank.SS)
         {
-            player.SetEvolutionType(_type);
+            evolutionType = _type;
         }
+        else evolutionType = CombiType.NORMAL;
+    }
+
+    static CombiType evolutionType = CombiType.NORMAL;
+    /// <summary>
+    /// 進化
+    /// </summary>
+    public static void Evolution()
+    {
+        if (evolutionType == CombiType.NORMAL) return; 
+        player.SetEvolutionType(evolutionType);
     }
 
     /// <summary>
