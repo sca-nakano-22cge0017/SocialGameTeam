@@ -65,6 +65,9 @@ public class MainGameSystem : MonoBehaviour
     public bool isAutoMode = false;
     public bool IsAutoMode { get => isAutoMode; }
 
+    // バフデバフ
+    [SerializeField] BuffDisplay buffDisplay;
+
     // リザルト
     [SerializeField] private ResultManager resultManager;
 
@@ -214,6 +217,8 @@ public class MainGameSystem : MonoBehaviour
 
             yield return null;
         }
+
+        buffDisplay.UpdateInformation();
 
         // ターン経過
         elapsedTurn++;

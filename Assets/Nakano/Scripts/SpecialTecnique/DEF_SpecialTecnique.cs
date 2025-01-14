@@ -53,7 +53,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
 
         isActive_A = true;
 
-        player.AddState(true, rankA.m_id, rankA.m_continuationTurn, () => { Cancel_RankA(); }, true);
+        player.AddState(true, rankA.m_id, rankA.m_continuationTurn, 0, () => { Cancel_RankA(); }, true);
 
         player.BuffMotion(() => 
         { Debug.Log("「無敵」発動"); });
@@ -106,13 +106,13 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     public  void RankSS()
     {
         // 未解放なら処理しない
-        //if(!rankSS.m_released) return;
+        if(!rankSS.m_released) return;
 
         if (!player.CostMP(rankSS.m_cost)) return;
 
         cutPercent += (float)rankSS.m_value1;
 
-        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, () => { Cancel_RankSS(); }, false);
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, cutPercent, () => { Cancel_RankSS(); }, false);
 
         player.BuffMotion(() => 
         { Debug.Log("「守護神の権能」発動"); });
@@ -120,7 +120,7 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
 
     /// <summary>
     /// nターンの間、被ダメージをV％カット
-    /// 被ダメージに処理
+    /// 被ダメージ時に処理
     /// </summary>
     /// <param name="_damage">被ダメ量</param>
     /// <returns>ダメージカット量</returns>
