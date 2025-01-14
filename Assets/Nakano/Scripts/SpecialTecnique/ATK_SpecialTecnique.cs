@@ -24,7 +24,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         if (!player.CostMP(rankC.m_cost)) return;
 
-        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(); }, true);
+        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, 0, () => { Cancel_RankC(); }, true);
 
         player.BuffMotion(() => 
         {
@@ -111,7 +111,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankS.m_value1 / 100.0f;
 
-        player.AddState(true, rankS.m_id, 1, () => { Cancel_RankS(); }, false);
+        player.AddState(true, rankS.m_id, 1, rankS.m_value1, () => { Cancel_RankS(); }, false);
 
         player.AddBuff(StatusType.ATK, amount);
         Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");

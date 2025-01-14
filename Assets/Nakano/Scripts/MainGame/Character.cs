@@ -32,6 +32,11 @@ public class State
     public int elapsedTurn;
 
     /// <summary>
+    /// 効果量
+    /// </summary>
+    public float value;
+
+    /// <summary>
     /// 効果終了時の処理
     /// </summary>
     public Action werasOffAction;
@@ -100,7 +105,7 @@ public class Character : MonoBehaviour
     [HideInInspector] public float debuffAgi;
 
     // バフデバフ
-    List<State> state = new();
+    public List<State> state = new();
 
     // 会心率
     public float criticalProbabilityInitial;  // 初期値
@@ -295,13 +300,14 @@ public class Character : MonoBehaviour
     /// <param name="_isBuff">バフかどうか</param>
     /// <param name="_continuationTurn">効果終了時の処理</param>
     /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
-    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, Action _wearsOffAction, bool _isRestTurnUpdate)
+    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, float _value, Action _wearsOffAction, bool _isRestTurnUpdate)
     {
         State s = new();
         s.isBuff = _isBuff;
         s.stateId = _stateNumber;
         s.elapsedTurn = 1;
         s.continuationTurn = _continuationTurn;
+        s.value = _value;
         s.werasOffAction = _wearsOffAction;
         s.lastingEffects = null;
 
@@ -333,13 +339,14 @@ public class Character : MonoBehaviour
     /// <param name="_continuationTurn">効果終了時の処理</param>
     /// <param name="_lastingEffects">ターン中持続する効果 ターン終了時に呼ばれる</param>
     /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
-    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, Action _wearsOffAction, Action _lastingEffects, bool _isRestTurnUpdate)
+    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn,float _value, Action _wearsOffAction, Action _lastingEffects, bool _isRestTurnUpdate)
     {
         State s = new();
         s.isBuff = _isBuff;
         s.stateId = _stateNumber;
         s.elapsedTurn = 1;
         s.continuationTurn = _continuationTurn;
+        s.value = _value;
         s.werasOffAction = _wearsOffAction;
         s.lastingEffects = _lastingEffects;
 
@@ -398,14 +405,6 @@ public class Character : MonoBehaviour
     public void ResetState()
     {
         state.Clear();
-    }
-
-    /// <summary>
-    /// 途中でゲームを閉じた場合に、終了時の状態を読み込む
-    /// </summary>
-    void SetPauseState()
-    {
-        // stateIdに応じてcontinuationTurnとwearsOffActionを設定する
     }
 
     /// <summary>

@@ -186,11 +186,6 @@ public class GameManager : MonoBehaviour
     private static Setting setting = new();
     public static Setting Setting { get => setting; set => setting = value; }
 
-    /// <summary>
-    /// “r’†‚ÅƒQ[ƒ€‚ğ•Â‚¶‚½‚©
-    /// </summary>
-    public static bool isPause = false;
-
     [SerializeField] private StaminaManager staminaManager;
     [SerializeField] private MasterDataLoader masterDataLoader;
     [SerializeField] private SpecialTecniqueManager specialTecniqueManager;

@@ -20,7 +20,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         if (enemy == null || enemy.gameObject.activeSelf == false) return;
 
-        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(enemy); }, true);
+        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, rankC.m_value2, () => { Cancel_RankC(enemy); }, true);
 
         float damage = (float)rankC.m_value1 / 100.0f * player.ATK * player.power_Skill;
         float debuff = (float)rankC.m_value2 / 100.0f;
@@ -85,7 +85,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         if (!player.CostMP(rankS.m_cost)) return;
 
-        player.AddState(true, rankS.m_id, rankS.m_continuationTurn, () => { Cancel_RankS(); }, false);
+        player.AddState(true, rankS.m_id, rankS.m_continuationTurn, 0, () => { Cancel_RankS(); }, false);
 
         float amount = (float)rankS.m_value1 / 100.0f;
         
@@ -120,12 +120,11 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankS.m_value1 / 100.0f;
 
-        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, () => { Cancel_RankSS(); }, true);
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, rankS.m_value1, () => { Cancel_RankSS(); }, true);
 
         player.BuffMotion(() => 
         {
             player.buffCriticalPower = amount;
-
             player._criticalProbability = 100;
 
             Debug.Log("「約束された勝利」発動 会心時倍率" + (amount * 100) + "%アップ, クリティカル確定");

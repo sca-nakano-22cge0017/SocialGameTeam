@@ -24,7 +24,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankC.m_value1 / 100.0f;
 
-        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(); }, false);
+        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, rankC.m_value1, () => { Cancel_RankC(); }, false);
 
         player.BuffMotion(() => 
         {
@@ -61,7 +61,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankB.m_value1 / 100.0f;
 
-        enemy.AddState(false, rankB.m_id, rankB.m_continuationTurn, () => { Cancel_RankB(enemy); }, false);
+        enemy.AddState(false, rankB.m_id, rankB.m_continuationTurn, rankB.m_value1, () => { Cancel_RankB(enemy); }, false);
 
         player.BuffMotion(() => 
         {

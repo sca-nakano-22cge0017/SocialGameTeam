@@ -61,7 +61,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
         
         isActive_B = true;
 
-        player.AddState(true, rankB.m_id, rankB.m_continuationTurn, () => { Cancel_RankB(); }, true);
+        player.AddState(true, rankB.m_id, rankB.m_continuationTurn, 0, () => { Cancel_RankB(); }, true);
 
         player.BuffMotion(() => { Debug.Log("u’É‚Ý•ª‚¯v”­“®"); });
     }

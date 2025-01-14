@@ -25,7 +25,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankC.m_value1 / 100.0f;
 
-        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, () => { Cancel_RankC(); }, false);
+        player.AddState(true, rankC.m_id, rankC.m_continuationTurn, rankC.m_value1, () => { Cancel_RankC(); }, false);
 
         player.BuffMotion(() =>
         {
@@ -90,7 +90,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         int result = Random.Range(1, 100);
         if (result <= rankS.m_value1)
         {
-            _enemy.AddState(false, rankS.m_id, rankS.m_continuationTurn, () => { Cancel_RankS(); }, () => { _RankS(_enemy); }, true);
+            _enemy.AddState(false, rankS.m_id, rankS.m_continuationTurn, 0, () => { Cancel_RankS(); }, () => { _RankS(_enemy); }, true);
 
             Debug.Log("uŽô‚¢v•t—^");
         }
@@ -123,7 +123,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         isActive_SS = true;
 
         float mpAmount = (float)rankSS.m_value1 / 100.0f;
-        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, () => { Cancel_RankSS(); }, true);
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, rankSS.m_value1, () => { Cancel_RankSS(); }, true);
 
         player.BuffMotion(() => 
         {
