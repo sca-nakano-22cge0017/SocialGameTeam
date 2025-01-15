@@ -321,7 +321,7 @@ MonoBehaviour:
     - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
       explain: "\u30DC\u30B9\u3092\u5012\u3059\u3068\u65B0\u3057\u3044\u96E3\u6613\u5EA6\u304C\u89E3\u653E\u3055\u308C\u307E\u3059\u3002"
     - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
-      explain: "\u96E3\u6613\u5EA6\u304C\u9AD8\u304F\u306A\u3063\u3066\u3044\u304F\u3068\u5831\u916C\u304C\u3088\u308A\u3088\u304F\u306A\u3063\u3066\u3044\u304D\u307E\u3059\u3002"
+      explain: "\u96E3\u6613\u5EA6\u304C\u9AD8\u304F\u306A\u3063\u3066\u3044\u304F\u3068\u5831\u916C\u304C\u3088\u308A\u826F\u304F\u306A\u3063\u3066\u3044\u304D\u307E\u3059\u3002"
     - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
       explain: "\u96E3\u6613\u5EA6\u306F\u4EFB\u610F\u306E\u30BF\u30A4\u30DF\u30F3\u30B0\u3067\u5909\u66F4\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
   reset:
@@ -1388,7 +1388,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1569840991449907529
 RectTransform:
   m_ObjectHideFlags: 0
