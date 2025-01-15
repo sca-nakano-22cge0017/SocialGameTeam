@@ -49,8 +49,6 @@ public class PlayerData : Character
     [SerializeField] AGI_SpecialTecnique agi_st;
     [SerializeField] DEX_SpecialTecnique dex_st;
 
-    private bool isRemove = false;
-
     /// <summary>
     /// 無敵状態かどうか
     /// </summary>
@@ -125,20 +123,10 @@ public class PlayerData : Character
 
         mainGameSystem.ActionEnd();
     }
-
     IEnumerator EndWait()
     {
         yield return new WaitForSeconds(0.1f);
-
-        if (!isRemove)
-        {
-            MoveEnd();
-        }
-        else
-        {
-            isRemove = false;
-            NormalAttack();
-        }
+        MoveEnd();
     }
 
     public override void TurnEnd()
@@ -167,19 +155,12 @@ public class PlayerData : Character
             if (cri) target.CriticalDamage();
 
             // 通常攻撃時に処理される特殊技能
-            if (agi_st.RankA())
-            {
-                if (target.currentHp > 0) isRemove = true;
-            }
+            atk_st.RankA(target);        // ガードブレイカー
+            mp_st.RankB();               // ドレイン
+            dex_st.RankA(target);        // 小手先のテクニック
+            if (agi_st.RankA()) NormalAttack(); // 再行動
 
-            if (!isRemove)
-            {
-                atk_st.RankA(target);        // ガードブレイカー
-                mp_st.RankB();               // ドレイン
-                dex_st.RankA(target);        // 小手先のテクニック
-
-                UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
-            }
+            UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
         });
     }
 
@@ -394,14 +375,13 @@ public class PlayerData : Character
     {
         SetCommandsButton(false);
 
-        spineAnim.callBack = () =>
+        spineAnim.callBack = () => 
         {
             soundController.PlayAttackSE(GameManager.SelectChara);
 
             _action?.Invoke();
             StartCoroutine(EndWait());
         };
-
         spineAnim.PlayAttackMotion();
     }
 

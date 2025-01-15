@@ -60,6 +60,7 @@ public class ResultGuage : MonoBehaviour
     private float amount = 0;
 
     private bool isSkip = false;
+    private int addAmount = 0;
 
     private void Update()
     {
@@ -230,11 +231,24 @@ public class ResultGuage : MonoBehaviour
     {
         getPointText.gameObject.SetActive(true);
         getPointText.text = "+" + _amount + "p/";
+
+        addAmount = _amount;
     }
 
     public void IncreaseAmount()
     {
         if (isSkip) return;
+
+        if (addAmount <= 0)
+        {
+            increaseStart = false;
+            increaseCompleted = true;
+
+            if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
+            else resultManager.CheckSecondDirectionCompleted();
+
+            return;
+        }
 
         increaseCompleted = false;
         increaseStart = true;
