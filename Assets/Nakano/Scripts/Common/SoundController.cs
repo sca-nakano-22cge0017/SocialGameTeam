@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SoundController : MonoBehaviour
 {
@@ -76,9 +77,9 @@ public class SoundController : MonoBehaviour
 
     private void Update()
     {
-        if (battle.isPlaying)
+        if (SceneManager.GetActiveScene().name == "MainTest")
         {
-            battlePlayTime += Time.deltaTime;
+            battlePlayTime += Time.unscaledDeltaTime;
 
             if (battlePlayTime >= battleLoopEnd + 0.05f)
             {

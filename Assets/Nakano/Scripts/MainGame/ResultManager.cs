@@ -387,12 +387,13 @@ public class ResultManager : MonoBehaviour
         }
     }
 
+    private bool complete1 = false;
     /// <summary>
     /// 通常ステータスのゲージ増加演出が完了したかを確認する
     /// </summary>
     public void CheckFirstDirectionCompleted()
     {
-        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf || complete1) return;
 
         for (int i = 0; i < resultGuages.Length; i++)
         {
@@ -402,14 +403,16 @@ public class ResultManager : MonoBehaviour
         // 演出完了していたら複合ステータスの表示へ
         Invoke("DisplayCombiRankGauge", 0.5f);
         didSkipDirection1 = true;
+        complete1 = true;
     }
 
+    private bool complete2 = false;
     /// <summary>
     /// 複合ステータスのゲージ増加演出が完了したかを確認する
     /// </summary>
     public void CheckSecondDirectionCompleted()
     {
-        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf || complete2) return;
 
         for (int i = 0; i < resultCombiGuages.Length; i++)
         {
@@ -419,6 +422,7 @@ public class ResultManager : MonoBehaviour
         // 衣装解放
         PlayerDataManager.Evolution();
         didSkipDirection2 = true;
+        complete2 = true;
     }
 
     /// <summary>

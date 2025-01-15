@@ -239,6 +239,7 @@ public class ResultGuage : MonoBehaviour
     {
         if (isSkip) return;
 
+        // ‘‰ÁƒiƒV‚Ìê‡
         if (addAmount <= 0)
         {
             increaseStart = false;
@@ -258,6 +259,11 @@ public class ResultGuage : MonoBehaviour
         addCount = c - l;
         count = 0;
         isFinalUp = false;
+
+        if (isCombiGuage)
+        {
+            Debug.Log($"Type: {combiType}, Last: {lastRank}, Current: {currentRank}");
+        }
     }
 
     /// <summary>
@@ -295,5 +301,8 @@ public class ResultGuage : MonoBehaviour
         guage.fillAmount = amount;
 
         rankText.text = currentRank.ToString();
+
+        if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
+        else resultManager.CheckSecondDirectionCompleted();
     }
 }
