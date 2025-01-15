@@ -349,7 +349,7 @@ public class MainGameSystem : MonoBehaviour
         // ターゲットマークを移動
         targetImage.gameObject.transform.SetParent(target.gameObject.transform);
         targetImage.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        targetImage.gameObject.transform.SetAsLastSibling();
+        targetImage.gameObject.transform.SetSiblingIndex(2);
     }
 
     void InitializeSetting()

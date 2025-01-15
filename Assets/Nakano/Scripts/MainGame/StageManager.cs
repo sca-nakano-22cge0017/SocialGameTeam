@@ -29,10 +29,17 @@ public class StageManager : MonoBehaviour
 {
     [SerializeField] private GameObject bossHpGuage;
 
+    // プレイヤー
     [SerializeField] private PlayerData player;
     [SerializeField, Header("プレイヤーのイラスト/アニメーション")] private PlayerIllust[] playersIllust;
+
+    // 敵
     [SerializeField] private Enemy[] enemies;
     [SerializeField, Header("敵のイラスト/アニメーション")] private EnemiesIllust[] enemiesIllust;
+
+    // 背景
+    [SerializeField] private Image backGround;
+    [SerializeField, Header("背景画像")] private Sprite[] backGroundSprites;
 
     StageDataManager stageDataManager;
 
@@ -58,11 +65,6 @@ public class StageManager : MonoBehaviour
     private void Start()
     {
         Load();
-    }
-
-    void Update()
-    {
-        
     }
 
     private void Load()
@@ -101,6 +103,7 @@ public class StageManager : MonoBehaviour
     {
         PlayerDataSet();
         EnemyDataSet();
+        BGSet();
         isSetCompleted = true;
     }
 
@@ -267,5 +270,34 @@ public class StageManager : MonoBehaviour
                 enemies[e].Initialize();
             }
         }
+    }
+
+    /// <summary>
+    /// 背景設定
+    /// </summary>
+    void BGSet()
+    {
+        var sprite = backGroundSprites[0];
+
+        switch (GameManager.SelectStage)
+        {
+            case 1:
+                sprite = backGroundSprites[0];
+                break;
+            case 2:
+                sprite = backGroundSprites[1];
+                break;
+            case 3:
+                sprite = backGroundSprites[2];
+                break;
+            case 4:
+                sprite = backGroundSprites[3];
+                break;
+            default:
+                sprite = backGroundSprites[0];
+                break;
+        }
+
+        backGround.sprite = sprite;
     }
 }

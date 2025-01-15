@@ -8386,6 +8386,12 @@ MonoBehaviour:
   - enemyId: R
     imageId: 1
     prefab: {fileID: 1126885023338667627, guid: 8e0823d1635f6c8488ce2645a4ff2d9d, type: 3}
+  backGround: {fileID: 456902297156820047}
+  backGroundSprites:
+  - {fileID: 21300000, guid: 0b72f37b8f2cdf44c87c40c2f79d486b, type: 3}
+  - {fileID: 21300000, guid: dbabae1df9087e048abd37638e78ed97, type: 3}
+  - {fileID: 21300000, guid: b74885381242260488b8125df84492d2, type: 3}
+  - {fileID: 21300000, guid: 241204d70ddd24f44b131801e9139d70, type: 3}
   isSetCompleted: 0
   areaId: 1
   stageId: 1
@@ -21235,7 +21241,7 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4422844262399970000, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
-      insertIndex: -1
+      insertIndex: 2
       addedObject: {fileID: 244413379363987009}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
