@@ -49,6 +49,8 @@ public class PlayerData : Character
     [SerializeField] AGI_SpecialTecnique agi_st;
     [SerializeField] DEX_SpecialTecnique dex_st;
 
+    private bool isRemove = false;
+
     /// <summary>
     /// 無敵状態かどうか
     /// </summary>
@@ -126,7 +128,16 @@ public class PlayerData : Character
     IEnumerator EndWait()
     {
         yield return new WaitForSeconds(0.1f);
-        MoveEnd();
+        
+        if (!isRemove)
+        {
+            MoveEnd();
+        }
+        else
+        {
+            isRemove = false;
+            NormalAttack();
+        }
     }
 
     public override void TurnEnd()
@@ -154,13 +165,21 @@ public class PlayerData : Character
             target.Damage(damage);
             if (cri) target.CriticalDamage();
 
-            // 通常攻撃時に処理される特殊技能
-            atk_st.RankA(target);        // ガードブレイカー
-            mp_st.RankB();               // ドレイン
-            dex_st.RankA(target);        // 小手先のテクニック
-            if (agi_st.RankA()) NormalAttack(); // 再行動
+            // 再行動
+            if (agi_st.RankA())
+            {
+                if (target.currentHp > 0) isRemove = true;
+            }
 
-            UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
+            if (!isRemove)
+            {
+                // 通常攻撃時に処理される特殊技能
+                atk_st.RankA(target);        // ガードブレイカー
+                mp_st.RankB();               // ドレイン
+                dex_st.RankA(target);        // 小手先のテクニック
+
+                UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
+            }
         });
     }
 
