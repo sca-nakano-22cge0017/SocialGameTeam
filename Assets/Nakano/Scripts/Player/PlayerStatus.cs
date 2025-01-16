@@ -728,6 +728,36 @@ public class PlayerStatus
         combiRankPt_NextUp[_type] = _num;
     }
 
+    /// <summary>
+    /// 指定した複合ステータスの、前回ランクアップしたときの累積Ptを取得
+    /// </summary>
+    /// <param name="_type">ステータスの種類</param>
+    public int GetCombiRankPtLastUp(CombiType _type)
+    {
+        var rank = GetCombiRank(_type);
+        int a = 0;
+        if ((int)rank > 0)
+        {
+            switch (_type)
+            {
+                case CombiType.ATK:
+                    a = StatusData.rankPoint.atkRankPt_NextUp[(Rank)(rank - 1)];
+                    break;
+                case CombiType.DEF:
+                    a = StatusData.rankPoint.defRankPt_NextUp[(Rank)(rank - 1)];
+                    break;
+                case CombiType.TEC:
+                    a = StatusData.rankPoint.tecRankPt_NextUp[(Rank)(rank - 1)];
+                    break;
+                default:
+                    a = StatusData.rankPoint.atkRankPt_NextUp[(Rank)(rank - 1)];
+                    break;
+            }
+        }
+
+        return a;
+    }
+
     // プラスステータス
     /// <summary>
     /// 全てのプラスステータスを取得
