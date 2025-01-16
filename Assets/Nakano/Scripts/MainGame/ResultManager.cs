@@ -46,6 +46,7 @@ public class ResultManager : MonoBehaviour
     private bool didSkipDirection2 = false;
 
     private bool didRankUp = false;
+    private bool didCombiRankDisp = false;
 
     void Start()
     {
@@ -61,6 +62,7 @@ public class ResultManager : MonoBehaviour
         didSkipDirection1 = false;
         didSkipDirection2 = false;
         didRankUp = false;
+        didCombiRankDisp = false;
 
         if (GameManager.SelectArea == 1)
         {
@@ -92,6 +94,7 @@ public class ResultManager : MonoBehaviour
         didSkipDirection1 = false;
         didSkipDirection2 = false;
         didRankUp = false;
+        didCombiRankDisp = false;
 
         for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
         {
@@ -426,7 +429,7 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     public void DisplayCombiRankGauge()
     {
-        if (!tutorial.CompleteTutorial) return;
+        if (!tutorial.CompleteTutorial || didCombiRankDisp) return;
 
         // ポイント加算後のランクを設定
         for (int i = 0; i < resultCombiGuages.Length; i++)
@@ -509,6 +512,8 @@ public class ResultManager : MonoBehaviour
         }
 
         StartCoroutine(AddCombiRankPtDirection());
+
+        didCombiRankDisp = true;
     }
 
     /// <summary>

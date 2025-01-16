@@ -68,28 +68,6 @@ public class ResultGuage : MonoBehaviour
         {
             if (addCount == 0)
             {
-                if (!isCombiGuage)
-                {
-                    current = PlayerDataManager.player.GetRankPt(type);
-                    min = PlayerDataManager.player.GetRankPtLastUp(type);
-                    max = PlayerDataManager.player.GetRankPtNextUp(type);
-                }
-                else
-                {
-                    current = PlayerDataManager.player.GetCombiRankPt(combiType);
-
-                    Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
-
-                    if (currentRank - 1 < Rank.D) min = 0;
-                    else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
-                    else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
-
-                    max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
-                }
-
-                // ‘‰Á—ÊŒvZ
-                amount = (float)(current - min) / (max - min);
-                
                 // ‘‰Á
                 if (guage.fillAmount <= amount)
                 {
@@ -147,28 +125,6 @@ public class ResultGuage : MonoBehaviour
 
                 if (isFinalUp)
                 {
-                    if (!isCombiGuage)
-                    {
-                        current = PlayerDataManager.player.GetRankPt(type);
-                        min = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[lastRank].GetStatus(type);
-                        max = PlayerDataManager.player.StatusData.rankPoint.rankPt_NextUp[currentRank].GetStatus(type);
-                    }
-                    else
-                    {
-                        current = PlayerDataManager.player.GetCombiRankPt(combiType);
-
-                        Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
-
-                        if (currentRank -1 < Rank.D) min = 0;
-                        else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
-                        else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
-
-                        max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
-                    }
-
-                    // ‘‰Á—ÊŒvZ
-                    amount = (float)(current - min) / (max - min);
-
                     // ‘‰Á
                     if (guage.fillAmount <= amount)
                     {
@@ -211,11 +167,10 @@ public class ResultGuage : MonoBehaviour
             currentRank = PlayerDataManager.player.GetCombiRank(combiType);
             current = PlayerDataManager.player.GetCombiRankPt(combiType);
             
-            if (currentRank - 1 < Rank.D) min = 0;
-            else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
-            else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
+            min = PlayerDataManager.player.GetCombiRankPtLastUp(combiType);
+            max = PlayerDataManager.player.GetCombiRankPtNextUp(combiType);
 
-            max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
+            //Debug.Log($"test ‰Šú‰» Type: {combiType} CurrentRank: {currentRank}, LastRank: {lastRank}, Min: {min}, Max: {max}, Current: {current}");
         }
 
         amount = (float)(current - min) / (max - min);
@@ -239,6 +194,7 @@ public class ResultGuage : MonoBehaviour
     {
         if (isSkip) return;
 
+        // ‘‰Á‚È‚µ
         if (addAmount <= 0)
         {
             increaseStart = false;
@@ -258,6 +214,29 @@ public class ResultGuage : MonoBehaviour
         addCount = c - l;
         count = 0;
         isFinalUp = false;
+
+        if (!isCombiGuage)
+        {
+            currentRank = PlayerDataManager.player.GetRank(type);
+            current = PlayerDataManager.player.GetRankPt(type);
+            min = PlayerDataManager.player.GetRankPtLastUp(type);
+            max = PlayerDataManager.player.GetRankPtNextUp(type);
+        }
+        else
+        {
+            Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
+
+            currentRank = PlayerDataManager.player.GetCombiRank(combiType);
+            current = PlayerDataManager.player.GetCombiRankPt(combiType);
+
+            min = PlayerDataManager.player.GetCombiRankPtLastUp(combiType);
+            max = PlayerDataManager.player.GetCombiRankPtNextUp(combiType);
+
+            //Debug.Log($"test ‘‰ÁŠJn Type: {combiType} CurrentRank: {currentRank}, LastRank: {lastRank}, Min: {min}, Max: {max}, Current: {current}");
+        }
+
+        // ‘‰Á—ÊŒvZ
+        amount = (float)(current - min) / (max - min);
     }
 
     /// <summary>
@@ -283,11 +262,8 @@ public class ResultGuage : MonoBehaviour
             currentRank = PlayerDataManager.player.GetCombiRank(combiType);
             current = PlayerDataManager.player.GetCombiRankPt(combiType);
 
-            if (currentRank - 1 < Rank.D) min = 0;
-            else if (currentRank - 1 >= Rank.SS) min = rankPtData.GetCombiRankNextPt(combiType, Rank.S);
-            else min = rankPtData.GetCombiRankNextPt(combiType, currentRank - 1);
-
-            max = rankPtData.GetCombiRankNextPt(combiType, currentRank);
+            min = PlayerDataManager.player.GetCombiRankPtLastUp(combiType);
+            max = PlayerDataManager.player.GetCombiRankPtNextUp(combiType);
         }
 
         // ‘‰Á—ÊŒvZ
