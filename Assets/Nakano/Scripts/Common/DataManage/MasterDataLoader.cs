@@ -801,14 +801,17 @@ namespace Master
             {
                 case CombiType.ATK:
                     if (_rank >= Rank.SS) return atkRankPt_NextUp[Rank.SS];
+                    //Debug.Log($"test2 Type: {_type} Rank: {_rank}  {atkRankPt_NextUp[_rank]}");
                     return atkRankPt_NextUp[_rank];
 
                 case CombiType.DEF:
                     if (_rank >= Rank.SS) return defRankPt_NextUp[Rank.SS];
+                    //Debug.Log($"test2 Type: {_type} Rank: {_rank}  {defRankPt_NextUp[_rank]}");
                     return defRankPt_NextUp[_rank];
 
                 case CombiType.TEC:
                     if (_rank >= Rank.SS) return tecRankPt_NextUp[Rank.SS];
+                    //Debug.Log($"test2 Type: {_type} Rank: {_rank}  {tecRankPt_NextUp[_rank]}");
                     return tecRankPt_NextUp[_rank];
 
                 default:

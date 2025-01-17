@@ -346,12 +346,11 @@ public class PlayerStatus
                     break;
             }
 
-            Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), 0);
             int rankNum = 0;
 
             for (int r = 0; r < System.Enum.GetValues(typeof(Rank)).Length; r++)
             {
-                rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
+                Rank rank = (Rank)System.Enum.ToObject(typeof(Rank), r);
 
                 if (combiRankPt[type] >= StatusData.rankPoint.GetCombiRankNextPt(type, rank))
                 {
@@ -363,7 +362,8 @@ public class PlayerStatus
             combiRank[type] = (Rank)System.Enum.ToObject(typeof(Rank), rankNum);
 
             // ランクに応じてランクポイント最大値更新
-            SetCombiRankPtNextUp(type, StatusData.rankPoint.GetCombiRankNextPt(type, rank));
+            var pt = StatusData.rankPoint.GetCombiRankNextPt(type, combiRank[type]);
+            SetCombiRankPtNextUp(type, pt);
         }
     }
 
