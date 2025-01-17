@@ -16,6 +16,26 @@ public class DropController : MonoBehaviour
         private set { }
     }
 
+    /// <summary>
+    /// 各ステータスのドロップ量を取得する
+    /// </summary>
+    /// <param name="_type"></param>
+    /// <returns></returns>
+    public int GetDropAmount(StatusType _type)
+    {
+        int a = 0;
+
+        for (int i = 0; i < dropedItems.Count; i++)
+        {
+            if (dropedItems[i].itemType == _type)
+            {
+                a = dropedItems[i].dropAmount;
+            }
+        }
+
+        return a;
+    }
+
     [SerializeField] DEX_SpecialTecnique dex_st;
     private float power = 1; // ドロップ量上昇倍率
 

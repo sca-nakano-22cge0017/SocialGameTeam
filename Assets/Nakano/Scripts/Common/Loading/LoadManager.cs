@@ -152,7 +152,7 @@ public class LoadManager : MonoBehaviour
         async.allowSceneActivation = true;
 
         // 最低限待ってからフェードアウト
-        yield return new WaitForSeconds(lowestLoadTime);
+        yield return new WaitForSecondsRealtime(lowestLoadTime);
 
         // フェードアウト
         isFadeOut = true;

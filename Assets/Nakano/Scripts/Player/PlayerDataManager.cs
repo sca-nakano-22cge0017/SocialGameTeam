@@ -203,11 +203,15 @@ public class PlayerDataManager : MonoBehaviour
         {
             player = new(1);
             chara1 = new(1);
+
+            DifficultyManager.isReset1 = true;
         }
         if (_id == 2)
         {
             player = new(2);
             chara2 = new(2);
+
+            DifficultyManager.isReset2 = true;
         }
 
         player.SetPlusStatus(plus);
@@ -223,7 +227,8 @@ public class PlayerDataManager : MonoBehaviour
         SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
         if (stm) stm.ReleaseInitialize();
 
-        GameManager.lastSelectButton = 0;
+        GameManager.lastSelectButton_Traning = 0;
+        GameManager.lastSelectButton_Boss = 0;
 
         evolutionType = CombiType.NORMAL;
     }
@@ -253,6 +258,8 @@ public class PlayerDataManager : MonoBehaviour
 
         SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
         if (stm) stm.ReleaseInitialize();
+
+        DifficultyManager.isCharaChange = true;
     }
 
     /// <summary>
