@@ -195,6 +195,8 @@ public class MainGameSystem : MonoBehaviour
         {
             StartCoroutine(NextTurn());
         }
+
+        buffDisplay.UpdateInformation();
     }
 
     IEnumerator NextTurn()
