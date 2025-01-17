@@ -94,6 +94,7 @@ public class ResultManager : MonoBehaviour
         window_st_Passive.SetActive(false);
 
         checkType = 0;
+        isFirstClear = true;
         didSkillReleaseComplete = false;
         didSkipDirection1 = false;
         didSkipDirection2 = false;
@@ -158,93 +159,6 @@ public class ResultManager : MonoBehaviour
         resultWindowController.Open();
     }
 
-    private void ResultExit()
-    {
-        resultWindowController.Close();
-        dropController.Initialize();
-    }
-
-    /// <summary>
-    /// ポイント加算
-    /// </summary>
-    void AddRankPoint()
-    {
-        // ポイント加算前のランクを保存
-        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
-        {
-            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
-            lastRank[type] = PlayerDataManager.player.GetRank(type);
-        }
-        for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length - 1; i++)
-        {
-            CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), i);
-            lastCombiRank[type] = PlayerDataManager.player.GetCombiRank(type);
-        }
-
-        // ポイント加算前のランクを設定
-        for (int i = 0; i < resultGuages.Length; i++)
-        {
-            resultGuages[i].LastRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
-        }
-        for (int i = 0; i < resultCombiGuages.Length; i++)
-        {
-            resultCombiGuages[i].LastRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
-        }
-
-        for (int i = 0; i < resultGuages.Length; i++)
-        {
-            StatusType type = resultGuages[i].Type;
-            int amount = dropController.GetDropAmount(type);
-
-            if (amount > 0)
-            {
-                if (GameManager.isHyperTraningMode)
-                {
-                    // デバッグモードならドロップ量1000倍
-                    amount *= 1000;
-                }
-
-                var cType = PlayerDataManager.NormalStatusToCombiStatus(type);
-
-                // 最大までポイントがたまっていたら0Pt表記
-                if (PlayerDataManager.player.GetRankPt(type) >= PlayerDataManager.player.GetRankPtMax(type) ||
-                    PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
-                {
-                    dropAmounts[type] = 0;
-                    amount = 0;
-                }
-                else
-                {
-                    dropAmounts[type] = amount;
-                }
-
-                if (!isFirstClear)
-                {
-                    StartCoroutine(AddRankPtDirection());
-                    return;
-                }
-
-                PlayerDataManager.RankPtUp(type, amount);
-                resultGuages[i].SetPointText(amount);
-                resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(type);
-            }
-        }
-
-        // いずれかのステータスがランクアップしたかどうか確認
-        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
-        {
-            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
-            if (lastRank[type] < currentRank[type])
-            {
-                didRankUp = true;
-                continue;
-            }
-        }
-
-        if (!didRankUp) didSkillReleaseComplete = true;
-        StartCoroutine(AddRankPtDirection());
-    }
-
     /// <summary>
     /// リザルト画面の初期化
     /// </summary>
@@ -279,6 +193,7 @@ public class ResultManager : MonoBehaviour
         }
     }
 
+    // 特殊技能解放
     /// <summary>
     /// 特殊技能解放演出
     /// </summary>
@@ -346,6 +261,87 @@ public class ResultManager : MonoBehaviour
         Invoke("ReleaseSpecialTecnique", 0.1f);
     }
 
+    // 通常ステータス
+    /// <summary>
+    /// ポイント加算
+    /// </summary>
+    void AddRankPoint()
+    {
+        // ポイント加算前のランクを保存
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            lastRank[type] = PlayerDataManager.player.GetRank(type);
+        }
+        for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length - 1; i++)
+        {
+            CombiType type = (CombiType)System.Enum.ToObject(typeof(CombiType), i);
+            lastCombiRank[type] = PlayerDataManager.player.GetCombiRank(type);
+        }
+
+        // ポイント加算前のランクを設定
+        for (int i = 0; i < resultGuages.Length; i++)
+        {
+            resultGuages[i].LastRank = PlayerDataManager.player.GetRank(resultGuages[i].Type);
+        }
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            resultCombiGuages[i].LastRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
+        }
+
+        for (int i = 0; i < resultGuages.Length; i++)
+        {
+            StatusType type = resultGuages[i].Type;
+            int amount = dropController.GetDropAmount(type);
+
+            if (amount > 0)
+            {
+                if (GameManager.isHyperTraningMode)
+                {
+                    // デバッグモードならドロップ量1000倍
+                    amount *= 1000;
+                }
+
+                var cType = PlayerDataManager.NormalStatusToCombiStatus(type);
+
+                // 最大までポイントがたまっていたら0Pt表記
+                if (PlayerDataManager.player.GetRankPt(type) >= PlayerDataManager.player.GetRankPtMax(type) ||
+                    PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
+                {
+                    dropAmounts[type] = 0;
+                    amount = 0;
+                }
+                else
+                {
+                    dropAmounts[type] = amount;
+                }
+
+                PlayerDataManager.RankPtUp(type, amount);
+                resultGuages[i].SetPointText(amount);
+                resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(type);
+
+                if (!isFirstClear)
+                {
+                    StartCoroutine(AddRankPtDirection());
+                }
+            }
+        }
+
+        // いずれかのステータスがランクアップしたかどうか確認
+        for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
+        {
+            StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+            if (lastRank[type] < currentRank[type])
+            {
+                didRankUp = true;
+                continue;
+            }
+        }
+
+        if (!didRankUp) didSkillReleaseComplete = true;
+        StartCoroutine(AddRankPtDirection());
+    }
+
     /// <summary>
     /// Pt加算演出
     /// </summary>
@@ -386,28 +382,6 @@ public class ResultManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 複合ステータス　ゲージ増加演出スキップ
-    /// </summary>
-    public void SkipCombiGuageDirection()
-    {
-        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
-
-        if (!didSkipDirection2)
-        {
-            // 複合ステータス 演出スキップ
-            for (int i = 0; i < resultCombiGuages.Length; i++)
-            {
-                resultCombiGuages[i].Skip();
-            }
-
-            didSkipDirection2 = true;
-
-            // 衣装解放
-            PlayerDataManager.Evolution();
-        }
-    }
-
-    /// <summary>
     /// 通常ステータスのゲージ増加演出が完了したかを確認する
     /// </summary>
     public void CheckFirstDirectionCompleted()
@@ -424,25 +398,9 @@ public class ResultManager : MonoBehaviour
         didSkipDirection1 = true;
     }
 
+    // 複合ステータス
     /// <summary>
-    /// 複合ステータスのゲージ増加演出が完了したかを確認する
-    /// </summary>
-    public void CheckSecondDirectionCompleted()
-    {
-        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
-
-        for (int i = 0; i < resultCombiGuages.Length; i++)
-        {
-            if (!resultCombiGuages[i].IncreaseCompleted) return;
-        }
-
-        // 衣装解放
-        PlayerDataManager.Evolution();
-        didSkipDirection2 = true;
-    }
-
-    /// <summary>
-    /// 合算ポイントのゲージ増加演出
+    /// 複合ステータスのゲージ増加演出
     /// </summary>
     public void DisplayCombiRankGauge()
     {
@@ -525,6 +483,46 @@ public class ResultManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 複合ステータス　ゲージ増加演出スキップ
+    /// </summary>
+    public void SkipCombiGuageDirection()
+    {
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+
+        if (!didSkipDirection2)
+        {
+            // 複合ステータス 演出スキップ
+            for (int i = 0; i < resultCombiGuages.Length; i++)
+            {
+                resultCombiGuages[i].Skip();
+            }
+
+            didSkipDirection2 = true;
+
+            // 衣装解放
+            PlayerDataManager.Evolution();
+        }
+    }
+
+    /// <summary>
+    /// 複合ステータスのゲージ増加演出が完了したかを確認する
+    /// </summary>
+    public void CheckSecondDirectionCompleted()
+    {
+        if (!didSkillReleaseComplete || window_st_Skill.activeSelf || window_st_Passive.activeSelf) return;
+
+        for (int i = 0; i < resultCombiGuages.Length; i++)
+        {
+            if (!resultCombiGuages[i].IncreaseCompleted) return;
+        }
+
+        // 衣装解放
+        PlayerDataManager.Evolution();
+        didSkipDirection2 = true;
+    }
+
+
     IEnumerator WaitTutorial(System.Action _action)
     {
         yield return new WaitUntil(() => tutorial.CompleteTutorial);
@@ -561,5 +559,10 @@ public class ResultManager : MonoBehaviour
             ResultExit();
             SceneLoader.LoadFade("MainTest");
         }
+    }
+
+    private void ResultExit()
+    {
+        dropController.Initialize();
     }
 }
