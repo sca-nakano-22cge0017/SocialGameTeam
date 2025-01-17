@@ -321,8 +321,8 @@ public class Character : MonoBehaviour
             {
                 if (state[i].stateId == _stateNumber)
                 {
-                    // 継続ターンを増加
-                    state[i].continuationTurn += _continuationTurn - 1;
+                    state[i].elapsedTurn = 1;
+
                     return;
                 }
             }
@@ -339,7 +339,7 @@ public class Character : MonoBehaviour
     /// <param name="_continuationTurn">効果終了時の処理</param>
     /// <param name="_lastingEffects">ターン中持続する効果 ターン終了時に呼ばれる</param>
     /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
-    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn,float _value, Action _wearsOffAction, Action _lastingEffects, bool _isRestTurnUpdate)
+    public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, float _value, Action _wearsOffAction, Action _lastingEffects, bool _isRestTurnUpdate)
     {
         State s = new();
         s.isBuff = _isBuff;
@@ -360,8 +360,8 @@ public class Character : MonoBehaviour
             {
                 if (state[i].stateId == _stateNumber)
                 {
-                    // 継続ターンを増加
-                    state[i].continuationTurn += _continuationTurn - 1;
+                    state[i].elapsedTurn = 1;
+
                     return;
                 }
                 else continue;
@@ -379,6 +379,7 @@ public class Character : MonoBehaviour
         for (int i = 0; i < state.Count; ++i)
         {
             state[i].elapsedTurn++;
+            //Debug.Log($"test ID:{state[i].stateId} elapsedTurn:{state[i].elapsedTurn} continuationTurn:{state[i].continuationTurn}");
 
             // 解除
             if (state[i].elapsedTurn > state[i].continuationTurn)

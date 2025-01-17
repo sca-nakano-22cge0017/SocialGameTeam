@@ -41,6 +41,10 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Image backGround;
     [SerializeField, Header("背景画像")] private Sprite[] backGroundSprites;
 
+    // 文字色
+    [SerializeField] private Color[] textColors;
+    [SerializeField, Tooltip("文字色を背景に応じて変更したいテキスト")] private Text[] colorChangeTexts;
+
     StageDataManager stageDataManager;
 
     /// <summary>
@@ -104,6 +108,8 @@ public class StageManager : MonoBehaviour
         PlayerDataSet();
         EnemyDataSet();
         BGSet();
+        TextColorSet();
+
         isSetCompleted = true;
     }
 
@@ -299,5 +305,33 @@ public class StageManager : MonoBehaviour
         }
 
         backGround.sprite = sprite;
+    }
+
+    void TextColorSet()
+    {
+        Color c = Color.black;
+        switch (GameManager.SelectStage)
+        {
+            case 1:
+                c = textColors[0];
+                break;
+            case 2:
+                c = textColors[1];
+                break;
+            case 3:
+                c = textColors[2];
+                break;
+            case 4:
+                c = textColors[3];
+                break;
+            default:
+                c = textColors[0];
+                break;
+        }
+
+        for (int i = 0; i < colorChangeTexts.Length; i++)
+        {
+            colorChangeTexts[i].color = c;
+        }
     }
 }

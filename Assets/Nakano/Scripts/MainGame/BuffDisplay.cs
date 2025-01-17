@@ -24,8 +24,12 @@ public class BuffDisplay : MonoBehaviour
 
     SpecialTecniqueManager specialTecniqueManager;
 
-    [SerializeField] Sprite debuff_DEF;
+    [SerializeField] Sprite buff_ATK;
+    [SerializeField] Sprite buff_DEF;
+    [SerializeField] Sprite buff_AGI;
     [SerializeField] Sprite debuff_ATK;
+    [SerializeField] Sprite debuff_DEF;
+    [SerializeField] Sprite debuff_AGI;
 
     [SerializeField] private float longTapTime = 0.5f;
     private bool isTapping = false;
@@ -155,7 +159,7 @@ public class BuffDisplay : MonoBehaviour
                 
                 icon.sprite = info.m_illust;
                 name.text = info.m_name;
-                explain.text = info.m_effects;
+                explain.text = TextEdit(info.m_effects, false);
             }
         }
     }
@@ -240,7 +244,7 @@ public class BuffDisplay : MonoBehaviour
                         explain.text = "攻撃力" + s.value + "%ダウン";
                         break;
                     case 103:
-                        icon.sprite = debuff_ATK;
+                        icon.sprite = buff_ATK;
                         name.text = "攻撃力アップ";
                         explain.text = "攻撃力" + s.value + "%アップ";
                         break;
@@ -256,7 +260,10 @@ public class BuffDisplay : MonoBehaviour
 
                 icon.sprite = info.m_illust;
                 name.text = info.m_name;
-                explain.text = info.m_effects;
+
+                var str = TextEdit(info.m_effects, true);
+                var str1 = TextEdit(str, s.stateId);
+                explain.text = str1;
             }
         }
     }
@@ -313,5 +320,56 @@ public class BuffDisplay : MonoBehaviour
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// 説明文の調整
+    /// </summary>
+    string TextEdit(string _text, bool _isEnemy)
+    {
+        string str = _text;
+
+        // 「nターンの間、」を省略する
+        if (str.Contains("ターンの間、"))
+        {
+            string str1 = str.Remove(0, 1);
+            string str2 = str1.Replace("ターンの間、", "");
+            str = str2;
+        }
+
+        if (_isEnemy)
+        {
+            // 「敵の」を省略する
+            if (str.Contains("敵の"))
+            {
+                string str1 = str.Replace("敵の", "");
+                str = str1;
+            }
+        }
+
+        return str;
+    }
+
+    string TextEdit(string _text, int _id)
+    {
+        string str = _text;
+        var info = GetSkillInformation(_id);
+
+        // ガードクラッシュ
+        if (_id == 26)
+        {
+            int comma = str.IndexOf("、") + 1;
+            string str1 = str.Remove(0, comma);
+            str = str1;
+        }
+
+        // 呪い
+        if (_id == 19)
+        {
+            var value = info.m_value2;
+            str = "毎ターン" + value + "%HPを減少させる";
+        }
+
+        return str;
     }
 }
