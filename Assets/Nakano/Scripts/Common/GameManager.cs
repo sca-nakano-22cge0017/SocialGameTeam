@@ -200,7 +200,8 @@ public class GameManager : MonoBehaviour
     // 前回選択した難易度
     public static int lastSelectDifficulty1 = 0;
     public static int lastSelectDifficulty2 = 0;
-    public static int lastSelectButton = -1;
+    public static int lastSelectButton_Traning = -1;
+    public static int lastSelectButton_Boss = -1;
 
     /// <summary>
     /// オンのときドロップ量が1000倍になる　デバッグ用

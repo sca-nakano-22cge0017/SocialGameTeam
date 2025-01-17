@@ -162,8 +162,6 @@ public class ResultGuage : MonoBehaviour
         }
         else
         {
-            Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
-
             currentRank = PlayerDataManager.player.GetCombiRank(combiType);
             current = PlayerDataManager.player.GetCombiRankPt(combiType);
             
@@ -173,6 +171,7 @@ public class ResultGuage : MonoBehaviour
             //Debug.Log($"test ‰Šú‰» Type: {combiType} CurrentRank: {currentRank}, LastRank: {lastRank}, Min: {min}, Max: {max}, Current: {current}");
         }
 
+        addAmount = 0;
         amount = (float)(current - min) / (max - min);
         guage.fillAmount = amount;
         rankText.text = currentRank.ToString();
@@ -224,8 +223,6 @@ public class ResultGuage : MonoBehaviour
         }
         else
         {
-            Master.CharacterRankPoint rankPtData = PlayerDataManager.player.StatusData.rankPoint;
-
             currentRank = PlayerDataManager.player.GetCombiRank(combiType);
             current = PlayerDataManager.player.GetCombiRankPt(combiType);
 

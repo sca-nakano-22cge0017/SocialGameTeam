@@ -69,7 +69,17 @@ public class StageSelect : MonoBehaviour
 
     private void FirstSelect()
     {
-        int last = GameManager.lastSelectButton;
+        int last = GameManager.lastSelectButton_Traning;
+
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
+        {
+            last = GameManager.lastSelectButton_Traning;
+        }
+        if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
+        {
+            last = GameManager.lastSelectButton_Boss;
+        }
+
         // 前回選択したステージを選択状態にしておく
         if (GameManager.lastScene == "MainTest" && last >= 0 && last < selectButtons.Length)
         {
@@ -134,9 +144,10 @@ public class StageSelect : MonoBehaviour
             if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
             {
                 GameManager.SelectDifficulty = _selectingButton.Difficluty;
+                GameManager.lastSelectButton_Boss = select;
             }
 
-            GameManager.lastSelectButton = select;
+            else GameManager.lastSelectButton_Traning = select;
             
             DropDetailDisplay();
         }

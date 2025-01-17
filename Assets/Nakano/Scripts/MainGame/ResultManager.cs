@@ -29,6 +29,8 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private Text name_st_Passive;
     [SerializeField] private Text explain_st_Passive;
 
+    private Dictionary<StatusType, int> dropAmounts = new();
+
     private Dictionary<StatusType, Rank> lastRank = new();
     private Dictionary<StatusType, Rank> currentRank = new();
     private StatusType checkType = 0; // 確認中のステータス
@@ -47,6 +49,8 @@ public class ResultManager : MonoBehaviour
 
     private bool didRankUp = false;
     private bool didCombiRankDisp = false;
+
+    private bool isFirstClear = true;
 
     void Start()
     {
@@ -101,6 +105,8 @@ public class ResultManager : MonoBehaviour
             StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
             lastRank[type] = Rank.D;
             currentRank[type] = Rank.D;
+
+            dropAmounts[type] = -1;
         }
         for (int i = 0; i < System.Enum.GetValues(typeof(CombiType)).Length - 1; i++)
         {
@@ -119,26 +125,32 @@ public class ResultManager : MonoBehaviour
             }
             else if (GameManager.SelectArea == 2)
             {
-                var clearDifficulty = 0;
-
                 // クリア状況の設定
                 if (GameManager.SelectChara == 1)
                 {
-                    if (GameManager.IsBossClear1[GameManager.SelectDifficulty - 1]) return;
-                    GameManager.IsBossClear1[GameManager.SelectDifficulty - 1] = true;
-                    clearDifficulty = DifficultyManager.IsClearBossDifficulty1;
+                    // 初クリア
+                    if (!GameManager.IsBossClear1[GameManager.SelectDifficulty - 1])
+                    {
+                        GameManager.IsBossClear1[GameManager.SelectDifficulty - 1] = true;
+                        DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
+                        isFirstClear = true;
+                    }
+                    else isFirstClear = false;
                 }
                 if (GameManager.SelectChara == 2)
                 {
-                    if (GameManager.IsBossClear2[GameManager.SelectDifficulty - 1]) return;
-                    GameManager.IsBossClear2[GameManager.SelectDifficulty - 1] = true;
-                    clearDifficulty = DifficultyManager.IsClearBossDifficulty2;
+                    // 初クリア
+                    if (!GameManager.IsBossClear2[GameManager.SelectDifficulty - 1])
+                    {
+                        GameManager.IsBossClear2[GameManager.SelectDifficulty - 1] = true;
+                        DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
+                        isFirstClear = true;
+                    }
+                    else isFirstClear = false;
                 }
 
                 AddRankPoint();
-
-                DifficultyManager.SetBossClearDifficulty(GameManager.SelectDifficulty);
-                GameManager.SelectDifficulty++;
+                
                 PlayerDataManager.Save();
             }
         }));
@@ -179,37 +191,42 @@ public class ResultManager : MonoBehaviour
             resultCombiGuages[i].LastRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
         }
 
-        for (int i = 0; i < dropController.DropedItems.Count; i++)
+        for (int i = 0; i < resultGuages.Length; i++)
         {
-            for (int j = 0; j < resultGuages.Length; j++)
-            {
-                int amount = dropController.DropedItems[i].dropAmount;
+            StatusType type = resultGuages[i].Type;
+            int amount = dropController.GetDropAmount(type);
 
+            if (amount > 0)
+            {
                 if (GameManager.isHyperTraningMode)
                 {
                     // デバッグモードならドロップ量1000倍
                     amount *= 1000;
                 }
 
-                StatusType type = dropController.DropedItems[i].itemType;
+                var cType = PlayerDataManager.NormalStatusToCombiStatus(type);
 
-                if (type == resultGuages[j].Type && amount > 0)
+                // 最大までポイントがたまっていたら0Pt表記
+                if (PlayerDataManager.player.GetRankPt(type) >= PlayerDataManager.player.GetRankPtMax(type) ||
+                    PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
                 {
-                    var cType = PlayerDataManager.NormalStatusToCombiStatus(type);
-
-                    // 最大までポイントがたまっていたら0Pt表記
-                    if (PlayerDataManager.player.GetRankPt(type) >= PlayerDataManager.player.GetRankPtMax(type) || 
-                        PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
-                    {
-                        amount = 0;
-                    }
-
-                    resultGuages[j].SetPointText(amount);
-
-                    PlayerDataManager.RankPtUp(type, amount);
-
-                    resultGuages[j].CurrentRank = PlayerDataManager.player.GetRank(resultGuages[j].Type);
+                    dropAmounts[type] = 0;
+                    amount = 0;
                 }
+                else
+                {
+                    dropAmounts[type] = amount;
+                }
+
+                if (!isFirstClear)
+                {
+                    StartCoroutine(AddRankPtDirection());
+                    return;
+                }
+
+                PlayerDataManager.RankPtUp(type, amount);
+                resultGuages[i].SetPointText(amount);
+                resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(type);
             }
         }
 
@@ -437,83 +454,61 @@ public class ResultManager : MonoBehaviour
             resultCombiGuages[i].CurrentRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
         }
 
-        window1.SetActive(false);
-        window2.SetActive(true);
-
-        int amount = 0;
-
-        for (int i = 0; i < resultCombiGuages.Length; i++)
+        if (isFirstClear)
         {
-            var cType = resultCombiGuages[i].CombiType;
+            int amountATK = 0, amountDEF = 0, amountTEC = 0;
 
-            for (int j = 0; j < dropController.DropedItems.Count; j++)
+            for (int i = 0; i < System.Enum.GetValues(typeof(StatusType)).Length; i++)
             {
-                var itemType = dropController.DropedItems[j].itemType;
+                StatusType type = (StatusType)System.Enum.ToObject(typeof(StatusType), i);
+                var cType = PlayerDataManager.NormalStatusToCombiStatus(type);
+
+                int a = dropAmounts[type];
 
                 if (cType == CombiType.DEF)
                 {
-                    if (itemType == StatusType.HP || itemType == StatusType.DEF)
-                    {
-                        int a = dropController.DropedItems[j].dropAmount;
-                        // 最大までポイントがたまっていたら0Pt表記
-                        if (PlayerDataManager.player.GetRankPt(itemType) >= PlayerDataManager.player.GetRankPtMax(itemType) ||
-                            PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
-                        {
-                            a = 0;
-                        }
-
-                        amount += a;
-                    }
+                    if (a >= 0) amountDEF += a;
                 }
                 if (cType == CombiType.ATK)
                 {
-                    if (itemType == StatusType.ATK || itemType == StatusType.MP)
-                    {
-                        int a = dropController.DropedItems[j].dropAmount;
-                        // 最大までポイントがたまっていたら0Pt表記
-                        if (PlayerDataManager.player.GetRankPt(itemType) >= PlayerDataManager.player.GetRankPtMax(itemType) ||
-                            PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
-                        {
-                            a = 0;
-                        }
-
-                        amount += a;
-                    }
+                    if (a >= 0) amountATK += a;
                 }
                 if (cType == CombiType.TEC)
                 {
-                    if (itemType == StatusType.AGI || itemType == StatusType.DEX)
-                    {
-                        int a = dropController.DropedItems[j].dropAmount;
-                        // 最大までポイントがたまっていたら0Pt表記
-                        if (PlayerDataManager.player.GetRankPt(itemType) >= PlayerDataManager.player.GetRankPtMax(itemType) ||
-                            PlayerDataManager.player.GetCombiRankPt(cType) >= PlayerDataManager.player.GetCombiRankPtMax(cType))
-                        {
-                            a = 0;
-                        }
-
-                        amount += a;
-                    }
+                    if (a >= 0) amountTEC += a;
                 }
             }
 
-            if (GameManager.isHyperTraningMode)
+            for (int i = 0; i < resultCombiGuages.Length; i++)
             {
-                // デバッグモードならドロップ量1000倍
-                amount *= 1000;
+                int a1 = 0, a2 = 0;
+                var type = resultCombiGuages[i].CombiType;
+                switch (type)
+                {
+                    case CombiType.ATK:
+                        a1 = dropAmounts[StatusType.MP];
+                        a2 = dropAmounts[StatusType.ATK];
+                        if (a1 >= 0 || a2 >= 0) resultCombiGuages[i].SetPointText(amountATK);
+                        break;
+                    case CombiType.DEF:
+                        a1 = dropAmounts[StatusType.HP];
+                        a2 = dropAmounts[StatusType.DEF];
+                        if (a1 >= 0 || a2 >= 0) resultCombiGuages[i].SetPointText(amountDEF);
+                        break;
+                    case CombiType.TEC:
+                        a1 = dropAmounts[StatusType.AGI];
+                        a2 = dropAmounts[StatusType.DEX];
+                        if (a1 >= 0 || a2 >= 0) resultCombiGuages[i].SetPointText(amountTEC);
+                        break;
+                }
             }
-
-            if (amount > 0)
-            {
-                resultCombiGuages[i].SetPointText(amount);
-            }
-            
-            amount = 0;
         }
 
         StartCoroutine(AddCombiRankPtDirection());
-
         didCombiRankDisp = true;
+
+        window1.SetActive(false);
+        window2.SetActive(true);
     }
 
     /// <summary>
