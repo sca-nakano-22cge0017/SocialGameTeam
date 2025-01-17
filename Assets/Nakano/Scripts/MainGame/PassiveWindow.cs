@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PassiveWindow : MonoBehaviour
 {
     [SerializeField] private GameObject window;
+    [SerializeField] private WindowController wc;
     [SerializeField] private Text rank;
     private StatusType type;
 
@@ -30,17 +31,12 @@ public class PassiveWindow : MonoBehaviour
     /// <param name="_statusName">対象ステータス ATK / MP / HP / DEF / AGI / DEX </param>
     public void Open(string _statusName)
     {
-        window.SetActive(true);
+        wc.Open();
 
         type = PlayerDataManager.StringToStutasType(_statusName);
 
         rank.text = "Rank " + PlayerDataManager.player.GetRank(type).ToString();
         SkillRelease();
-    }
-
-    public void Close()
-    {
-        window.SetActive(false);
     }
 
     void SkillRelease()
