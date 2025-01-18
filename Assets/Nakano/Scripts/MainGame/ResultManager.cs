@@ -15,6 +15,7 @@ public class ResultManager : MonoBehaviour
 
     [SerializeField] private GameObject window2;
     [SerializeField] ResultGuage[] resultCombiGuages;
+    [SerializeField] GameObject skipButton_Combi;
 
     private SpecialTecniqueManager specialTecniqueManager;
 
@@ -502,6 +503,7 @@ public class ResultManager : MonoBehaviour
 
             // ˆß‘•‰ð•ú
             PlayerDataManager.Evolution();
+            skipButton_Combi.SetActive(false);
         }
     }
 
@@ -520,6 +522,7 @@ public class ResultManager : MonoBehaviour
         // ˆß‘•‰ð•ú
         PlayerDataManager.Evolution();
         didSkipDirection2 = true;
+        skipButton_Combi.SetActive(false);
     }
 
 

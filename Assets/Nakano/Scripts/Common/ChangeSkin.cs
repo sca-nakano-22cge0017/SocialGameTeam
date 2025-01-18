@@ -75,6 +75,9 @@ public class ChangeSkin : MonoBehaviour
                 }
                 else DispGuage();
                 break;
+            case CombiType.NORMAL:
+                confirmWindow.Open();
+                break;
         }
     }
 
@@ -85,11 +88,13 @@ public class ChangeSkin : MonoBehaviour
     {
         if (PlayerDataManager.player.GetSelectEvolutionType() == selectType)
         {
+            // 選択中です
             selectingWindow.Open();
         }
 
         else
         {
+            // スキン変更
             PlayerDataManager.player.SetSelectEvolutionType(selectType);
         }
     }
@@ -102,7 +107,7 @@ public class ChangeSkin : MonoBehaviour
         float max = PlayerDataManager.player.GetCombiRankPtMax(selectType);
         int rest = 0;
 
-        if (PlayerDataManager.player.GetEvolutionType() != CombiType.NORMAL)
+        if (PlayerDataManager.player.GetEvolutionType() != CombiType.NORMAL && selectType != CombiType.NORMAL)
         {
             cantReleaseWindow.Open();
             return;
