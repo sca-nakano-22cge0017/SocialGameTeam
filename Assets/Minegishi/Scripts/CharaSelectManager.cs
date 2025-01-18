@@ -14,7 +14,14 @@ public class CharaSelectManager : MonoBehaviour
     [SerializeField] GameObject[] charaImage = new GameObject[2];
 
     [SerializeField] Text[] status = new Text[7];
+    [SerializeField] Text charaName;
     [SerializeField] Text[] rank = new Text[6];
+    [SerializeField] private RankIcon rankIconHP;
+    [SerializeField] private RankIcon rankIconDEF;
+    [SerializeField] private RankIcon rankIconATK;
+    [SerializeField] private RankIcon rankIconMP;
+    [SerializeField] private RankIcon rankIconAGI;
+    [SerializeField] private RankIcon rankIconDEX;
     [SerializeField] Text[] plus = new Text[6];
 
     [SerializeField] GameObject plusStatusWindow;
@@ -68,6 +75,7 @@ public class CharaSelectManager : MonoBehaviour
     {
         //SwordsManTrue();
         GameManager.SelectChara = 1;
+        charaName.text = "ロゼッタ";
         status[0].text = PlayerDataManager.player.TotalPower.ToString(); 
 
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
@@ -77,12 +85,18 @@ public class CharaSelectManager : MonoBehaviour
         status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
         status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
 
-        rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
-        rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
-        rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
-        rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
-        rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
-        rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+        rankIconHP.RankIconChange(PlayerDataManager.player.GetRank(StatusType.HP).ToString());
+        rankIconDEF.RankIconChange(PlayerDataManager.player.GetRank(StatusType.DEF).ToString());
+        rankIconATK.RankIconChange(PlayerDataManager.player.GetRank(StatusType.ATK).ToString());
+        rankIconMP.RankIconChange(PlayerDataManager.player.GetRank(StatusType.MP).ToString());
+        rankIconAGI.RankIconChange(PlayerDataManager.player.GetRank(StatusType.AGI).ToString());
+        rankIconDEX.RankIconChange(PlayerDataManager.player.GetRank(StatusType.DEX).ToString());
+        //rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
+        //rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
+        //rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
+        //rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
+        //rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
+        //rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
 
 
         if(PlayerDataManager.player.GetPlusStatus(StatusType.HP) < 0)
@@ -119,6 +133,7 @@ public class CharaSelectManager : MonoBehaviour
     {
         //WizardTrue();
         GameManager.SelectChara = 2;
+        charaName.text = "セレスティア";
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
 
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
@@ -128,12 +143,18 @@ public class CharaSelectManager : MonoBehaviour
         status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
         status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
 
-        rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
-        rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
-        rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
-        rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
-        rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
-        rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+        rankIconHP.RankIconChange(PlayerDataManager.player.GetRank(StatusType.HP).ToString());
+        rankIconDEF.RankIconChange(PlayerDataManager.player.GetRank(StatusType.DEF).ToString());
+        rankIconATK.RankIconChange(PlayerDataManager.player.GetRank(StatusType.ATK).ToString());
+        rankIconMP.RankIconChange(PlayerDataManager.player.GetRank(StatusType.MP).ToString());
+        rankIconAGI.RankIconChange(PlayerDataManager.player.GetRank(StatusType.AGI).ToString());
+        rankIconDEX.RankIconChange(PlayerDataManager.player.GetRank(StatusType.DEX).ToString());
+        //rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
+        //rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
+        //rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
+        //rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
+        //rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
+        //rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
 
         if (PlayerDataManager.player.GetPlusStatus(StatusType.HP) < 0)
         {
