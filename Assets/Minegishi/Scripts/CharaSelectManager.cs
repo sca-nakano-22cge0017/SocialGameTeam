@@ -24,7 +24,6 @@ public class CharaSelectManager : MonoBehaviour
     [SerializeField] GameObject skillButton;
     [SerializeField] GameObject skinButton;
     [SerializeField] Button[] skillButtons;
-    private bool trueWindow = false;
     SpecialTecniqueManager stm;
 
     void Start()
@@ -33,6 +32,14 @@ public class CharaSelectManager : MonoBehaviour
         Debug.Log(player.chara2);
         stm = FindObjectOfType<SpecialTecniqueManager>();
         SkillRelease();
+        if(GameManager.SelectChara == 1)
+        {
+            CharaButton1();
+        }
+        else if(GameManager.SelectChara == 2)
+        {
+            CharaButton2();
+        }
     }
 
     void Update()
@@ -59,7 +66,7 @@ public class CharaSelectManager : MonoBehaviour
 
     public void CharaButton1()
     {
-        SwordsManTrue();
+        //SwordsManTrue();
         GameManager.SelectChara = 1;
         status[0].text = PlayerDataManager.player.TotalPower.ToString(); 
 
@@ -110,7 +117,7 @@ public class CharaSelectManager : MonoBehaviour
 
     public void CharaButton2()
     {
-        WizardTrue();
+        //WizardTrue();
         GameManager.SelectChara = 2;
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
 
@@ -136,6 +143,55 @@ public class CharaSelectManager : MonoBehaviour
         {
             plus[1].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         }
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) < 0)
+        {
+            plus[2].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
+        }
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) < 0)
+        {
+            plus[3].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
+        }
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) < 0)
+        {
+            plus[4].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
+        }
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) < 0)
+        {
+            plus[5].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
+        }
+
+        SkillRelease();
+    }
+
+    public void CharaStatus()
+    {
+        status[0].text = PlayerDataManager.player.TotalPower.ToString();
+
+        status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
+        status[2].text = PlayerDataManager.player.GetStatus(StatusType.DEF).ToString();
+        status[3].text = PlayerDataManager.player.GetStatus(StatusType.ATK).ToString();
+        status[4].text = PlayerDataManager.player.GetStatus(StatusType.MP).ToString();
+        status[5].text = PlayerDataManager.player.GetStatus(StatusType.AGI).ToString();
+        status[6].text = PlayerDataManager.player.GetStatus(StatusType.DEX).ToString();
+
+        rank[0].text = PlayerDataManager.player.GetRank(StatusType.HP).ToString();
+        rank[1].text = PlayerDataManager.player.GetRank(StatusType.DEF).ToString();
+        rank[2].text = PlayerDataManager.player.GetRank(StatusType.ATK).ToString();
+        rank[3].text = PlayerDataManager.player.GetRank(StatusType.MP).ToString();
+        rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
+        rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
+
+
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.HP) < 0)
+        {
+            plus[0].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
+        }
+
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) < 0)
+        {
+            plus[1].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
+        }
+
         if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) < 0)
         {
             plus[2].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
