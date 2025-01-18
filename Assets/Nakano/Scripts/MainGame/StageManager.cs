@@ -60,6 +60,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] WindowController windowController;
     [SerializeField, Header("レア敵出現率(%)")] private float rareEnemyApp = 100;
 
+    private bool hasRareEnemy = false;
+
     private void Awake()
     {
         isSetCompleted = false;
@@ -108,7 +110,6 @@ public class StageManager : MonoBehaviour
         PlayerDataSet();
         EnemyDataSet();
         BGSet();
-        TextColorSet();
 
         isSetCompleted = true;
     }
@@ -196,6 +197,7 @@ public class StageManager : MonoBehaviour
                 if (rnd <= rareEnemyApp && rareData.Count > 0)
                 {
                     enemy = rareData[0];
+                    hasRareEnemy = true;
                 }
                 else
                 {
@@ -266,7 +268,11 @@ public class StageManager : MonoBehaviour
                             sd.y = 1500;
                             rect.sizeDelta = sd;
 
-                            enemies[e].transform.localPosition = new Vector3(-602, -90, 0);
+                            if (enemy.enemyStatus.imageId == 1)
+                            {
+                                enemies[e].transform.localPosition = new Vector3(-602, -90, 0);
+                            }
+                            else enemies[e].transform.localPosition = new Vector3(-602, -300, 0);
                         }
                         else bossHpGuage.SetActive(false);
                     }
@@ -284,50 +290,63 @@ public class StageManager : MonoBehaviour
     void BGSet()
     {
         var sprite = backGroundSprites[0];
+        Color c = Color.black;
 
-        switch (GameManager.SelectStage)
+        // 難易度2以下
+        if (GameManager.SelectArea == 1)
         {
-            case 1:
+            if (GameManager.SelectDifficulty <= 2)
+            {
                 sprite = backGroundSprites[0];
-                break;
-            case 2:
-                sprite = backGroundSprites[1];
-                break;
-            case 3:
-                sprite = backGroundSprites[2];
-                break;
-            case 4:
+                c = textColors[0];
+            }
+
+            else
+            {
+                // DEFステージ
+                if (GameManager.SelectStage == 1 || GameManager.SelectStage == 2)
+                {
+                    sprite = backGroundSprites[5];
+                    c = textColors[0];
+                }
+                // ATKステージ
+                if (GameManager.SelectStage == 3 || GameManager.SelectStage == 4)
+                {
+                    sprite = backGroundSprites[2];
+                    c = textColors[0];
+                }
+                // TECステージ
+                if (GameManager.SelectStage == 5 || GameManager.SelectStage == 6)
+                {
+                    sprite = backGroundSprites[6];
+                    c = textColors[1];
+                }
+            }
+
+            // スライム戦
+            if (hasRareEnemy)
+            {
                 sprite = backGroundSprites[3];
-                break;
-            default:
-                sprite = backGroundSprites[0];
-                break;
+                c = textColors[0];
+            }
+        }
+        else
+        {
+            // 鯨戦
+            if (GameManager.SelectDifficulty % 2 == 1)
+            {
+                sprite = backGroundSprites[1];
+                c = textColors[1];
+            }
+            // 鳥戦
+            else
+            {
+                sprite = backGroundSprites[4];
+                c = textColors[0];
+            }
         }
 
         backGround.sprite = sprite;
-    }
-
-    void TextColorSet()
-    {
-        Color c = Color.black;
-        switch (GameManager.SelectStage)
-        {
-            case 1:
-                c = textColors[0];
-                break;
-            case 2:
-                c = textColors[1];
-                break;
-            case 3:
-                c = textColors[2];
-                break;
-            case 4:
-                c = textColors[3];
-                break;
-            default:
-                c = textColors[0];
-                break;
-        }
 
         for (int i = 0; i < colorChangeTexts.Length; i++)
         {
