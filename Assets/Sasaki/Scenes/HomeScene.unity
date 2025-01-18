@@ -945,7 +945,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u80B2\u6210\u72B6\u6CC1\u304C\u30EA\u30BB\u30C3\u30C8\u3057\u307E\u3057\u305F\u3002\n"
+  m_Text: '00000
+
+'
 --- !u!222 &181711657
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5743,7 +5745,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 5
           m_FloatArgument: 0
-          m_StringArgument: BackWindow
+          m_StringArgument: HomeWindow
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 8463857640646360780}
@@ -5852,7 +5854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6191,7 +6193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:

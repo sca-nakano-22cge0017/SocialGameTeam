@@ -20,7 +20,7 @@ public class CharaStatus : MonoBehaviour
     string strReset;
 
     bool resetCheck = false;
-
+    bool strplus = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,27 +34,35 @@ public class CharaStatus : MonoBehaviour
     {
         if (resetCheck) //育成完了したら
         {
+            strReset = "育成状況がリセットしました。\n";
+            if (strplus)
+            {
+                strReset = strReset +
+                            "プラス値が付与されました。\n" +
+                            "対象ステータスの上限値が上昇します。";
+            }
             fadeBool();
         }
         else //育成完了表示を非表示
         {
             resetFadeText.SetActive(false);
+            strplus = false;
         }
-
-        strReset = "育成状況がリセットしました。\n";
 
         if (resetWindow.activeSelf) //効果が付与されたら
         {
             effectDescription();
-            strReset = strReset + 
-                        "プラス値が付与されました。\n" +
-                        "対象ステータスの上限値が上昇します。";
         }
+
         //育成完了表示上でタップしたら
         if (Input.GetMouseButtonDown(0) && resetFadeText.activeSelf) 
         {
             resetCheck = false;
             ResetWindowScene("ResetHome");
+            if (fade.IsFadeCompleted)
+            {
+                fade.IsFadeCompleted = false;
+            }
         }
     }
     //リセットのボタン設定
@@ -70,7 +78,7 @@ public class CharaStatus : MonoBehaviour
                 fade.EyeClose();
                 break;
             case "ResetHome": //ホーム画面に戻る
-                fade.EyeOpen();
+                StartCoroutine(fadeClose());
                 break;
             default:
                 SceneLoader.LoadFade("TitleScene");
@@ -82,6 +90,7 @@ public class CharaStatus : MonoBehaviour
     {
         if (fade.IsFadeCompleted)
         {
+            fade.IsFadeCompleted = false;
             resetWindow.SetActive(false);
             resetFadeText.SetActive(true);
             fadeText.text = strReset.ToString();
@@ -90,7 +99,14 @@ public class CharaStatus : MonoBehaviour
     //効果のテキスト表示
     private void effectDescription()
     {
+        strplus = true;
         strEffect = PlayerDataManager.GetResetEffects();
         effectText.text = strEffect.ToString();
+    }
+    private IEnumerator fadeClose()
+    {
+        fade.EyeOpen();
+        yield return new WaitUntil(()=>fade.IsFadeCompleted);
+        fade.IsFadeCompleted=false;
     }
 }

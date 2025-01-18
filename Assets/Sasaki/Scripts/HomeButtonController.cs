@@ -90,6 +90,7 @@ public class HomeButtonController : MonoBehaviour
     //追加効果があるか判定
     private void effectInCheck()
     {
+        checkWindow.SetActive(false);
         //ある->リセットウィンドウ表示
         if (effectCheck)
         {
@@ -97,7 +98,6 @@ public class HomeButtonController : MonoBehaviour
         }
         else //ない->警告ウィンドウ表示
         {
-            checkWindow.SetActive(false);
             warningWindow.SetActive(true);
         }
     }
