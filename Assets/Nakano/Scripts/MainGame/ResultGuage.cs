@@ -24,8 +24,8 @@ public class ResultGuage : MonoBehaviour
     [SerializeField] private bool isCombiGuage = false;
 
     [SerializeField] private Text getPointText;
-    [SerializeField] private Text rankText;
     [SerializeField] private Image guage;
+    [SerializeField] private RankIcon rankIcon;
 
     private Rank lastRank = (Rank)System.Enum.ToObject(typeof(Rank), 0);
     public Rank LastRank
@@ -83,7 +83,7 @@ public class ResultGuage : MonoBehaviour
                         Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
                         if (r > Rank.SS) r = Rank.SS;
 
-                        rankText.text = r.ToString();
+                        rankIcon.RankIconChange(r);
 
                         guage.fillAmount = 0;
                     }
@@ -114,7 +114,7 @@ public class ResultGuage : MonoBehaviour
                         Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
                         if (r > Rank.SS) r = Rank.SS;
 
-                        rankText.text = r.ToString();
+                        rankIcon.RankIconChange(r);
 
                         guage.fillAmount = 0;
 
@@ -174,7 +174,7 @@ public class ResultGuage : MonoBehaviour
         addAmount = 0;
         amount = (float)(current - min) / (max - min);
         guage.fillAmount = amount;
-        rankText.text = currentRank.ToString();
+        rankIcon.RankIconChange(currentRank);
     }
 
     /// <summary>
@@ -267,6 +267,6 @@ public class ResultGuage : MonoBehaviour
         amount = (float)(current - min) / (float)(max - min);
         guage.fillAmount = amount;
 
-        rankText.text = currentRank.ToString();
+        rankIcon.RankIconChange(currentRank);
     }
 }
