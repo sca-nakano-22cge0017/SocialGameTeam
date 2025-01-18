@@ -20,6 +20,7 @@ public class CharaStatus : MonoBehaviour
     string strReset;
 
     bool resetCheck = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,8 +70,7 @@ public class CharaStatus : MonoBehaviour
                 fade.EyeClose();
                 break;
             case "ResetHome": //ÉzÅ[ÉÄâÊñ Ç…ñﬂÇÈ
-                SceneLoader.Load("HomeScene");
-                //fade.EyeOpen();
+                fade.EyeOpen();
                 break;
             default:
                 SceneLoader.LoadFade("TitleScene");
