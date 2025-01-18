@@ -7,7 +7,7 @@ public class PassiveWindow : MonoBehaviour
 {
     [SerializeField] private GameObject window;
     [SerializeField] private WindowController wc;
-    [SerializeField] private Text rank;
+    [SerializeField] private RankIcon rankIcon;
     private StatusType type;
 
     SpecialTecniqueManager stm;
@@ -35,7 +35,8 @@ public class PassiveWindow : MonoBehaviour
 
         type = PlayerDataManager.StringToStutasType(_statusName);
 
-        rank.text = "Rank " + PlayerDataManager.player.GetRank(type).ToString();
+        Rank rank = PlayerDataManager.player.GetRank(type);
+        rankIcon.RankIconChange(rank);
         SkillRelease();
     }
 
