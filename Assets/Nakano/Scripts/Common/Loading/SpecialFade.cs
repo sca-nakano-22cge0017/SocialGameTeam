@@ -18,7 +18,7 @@ public class SpecialFade : MonoBehaviour
     /// <summary>
     /// フェード完了したか
     /// </summary>
-    public bool IsFadeCompleted { get => isFadeCompleted; }
+    public bool IsFadeCompleted { get => isFadeCompleted; set => isFadeCompleted = value; }
 
     void Start()
     {
