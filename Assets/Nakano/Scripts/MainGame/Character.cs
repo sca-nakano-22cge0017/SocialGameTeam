@@ -108,11 +108,11 @@ public class Character : MonoBehaviour
     public List<State> state = new();
 
     // 会心率
-    public float criticalProbabilityInitial;  // 初期値
-    public float _criticalProbability;        // 計算用
+    public float criticalProbabilityInitial;  // 初期値 %
+    public float _criticalProbability;        // 計算用 %
 
-    public float power_CriticalInit;    // 基本会心時倍率
-    public float buffCriticalPower;     // 会心時倍率バフ
+    public float power_CriticalInit;    // 基本会心時倍率 倍
+    public float buffCriticalPower;     // 会心時倍率バフ 割
     public float critical;    // 会心時倍率　計算用
 
     // モーション関係
