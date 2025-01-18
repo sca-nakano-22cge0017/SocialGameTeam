@@ -62,6 +62,12 @@ public class StageManager : MonoBehaviour
 
     private bool hasRareEnemy = false;
 
+    // 会心設定
+    [SerializeField, Header("会心率　初期値(％)")] private float critRate_Init;
+    [SerializeField, Header("会心率　最大値(％)")] private float critRate_Max;
+    [SerializeField, Header("会心時倍率　初期値(倍)")] private float critBuff_Init;
+    [SerializeField, Header("会心時倍率　最大値(倍)")] private float critBuff_Max;
+
     private void Awake()
     {
         isSetCompleted = false;
@@ -141,16 +147,16 @@ public class StageManager : MonoBehaviour
         {
             player.power_NormalAttack = 1.2f;
             player.power_Skill = 1.0f;
-            player.power_CriticalInit = 1.5f;
-            player.criticalProbabilityInitial = 10;
+            player.power_CriticalInit = CalcCritBuff(); 
+            player.criticalProbabilityInitial = CalcCritRate();
             player.power_SpecialMove = 10;
         }
         if (GameManager.SelectChara == 2)
         {
             player.power_NormalAttack = 0.9f;
             player.power_Skill = 1.3f;
-            player.power_CriticalInit = 1.5f;
-            player.criticalProbabilityInitial = 10;
+            player.power_CriticalInit = CalcCritBuff();
+            player.criticalProbabilityInitial = CalcCritRate(); 
             player.power_SpecialMove = 10;
         }
 
@@ -352,5 +358,39 @@ public class StageManager : MonoBehaviour
         {
             colorChangeTexts[i].color = c;
         }
+    }
+
+    float CalcCritRate()
+    {
+        float r = 0;
+
+        float min = PlayerDataManager.player.StatusData.statusInit[Rank.D].GetStatus(StatusType.DEX);
+        float max = PlayerDataManager.player.StatusData.statusMax[Rank.SS].GetStatus(StatusType.DEX);
+
+        float a = (critRate_Max - critRate_Init) / (max - min);
+        float b = critRate_Init - a * min;
+
+        r = a * player.DEX + b;
+
+        Debug.Log($"test 会心率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
+
+        return r;
+    }
+
+    float CalcCritBuff()
+    {
+        float r = 0;
+
+        float min = PlayerDataManager.player.StatusData.statusInit[Rank.D].GetStatus(StatusType.DEX);
+        float max = PlayerDataManager.player.StatusData.statusMax[Rank.SS].GetStatus(StatusType.DEX);
+
+        float a = (critBuff_Max - critBuff_Init) / (max - min);
+        float b = critBuff_Init - a * min;
+
+        r = a * player.DEX + b;
+
+        Debug.Log($"test クリティカル倍率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
+
+        return r;
     }
 }

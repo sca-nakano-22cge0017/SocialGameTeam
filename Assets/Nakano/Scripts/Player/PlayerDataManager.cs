@@ -397,7 +397,6 @@ public class PlayerDataManager : MonoBehaviour
         CharacterRankPoint rankPtData = player.StatusData.rankPoint;
         Rank rank = player.GetCombiRank(_type);
 
-        Debug.Log("test •¡‡ƒ‰ƒ“ƒNã¸");
         player.SetCombiRankPtNextUp(_type, rankPtData.GetCombiRankNextPt(_type, rank));
 
         // i‰»
