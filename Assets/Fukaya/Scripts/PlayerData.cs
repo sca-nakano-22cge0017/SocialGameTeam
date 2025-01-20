@@ -17,30 +17,30 @@ public class PlayerData : Character
     [SerializeField] private Image specialMoveForground;
 
     // 攻撃倍率
-    public float power_NormalAttack;  // 通常攻撃
-    public float power_Skill;         // スキル
-    public float power_SpecialMove;   // 必殺技
+    [HideInInspector] public float power_NormalAttack;  // 通常攻撃
+    [HideInInspector] public float power_Skill;         // スキル
+    [HideInInspector] public float power_SpecialMove;   // 必殺技
 
     // ガード
     private bool isGuard;
-    public float power_Guard = 0.2f; // ガード時防御倍率
+    [HideInInspector] public float power_Guard = 0.2f; // ガード時防御倍率
 
     // 必殺技ゲージ
-    public int specialMoveGuageAmount;
-    public int specialMoveGuageMax; // 最大量
+    [HideInInspector] public int specialMoveGuageAmount;
+    [HideInInspector] public int specialMoveGuageMax; // 最大量
 
     // 必殺ゲージ設定
     // 1：通常攻撃 2：防御状態で被ダメ 3：非防御状態で被ダメ 4：経過ターン 5：アップ用スキル
-    public SpecialMoveGuageSetting sm_NormalAttack;
-    public SpecialMoveGuageSetting sm_Guard;
-    public SpecialMoveGuageSetting sm_Damage;
-    public SpecialMoveGuageSetting sm_Turn;
-    public SpecialMoveGuageSetting sm_Skill;
+    [HideInInspector] public SpecialMoveGuageSetting sm_NormalAttack;
+    [HideInInspector] public SpecialMoveGuageSetting sm_Guard;
+    [HideInInspector] public SpecialMoveGuageSetting sm_Damage;
+    [HideInInspector] public SpecialMoveGuageSetting sm_Turn;
+    [HideInInspector] public SpecialMoveGuageSetting sm_Skill;
 
     /// <summary>
     /// MP消費量倍率
     /// </summary>
-    public float power_CostMp = 1;
+    [HideInInspector] public float power_CostMp = 1;
 
     [SerializeField] HP_SpecialTecnique hp_st;
     [SerializeField] DEF_SpecialTecnique def_st;
@@ -49,6 +49,11 @@ public class PlayerData : Character
     [SerializeField] AGI_SpecialTecnique agi_st;
     [SerializeField] DEX_SpecialTecnique dex_st;
 
+    // エフェクト
+    [SerializeField] Animator sisterAttack;
+    [SerializeField] Animator swordAttack;
+    
+    // 再行動するか
     private bool isRemove = false;
 
     /// <summary>
@@ -180,6 +185,8 @@ public class PlayerData : Character
 
                 UpSpecialMoveGuage(sm_NormalAttack.guageUpAmount);
             }
+
+            PlayNormalAttackEffect();
         });
     }
 
@@ -417,6 +424,37 @@ public class PlayerData : Character
         SetCommandsButton(false);
 
         motion.SetTrigger("win");
+    }
+
+    /// <summary>
+    /// 通常攻撃のエフェクト表示
+    /// </summary>
+    void PlayNormalAttackEffect()
+    {
+        if (GameManager.SelectChara == 1)
+        {
+            swordAttack.SetTrigger("Play");
+        }
+
+        if (GameManager.SelectChara == 2)
+        {
+            var type = PlayerDataManager.player.GetSelectEvolutionType();
+            switch (type)
+            {
+                case CombiType.ATK:
+                    sisterAttack.SetTrigger("ATK");
+                    break;
+                case CombiType.DEF:
+                    sisterAttack.SetTrigger("DEF");
+                    break;
+                case CombiType.TEC:
+                    sisterAttack.SetTrigger("TEC");
+                    break;
+                case CombiType.NORMAL:
+                    sisterAttack.SetTrigger("Normal");
+                    break;
+            }
+        }
     }
 
     /// <summary>

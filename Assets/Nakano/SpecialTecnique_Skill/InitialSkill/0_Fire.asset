@@ -13,12 +13,13 @@ MonoBehaviour:
   m_Name: 0_Fire
   m_EditorClassIdentifier: 
   m_id: 0
-  m_released: 1
-  m_illust: {fileID: 21300000, guid: 034b1a4cdab9606479fbf1eea3aa1d10, type: 3}
+  m_released: 0
+  m_illust: {fileID: 21300000, guid: 81f481947d4f93a40afe276db1cc060c, type: 3}
   m_name: "\u30D5\u30A1\u30A4\u30A2"
-  m_isSkill: 1
+  m_skillType: 1
   m_type: 1
   m_continuationTurn: 0
-  m_value1: 80
+  m_value1: 115
   m_value2: 0
-  m_effects: "\u6575\u5358\u4F53\u306B\u653B\u6483\u529B80\uFF05\u306E\u653B\u6483\r"
+  m_effects: "\u6575\u5358\u4F53\u306B\u653B\u6483\u529B115\uFF05\u306E\u653B\u6483"
+  m_cost: 50

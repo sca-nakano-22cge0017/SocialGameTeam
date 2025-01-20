@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_id: -1
   m_released: 1
-  m_illust: {fileID: 21300000, guid: 711bc4097a4ac5648841e4a2ba0b1b0f, type: 3}
+  m_illust: {fileID: 21300000, guid: 650e1e954c6c96943b56a35e18263354, type: 3}
   m_name: "\u30D2\u30FC\u30EB"
-  m_isSkill: 1
+  m_skillType: 1
   m_type: 3
   m_continuationTurn: 1
-  m_value1: 40
+  m_value1: 20
   m_value2: 0
-  m_effects: "HP\u3092\u56DE\u5FA9\r"
+  m_effects: "HP\u3092\u56DE\u5FA9"
+  m_cost: 60

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ATK_SpecialTecnique : SpecialTecniqueMethod
 {
+    [SerializeField] Animator explosionEffect;
+
     GameObject[] enemies;
 
     int effectAmount_A = 0; // åªç›ÇÃå¯â ó 
@@ -155,6 +157,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
                 ene.Damage(amount);
                 if (cri) ene.CriticalDamage();
             }
+
+            explosionEffect.SetTrigger("Play");
         });
     }
 }
