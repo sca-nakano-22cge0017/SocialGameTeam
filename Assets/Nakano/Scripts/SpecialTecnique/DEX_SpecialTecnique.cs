@@ -124,7 +124,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         player.BuffMotion(() => 
         {
-            player.buffCriticalPower = amount;
+            player.buffCriticalPower += amount;
             player._criticalProbability = 100;
 
             Debug.Log("「約束された勝利」発動 会心時倍率" + (amount * 100) + "%アップ, クリティカル確定");
@@ -136,7 +136,9 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     /// </summary>
     void Cancel_RankSS()
     {
-        player.buffCriticalPower = 0;
+        float amount = (float)rankS.m_value1 / 100.0f;
+
+        player.buffCriticalPower -= amount;
         player._criticalProbability = player.criticalProbabilityInitial;
 
         Debug.Log("「約束された勝利」解除");

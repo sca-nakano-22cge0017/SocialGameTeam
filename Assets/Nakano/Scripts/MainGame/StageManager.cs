@@ -148,18 +148,18 @@ public class StageManager : MonoBehaviour
         {
             player.power_NormalAttack = 1.2f;
             player.power_Skill = 1.0f;
-            player.power_CriticalInit = CalcCritBuff(); 
-            player.criticalProbabilityInitial = CalcCritRate();
             player.power_SpecialMove = 10;
         }
         if (GameManager.SelectChara == 2)
         {
             player.power_NormalAttack = 0.9f;
             player.power_Skill = 1.3f;
-            player.power_CriticalInit = CalcCritBuff();
-            player.criticalProbabilityInitial = CalcCritRate(); 
             player.power_SpecialMove = 10;
         }
+
+        // 会心
+        player.power_CriticalInit = CalcCritBuff();
+        player.criticalProbabilityInitial = CalcCritRate();
 
         // 表示
         for (int i = 0; i < playersIllust.Length; i++)
@@ -222,7 +222,7 @@ public class StageManager : MonoBehaviour
                 enemies[e].DEX = enemy.enemyStatus.dex;
                 enemies[e].AGI = enemy.enemyStatus.spd;
 
-                enemies[e].power_CriticalInit = 1.2f;
+                enemies[e].power_CriticalInit = 120.0f;
 
                 // アタックパターン取得
                 for (int i = 0; i < enemy.enemyStatus.attackPattern.Count; i++)
@@ -364,36 +364,74 @@ public class StageManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 会心率計算
+    /// </summary>
+    /// <returns></returns>
     float CalcCritRate()
     {
         float r = 0;
 
-        float min = PlayerDataManager.player.StatusData.statusInit[Rank.D].GetStatus(StatusType.DEX);
-        float max = PlayerDataManager.player.StatusData.statusMax[Rank.SS].GetStatus(StatusType.DEX);
-
-        float a = (critRate_Max - critRate_Init) / (max - min);
-        float b = critRate_Init - a * min;
-
-        r = a * player.DEX + b;
-
-        //Debug.Log($"test 会心率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
+        if (10 <= player.DEX && player.DEX < 20)
+        {
+            r = 10;
+        }
+        else if (20 <= player.DEX && player.DEX < 50)
+        {
+            r = 30;
+        }
+        else if (50 <= player.DEX && player.DEX < 70)
+        {
+            r = 50;
+        }
+        else if (70 <= player.DEX && player.DEX < 80)
+        {
+            r = 60;
+        }
+        else if (80 <= player.DEX && player.DEX < 100)
+        {
+            r = 70;
+        }
+        else if (100 <= player.DEX)
+        {
+            r = 80;
+        }
 
         return r;
     }
 
+    /// <summary>
+    /// 会心時ダメージ倍率
+    /// </summary>
+    /// <returns></returns>
     float CalcCritBuff()
     {
-        float r = 0;
+        float r = 100;
 
-        float min = PlayerDataManager.player.StatusData.statusInit[Rank.D].GetStatus(StatusType.DEX);
-        float max = PlayerDataManager.player.StatusData.statusMax[Rank.SS].GetStatus(StatusType.DEX);
-
-        float a = (critBuff_Max - critBuff_Init) / (max - min);
-        float b = critBuff_Init - a * min;
-
-        r = a * player.DEX + b;
-
-        //Debug.Log($"test クリティカル倍率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
+        if (10 <= player.DEX && player.DEX < 35)
+        {
+            r += 50;
+        }
+        else if (35 <= player.DEX && player.DEX < 60)
+        {
+            r += 80;
+        }
+        else if (60 <= player.DEX && player.DEX < 70)
+        {
+            r += 100;
+        }
+        else if (70 <= player.DEX && player.DEX < 80)
+        {
+            r += 125;
+        }
+        else if (80 <= player.DEX && player.DEX < 100)
+        {
+            r += 150;
+        }
+        else if (100 <= player.DEX)
+        {
+            r += 200;
+        }
 
         return r;
     }
