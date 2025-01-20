@@ -258,7 +258,11 @@ public class BuffDisplay : MonoBehaviour
             {
                 var info = GetSkillInformation(s.stateId);
 
-                icon.sprite = info.m_illust;
+                if (s.stateId == 19)
+                {
+                    icon.sprite = debuff_DEF;
+                }
+                else icon.sprite = info.m_illust;
                 name.text = info.m_name;
 
                 var str = TextEdit(info.m_effects, true);

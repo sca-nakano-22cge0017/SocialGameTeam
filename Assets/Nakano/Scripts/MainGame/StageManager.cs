@@ -36,6 +36,7 @@ public class StageManager : MonoBehaviour
     // 敵
     [SerializeField] private Enemy[] enemies;
     [SerializeField, Header("敵のイラスト/アニメーション")] private EnemiesIllust[] enemiesIllust;
+    [SerializeField] private GameObject[] hpGuage_Enemy;
 
     // 背景
     [SerializeField] private Image backGround;
@@ -185,6 +186,7 @@ public class StageManager : MonoBehaviour
         for (int e = 0; e < enemies.Length; e++)
         {
             enemies[e].gameObject.SetActive(false);
+            hpGuage_Enemy[e].SetActive(false);
         }
 
         List<Master.EnemyData> data = StageDataManager.EnemiesData;
@@ -266,6 +268,7 @@ public class StageManager : MonoBehaviour
                             bossHpGuage.SetActive(true);
                             enemies[e].hpGuage = bossHpGuage.GetComponent<MainGameGuage>();
                             enemies[e].hpGuage_Obj.SetActive(false);
+                            hpGuage_Enemy[e].SetActive(false);
 
                             var rect = enemies[e].image.GetComponent<RectTransform>();
 
@@ -285,6 +288,7 @@ public class StageManager : MonoBehaviour
                 }
 
                 enemies[e].gameObject.SetActive(true);
+                hpGuage_Enemy[e].SetActive(true);
                 enemies[e].Initialize();
             }
         }
@@ -372,7 +376,7 @@ public class StageManager : MonoBehaviour
 
         r = a * player.DEX + b;
 
-        Debug.Log($"test 会心率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
+        //Debug.Log($"test 会心率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
 
         return r;
     }
@@ -389,7 +393,7 @@ public class StageManager : MonoBehaviour
 
         r = a * player.DEX + b;
 
-        Debug.Log($"test クリティカル倍率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
+        //Debug.Log($"test クリティカル倍率:{r} ステ最小:{min} ステ最大:{max} ステ現在:{player.DEX}");
 
         return r;
     }

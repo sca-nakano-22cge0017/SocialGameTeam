@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_id: 20
   m_released: 0
-  m_illust: {fileID: 21300000, guid: 0f92e47aab77a4148b541545e59e8f3c, type: 3}
-  m_name: 
-  m_isSkill: 0
+  m_illust: {fileID: 21300000, guid: 7c90067c3f5c27742936bcd91fa4b96d, type: 3}
+  m_name: "\u9B54\u8853\u5E2B\u306E\u7D50\u754C"
+  m_skillType: 1
   m_type: 0
-  m_continuationTurn: 0
-  m_value1: 0
-  m_value2: 0
-  m_effects: 
+  m_continuationTurn: 6
+  m_value1: 30
+  m_value2: 10
+  m_effects: "6\u30BF\u30FC\u30F3\u306E\u9593\u3001MP\u6D88\u8CBB\u91CF30\uFF05\u30C0\u30A6\u30F3\u30FB\u5FC5\u6BBA\u6280\u30B2\u30FC\u30B8\u30921T\u3054\u3068\u306B10\uFF05\u56DE\u5FA9"
+  m_cost: 100
