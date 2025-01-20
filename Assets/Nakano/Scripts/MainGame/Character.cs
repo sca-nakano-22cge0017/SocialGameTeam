@@ -111,8 +111,8 @@ public class Character : MonoBehaviour
     [HideInInspector] public float criticalProbabilityInitial;  // 初期値 %
     [HideInInspector] public float _criticalProbability;        // 計算用 %
 
-    [HideInInspector] public float power_CriticalInit;    // 基本会心時倍率 倍
-    [HideInInspector] public float buffCriticalPower;     // 会心時倍率バフ 割
+    [HideInInspector] public float power_CriticalInit;    // 基本会心時倍率 %
+    [HideInInspector] public float buffCriticalPower;     // 会心時倍率バフ %
     [HideInInspector] public float critical;    // 会心時倍率　計算用
 
     // モーション関係
@@ -557,8 +557,8 @@ public class Character : MonoBehaviour
 
         if (c < _criticalProbability)
         {
-            critical = power_CriticalInit + buffCriticalPower;
-            Debug.Log("会心発動");
+            critical = (power_CriticalInit + buffCriticalPower) / 100.0f;
+            Debug.Log("会心発動　倍率" + critical);
             return true;
         }
         else
@@ -577,8 +577,8 @@ public class Character : MonoBehaviour
 
         if (c < criticalProbability)
         {
-            critical = power_CriticalInit + buffCriticalPower;
-            Debug.Log("会心発動");
+            critical = (power_CriticalInit + buffCriticalPower) / 100.0f;
+            Debug.Log("会心発動　倍率" + critical);
             return true;
         }
         else
