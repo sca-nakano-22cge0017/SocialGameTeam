@@ -30,6 +30,7 @@ public class BuffDisplay : MonoBehaviour
     [SerializeField] Sprite debuff_ATK;
     [SerializeField] Sprite debuff_DEF;
     [SerializeField] Sprite debuff_AGI;
+    [SerializeField] Sprite empty;
 
     [SerializeField] private float longTapTime = 0.5f;
     private bool isTapping = false;
@@ -157,7 +158,7 @@ public class BuffDisplay : MonoBehaviour
             {
                 var info = GetSkillInformation(s.stateId);
                 
-                icon.sprite = info.m_illust;
+                icon.sprite = BuffIcon(info);
                 name.text = info.m_name;
                 explain.text = TextEdit(info.m_effects, false);
             }
@@ -257,12 +258,8 @@ public class BuffDisplay : MonoBehaviour
             else
             {
                 var info = GetSkillInformation(s.stateId);
-
-                if (s.stateId == 19)
-                {
-                    icon.sprite = debuff_DEF;
-                }
-                else icon.sprite = info.m_illust;
+                
+                icon.sprite = BuffIcon(info);
                 name.text = info.m_name;
 
                 var str = TextEdit(info.m_effects, true);
@@ -375,5 +372,51 @@ public class BuffDisplay : MonoBehaviour
         }
 
         return str;
+    }
+
+    Sprite BuffIcon(SpecialTecnique _info)
+    {
+        Sprite s = _info.m_illust;
+        int id = _info.m_id;
+
+        // 攻撃アップ
+        if (id == 16 || id == 30)
+        {
+            s = buff_ATK;
+        }
+        // 防御アップ
+        if (id == 10)
+        {
+            s = buff_DEF;
+        }
+        // 速度アップ
+        if (id == 21)
+        {
+            s = buff_AGI;
+        }
+
+        // 攻撃ダウン
+        //if (id == 10)
+        //{
+        //    s = debuff_ATK;
+        //}
+        // 防御ダウン
+        if (id == 13 || id == 26)
+        {
+            s = debuff_DEF;
+        }
+        // 速度ダウン
+        if (id == 22)
+        {
+            s = debuff_AGI;
+        }
+
+        // アイコン無し
+        if (id == 19)
+        {
+            s = empty;
+        }
+
+        return s;
     }
 }

@@ -92,10 +92,20 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
             {
                 effectAmount_A += amount;
                 _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f));
+
+                _enemy.AddState(false, 13, rankA.m_continuationTurn, amount, () => { Cancel_RankA(_enemy); }, false);
             }
 
             Debug.Log("「ガードブレイカー」発動 敵の防御力" + amount + " %ダウン 合計" + effectAmount_A + " %ダウン");
         }
+    }
+
+    void Cancel_RankA(Enemy _enemy)
+    {
+        float amount = rankA.m_value2 / 100.0f;
+        _enemy.AddDebuff(StatusType.DEF, -amount);
+
+        Debug.Log("「ガードブレイカー」解除");
     }
 
     /// <summary>
