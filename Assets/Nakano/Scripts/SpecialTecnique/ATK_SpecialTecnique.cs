@@ -65,7 +65,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         player.AddBuff(StatusType.ATK, -lastAmount);
         player.RemoveState(rankB.m_id);
-
+        
         float lostHp = (float)(player.HP - player.currentHp) / player.HP;
         
         if (lostHp == 0)
@@ -77,7 +77,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         float amount = ((float)rankB.m_value2 / 100.0f) / ((float)rankB.m_value1 / 100.0f) * lostHp;
 
         player.AddBuff(StatusType.ATK, amount);
-        player.AddState(true, rankB.m_id, 999, (amount * 100.0f), null, false);
+        player.AddState(true, rankB.m_id, 999, (amount * 100.0f), null, true);
 
         lastAmount = amount;
 
