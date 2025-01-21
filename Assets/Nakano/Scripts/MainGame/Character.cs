@@ -56,6 +56,7 @@ public class Character : MonoBehaviour
     protected SoundController soundController;
     [SerializeField] protected MainGameSystem mainGameSystem;
     [SerializeField] protected MainDirection mainDirection;
+    [SerializeField] protected BuffDisplay buffDisplay;
 
     public MeshRenderer meshRenderer;
     public Image image;
@@ -322,6 +323,7 @@ public class Character : MonoBehaviour
                 if (state[i].stateId == _stateNumber)
                 {
                     state[i].elapsedTurn = 1;
+                    state[i].value = _value;
 
                     return;
                 }
@@ -329,6 +331,8 @@ public class Character : MonoBehaviour
 
             state.Add(s);
         }
+
+        buffDisplay.UpdateInformation();
     }
 
     /// <summary>
@@ -368,6 +372,20 @@ public class Character : MonoBehaviour
             }
 
             state.Add(s);
+        }
+
+        buffDisplay.UpdateInformation();
+    }
+
+    public void RemoveState(int _stateNumber)
+    {
+        for (int i = 0; i < state.Count; ++i)
+        {
+            if (_stateNumber == state[i].stateId)
+            {
+                state.Remove(state[i]);
+                RemoveState(_stateNumber);
+            }
         }
     }
 

@@ -53,6 +53,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         Debug.Log("「ピアス」解除");
     }
 
+    float lastAmount = 0;
     /// <summary>
     /// 背水の陣　パッシブ
     /// HPが減少するごとに攻撃力が上がる
@@ -62,10 +63,23 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankB.m_released) return;
 
+        player.AddBuff(StatusType.ATK, -lastAmount);
+        player.RemoveState(rankB.m_id);
+
         float lostHp = (float)(player.HP - player.currentHp) / player.HP;
+        
+        if (lostHp == 0)
+        {
+            lastAmount = 0;
+            return;
+        }
+        
         float amount = ((float)rankB.m_value2 / 100.0f) / ((float)rankB.m_value1 / 100.0f) * lostHp;
 
         player.AddBuff(StatusType.ATK, amount);
+        player.AddState(true, rankB.m_id, 999, (amount * 100.0f), null, false);
+
+        lastAmount = amount;
 
         Debug.Log("「背水の陣」発動 攻撃力 " + (amount * 100) + "% 上昇");
     }
@@ -94,7 +108,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
                 effectAmount_A += amount;
                 _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f));
 
-                _enemy.AddState(false, 13, rankA.m_continuationTurn, amount, () => { Cancel_RankA(_enemy); }, false);
+                _enemy.AddState(false, rankA.m_id, rankA.m_continuationTurn, effectAmount_A, () => { Cancel_RankA(_enemy); }, true);
             }
 
             Debug.Log("「ガードブレイカー」発動 敵の防御力" + amount + " %ダウン 合計" + effectAmount_A + " %ダウン");

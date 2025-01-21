@@ -132,6 +132,12 @@ public class BuffDisplay : MonoBehaviour
             var explain = obj.transform.GetChild(3).gameObject.GetComponent<Text>();
 
             turn.text = "残り" + (s.continuationTurn - s.elapsedTurn + 1) + "ターン";
+            if (s.stateId == 4 || s.stateId == 12)
+            {
+                // 不倒の構え、背水の陣によるバフはターン表示なし
+                turn.enabled = false;
+            }
+            else turn.enabled = true;
 
             // 敵からのデバフ
             if (s.stateId == 101 || s.stateId == 102 || s.stateId == 103)
@@ -153,6 +159,15 @@ public class BuffDisplay : MonoBehaviour
                 }
             }
 
+            // スキル以外の自己バフ
+            // 201→ガード
+            else if (s.stateId == 201)
+            {
+                icon.sprite = buff_DEF;
+                name.text = "防御力アップ";
+                explain.text = "防御力" + s.value + "%アップ";
+            }
+
             // 自身のバフ
             else
             {
@@ -160,7 +175,13 @@ public class BuffDisplay : MonoBehaviour
                 
                 icon.sprite = BuffIcon(info);
                 name.text = info.m_name;
-                explain.text = TextEdit(info.m_effects, false);
+                explain.text = TextEdit(info.m_effects, false, s.stateId);
+
+                // 背水の陣
+                if (s.stateId == 12)
+                {
+                    explain.text = "攻撃力" + s.value + "%アップ";
+                }
             }
         }
     }
@@ -262,9 +283,14 @@ public class BuffDisplay : MonoBehaviour
                 icon.sprite = BuffIcon(info);
                 name.text = info.m_name;
 
-                var str = TextEdit(info.m_effects, true);
-                var str1 = TextEdit(str, s.stateId);
-                explain.text = str1;
+                var str = TextEdit(info.m_effects, true, s.stateId);
+                explain.text = str;
+
+                // ガードブレイカー
+                if (s.stateId == 13)
+                {
+                    explain.text = "防御力" + s.value + "%ダウン";
+                }
             }
         }
     }
@@ -326,9 +352,10 @@ public class BuffDisplay : MonoBehaviour
     /// <summary>
     /// 説明文の調整
     /// </summary>
-    string TextEdit(string _text, bool _isEnemy)
+    string TextEdit(string _text, bool _isEnemy, int _id)
     {
         string str = _text;
+        var info = GetSkillInformation(_id);
 
         // 「nターンの間、」を省略する
         if (str.Contains("ターンの間、"))
@@ -348,20 +375,10 @@ public class BuffDisplay : MonoBehaviour
             }
         }
 
-        return str;
-    }
-
-    string TextEdit(string _text, int _id)
-    {
-        string str = _text;
-        var info = GetSkillInformation(_id);
-
         // ガードクラッシュ
         if (_id == 26)
         {
-            int comma = str.IndexOf("、") + 1;
-            string str1 = str.Remove(0, comma);
-            str = str1;
+            str = "防御力" + info.m_value2 + "%ダウン";
         }
 
         // 呪い
@@ -380,43 +397,58 @@ public class BuffDisplay : MonoBehaviour
         int id = _info.m_id;
 
         // 攻撃アップ
-        if (id == 16 || id == 30)
+        if (id == 4 || id == 11 || id == 12 || id == 14)
         {
+            // 不倒の構え、ピアス、背水の陣、全身全霊
             s = buff_ATK;
         }
         // 防御アップ
-        if (id == 10)
+        if (id == 8 || id == 10)
         {
+            // 無敵、守護神の権能
             s = buff_DEF;
         }
         // 速度アップ
         if (id == 21)
         {
+            // 加速
             s = buff_AGI;
         }
 
-        // 攻撃ダウン
-        //if (id == 10)
-        //{
-        //    s = debuff_ATK;
-        //}
+        // 攻撃、速度アップ
+        if (id == 16)
+        {
+            // オーラ
+        }
+
         // 防御ダウン
         if (id == 13 || id == 26)
         {
+            // ガードブレイカー、ガードクラッシュ
             s = debuff_DEF;
         }
         // 速度ダウン
         if (id == 22)
         {
+            // スロウ
             s = debuff_AGI;
         }
 
         // アイコン無し
         if (id == 19)
         {
+            // 呪い
             s = empty;
         }
 
         return s;
+    }
+
+    /// <summary>
+    /// アイコンを複数種使う場合交互に表示
+    /// </summary>
+    void IconChangeAlternately()
+    {
+
     }
 }

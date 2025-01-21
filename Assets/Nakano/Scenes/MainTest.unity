@@ -17300,6 +17300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainGameSystem: {fileID: 1723303178}
   mainDirection: {fileID: 1723303179}
+  buffDisplay: {fileID: 6564816647614474814}
   meshRenderer: {fileID: 0}
   image: {fileID: 7447228097677550169}
   hpGuage: {fileID: 1572436245933510763}
@@ -24943,6 +24944,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
+      propertyPath: buffDisplay
+      value: 
+      objectReference: {fileID: 6564816647614474814}
+    - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
       propertyPath: hpGuage_Obj
       value: 
       objectReference: {fileID: 1708049703}
@@ -25426,6 +25431,10 @@ PrefabInstance:
       propertyPath: hpGuage
       value: 
       objectReference: {fileID: 1339966229}
+    - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
+      propertyPath: buffDisplay
+      value: 
+      objectReference: {fileID: 6564816647614474814}
     - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
       propertyPath: hpGuage_Obj
       value: 
@@ -28299,6 +28308,10 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
+      propertyPath: buffDisplay
+      value: 
+      objectReference: {fileID: 6564816647614474814}
+    - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
       propertyPath: hpGuage_Obj
       value: 
       objectReference: {fileID: 1962786064}
@@ -29645,6 +29658,10 @@ PrefabInstance:
       propertyPath: POSITION
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
+      propertyPath: buffDisplay
+      value: 
+      objectReference: {fileID: 6564816647614474814}
     - target: {fileID: 7105542992237167885, guid: 29a91647fa16b2a4081d053d6415410a, type: 3}
       propertyPath: hpGuage_Obj
       value: 
