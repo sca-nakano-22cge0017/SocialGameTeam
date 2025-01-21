@@ -69,6 +69,10 @@ public class Character : MonoBehaviour
 
     [SerializeField, Header("テキスト表示時間")] protected float textDispTime;
 
+    // エフェクト
+    [SerializeField] protected Animator buffEffect;
+    [SerializeField] protected Animator debuffEffect;
+
     // ステータス
     [HideInInspector] public int ATK; // 攻撃
     [HideInInspector] public int MP;  // 魔力
@@ -463,6 +467,8 @@ public class Character : MonoBehaviour
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %UP";
             Color orange = new Color(1.0f, 0.56f, 0.0f, 1.0f);
             StartCoroutine(DispBuffText(buffText, str, orange, true));
+
+            buffEffect.SetTrigger("Play");
         }
     }
 
@@ -525,6 +531,8 @@ public class Character : MonoBehaviour
             soundController.PlayDebuffSE();
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %DOWN";
             StartCoroutine(DispBuffText(buffText, str, Color.blue, false));
+
+            debuffEffect.SetTrigger("Play");
         }
     }
 
