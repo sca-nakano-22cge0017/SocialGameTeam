@@ -133,6 +133,12 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
                 player.AddBuff(StatusType.ATK, amount);
                 isActive_S = true;
                 Debug.Log("u•s“|‚Ì\‚¦v”­“® UŒ‚—Í " + amount + "ã¸");
+
+                player.AddState(true, rankS.m_id, 1, amount, () => 
+                {
+                    isActive_S = false;
+                    player.AddBuff(StatusType.ATK, -amount);
+                }, true);
             }
         }
 

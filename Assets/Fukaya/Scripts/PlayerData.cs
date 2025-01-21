@@ -200,6 +200,9 @@ public class PlayerData : Character
         // –hŒä—Í”{—¦ã¸
         AddBuff(StatusType.DEF, power_Guard);
 
+        var amount = power_Guard * 100.0f;
+        AddState(true, 201, 1, amount, null, false);
+
         isGuard = true;
 
         // –hŒä‚Éˆ—‚³‚ê‚é“Áê‹Z”\
@@ -282,7 +285,7 @@ public class PlayerData : Character
             Dead();
         }
 
-        atk_st.RankB();                   // ”w…‚Ìw
+        atk_st.RankB(); // ”w…‚Ìw
 
         // HPƒQ[ƒWŒ¸­‰‰o
         hpGuage.Sub(damage);
@@ -312,6 +315,8 @@ public class PlayerData : Character
 
         // ‰ñ•œ—Ê•\¦
         StartCoroutine(DispText(healText, _amount.ToString()));
+
+        atk_st.RankB(); // ”w…‚Ìw
     }
 
     /// <summary>
