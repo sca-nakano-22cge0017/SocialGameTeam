@@ -37,6 +37,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Enemy[] enemies;
     [SerializeField, Header("敵のイラスト/アニメーション")] private EnemiesIllust[] enemiesIllust;
     [SerializeField] private GameObject[] hpGuage_Enemy;
+    [SerializeField] private Image buffEffect;
+    [SerializeField] private Image debuffEffect;
 
     // 背景
     [SerializeField] private Image backGround;
@@ -277,11 +279,32 @@ public class StageManager : MonoBehaviour
                             sd.y = 1500;
                             rect.sizeDelta = sd;
 
+                            var rectBuff = buffEffect.GetComponent<RectTransform>();
+                            Vector2 sdBuff = rectBuff.sizeDelta;
+                            sdBuff.x = 500;
+                            sdBuff.y = 500;
+                            rectBuff.sizeDelta = sdBuff;
+
+                            var rectDebuff = buffEffect.GetComponent<RectTransform>();
+                            Vector2 sdDebuff = rectDebuff.sizeDelta;
+                            sdDebuff.x = 500;
+                            sdDebuff.y = 500;
+                            rectDebuff.sizeDelta = sdDebuff;
+
                             if (enemy.enemyStatus.imageId == 1)
                             {
                                 enemies[e].transform.localPosition = new Vector3(-602, -90, 0);
+
+                                buffEffect.transform.localPosition = new Vector3(200, 100, 0);
+                                debuffEffect.transform.localPosition = new Vector3(200, 100, 0);
                             }
-                            else enemies[e].transform.localPosition = new Vector3(-602, -300, 0);
+                            else
+                            {
+                                enemies[e].transform.localPosition = new Vector3(-602, -300, 0);
+
+                                buffEffect.transform.localPosition = new Vector3(100, 400, 0);
+                                debuffEffect.transform.localPosition = new Vector3(100, 400, 0);
+                            }
                         }
                         else
                         {
