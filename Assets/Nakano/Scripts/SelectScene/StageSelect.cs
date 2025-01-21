@@ -40,6 +40,12 @@ public class StageSelect : MonoBehaviour
     TutorialWindow tutorial = null;
     SoundController soundController;
 
+    // ステージイメージ画像
+    [SerializeField] private Sprite[] sprites_Lv1;
+    [SerializeField] private Sprite[] sprites_Lv2;
+    [SerializeField] private Sprite[] sprites_Lv3;
+    [SerializeField] private Sprite[] sprites_Boss;
+
     void Start()
     {
         sm = FindObjectOfType<StaminaManager>();
@@ -85,7 +91,8 @@ public class StageSelect : MonoBehaviour
         {
             selectingButton = selectButtons[last].button;
             pressedButton = selectButtons[last];
-            stageImage.sprite = selectButtons[last].sprite;
+            //stageImage.sprite = selectButtons[last].sprite;
+            stageImage.sprite = GetStageImage(last + 1);
 
             selectingFrame.transform.SetParent(selectButtons[last].button.gameObject.transform);
             selectingFrame.transform.localPosition = Vector3.zero;
@@ -98,7 +105,8 @@ public class StageSelect : MonoBehaviour
             selectingButton = firstSelectButton;
             pressedButton = selectButtons[0];
 
-            stageImage.sprite = selectButtons[0].sprite;
+            //stageImage.sprite = selectButtons[0].sprite;
+            stageImage.sprite = GetStageImage(1);
 
             selectingFrame.transform.SetParent(selectButtons[0].button.gameObject.transform);
             selectingFrame.transform.localPosition = Vector3.zero;
@@ -138,7 +146,8 @@ public class StageSelect : MonoBehaviour
         // 押下処理
         if (selectingButton != _selectingButton)
         {
-            stageImage.sprite = pressedButton.sprite;
+            //stageImage.sprite = pressedButton.sprite;
+            stageImage.sprite = GetStageImage(select + 1);
             selectingButton = _selectingButton;
 
             if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
@@ -299,5 +308,45 @@ public class StageSelect : MonoBehaviour
     public void TapSE()
     {
         soundController.PlayTap1SE();
+    }
+
+    /// <summary>
+    /// ステージイメージ画像設定
+    /// </summary>
+    Sprite GetStageImage(int _stageNum)
+    {
+        Sprite s = null;
+        if (SceneManager.GetActiveScene().name == "SelectScene_Traning")
+        {
+            if (GameManager.SelectDifficulty == 1)
+            {
+                s = sprites_Lv1[_stageNum - 1];
+            }
+
+            if (GameManager.SelectDifficulty == 2)
+            {
+                s = sprites_Lv2[_stageNum - 1];
+            }
+
+            if (GameManager.SelectDifficulty >= 3)
+            {
+                s = sprites_Lv3[_stageNum - 1];
+            }
+        }
+
+        if (SceneManager.GetActiveScene().name == "SelectScene_Boss")
+        {
+            if (_stageNum % 2 == 1)
+            {
+                s = sprites_Boss[0];
+            }
+
+            else
+            {
+                s = sprites_Boss[1];
+            }
+        }
+
+        return s;
     }
 }
