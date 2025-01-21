@@ -36,6 +36,8 @@ public class BuffDisplay : MonoBehaviour
     private bool isTapping = false;
     private float tapTime = 0;
 
+    [SerializeField] private float blinkingCoolTime = 1.0f;
+
     private bool isPlayer = false;
     private GameObject tappingChara = null;
     private Character selectChara = null;
@@ -123,6 +125,7 @@ public class BuffDisplay : MonoBehaviour
             else
             {
                 obj = explains_Active[i];
+
                 obj.SetActive(true);
             }
 
@@ -172,7 +175,7 @@ public class BuffDisplay : MonoBehaviour
             else
             {
                 var info = GetSkillInformation(s.stateId);
-                
+
                 icon.sprite = BuffIcon(info);
                 name.text = info.m_name;
                 explain.text = TextEdit(info.m_effects, false, s.stateId);
@@ -181,6 +184,22 @@ public class BuffDisplay : MonoBehaviour
                 if (s.stateId == 12)
                 {
                     explain.text = "攻撃力" + s.value + "%アップ";
+                }
+                // オーラ
+                if (s.stateId == 16)
+                {
+                    icon.sprite = buff_ATK;
+                    var buffObj = obj.GetComponent<BuffObject>();
+                    List<Sprite> sprites = new();
+                    sprites.Add(buff_ATK);
+                    sprites.Add(buff_DEF);
+
+                    buffObj.IconChangeAlternately(sprites, blinkingCoolTime);
+                }
+                else
+                {
+                    var buffObj = obj.GetComponent<BuffObject>();
+                    buffObj.isIconChangeAlternately = false;
                 }
             }
         }
@@ -415,12 +434,6 @@ public class BuffDisplay : MonoBehaviour
             s = buff_AGI;
         }
 
-        // 攻撃、速度アップ
-        if (id == 16)
-        {
-            // オーラ
-        }
-
         // 防御ダウン
         if (id == 13 || id == 26)
         {
@@ -442,13 +455,5 @@ public class BuffDisplay : MonoBehaviour
         }
 
         return s;
-    }
-
-    /// <summary>
-    /// アイコンを複数種使う場合交互に表示
-    /// </summary>
-    void IconChangeAlternately()
-    {
-
     }
 }
