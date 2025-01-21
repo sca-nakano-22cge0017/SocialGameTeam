@@ -64,6 +64,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         float lostHp = (float)(player.HP - player.currentHp) / player.HP;
         float amount = ((float)rankB.m_value2 / 100.0f) / ((float)rankB.m_value1 / 100.0f) * lostHp;
+
         player.AddBuff(StatusType.ATK, amount);
 
         Debug.Log("u”w…‚Ìwv”­“® UŒ‚—Í " + (amount * 100) + "% ã¸");

@@ -283,12 +283,15 @@ public class StageManager : MonoBehaviour
                             }
                             else enemies[e].transform.localPosition = new Vector3(-602, -300, 0);
                         }
-                        else bossHpGuage.SetActive(false);
+                        else
+                        {
+                            hpGuage_Enemy[e].SetActive(true);
+                            bossHpGuage.SetActive(false);
+                        }
                     }
                 }
 
                 enemies[e].gameObject.SetActive(true);
-                hpGuage_Enemy[e].SetActive(true);
                 enemies[e].Initialize();
             }
         }
