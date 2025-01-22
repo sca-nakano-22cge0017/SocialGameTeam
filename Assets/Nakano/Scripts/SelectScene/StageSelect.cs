@@ -279,7 +279,7 @@ public class StageSelect : MonoBehaviour
             if ((_areaId == 1 && sm.Cost(sm.GetCost_Traning)) ||
             (_areaId == 2 && sm.Cost(sm.GetCost_Boss)))
             {
-                SceneLoader.LoadFade("MainTest");
+                SceneLoader.LoadScene("MainTest", true);
             }
         };
         sdm.LoadData(GameManager.SelectDifficulty, selectingButton.AreaID, selectingButton.StageID);

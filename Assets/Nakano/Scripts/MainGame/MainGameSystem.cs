@@ -284,6 +284,7 @@ public class MainGameSystem : MonoBehaviour
             yield return new WaitForSecondsRealtime(3.0f);
 
             Time.timeScale = 1.0f;
+            GameManager.islastBattleLose = true;
             SceneLoader.LoadFade("HomeScene");
         }
     }

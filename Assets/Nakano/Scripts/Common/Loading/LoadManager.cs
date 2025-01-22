@@ -95,8 +95,7 @@ public class LoadManager : MonoBehaviour
         SoundController soundController = FindObjectOfType<SoundController>();
         if (soundController != null)
         {
-            if (sceneName == "MainTest" && GameManager.lastScene == "MainTest") { }
-            else
+            if (sceneName != "MainTest" || GameManager.lastScene != "MainTest")
             {
                 if (sceneName == "MainTest")
                     soundController.MainToBattle();
@@ -174,19 +173,17 @@ public class LoadManager : MonoBehaviour
         }
         //ロード完了
 
-        // 遷移
-        async.allowSceneActivation = true;
-
-        // 最低限待ってからフェードアウト
-        yield return new WaitForSeconds(lowestLoadTime);
-
         // マスターデータ読み込み完了したら
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
 
         // セーブデータ読み込み完了したら
         yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
 
-        yield return null;
+        // 遷移
+        async.allowSceneActivation = true;
+
+        // 最低限待ってからフェードアウト
+        yield return new WaitForSeconds(lowestLoadTime);
 
         // フェードアウト
         isFadeOut = true;

@@ -125,7 +125,6 @@ public class BuffDisplay : MonoBehaviour
             else
             {
                 obj = explains_Active[i];
-
                 obj.SetActive(true);
             }
 

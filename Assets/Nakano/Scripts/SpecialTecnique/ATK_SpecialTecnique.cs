@@ -13,6 +13,8 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     public override void GameStart()
     {
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        RankB();
     }
 
     /// <summary>
@@ -108,7 +110,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
                 effectAmount_A += amount;
                 _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f));
 
-                _enemy.AddState(false, rankA.m_id, rankA.m_continuationTurn, effectAmount_A, () => { Cancel_RankA(_enemy); }, true);
+                _enemy.AddState(false, rankA.m_id, rankA.m_continuationTurn, amount, () => { Cancel_RankA(_enemy); }, false);
             }
 
             Debug.Log("「ガードブレイカー」発動 敵の防御力" + amount + " %ダウン 合計" + effectAmount_A + " %ダウン");

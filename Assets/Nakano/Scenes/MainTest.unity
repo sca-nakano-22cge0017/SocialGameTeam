@@ -10987,7 +10987,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 81f481947d4f93a40afe276db1cc060c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fa7a75a7f33dd5d4bb66c84ad61f3086, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -24655,7 +24655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 713097627010187447, guid: a3e2e078711866a4f840d852e50a55e1, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 852293799503629492, guid: a3e2e078711866a4f840d852e50a55e1, type: 3}
       propertyPath: m_Mesh
@@ -27262,12 +27262,12 @@ MonoBehaviour:
   parent_Passive: {fileID: 316736357}
   buffWindow_Enemy: {fileID: 6564816647614474816}
   parent_Enemy: {fileID: 1895257109}
-  buff_ATK: {fileID: 21300000, guid: 3320c453fb106d6408b1b0a46c0eb89c, type: 3}
-  buff_DEF: {fileID: 21300000, guid: 89e3ae1b370bc9d4183eb4cee8234b64, type: 3}
-  buff_AGI: {fileID: 21300000, guid: 449c8db3170042646a93e818eec00a33, type: 3}
-  debuff_ATK: {fileID: 21300000, guid: 1da751d77b4fe55478cd5a631f5a5d29, type: 3}
-  debuff_DEF: {fileID: 21300000, guid: ce3f4ffa68378ce42b97d42170ad0384, type: 3}
-  debuff_AGI: {fileID: 21300000, guid: 2b8df25c128b09d4da3158ccfeb063e1, type: 3}
+  buff_ATK: {fileID: 21300000, guid: fa34b83dbd61e78459dad7a1a36761c1, type: 3}
+  buff_DEF: {fileID: 21300000, guid: 0f5545bde00f2ec40b03fd1c36bb4ccf, type: 3}
+  buff_AGI: {fileID: 21300000, guid: b4c9865db244d6046a7e310d4ad0fdc4, type: 3}
+  debuff_ATK: {fileID: 21300000, guid: 315ef356fb836544e9044acd22c25e39, type: 3}
+  debuff_DEF: {fileID: 21300000, guid: 76bba166a82d5b744832a5f3882e2e67, type: 3}
+  debuff_AGI: {fileID: 21300000, guid: f58eecdd3e5a1ae4396274403114c57a, type: 3}
   empty: {fileID: 21300000, guid: c59193bc93e776f47b2cc86b2805399a, type: 3}
   longTapTime: 0.5
   blinkingCoolTime: 0.8
