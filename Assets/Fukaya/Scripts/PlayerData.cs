@@ -75,6 +75,7 @@ public class PlayerData : Character
     {
         soundController = FindObjectOfType<SoundController>();
         atk_st.GameStart();
+        hp_st.GameStart();
     }
 
     /// <summary>
@@ -286,6 +287,7 @@ public class PlayerData : Character
         }
 
         atk_st.RankB(); // îwêÖÇÃêw
+        hp_st.RankS(); // ïsì|ÇÃç\Ç¶
 
         // HPÉQÅ[ÉWå∏è≠ââèo
         hpGuage.Sub(damage);
@@ -317,6 +319,7 @@ public class PlayerData : Character
         StartCoroutine(DispText(healText, _amount.ToString()));
 
         atk_st.RankB(); // îwêÖÇÃêw
+        hp_st.RankS(); // ïsì|ÇÃç\Ç¶
     }
 
     /// <summary>

@@ -204,6 +204,11 @@ public class GameManager : MonoBehaviour
     public static int lastSelectButton_Boss = -1;
 
     /// <summary>
+    /// 前のバトルで敗北したか
+    /// </summary>
+    public static bool islastBattleLose = false;
+
+    /// <summary>
     /// オンのときドロップ量が1000倍になる　デバッグ用
     /// </summary>
     public static bool isHyperTraningMode = false;

@@ -274,7 +274,7 @@ MonoBehaviour:
   stageSelect:
     title: "\u80B2\u6210\u30B9\u30C6\u30FC\u30B8\u9078\u629E\u753B\u9762"
     pages:
-    - sprite: {fileID: 21300000, guid: b6532e8125875c941b6b02f173628059, type: 3}
+    - sprite: {fileID: 21300000, guid: a0f19c6fa0a34d84bb2c1fcb9f3bf953, type: 3}
       explain: "\u3053\u3053\u304B\u3089\u6311\u6226\u3059\u308B\u30D0\u30C8\u30EB\u30B9\u30C6\u30FC\u30B8\u3092\u9078\u629E\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
     - sprite: {fileID: 21300000, guid: 7e0c2eda043bf404b9f877e0950eaca3, type: 3}
       explain: "\u30B9\u30C6\u30FC\u30B8\u306B\u3088\u3063\u3066\u5F97\u3089\u308C\u308B\u5831\u916C\u304C\u7570\u306A\u308A\u307E\u3059\u3002"
@@ -318,11 +318,11 @@ MonoBehaviour:
   stageSelect_BossCleared:
     title: "\u80B2\u6210\u30B9\u30C6\u30FC\u30B8\u9078\u629E\u753B\u9762"
     pages:
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: b340ad93fece27d4caa60005bc68ed36, type: 3}
       explain: "\u30DC\u30B9\u3092\u5012\u3059\u3068\u65B0\u3057\u3044\u96E3\u6613\u5EA6\u304C\u89E3\u653E\u3055\u308C\u307E\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: c24cf97027623d54aae882a6060619ac, type: 3}
       explain: "\u96E3\u6613\u5EA6\u304C\u9AD8\u304F\u306A\u3063\u3066\u3044\u304F\u3068\u5831\u916C\u304C\u3088\u308A\u826F\u304F\u306A\u3063\u3066\u3044\u304D\u307E\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: b71e6f58253b5554fb3020aeff4e8765, type: 3}
       explain: "\u96E3\u6613\u5EA6\u306F\u4EFB\u610F\u306E\u30BF\u30A4\u30DF\u30F3\u30B0\u3067\u5909\u66F4\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
   reset:
     title: "\u30EA\u30BB\u30C3\u30C8"
@@ -1404,6 +1404,7 @@ RectTransform:
   - {fileID: 6441777911815196351}
   - {fileID: 3149395413003837193}
   - {fileID: 7642231435500936217}
+  - {fileID: 2679130827375195716}
   - {fileID: 1335666118822839793}
   - {fileID: 6506023153346810766}
   - {fileID: 7801989396119817638}
@@ -1480,6 +1481,81 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &5064902901252106508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2679130827375195716}
+  - component: {fileID: 8003081151452889408}
+  - component: {fileID: 6951724845926558647}
+  m_Layer: 0
+  m_Name: Frame
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2679130827375195716
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064902901252106508}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_ConstrainProportionsScale: 1
+  m_Children: []
+  m_Father: {fileID: 1569840991449907529}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 50}
+  m_SizeDelta: {x: 1940, y: 1100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8003081151452889408
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064902901252106508}
+  m_CullTransparentMesh: 1
+--- !u!114 &6951724845926558647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5064902901252106508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.79215693, g: 0.64705884, b: 0.34117648, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5161613747506045508
 GameObject:
   m_ObjectHideFlags: 0

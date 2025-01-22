@@ -10,9 +10,9 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
     int elapsedTurn_SS = 1;
 
-    public override void PlayerTurnStart()
+    public override void GameStart()
     {
-        RankS();
+        RankS(); // •s“|‚Ì\‚¦
     }
 
     public override void TurnEnd()
@@ -134,7 +134,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
                 isActive_S = true;
                 Debug.Log("u•s“|‚Ì\‚¦v”­“® UŒ‚—Í " + amount + "ã¸");
 
-                player.AddState(true, rankS.m_id, 1, amount, () => 
+                player.AddState(true, rankS.m_id, 999, amount, () => 
                 {
                     isActive_S = false;
                     player.AddBuff(StatusType.ATK, -amount);
@@ -149,6 +149,8 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
             {
                 player.AddBuff(StatusType.ATK, -amount);
                 isActive_S = false;
+
+                player.RemoveState(rankS.m_id);
             }
         }
     }
