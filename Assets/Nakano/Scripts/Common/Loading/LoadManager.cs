@@ -65,7 +65,7 @@ public class LoadManager : MonoBehaviour
                 canvasGroup.alpha = 1;
                 isFadeIn = false;
             }
-            else canvasGroup.alpha += Time.deltaTime / fadeTime;
+            else canvasGroup.alpha += Time.unscaledDeltaTime / fadeTime;
         }
 
         else if (isFadeOut)
@@ -76,7 +76,7 @@ public class LoadManager : MonoBehaviour
                 didFadeComplete = true;
                 isFadeOut = false;
             }
-            else canvasGroup.alpha -= Time.deltaTime / fadeTime;
+            else canvasGroup.alpha -= Time.unscaledDeltaTime / fadeTime;
         }
 
         // 透明のときは他UIが操作できるようにSetActiveをfalseに変える
@@ -101,11 +101,14 @@ public class LoadManager : MonoBehaviour
                     soundController.MainToBattle();
 
                 if (GameManager.lastScene == "MainTest")
+                {
                     soundController.BattleToMain();
+                }
             }
         }
 
         isLoading = true;
+        didFadeComplete = false;
 
         // フェードイン開始
         isFadeIn = true;
@@ -124,6 +127,7 @@ public class LoadManager : MonoBehaviour
         if (isLoading) return;
 
         isLoading = true;
+        didFadeComplete = false;
 
         // フェードイン開始
         isFadeIn = true;
@@ -137,18 +141,11 @@ public class LoadManager : MonoBehaviour
         // フェードイン終わってからシーンロード
         yield return new WaitUntil(() => !isFadeIn);
 
-        // シーン読み込み開始
-        async = SceneManager.LoadSceneAsync(sceneName);
-        async.allowSceneActivation = false;
+        yield return new WaitForSecondsRealtime(lowestLoadTime);
 
-        while (async.progress < 0.9f)
-        {
-            yield return null;
-        }
-        //ロード完了
-
-        // 遷移
-        async.allowSceneActivation = true;
+        // シーン読み込み
+        AsyncOperation _async = SceneManager.LoadSceneAsync(sceneName);
+        yield return _async;
 
         // 最低限待ってからフェードアウト
         yield return new WaitForSecondsRealtime(lowestLoadTime);
@@ -163,27 +160,20 @@ public class LoadManager : MonoBehaviour
     {
         yield return new WaitUntil(() => !isFadeIn);
 
-        // シーン読み込み開始
-        async = SceneManager.LoadSceneAsync(sceneName);
-        async.allowSceneActivation = false;
-
-        while (async.progress < 0.9f)
-        {
-            yield return null;
-        }
-        //ロード完了
-
         // マスターデータ読み込み完了したら
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);
 
         // セーブデータ読み込み完了したら
         yield return new WaitUntil(() => PlayerDataManager.PlayerDataLoadComplete);
 
-        // 遷移
-        async.allowSceneActivation = true;
+        yield return new WaitForSecondsRealtime(lowestLoadTime);
+
+        // シーン読み込み
+        AsyncOperation _async = SceneManager.LoadSceneAsync(sceneName);
+        yield return _async;
 
         // 最低限待ってからフェードアウト
-        yield return new WaitForSeconds(lowestLoadTime);
+        yield return new WaitForSecondsRealtime(lowestLoadTime);
 
         // フェードアウト
         isFadeOut = true;

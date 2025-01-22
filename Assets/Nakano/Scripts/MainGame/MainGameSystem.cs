@@ -151,7 +151,7 @@ public class MainGameSystem : MonoBehaviour
     {
         yield return new WaitUntil(() => mainDirection.isCompleteStartDirection);
 
-        yield return new WaitForSecondsRealtime(0.3f);
+        yield return new WaitForSecondsRealtime(0.5f);
 
         OrderAction();
     }

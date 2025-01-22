@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Pause : MonoBehaviour
+public class MenuButton : MonoBehaviour
 {
     [SerializeField] MainGameSystem mainGameSystem;
 
@@ -19,8 +19,6 @@ public class Pause : MonoBehaviour
 
     public void ToSelect()
     {
-        Time.timeScale = 1;
-
         if (GameManager.SelectArea == 1)
         {
             SceneLoader.LoadFade("SelectScene_Traning");
@@ -29,12 +27,12 @@ public class Pause : MonoBehaviour
         {
             SceneLoader.LoadFade("SelectScene_Boss");
         }
+
+        Time.timeScale = 1;
     }
 
     public void Cancel_ToSelect()
     {
-        Time.timeScale = 1;
-
         if (GameManager.SelectArea == 1)
         {
             var staminaManager = FindObjectOfType<StaminaManager>();
@@ -47,12 +45,14 @@ public class Pause : MonoBehaviour
             staminaManager.BossExit();
             SceneLoader.LoadFade("SelectScene_Boss");
         }
+
+        Time.timeScale = 1;
     }
 
     public void ToMain()
     {
-        Time.timeScale = 1;
-
         SceneLoader.LoadFade("MainTest");
+
+        Time.timeScale = 1;
     }
 }
