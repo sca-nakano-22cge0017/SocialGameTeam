@@ -188,6 +188,8 @@ public class StageSelect : MonoBehaviour
                 {
                     information += PlayerDataManager.StutasTypeToString(data.dropItem[i].itemType) + "ランクポイント ＋" + data.dropItem[i].dropAmount + "Pt\n";
                 }
+
+                stageImage.sprite = GetStageImage(data.stageId);
             }
         }
 

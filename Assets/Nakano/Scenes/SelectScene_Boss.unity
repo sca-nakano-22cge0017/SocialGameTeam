@@ -1775,7 +1775,7 @@ PrefabInstance:
     - target: {fileID: 2238175052076777304, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9ce134f03dc1d4e4d99facbb7f4eed1b, type: 3}
+      objectReference: {fileID: 21300000, guid: 117c6e594de65b1408da3b3f146a66b3, type: 3}
     - target: {fileID: 2575880587245324024, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1898,19 +1898,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5821530821553233237, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5821530821553233237, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.6
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5821530821553233237, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 300
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5821530821553233237, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5947717276119686215, guid: cfac19df7bc0bb84683772dccfc9fcf7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -2299,8 +2299,8 @@ MonoBehaviour:
   sprites_Lv2: []
   sprites_Lv3: []
   sprites_Boss:
-  - {fileID: 21300000, guid: 9ce134f03dc1d4e4d99facbb7f4eed1b, type: 3}
-  - {fileID: 21300000, guid: 4acf5c59372f81d40b690ba265e85579, type: 3}
+  - {fileID: 21300000, guid: 8c5ede9d0dd15b943847436866d1c4bc, type: 3}
+  - {fileID: 21300000, guid: 117c6e594de65b1408da3b3f146a66b3, type: 3}
 --- !u!1 &4633108247893841297
 GameObject:
   m_ObjectHideFlags: 0

@@ -75,6 +75,8 @@ public class MainGameSystem : MonoBehaviour
     private bool isLose = false;
     private bool isWin = false;
 
+    [SerializeField] private GameObject[] enemyHp;
+
     void Start()
     {
         stm = FindObjectOfType<SpecialTecniqueManager>();
