@@ -99,29 +99,29 @@ public class CharaSelectManager : MonoBehaviour
         //rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
 
 
-        if(PlayerDataManager.player.GetPlusStatus(StatusType.HP) < 0)
+        if(PlayerDataManager.player.GetPlusStatus(StatusType.HP) > 0)
         {
             plus[0].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
         }
 
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) > 0)
         {
             plus[1].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         }
 
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) > 0)
         {
             plus[2].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) > 0)
         {
             plus[3].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) > 0)
         {
             plus[4].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) > 0)
         {
             plus[5].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
         }
@@ -156,27 +156,29 @@ public class CharaSelectManager : MonoBehaviour
         //rank[4].text = PlayerDataManager.player.GetRank(StatusType.AGI).ToString();
         //rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
 
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.HP) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.HP) > 0)
         {
             plus[0].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) < 0)
+
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) > 0)
         {
             plus[1].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) < 0)
+
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) > 0)
         {
             plus[2].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) > 0)
         {
             plus[3].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) > 0)
         {
             plus[4].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
         }
-        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) < 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) > 0)
         {
             plus[5].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
         }
