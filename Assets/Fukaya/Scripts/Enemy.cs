@@ -182,7 +182,7 @@ public class Enemy : Character
         
         AttackMotion(() => 
         {
-            player.AddDebuff(StatusType.DEF, amount);
+            player.AddDebuff(StatusType.DEF, amount, true);
 
             Debug.Log("敵 " + POSITION + " デバフ１発動 プレイヤー 防御力" + (amount * 100) + "%ダウン付与");
         });
@@ -192,7 +192,7 @@ public class Enemy : Character
         if (!isActive_Debuff1) return;
 
         float amount = value_Debuff1 / 100.0f;
-        player.AddDebuff(StatusType.DEF, -amount);
+        player.AddDebuff(StatusType.DEF, -amount, false);
 
         isActive_Debuff1 = false;
 
@@ -212,7 +212,7 @@ public class Enemy : Character
 
         AttackMotion(() => 
         {
-            player.AddDebuff(StatusType.ATK, amount);
+            player.AddDebuff(StatusType.ATK, amount, true);
 
             Debug.Log("敵 " + POSITION + " デバフ２発動 プレイヤー 攻撃力" + (amount * 100) + "%ダウン付与");
         });
@@ -222,7 +222,7 @@ public class Enemy : Character
         if (!isActive_Debuff2) return;
 
         float amount = value_Debuff2 / 100.0f;
-        player.AddDebuff(StatusType.ATK, -amount);
+        player.AddDebuff(StatusType.ATK, -amount, false);
 
         isActive_Debuff2 = false;
 
@@ -242,7 +242,7 @@ public class Enemy : Character
 
         AttackMotion(() => 
         {
-            AddBuff(StatusType.ATK, amount);
+            AddBuff(StatusType.ATK, amount, true);
 
             Debug.Log("敵 " + POSITION + " バフ発動 攻撃力" + (amount * 100) + "%アップ");
         });
@@ -252,7 +252,7 @@ public class Enemy : Character
         if (!isActive_Buff) return;
 
         float amount = (float)value_Buff / 100.0f;
-        AddBuff(StatusType.ATK, -amount);
+        AddBuff(StatusType.ATK, -amount, false);
 
         isActive_Buff = false;
 

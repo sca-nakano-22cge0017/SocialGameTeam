@@ -29,8 +29,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
 
         player.BuffMotion(() =>
         {
-            player.AddBuff(StatusType.ATK, amount);
-            player.AddBuff(StatusType.DEF, amount);
+            player.AddBuff(StatusType.ATK, amount, true);
+            player.AddBuff(StatusType.DEF, amount, true);
 
             Debug.Log("「オーラ」発動 攻撃力/防御力 " + (amount * 100) + "%アップ");
         });
@@ -42,8 +42,8 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     void Cancel_RankC()
     {
         float amount = (float)rankC.m_value1 / 100.0f;
-        player.AddBuff(StatusType.ATK, -amount);
-        player.AddBuff(StatusType.DEF, -amount);
+        player.AddBuff(StatusType.ATK, -amount, false);
+        player.AddBuff(StatusType.DEF, -amount, false);
         Debug.Log("「オーラ」解除");
     }
 

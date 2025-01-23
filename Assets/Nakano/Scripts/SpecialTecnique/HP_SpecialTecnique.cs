@@ -130,14 +130,14 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
             // バフが掛かっていない場合のみバフを掛ける
             if (!isActive_S)
             {
-                player.AddBuff(StatusType.ATK, amount);
+                player.AddBuff(StatusType.ATK, amount, true);
                 isActive_S = true;
                 Debug.Log("「不倒の構え」発動 攻撃力 " + amount + "上昇");
 
                 player.AddState(true, rankS.m_id, 999, amount, () => 
                 {
                     isActive_S = false;
-                    player.AddBuff(StatusType.ATK, -amount);
+                    player.AddBuff(StatusType.ATK, -amount, false);
                 }, true);
             }
         }
@@ -147,7 +147,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
             // バフが掛かっている場合、バフを無くす
             if (isActive_S)
             {
-                player.AddBuff(StatusType.ATK, -amount);
+                player.AddBuff(StatusType.ATK, -amount, false);
                 isActive_S = false;
 
                 player.RemoveState(rankS.m_id);

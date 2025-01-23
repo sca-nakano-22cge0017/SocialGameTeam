@@ -56,6 +56,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     }
 
     float lastAmount = 0;
+    float lastLostHp = 0;
     /// <summary>
     /// 背水の陣　パッシブ
     /// HPが減少するごとに攻撃力が上がる
@@ -65,23 +66,32 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankB.m_released) return;
 
-        player.AddBuff(StatusType.ATK, -lastAmount);
+        float lostHp = (float)(player.HP - player.currentHp) / player.HP * 100.0f; // 失ったHPの割合(%)
+
+        player.AddBuff(StatusType.ATK, -lastAmount, false);
         player.RemoveState(rankB.m_id);
-        
-        float lostHp = (float)(player.HP - player.currentHp) / player.HP;
-        
-        if (lostHp == 0)
+
+        int value = (int)(lostHp / rankB.m_value1);
+        float amount = rankB.m_value2 / 100.0f * value;
+
+        if (lostHp == 0 || value == 0)
         {
             lastAmount = 0;
+            lastLostHp = 0;
             return;
         }
-        
-        float amount = ((float)rankB.m_value2 / 100.0f) / ((float)rankB.m_value1 / 100.0f) * lostHp;
 
-        player.AddBuff(StatusType.ATK, amount);
+        // 今回失ったHPが前回失ったHP量より少ないとき＝回復したとき
+        if (lostHp <= lastLostHp)
+        {
+            // 演出なし
+            player.AddBuff(StatusType.ATK, amount, false);
+        }
+        else player.AddBuff(StatusType.ATK, amount, true);
         player.AddState(true, rankB.m_id, 999, (amount * 100.0f), null, true);
 
         lastAmount = amount;
+        lastLostHp = lostHp;
 
         Debug.Log("「背水の陣」発動 攻撃力 " + (amount * 100) + "% 上昇");
     }
@@ -108,7 +118,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
             if (effectAmount_A + amount <= max)
             {
                 effectAmount_A += amount;
-                _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f));
+                _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f), true);
 
                 _enemy.AddState(false, rankA.m_id, rankA.m_continuationTurn, amount, () => { Cancel_RankA(_enemy); }, false);
             }
@@ -120,7 +130,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     void Cancel_RankA(Enemy _enemy)
     {
         float amount = rankA.m_value2 / 100.0f;
-        _enemy.AddDebuff(StatusType.DEF, -amount);
+        _enemy.AddDebuff(StatusType.DEF, -amount, false);
 
         Debug.Log("「ガードブレイカー」解除");
     }
@@ -142,7 +152,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
 
         player.AddState(true, rankS.m_id, 1, rankS.m_value1, () => { Cancel_RankS(); }, false);
 
-        player.AddBuff(StatusType.ATK, amount);
+        player.AddBuff(StatusType.ATK, amount, true);
         Debug.Log("「全身全霊」発動 攻撃力 " + (amount * 100) + "%アップ");
 
         _specialMove?.Invoke();
@@ -151,7 +161,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     void Cancel_RankS()
     {
         float amount = (float)rankS.m_value1 / 100.0f;
-        player.AddBuff(StatusType.ATK, -amount);
+        player.AddBuff(StatusType.ATK, -amount, false);
 
         Debug.Log("「全身全霊」解除");
     }
