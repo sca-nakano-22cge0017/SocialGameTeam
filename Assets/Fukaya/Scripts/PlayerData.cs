@@ -98,7 +98,7 @@ public class PlayerData : Character
         // ƒK[ƒh‚µ‚Ä‚ê‚ÎƒK[ƒh‰ğœ
         if (isGuard)
         {
-            AddBuff(StatusType.DEF, -power_Guard);
+            AddBuff(StatusType.DEF, -power_Guard, false);
             isGuard = false;
         }
 
@@ -199,7 +199,7 @@ public class PlayerData : Character
         SetCommandsButton(false);
 
         // –hŒä—Í”{—¦ã¸
-        AddBuff(StatusType.DEF, power_Guard);
+        AddBuff(StatusType.DEF, power_Guard, true);
 
         var amount = power_Guard * 100.0f;
         AddState(true, 201, 1, amount, null, false);

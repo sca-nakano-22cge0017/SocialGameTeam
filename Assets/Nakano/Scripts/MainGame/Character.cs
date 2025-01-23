@@ -435,9 +435,10 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="_amount">バフ量　割合表記</param>
-    public virtual void AddBuff(StatusType _type, float _amount)
+    /// <param name="_doPlayEffect">演出をするか</param>
+    public virtual void AddBuff(StatusType _type, float _amount, bool _doPlayEffect)
     {
-        switch(_type)
+        switch (_type)
         {
             case StatusType.HP:
                 buffHp += _amount;
@@ -461,15 +462,20 @@ public class Character : MonoBehaviour
 
         CalcPower();
 
-        if (_amount > 0)
+        if (_doPlayEffect)
         {
             soundController.PlayBuffSE();
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %UP";
             Color orange = new Color(1.0f, 0.56f, 0.0f, 1.0f);
             StartCoroutine(DispBuffText(buffText, str, orange, true));
 
-            buffEffect.SetTrigger("Play");
+            PlayBuffEffect();
         }
+    }
+
+    public void PlayBuffEffect()
+    {
+        buffEffect.SetTrigger("Play");
     }
 
     /// <summary>
@@ -500,7 +506,8 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
     /// <param name="_amount">デバフ量</param>
-    public virtual void AddDebuff(StatusType _type, float _amount)
+    /// <param name="_doPlayEffect">演出をするか</param>
+    public virtual void AddDebuff(StatusType _type, float _amount, bool _doPlayEffect)
     {
         switch (_type)
         {
@@ -526,13 +533,13 @@ public class Character : MonoBehaviour
 
         CalcPower();
 
-        if (_amount > 0)
+        if (_doPlayEffect)
         {
             soundController.PlayDebuffSE();
             string str = _type.ToString() + " " + (int)(_amount * 100) + " %DOWN";
             StartCoroutine(DispBuffText(buffText, str, Color.blue, false));
 
-            debuffEffect.SetTrigger("Play");
+            PlayDebuffEffect();
         }
     }
 
@@ -557,6 +564,11 @@ public class Character : MonoBehaviour
         debuffAgi = 0;
 
         CalcPower();
+    }
+
+    public void PlayDebuffEffect()
+    {
+        debuffEffect.SetTrigger("Play");
     }
 
     /// <summary>

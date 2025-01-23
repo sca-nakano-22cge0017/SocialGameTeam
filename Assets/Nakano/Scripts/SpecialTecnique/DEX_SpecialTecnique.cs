@@ -25,19 +25,19 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         Debug.Log("「ガードクラッシュ」発動 敵の防御力 " + (debuff * 100) + "%ダウン");
 
-        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, rankC.m_value2, () => { Cancel_RankC(enemy); }, true);
+        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, rankC.m_value2, () => { Cancel_RankC(enemy); }, false);
 
         player.AttackMotion(() => 
         {
             enemy.Damage(damage);
-            enemy.AddDebuff(StatusType.DEF, debuff);
+            enemy.AddDebuff(StatusType.DEF, debuff, true);
         });
     }
 
     void Cancel_RankC(Enemy _enemy)
     {
         float debuff = (float)rankC.m_value2 / 100.0f;
-        _enemy.AddDebuff(StatusType.DEF, -debuff);
+        _enemy.AddDebuff(StatusType.DEF, -debuff, false);
 
         Debug.Log("「ガードクラッシュ」解除");
     }
@@ -120,7 +120,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         float amount = (float)rankS.m_value1 / 100.0f;
 
-        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, rankS.m_value1, () => { Cancel_RankSS(); }, true);
+        player.AddState(true, rankSS.m_id, rankSS.m_continuationTurn, rankS.m_value1, () => { Cancel_RankSS(); }, false);
 
         player.BuffMotion(() => 
         {

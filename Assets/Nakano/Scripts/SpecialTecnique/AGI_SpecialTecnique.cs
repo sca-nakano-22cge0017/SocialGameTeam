@@ -28,7 +28,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
 
         player.BuffMotion(() => 
         {
-            player.AddBuff(StatusType.AGI, amount);
+            player.AddBuff(StatusType.AGI, amount, true);
 
             Debug.Log("「加速」発動 速度" + (amount * 100) + "%アップ");
         });
@@ -40,7 +40,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     void Cancel_RankC()
     {
         float amount = (float)rankC.m_value1 / 100.0f;
-        player.AddBuff(StatusType.AGI, -amount);
+        player.AddBuff(StatusType.AGI, -amount, false);
 
         Debug.Log("「加速」解除");
     }
@@ -65,7 +65,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
 
         player.BuffMotion(() => 
         {
-            enemy.AddDebuff(StatusType.AGI, amount);
+            enemy.AddDebuff(StatusType.AGI, amount, true);
 
             Debug.Log("「スロウ」発動 敵の速度" + (amount * 100) + "%ダウン");
         });
@@ -77,7 +77,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     void Cancel_RankB(Enemy _enemy)
     {
         float amount = (float)rankB.m_value1 / 100.0f;
-        _enemy.AddDebuff(StatusType.AGI, -amount);
+        _enemy.AddDebuff(StatusType.AGI, -amount, false);
 
         Debug.Log("「スロウ」解除");
     }
