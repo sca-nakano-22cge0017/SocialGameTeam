@@ -33,6 +33,16 @@ public class SaveData
     /// 設定
     /// </summary>
     public Setting setting = new();
+
+    /// <summary>
+    /// 前回ゲーム終了時にバトルが進行中だったかどうか
+    /// </summary>
+    public bool isBattleInProgress = false;
+
+    /// <summary>
+    /// 進行中バトル(途中でゲーム終了したバトル)の情報
+    /// </summary>
+    public OngoingBattleInfomation ongoingBattleInfomation = new();
 }
 
 [System.Serializable]
@@ -200,4 +210,43 @@ public class Setting
     // ボスステージの設定
     public int speedForBoss = 0;
     public bool isAutoForBoss = false;
+}
+
+[System.Serializable]
+public class OngoingBattleInfomation
+{
+    /// <summary>
+    /// プレイヤー情報
+    /// </summary>
+    public PlayerData player = new();
+
+    /// <summary>
+    /// 敵情報
+    /// </summary>
+    public EnemyData[] enemies = new EnemyData[4];
+
+    public class PlayerData
+    {
+        public int currentHp;
+        public int currentMp;
+
+        /// <summary>
+        /// 掛かっているバフデバフ
+        /// </summary>
+        public StateData[] state;
+    }
+
+    public class EnemyData
+    {
+        public int hp;
+
+        public StateData[] state;
+    }
+
+    public class StateData
+    {
+        public int id;
+        public float value;
+        public int elapsedTurn;
+    }
 }

@@ -260,16 +260,16 @@ MonoBehaviour:
   charaSelect:
     title: "\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u9078\u629E"
     pages:
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: df5b605388118254687d7db5ae6edc11, type: 3}
       explain: "\u30E1\u30A4\u30F3\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u306B\u8A2D\u5B9A\u3059\u308B\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u3092\u9078\u629E\u3057\u3066\u304F\u3060\u3055\u3044\u3002"
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: f90d470534d14304f908ec2071d9750e, type: 3}
       explain: "\u30E1\u30A4\u30F3\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u306F\u5F8C\u304B\u3089\u5909\u66F4\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
   home:
     title: "\u30DB\u30FC\u30E0\u753B\u9762"
     pages:
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: 269d59632c1ccc74cae28230fece73d4, type: 3}
       explain: "\u3053\u3053\u3067\u306F\u5404\u753B\u9762\u3092\u958B\u304F\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: affecd1aba4c0d94f9edd98371202b09, type: 3}
       explain: "\u307E\u305A\u306F\u30C8\u30EC\u30FC\u30CB\u30F3\u30B0\u30D0\u30C8\u30EB\u3092\u958B\u304D\u307E\u3057\u3087\u3046\u3002"
   stageSelect:
     title: "\u80B2\u6210\u30B9\u30C6\u30FC\u30B8\u9078\u629E\u753B\u9762"
@@ -289,7 +289,7 @@ MonoBehaviour:
       explain: "\u6575\u306EHP\u30B2\u30FC\u30B8\u3092\u524A\u308A\u304D\u308B\u3053\u3068\u3067\u6575\u3092\u5012\u3059\u3053\u3068\u304C\u3067\u304D\u307E\u3059\u3002"
     - sprite: {fileID: 21300000, guid: 7ff187b208bd7a84c944488d865ba40a, type: 3}
       explain: "\u9006\u306B\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u306EHP\u304C0\u306B\u306A\u308B\u3068\u30B2\u30FC\u30E0\u30AA\u30FC\u30D0\u30FC\u306B\u306A\u308A\u307E\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: cd83d387223888041aa8de2b54512cbe, type: 3}
+    - sprite: {fileID: 21300000, guid: 3ae25fe87f31781488ed6b87360d096a, type: 3}
       explain: "\u901A\u5E38\u653B\u6483\u306F\u6575\u3092\u4E00\u4F53\u653B\u6483\u3057\u307E\u3059\u3002\u3053\u306E\u6642\u3001MP\u306E\u6D88\u8CBB\u306F\u6709\u308A\u307E\u305B\u3093\u3002"
     - sprite: {fileID: 21300000, guid: 97230119f2990474996147e78f3dd51d, type: 3}
       explain: "\u30B9\u30AD\u30EB\u3092\u4F7F\u3046\u306B\u306FMP\u3092\u6D88\u8CBB\u3059\u308B\u5FC5\u8981\u304C\u3042\u308A\u307E\u3059\u3002MP\u6B8B\u91CF\u306B\u6CE8\u610F\u3057\u307E\u3057\u3087\u3046\u3002"
@@ -309,11 +309,11 @@ MonoBehaviour:
     pages:
     - sprite: {fileID: 21300000, guid: a662e0f3837e0144a81eb8655be6d7bc, type: 3}
       explain: "\u30DC\u30B9\u306F\u901A\u5E38\u306E\u6575\u3088\u308A\u3082\u5F37\u529B\u3067\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: 99a769aeeff0f474f84f89949f142829, type: 3}
+    - sprite: {fileID: 21300000, guid: c0173da2597938845afabb65a677c589, type: 3}
       explain: "\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u306E\u5F37\u529B\u306A\u6280\u3001\u3010\u5FC5\u6BBA\u6280\u3011\u3092\u99C6\u4F7F\u3057\u3001\u6575\u3092\u5012\u3057\u307E\u3057\u3087\u3046\u3002"
     - sprite: {fileID: 21300000, guid: 97230119f2990474996147e78f3dd51d, type: 3}
       explain: "\u901A\u5E38\u653B\u6483\u3092\u3057\u305F\u308A\u3001\u9632\u5FA1\u72B6\u614B\u3067\u30C0\u30E1\u30FC\u30B8\u3092\u53D7\u3051\u308B\u3068\u5FC5\u6BBA\u6280\u30B2\u30FC\u30B8\u304C\u6E9C\u307E\u308A\u307E\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: 6b9b470597462a04895619eb74ddb383, type: 3}
+    - sprite: {fileID: 21300000, guid: 5c9d56b01fcc8014893bbae3ac8138b3, type: 3}
       explain: "\u30B2\u30FC\u30B8\u304C\u6E9C\u307E\u3063\u305F\u3089\u30DC\u30BF\u30F3\u3092\u62BC\u3057\u3066\u5FC5\u6BBA\u6280\u3092\u653E\u3061\u307E\u3057\u3087\u3046\u3002"
   stageSelect_BossCleared:
     title: "\u80B2\u6210\u30B9\u30C6\u30FC\u30B8\u9078\u629E\u753B\u9762"
@@ -327,11 +327,11 @@ MonoBehaviour:
   reset:
     title: "\u30EA\u30BB\u30C3\u30C8"
     pages:
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: e5b8798961a23e54483f199e9152e0cc, type: 3}
       explain: "\u80B2\u6210\u304C\u3072\u3068\u6BB5\u843D\u3057\u305F\u3089\u30EA\u30BB\u30C3\u30C8\u3057\u307E\u3057\u3087\u3046\u3002"
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: 7327626b786c80249beb246774eddeff, type: 3}
       explain: "\u30EA\u30BB\u30C3\u30C8\u3059\u308B\u3068\u30B9\u30C6\u30FC\u30BF\u30B9\u304C\u521D\u671F\u5316\u3055\u308C\u308B\u4EE3\u308F\u308A\u306B\u30E9\u30F3\u30AF\u304CSS\u306E\u30B9\u30C6\u30FC\u30BF\u30B9\u306B+\u30B9\u30B3\u30A2\u304C\u3064\u304D\u307E\u3059\u3002"
-    - sprite: {fileID: 21300000, guid: 1a7f82025221fea4a83a8b2f94156dbf, type: 3}
+    - sprite: {fileID: 21300000, guid: 58746844239945b4b903bc382567a2aa, type: 3}
       explain: "+\u30B9\u30B3\u30A2\u304C\u3064\u304F\u3068\u3001\u30AB\u30F3\u30B9\u30C8\u5024\u304C\u4E0A\u6607\u3057\u3001\u3088\u308A\u5F37\u304F\u80B2\u6210\u3067\u304D\u308B\u3088\u3046\u306B\u306A\u308A\u307E\u3059\u3002"
     - sprite: {fileID: 21300000, guid: 774e7ca98e016bd47b4df7121437d67a, type: 3}
       explain: "\u30E9\u30F3\u30AF\u304CSS\u306B\u306A\u3063\u305F\u3089\u30EA\u30BB\u30C3\u30C8\u3057\u3001\u30AD\u30E3\u30E9\u30AF\u30BF\u30FC\u3092\u3088\u308A\u5F37\u304F\u305D\u3060\u308C\u307E\u3057\u3087\u3046\u3002"

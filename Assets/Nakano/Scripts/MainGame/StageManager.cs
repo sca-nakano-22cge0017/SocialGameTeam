@@ -263,6 +263,7 @@ public class StageManager : MonoBehaviour
                         var mr = child.GetComponent<MeshRenderer>();
                         mr.sortingOrder = 50 - e - 1;
 
+                        enemies[e].motion = ene.transform.GetChild(0).gameObject.GetComponent<Animator>();
                         enemies[e].spineAnim = ene.GetComponent<SpineAnim>();
 
                         if (GameManager.SelectArea == 2)

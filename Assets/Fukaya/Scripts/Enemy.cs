@@ -88,6 +88,9 @@ public class Enemy : Character
                     break;
             }
         }
+
+        defaultAnimSpd_Wait = motion.GetFloat("taikiSpeed");
+        defaultAnimSpd_Attack = motion.GetFloat("attackSpeed");
     }
 
     public override void Move()

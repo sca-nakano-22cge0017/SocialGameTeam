@@ -12649,11 +12649,15 @@ MonoBehaviour:
   - {fileID: 1777223733408398798}
   - {fileID: 1320653346060937490}
   elapsedTurn_Text: {fileID: 544243451}
-  speedMagnificationKind:
+  spdMagnificationKind:
   - 1
   - 1.5
   - 2
-  speedMagnificationText: {fileID: 1381431081}
+  spdMagnificationText: {fileID: 1381431081}
+  enmeyAnimSpdKind:
+  - 1
+  - 0.8
+  - 0.6
   autoButton: {fileID: 1286630503}
   autoButtonText: {fileID: 1070897369}
   autoButtonSprites:
@@ -17570,6 +17574,8 @@ MonoBehaviour:
   critical: 0
   motion: {fileID: 0}
   spineAnim: {fileID: 0}
+  defaultAnimSpd_Wait: 1
+  defaultAnimSpd_Attack: 1
   deadMotionTime: 1
   deadMotionDist: 50
   mpGuage: {fileID: 5474815273249445285}

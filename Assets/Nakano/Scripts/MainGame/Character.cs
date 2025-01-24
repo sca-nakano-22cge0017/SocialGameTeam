@@ -124,6 +124,9 @@ public class Character : MonoBehaviour
     [HideInInspector] public Animator motion;
     [HideInInspector] public SpineAnim spineAnim;
 
+    public float defaultAnimSpd_Wait = 1;
+    public float defaultAnimSpd_Attack = 1;
+
     private void Start()
     {
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
