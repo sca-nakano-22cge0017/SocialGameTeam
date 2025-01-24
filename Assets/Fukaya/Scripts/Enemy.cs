@@ -95,7 +95,7 @@ public class Enemy : Character
 
     public override void Move()
     {
-        if (currentHp <= 0)
+        if (currentHp <= 0 || player.currentHp <= 0)
         {
             MoveEnd();
             return;
