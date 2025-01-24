@@ -102,6 +102,17 @@ public class PlayerDataManager : MonoBehaviour
         // 設定
         saveData.setting = GameManager.Setting;
 
+        // 進行中バトルデータ
+        saveData.isBattleInProgress = GameManager.isBattleInProgress;
+        if (GameManager.isBattleInProgress)
+        {
+            saveData.selectArea = GameManager.SelectArea;
+            saveData.selectStage = GameManager.SelectStage;
+            saveData.selectDifficulty = GameManager.SelectDifficulty;
+
+            saveData.ongoingBattleInfomation = MainGameSystem.OngoingBattleInfomation;
+        }
+
         CharaSelectManager.savePlayerData(saveData);
         Debug.Log("データセーブ完了");
     }
@@ -111,28 +122,39 @@ public class PlayerDataManager : MonoBehaviour
     /// </summary>
     public static void Load()
     {
-        SaveData data = CharaSelectManager.loadPlayerData();
+        SaveData saveData = CharaSelectManager.loadPlayerData();
 
-        player.Initialize(data.chara1);
-        chara1.Initialize(data.chara1);
-        chara2.Initialize(data.chara2);
+        player.Initialize(saveData.chara1);
+        chara1.Initialize(saveData.chara1);
+        chara2.Initialize(saveData.chara2);
 
         player = chara1;
 
-        GameManager.isFirstStart = data.isFirstStart;
-        GameManager.SelectChara = data.selectChara;
+        GameManager.isFirstStart = saveData.isFirstStart;
+        GameManager.SelectChara = saveData.selectChara;
 
         // スタミナ関連
-        StaminaManager.lastTimeStr = data.staminaData.lastTime;
-        StaminaManager.lastStamina = data.staminaData.lastStamina;
-        StaminaManager.lastRecoveryTime = data.staminaData.lastRecoveryTime;
-        StaminaManager.lastCompleteRecoveryTime = data.staminaData.lastCompleteRecoveryTime;
+        StaminaManager.lastTimeStr = saveData.staminaData.lastTime;
+        StaminaManager.lastStamina = saveData.staminaData.lastStamina;
+        StaminaManager.lastRecoveryTime = saveData.staminaData.lastRecoveryTime;
+        StaminaManager.lastCompleteRecoveryTime = saveData.staminaData.lastCompleteRecoveryTime;
 
         // チュートリアル進捗
-        GameManager.TutorialProgress = new TutorialProgress(data.tutorialData);
+        GameManager.TutorialProgress = new TutorialProgress(saveData.tutorialData);
 
         // 設定
-        GameManager.Setting = data.setting;
+        GameManager.Setting = saveData.setting;
+
+        // 進行中バトルデータ
+        GameManager.isBattleInProgress = saveData.isBattleInProgress;
+        if (saveData.isBattleInProgress)
+        {
+            GameManager.SelectArea = saveData.selectArea;
+            GameManager.SelectStage = saveData.selectStage;
+            GameManager.SelectDifficulty = saveData.selectDifficulty;
+
+            MainGameSystem.OngoingBattleInfomation = saveData.ongoingBattleInfomation;
+        }
 
         playerDataLoadComlete = true;
         Debug.Log("セーブデータロード完了");

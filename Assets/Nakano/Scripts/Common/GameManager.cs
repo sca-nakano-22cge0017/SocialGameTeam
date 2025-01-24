@@ -218,6 +218,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static bool isHyperTraningMode = false;
 
+    [SerializeField] StageDataManager sdm;
+
     private void Awake()
     {
         if (instance == null)
@@ -243,6 +245,16 @@ public class GameManager : MonoBehaviour
         {
             staminaManager.Recovery();
         }
+
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    sdm.LoadData(selectDifficulty, selectArea, selectStage);
+        //}
+
+        //if (Input.GetKeyDown(KeyCode.A))
+        //{
+        //    SceneManager.LoadScene("MainTest");
+        //}
     }
 
     IEnumerator LoadComplete()
@@ -270,6 +282,7 @@ public class GameManager : MonoBehaviour
         setting = new();
 
         isFirstStart = true;
+        isBattleInProgress = false;
         selectChara = -1;
         selectDifficulty = 1;
         selectArea = -1;
