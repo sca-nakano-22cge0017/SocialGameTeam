@@ -141,6 +141,8 @@ public class LoadManager : MonoBehaviour
         // フェードイン終わってからシーンロード
         yield return new WaitUntil(() => !isFadeIn);
 
+        if (Time.timeScale != 1) Time.timeScale = 1;
+
         yield return new WaitForSecondsRealtime(lowestLoadTime);
 
         // シーン読み込み
@@ -159,6 +161,8 @@ public class LoadManager : MonoBehaviour
     private IEnumerator LoadSceneCoroutine_LoadData(string sceneName)
     {
         yield return new WaitUntil(() => !isFadeIn);
+
+        if (Time.timeScale != 1) Time.timeScale = 1;
 
         // マスターデータ読み込み完了したら
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);

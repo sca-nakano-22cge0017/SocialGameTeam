@@ -204,6 +204,11 @@ public class GameManager : MonoBehaviour
     public static int lastSelectButton_Boss = -1;
 
     /// <summary>
+    /// 前回ゲーム終了時にバトルが進行中だったかどうか
+    /// </summary>
+    public static bool isBattleInProgress = false;
+
+    /// <summary>
     /// 前のバトルで敗北したか
     /// </summary>
     public static bool islastBattleLose = false;
@@ -281,5 +286,19 @@ public class GameManager : MonoBehaviour
         StaminaManager.lastCompleteRecoveryTime = 0;
 
         PlayerDataManager.CharacterInitialize();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus)
+        {
+            staminaManager.Save();
+
+            var mainGameSystem = FindObjectOfType<MainGameSystem>();
+            if (mainGameSystem != null)
+            {
+                mainGameSystem.BattleInformationSave();
+            }
+        }
     }
 }

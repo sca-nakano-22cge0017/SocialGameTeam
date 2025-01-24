@@ -10,7 +10,6 @@ public class MainGameSystem : MonoBehaviour
 {
     private LoadManager loadManager;
     [SerializeField] private StageManager stageManager;
-    private SoundController soundController;
     [SerializeField] private MainDirection mainDirection;
     
     [SerializeField] private Button menuButton;
@@ -41,7 +40,7 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] AGI_SpecialTecnique agi_st;
     [SerializeField] DEX_SpecialTecnique dex_st;
 
-    SpecialTecniqueManager stm;
+    SpecialTecniqueManager spTecManager;
     [SerializeField] private Button[] skillButtons;
 
     // チュートリアル
@@ -52,11 +51,13 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private Text elapsedTurn_Text;
 
     // 倍速
-    [SerializeField, Header("速度倍率")] private float[] speedMagnificationKind;
-    [SerializeField] private Text speedMagnificationText;
-    private int selectSpeedMagNum = 0;
-    private float currentSpeedMagnification = 1.0f;
-    public float CurrentSpeedRatio { get => currentSpeedMagnification; }
+    [SerializeField, Header("速度倍率")] private float[] spdMagnificationKind;
+    [SerializeField] private Text spdMagnificationText;
+    private int selectSpdMagNum = 0;
+    private float currentSpdMagnification = 1.0f;
+    public float CurrentSpeedRatio { get => currentSpdMagnification; }
+
+    [SerializeField, Header("敵アニメーション速度倍率")] private float[] enmeyAnimSpdKind;
 
     // オート
     [SerializeField] private Image autoButton;
@@ -77,16 +78,14 @@ public class MainGameSystem : MonoBehaviour
 
     [SerializeField] private GameObject[] enemyHp;
 
+    private OngoingBattleInfomation ongoingBattleInfomation;
+    public OngoingBattleInfomation OngoingBattleInfomation { get => ongoingBattleInfomation; }
+
     void Start()
     {
-        stm = FindObjectOfType<SpecialTecniqueManager>();
+        spTecManager = FindObjectOfType<SpecialTecniqueManager>();
         tutorial = FindObjectOfType<TutorialWindow>();
         loadManager = FindObjectOfType<LoadManager>();
-        soundController = FindObjectOfType<SoundController>();
-
-        InitializeSetting();
-
-        SkillRelease();
 
         if (GameManager.SelectArea == 1)
         {
@@ -108,6 +107,9 @@ public class MainGameSystem : MonoBehaviour
         }
 
         bgSpecialCommand.sprite = GameManager.SelectChara == 1 ? bgSpriteSpecialCommand[0] : bgSpriteSpecialCommand[1];
+
+        InitializeSetting();
+        SkillRelease();
     }
 
     void Update()
@@ -302,14 +304,14 @@ public class MainGameSystem : MonoBehaviour
             skillButtons[j].gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < stm.specialTecniques.Length; i++)
+        for (int i = 0; i < spTecManager.specialTecniques.Length; i++)
         {
             for (int j = 0; j < skillButtons.Length; j++)
             {
                 // ScriptableObjectとゲームオブジェクト(ボタン)の名前が同じなら
                 // かつ解放済みなら
-                if (stm.specialTecniques[i].name == skillButtons[j].name && 
-                    stm.specialTecniques[i].m_released)
+                if (spTecManager.specialTecniques[i].name == skillButtons[j].name && 
+                    spTecManager.specialTecniques[i].m_released)
                 {
                     skillButtons[j].gameObject.SetActive(true);
                 }
@@ -322,17 +324,17 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     void SkillCanActCheck()
     {
-        for (int i = 0; i < stm.specialTecniques.Length; i++)
+        for (int i = 0; i < spTecManager.specialTecniques.Length; i++)
         {
             for (int j = 0; j < skillButtons.Length; j++)
             {
                 // ScriptableObjectとゲームオブジェクト(ボタン)の名前が同じなら
-                if (stm.specialTecniques[i].name == skillButtons[j].name)
+                if (spTecManager.specialTecniques[i].name == skillButtons[j].name)
                 {
                     // MP不足
-                    if (player.currentMp < stm.specialTecniques[i].m_cost)
+                    if (player.currentMp < spTecManager.specialTecniques[i].m_cost)
                     {
-                        skillButtons[j].image.color = new Color(0.8f, 0.8f, 0.8f, 1.0f);
+                        skillButtons[j].image.color = new Color(0.9f, 0.9f, 0.9f, 1.0f);
                     }
                     else
                     {
@@ -361,18 +363,19 @@ public class MainGameSystem : MonoBehaviour
     {
         if (GameManager.SelectArea == 1)
         {
-            selectSpeedMagNum = GameManager.Setting.speedForTraning;
+            selectSpdMagNum = GameManager.Setting.speedForTraning;
             isAutoMode = GameManager.Setting.isAutoForTraning;
         }
         if (GameManager.SelectArea == 2)
         {
-            selectSpeedMagNum = GameManager.Setting.speedForBoss;
+            selectSpdMagNum = GameManager.Setting.speedForBoss;
             isAutoMode = GameManager.Setting.isAutoForBoss;
         }
 
-        currentSpeedMagnification = speedMagnificationKind[selectSpeedMagNum];
-        speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
-        Time.timeScale = currentSpeedMagnification;
+        currentSpdMagnification = spdMagnificationKind[selectSpdMagNum];
+        spdMagnificationText.text = "x" + currentSpdMagnification.ToString();
+        Time.timeScale = currentSpdMagnification;
+        AjustEnemyAnimSed();
 
         if (isAutoMode)
         {
@@ -391,23 +394,40 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     public void SpeedChange()
     {
-        if (selectSpeedMagNum < speedMagnificationKind.Length - 1)
+        if (selectSpdMagNum < spdMagnificationKind.Length - 1)
         {
-            selectSpeedMagNum++;
+            selectSpdMagNum++;
         }
-        else selectSpeedMagNum = 0;
+        else selectSpdMagNum = 0;
 
-        currentSpeedMagnification = speedMagnificationKind[selectSpeedMagNum];
-        speedMagnificationText.text = "x" + currentSpeedMagnification.ToString();
-        Time.timeScale = currentSpeedMagnification;
+        currentSpdMagnification = spdMagnificationKind[selectSpdMagNum];
+        spdMagnificationText.text = "x" + currentSpdMagnification.ToString();
+        Time.timeScale = currentSpdMagnification;
+        AjustEnemyAnimSed();
 
         if (GameManager.SelectArea == 1)
         {
-            GameManager.Setting.speedForTraning = selectSpeedMagNum;
+            GameManager.Setting.speedForTraning = selectSpdMagNum;
         }
         if (GameManager.SelectArea == 2)
         {
-            GameManager.Setting.speedForBoss = selectSpeedMagNum;
+            GameManager.Setting.speedForBoss = selectSpdMagNum;
+        }
+    }
+
+    /// <summary>
+    /// 敵アニメーション速度調整
+    /// </summary>
+    void AjustEnemyAnimSed()
+    {
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i].gameObject.activeSelf && enemies[i].motion != null)
+            {
+                var spd = enmeyAnimSpdKind[selectSpdMagNum];
+                enemies[i].motion.SetFloat("taikiSpeed", enemies[i].defaultAnimSpd_Wait * spd);
+                enemies[i].motion.SetFloat("attackSpeed", enemies[i].defaultAnimSpd_Attack * spd);
+            }
         }
     }
 
@@ -418,13 +438,13 @@ public class MainGameSystem : MonoBehaviour
     {
         isAutoMode = !isAutoMode;
 
-        PlayerData p = charactersList[actionNum].GetComponent<PlayerData>();
-
-        if (p != null && isAutoMode)
+        if (actionNum >= 0 && actionNum < charactersList.Count && 
+            charactersList[actionNum].GetComponent<PlayerData>() != null && 
+            player != null && isAutoMode)
         {
-            if (p.isInputWaiting)
+            if (player.isInputWaiting)
             {
-                p.NormalAttack();
+                player.NormalAttack();
             }
         }
 
@@ -446,6 +466,23 @@ public class MainGameSystem : MonoBehaviour
         {
             autoButton.sprite = autoButtonSprites[1];
             autoButtonText.color = new Color(0.7f, 0.7f, 0.7f, 1.0f);
+        }
+    }
+
+    /// <summary>
+    /// 進行中バトルのデータを保存
+    /// </summary>
+    public void BattleInformationSave()
+    {
+        GameManager.isBattleInProgress = true;
+
+        ongoingBattleInfomation.player.currentHp = player.currentHp;
+        ongoingBattleInfomation.player.currentMp = player.currentMp;
+
+        ongoingBattleInfomation.player.state = new OngoingBattleInfomation.StateData[player.state.Count];
+        for (int i = 0; i < player.state.Count; i++)
+        {
+
         }
     }
 }

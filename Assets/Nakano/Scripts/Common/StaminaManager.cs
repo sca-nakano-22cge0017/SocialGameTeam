@@ -294,15 +294,10 @@ public class StaminaManager : MonoBehaviour
         Save();
     }
 
-    private void OnApplicationPause(bool pauseStatus)
-    {
-        if (pauseStatus)
-        {
-            Save();
-        }
-    }
-
-    void Save()
+    /// <summary>
+    /// スタミナ情報保存
+    /// </summary>
+    public void Save()
     {
         lastTimeStr = System.DateTime.Now.ToString();
         lastStamina = stamina;
