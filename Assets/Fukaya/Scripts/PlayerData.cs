@@ -93,6 +93,16 @@ public class PlayerData : Character
         specialMoveGuage.Initialize(specialMoveGuageMax, 0);
     }
 
+    public override void RestartInitialize()
+    {
+        base.RestartInitialize();
+
+        mpGuage.Initialize(MP, currentMp);
+        specialMoveGuage.Initialize(specialMoveGuageMax, specialMoveGuageAmount);
+
+        SetCommandsButton(false);
+    }
+
     public override void Move()
     {
         // ガードしてればガード解除

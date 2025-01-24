@@ -39,10 +39,11 @@ public class SaveData
     /// </summary>
     public bool isBattleInProgress = false;
 
-    /// <summary>
-    /// 進行中バトル(途中でゲーム終了したバトル)の情報
-    /// </summary>
     public OngoingBattleInfomation ongoingBattleInfomation = new();
+
+    public int selectArea = 0;
+    public int selectStage = 0;
+    public int selectDifficulty = 0;
 }
 
 [System.Serializable]
@@ -215,6 +216,8 @@ public class Setting
 [System.Serializable]
 public class OngoingBattleInfomation
 {
+    public int elapsedTurn;
+
     /// <summary>
     /// プレイヤー情報
     /// </summary>
@@ -223,26 +226,33 @@ public class OngoingBattleInfomation
     /// <summary>
     /// 敵情報
     /// </summary>
-    public EnemyData[] enemies = new EnemyData[4];
+    public EnemyData[] enemies;
 
+    [System.Serializable]
     public class PlayerData
     {
         public int currentHp;
         public int currentMp;
+        public int currentGuageAmount;
 
         /// <summary>
         /// 掛かっているバフデバフ
         /// </summary>
         public StateData[] state;
+
+        public int stateAmount;
     }
 
+    [System.Serializable]
     public class EnemyData
     {
-        public int hp;
+        public int currentHp;
 
         public StateData[] state;
+        public int stateAmount;
     }
 
+    [System.Serializable]
     public class StateData
     {
         public int id;

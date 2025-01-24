@@ -76,7 +76,7 @@ public class StageDataManager : MonoBehaviour
         isLoadComplete = true;
         Debug.Log("ステージデータ読み込み完了");
 
-        LoadCompleteProcess();
+        if (LoadCompleteProcess != null) LoadCompleteProcess();
     }
 
     /// <summary>

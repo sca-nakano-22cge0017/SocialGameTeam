@@ -59,7 +59,9 @@ public class MainGameGuage : MonoBehaviour
         didDecrease = false;
         didIncrease = false;
 
-        if (text != null) text.text = _maxAmount.ToString() + "/" + _maxAmount.ToString();
+        if (text != null) text.text = _current.ToString() + "/" + _maxAmount.ToString();
+        if (guage_first != null) guage_first.fillAmount = diff / max;
+        if (guage_second != null) guage_second.fillAmount = diff / max;
     }
 
     /// <summary>

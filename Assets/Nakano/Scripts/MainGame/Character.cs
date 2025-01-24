@@ -127,7 +127,7 @@ public class Character : MonoBehaviour
     public float defaultAnimSpd_Wait = 1;
     public float defaultAnimSpd_Attack = 1;
 
-    private void Start()
+    private void Awake()
     {
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
     }
@@ -172,6 +172,14 @@ public class Character : MonoBehaviour
         _criticalProbability = criticalProbabilityInitial;
 
         state.Clear();
+    }
+
+    /// <summary>
+    /// バトル再開時のデータ読み込み
+    /// </summary>
+    public virtual void RestartInitialize()
+    {
+        hpGuage.Initialize(HP, currentHp);
     }
 
     /// <summary>
@@ -434,6 +442,34 @@ public class Character : MonoBehaviour
     }
 
     /// <summary>
+    /// 再開した進行中バトルのバフデバフを設定
+    /// </summary>
+    public void SetState(int _stateNumber, float _value, int _elapsedTurn)
+    {
+        State s = new();
+        s.stateId = _stateNumber;
+        s.elapsedTurn = _elapsedTurn;
+        s.value = _value;
+        s.lastingEffects = null;
+
+        for (int i = 0; i < specialTecniqueManager.specialTecniques.Length; i++)
+        {
+            var skill = specialTecniqueManager.specialTecniques[i];
+            if (_stateNumber == skill.m_id)
+            {
+                s.continuationTurn = skill.m_continuationTurn;
+            }
+        }
+
+        switch(_stateNumber)
+        {
+            
+        }
+
+        state.Add(s);
+    }
+
+    /// <summary>
     /// バフ追加
     /// </summary>
     /// <param name="_type">ステータスの種類</param>
@@ -586,7 +622,7 @@ public class Character : MonoBehaviour
         powerAgi = 1 + buffAgi - debuffAgi;
         powerDex = 1 + buffDex - debuffDex;
 
-        Debug.Log($"倍率 HP:{powerHp}, MP:{powerMp}, ATK:{powerAtk}, DEF:{powerDef}, AGI:{powerAgi}, DEX:{powerDex}");
+        //Debug.Log($"倍率 HP:{powerHp}, MP:{powerMp}, ATK:{powerAtk}, DEF:{powerDef}, AGI:{powerAgi}, DEX:{powerDex}");
     }
 
     /// <summary>

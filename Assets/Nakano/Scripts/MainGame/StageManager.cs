@@ -50,6 +50,10 @@ public class StageManager : MonoBehaviour
 
     StageDataManager stageDataManager;
 
+    bool isLoadStart = false;
+    bool isPlayerDataLoaded = false;
+    bool isEnemyDataLoaded = false;
+    bool isBGDataLoaded = false;
     /// <summary>
     /// セッティング完了
     /// </summary>
@@ -85,6 +89,7 @@ public class StageManager : MonoBehaviour
     private void Load()
     {
         if (isSetCompleted) return;
+        StartCoroutine(LoadWait());
 
         stageDataManager = FindObjectOfType<StageDataManager>();
 
@@ -116,11 +121,13 @@ public class StageManager : MonoBehaviour
 
     void Setting()
     {
+        if (isLoadStart) return;
+
+        isLoadStart = true;
+
         PlayerDataSet();
         EnemyDataSet();
         BGSet();
-
-        isSetCompleted = true;
     }
 
     /// <summary>
@@ -178,6 +185,7 @@ public class StageManager : MonoBehaviour
         }
 
         player.Initialize();
+        isPlayerDataLoaded = true;
     }
 
     /// <summary>
@@ -319,6 +327,8 @@ public class StageManager : MonoBehaviour
                 enemies[e].Initialize();
             }
         }
+
+        isEnemyDataLoaded = true;
     }
 
     /// <summary>
@@ -389,6 +399,8 @@ public class StageManager : MonoBehaviour
         {
             colorChangeTexts[i].color = c;
         }
+
+        isBGDataLoaded = true;
     }
 
     /// <summary>
@@ -461,5 +473,14 @@ public class StageManager : MonoBehaviour
         }
 
         return r;
+    }
+
+    IEnumerator LoadWait()
+    {
+        yield return new WaitUntil(() => isPlayerDataLoaded);
+        yield return new WaitUntil(() => isEnemyDataLoaded);
+        yield return new WaitUntil(()=> isBGDataLoaded);
+
+        isSetCompleted = true;
     }
 }

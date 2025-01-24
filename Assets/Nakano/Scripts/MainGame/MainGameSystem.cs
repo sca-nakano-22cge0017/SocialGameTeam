@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
 
 /// <summary>
 /// メインゲーム制御　仮
@@ -78,8 +79,8 @@ public class MainGameSystem : MonoBehaviour
 
     [SerializeField] private GameObject[] enemyHp;
 
-    private OngoingBattleInfomation ongoingBattleInfomation;
-    public OngoingBattleInfomation OngoingBattleInfomation { get => ongoingBattleInfomation; }
+    private static OngoingBattleInfomation ongoingBattleInfomation = new();
+    public static OngoingBattleInfomation OngoingBattleInfomation { get => ongoingBattleInfomation; set => ongoingBattleInfomation = value;}
 
     void Start()
     {
@@ -147,6 +148,11 @@ public class MainGameSystem : MonoBehaviour
         StartCoroutine(GameStart());
 
         SkillCanActCheck();
+
+        if (GameManager.isBattleInProgress)
+        {
+            BattleInformationLoad();
+        }
     }
 
     IEnumerator GameStart()
@@ -476,13 +482,88 @@ public class MainGameSystem : MonoBehaviour
     {
         GameManager.isBattleInProgress = true;
 
+        ongoingBattleInfomation.elapsedTurn = elapsedTurn;
+
         ongoingBattleInfomation.player.currentHp = player.currentHp;
         ongoingBattleInfomation.player.currentMp = player.currentMp;
+        ongoingBattleInfomation.player.currentGuageAmount = player.specialMoveGuageAmount;
 
+        // 掛かっているバフデバフを保存
+        ongoingBattleInfomation.player.stateAmount = player.state.Count;
         ongoingBattleInfomation.player.state = new OngoingBattleInfomation.StateData[player.state.Count];
         for (int i = 0; i < player.state.Count; i++)
         {
+            OngoingBattleInfomation.StateData s = new();
+            s.id = player.state[i].stateId;
+            s.value = player.state[i].value;
+            s.elapsedTurn = player.state[i].elapsedTurn;
+            ongoingBattleInfomation.player.state[i] = s;
+        }
 
+        ongoingBattleInfomation.enemies = new OngoingBattleInfomation.EnemyData[enemies.Length];
+
+        for (int i = 0; i < ongoingBattleInfomation.enemies.Length; i++)
+        {
+            if (enemies[i] != null)
+            {
+                ongoingBattleInfomation.enemies[i] = new();
+                ongoingBattleInfomation.enemies[i].currentHp = enemies[i].currentHp;
+
+                ongoingBattleInfomation.enemies[i].stateAmount = enemies[i].state.Count;
+                ongoingBattleInfomation.enemies[i].state = new OngoingBattleInfomation.StateData[enemies[i].state.Count];
+                for (int j = 0; j < enemies[i].state.Count; j++)
+                {
+                    OngoingBattleInfomation.StateData s = new();
+                    s.id = enemies[i].state[j].stateId;
+                    s.value = enemies[i].state[j].value;
+                    s.elapsedTurn = enemies[i].state[j].elapsedTurn;
+                    ongoingBattleInfomation.enemies[i].state[j] = s;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 進行中バトルのデータ取得
+    /// </summary>
+    public void BattleInformationLoad()
+    {
+        GameManager.isBattleInProgress = false;
+
+        elapsedTurn = ongoingBattleInfomation.elapsedTurn;
+
+        player.currentHp = ongoingBattleInfomation.player.currentHp;
+        player.currentMp = ongoingBattleInfomation.player.currentMp;
+        player.specialMoveGuageAmount = ongoingBattleInfomation.player.currentGuageAmount;
+
+        for (int i = 0; i < ongoingBattleInfomation.player.stateAmount; i++)
+        {
+            var s = ongoingBattleInfomation.player.state[i];
+            player.SetState(s.id, s.value, s.elapsedTurn);
+        }
+
+        for (int i = 0; i < ongoingBattleInfomation.enemies.Length; i++)
+        {
+            if (enemies[i].gameObject.activeSelf)
+            {
+                enemies[i].currentHp = ongoingBattleInfomation.enemies[i].currentHp;
+
+                for (int j = 0; j < ongoingBattleInfomation.enemies[i].stateAmount; j++)
+                {
+                    var s = ongoingBattleInfomation.enemies[i].state[j];
+                    enemies[i].SetState(s.id, s.value, s.elapsedTurn);
+                }
+            }
+        }
+
+        player.RestartInitialize();
+
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i].gameObject.activeSelf)
+            {
+                enemies[i].RestartInitialize();
+            }
         }
     }
 }
