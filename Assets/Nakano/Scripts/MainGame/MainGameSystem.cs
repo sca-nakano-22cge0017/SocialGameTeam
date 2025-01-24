@@ -151,7 +151,7 @@ public class MainGameSystem : MonoBehaviour
 
         if (GameManager.isBattleInProgress)
         {
-            BattleInformationLoad();
+            //BattleInformationLoad();
         }
     }
 

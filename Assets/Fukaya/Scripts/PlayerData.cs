@@ -290,7 +290,7 @@ public class PlayerData : Character
 
         // HPå∏è≠
         currentHp -= damage;
-        if (currentHp < 0)
+        if (currentHp <= 0)
         {
             currentHp = 0;
             Dead();
