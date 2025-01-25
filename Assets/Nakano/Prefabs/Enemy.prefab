@@ -665,7 +665,7 @@ MonoBehaviour:
   buffText: {fileID: 1116076693497573643}
   textDispTime: 1
   buffEffect: {fileID: 8608211905706709011}
-  debuffEffect: {fileID: 8608211905706709011}
+  debuffEffect: {fileID: 5920887906400479023}
   ATK: 0
   MP: 0
   HP: 0
@@ -699,6 +699,8 @@ MonoBehaviour:
   critical: 0
   motion: {fileID: 0}
   spineAnim: {fileID: 0}
+  defaultAnimSpd_Wait: 1
+  defaultAnimSpd_Attack: 1
   deadMotionTime: 1
   deadMotionDist: 50
   enemyId: 

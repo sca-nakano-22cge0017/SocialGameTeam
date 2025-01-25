@@ -24,6 +24,7 @@ public class TutorialWindow : MonoBehaviour
     [SerializeField] private Image image;
     [SerializeField] private Text explain;
     [SerializeField] private Text title;
+    [SerializeField] private Text pageText;
     [SerializeField] private GameObject backButton;
     [SerializeField] private GameObject nextButton;
     [SerializeField] private GameObject skipButton;
@@ -196,7 +197,9 @@ public class TutorialWindow : MonoBehaviour
     /// </summary>
     void ChangePage()
     {
-        if (page < 0 || page > displayExplain.pages.Length) return; 
+        if (page < 0 || page > displayExplain.pages.Length) return;
+
+        pageText.text = page.ToString() + " / " + (displayExplain.pages.Length).ToString();
 
         // ÉyÅ[ÉWëóÇË
         image.sprite = displayExplain.pages[page - 1].sprite;

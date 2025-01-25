@@ -126,6 +126,21 @@ public class LoadManager : MonoBehaviour
         // Šù‚Éƒ[ƒh’†‚È‚çÀs‚µ‚È‚¢
         if (isLoading) return;
 
+        SoundController soundController = FindObjectOfType<SoundController>();
+        if (soundController != null)
+        {
+            if (sceneName != "MainTest" || GameManager.lastScene != "MainTest")
+            {
+                if (sceneName == "MainTest")
+                    soundController.MainToBattle();
+
+                if (GameManager.lastScene == "MainTest")
+                {
+                    soundController.BattleToMain();
+                }
+            }
+        }
+
         isLoading = true;
         didFadeComplete = false;
 

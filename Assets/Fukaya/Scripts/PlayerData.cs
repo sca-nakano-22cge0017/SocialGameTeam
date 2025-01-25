@@ -261,6 +261,8 @@ public class PlayerData : Character
                     var target = mainGameSystem.Target;
                     target.Damage(damage);
                     if (cri) target.CriticalDamage();
+
+                    PlayNormalAttackEffect();
                 });
             });
         }));

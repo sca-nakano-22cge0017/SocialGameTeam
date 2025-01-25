@@ -290,6 +290,13 @@ public class ResultManager : MonoBehaviour
             resultCombiGuages[i].LastRank = PlayerDataManager.player.GetCombiRank(resultCombiGuages[i].CombiType);
         }
 
+        if (!isFirstClear)
+        {
+            didSkillReleaseComplete = true;
+            StartCoroutine(AddRankPtDirection());
+            return;
+        }
+
         for (int i = 0; i < resultGuages.Length; i++)
         {
             StatusType type = resultGuages[i].Type;
@@ -320,11 +327,6 @@ public class ResultManager : MonoBehaviour
                 PlayerDataManager.RankPtUp(type, amount);
                 resultGuages[i].SetPointText(amount);
                 resultGuages[i].CurrentRank = PlayerDataManager.player.GetRank(type);
-
-                if (!isFirstClear)
-                {
-                    StartCoroutine(AddRankPtDirection());
-                }
             }
         }
 
