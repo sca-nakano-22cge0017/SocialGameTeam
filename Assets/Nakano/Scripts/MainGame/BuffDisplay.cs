@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class BuffDisplay : MonoBehaviour
 {
+    [SerializeField] MainGameSystem mainGameSystem;
     [SerializeField] WindowController buffWindow_Player;
 
     [SerializeField] GameObject prefab_Active;
@@ -55,6 +56,8 @@ public class BuffDisplay : MonoBehaviour
 
     void Update()
     {
+        if (!mainGameSystem.isGamePlaying) return;
+
         if (isTapping)
         {
             tapTime += Time.deltaTime;

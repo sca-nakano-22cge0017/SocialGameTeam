@@ -73,6 +73,7 @@ public class MainGameSystem : MonoBehaviour
     // リザルト
     [SerializeField] private ResultManager resultManager;
 
+    public bool isGamePlaying = false;
     private bool isInitialized = false;
     private bool isLose = false;
     private bool isWin = false;
@@ -122,6 +123,7 @@ public class MainGameSystem : MonoBehaviour
         {
             Initialize();
             isInitialized = true;
+            isGamePlaying = true;
         }
     }
 
@@ -247,6 +249,7 @@ public class MainGameSystem : MonoBehaviour
         if (player.currentHp <= 0)
         {
             isLose = true;
+            isGamePlaying = false;
             menuButton.interactable = false;
             StartCoroutine(GameEnd());
             return;
@@ -266,12 +269,14 @@ public class MainGameSystem : MonoBehaviour
         }
 
         isWin = true;
+        isGamePlaying = false;
         menuButton.interactable = false;
         StartCoroutine(GameEnd());
     }
 
     IEnumerator GameEnd()
     {
+        buffDisplay.Close();
         targetImage.enabled = false;
 
         yield return new WaitForSecondsRealtime(1.0f);
@@ -357,12 +362,19 @@ public class MainGameSystem : MonoBehaviour
     /// <param name="_enemy"></param>
     public void TargetChange(Enemy _enemy)
     {
+        // ボス戦はターゲット変更不可
+        if (GameManager.SelectArea == 2)
+        {
+            target = enemies[0];
+            return;
+        }
+        
         target = _enemy;
         
         // ターゲットマークを移動
         targetImage.gameObject.transform.SetParent(target.gameObject.transform);
         targetImage.gameObject.transform.localPosition = new Vector3(0, 0, 0);
-        targetImage.gameObject.transform.SetSiblingIndex(2);
+        targetImage.gameObject.transform.SetSiblingIndex(3);
     }
 
     void InitializeSetting()
@@ -379,7 +391,7 @@ public class MainGameSystem : MonoBehaviour
         }
 
         currentSpdMagnification = spdMagnificationKind[selectSpdMagNum];
-        spdMagnificationText.text = "x" + currentSpdMagnification.ToString();
+        spdMagnificationText.text = "x" + currentSpdMagnification.ToString("f1");
         Time.timeScale = currentSpdMagnification;
         AjustEnemyAnimSed();
 
@@ -407,7 +419,7 @@ public class MainGameSystem : MonoBehaviour
         else selectSpdMagNum = 0;
 
         currentSpdMagnification = spdMagnificationKind[selectSpdMagNum];
-        spdMagnificationText.text = "x" + currentSpdMagnification.ToString();
+        spdMagnificationText.text = "x" + currentSpdMagnification.ToString("f1");
         Time.timeScale = currentSpdMagnification;
         AjustEnemyAnimSed();
 

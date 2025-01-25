@@ -111,6 +111,8 @@ public class SkillExplainDisplay : MonoBehaviour
             continue;
         }
 
+        player.SkillAct();
+
         yield return new WaitForSeconds(0.2f);
 
         wc.Close();
@@ -170,8 +172,6 @@ public class SkillExplainDisplay : MonoBehaviour
                 dex_st.RankSS();
                 break;
         }
-
-        player.SkillAct();
     }
 
     public void WindowClose()

@@ -64,30 +64,17 @@ public class ResultGuage : MonoBehaviour
 
     private void Update()
     {
-        if (increaseStart)
+        if (!increaseStart || isSkip) return;
+
+        if (addCount == 0)
         {
-            if (addCount == 0)
+            // 増加
+            if (guage.fillAmount < amount)
             {
-                // 増加
-                if (guage.fillAmount <= amount)
+                guage.fillAmount += increaseSpeed * Time.deltaTime;
+
+                if (guage.fillAmount >= amount)
                 {
-                    guage.fillAmount += increaseSpeed * Time.deltaTime;
-                }
-
-                else
-                {
-                    if (guage.fillAmount >= 1)
-                    {
-                        // ランクアップ
-                        int n = count + (int)lastRank + 1;
-                        Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
-                        if (r > Rank.SS) r = Rank.SS;
-
-                        rankIcon.RankIconChange(r);
-
-                        guage.fillAmount = 0;
-                    }
-
                     guage.fillAmount = amount;
                     increaseCompleted = true;
                     increaseStart = false;
@@ -99,39 +86,49 @@ public class ResultGuage : MonoBehaviour
 
             else
             {
-                // ランクが変わった回数分、ゲージを最大まで上昇させる演出を挟む
-                if (count <= addCount && !isFinalUp)
+                guage.fillAmount = amount;
+                increaseCompleted = true;
+                increaseStart = false;
+
+                if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
+                else resultManager.CheckSecondDirectionCompleted();
+            }
+        }
+
+        else
+        {
+            // ランクが変わった回数分、ゲージを最大まで上昇させる演出を挟む
+            if (count <= addCount && !isFinalUp)
+            {
+                if (guage.fillAmount < 1)
                 {
-                    if (guage.fillAmount <= 1)
-                    {
-                        guage.fillAmount += increaseSpeed * Time.deltaTime;
-                    }
-
-                    if (guage.fillAmount >= 1)
-                    {
-                        // ランクアップ
-                        int n = count + (int)lastRank + 1;
-                        Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
-                        if (r > Rank.SS) r = Rank.SS;
-
-                        rankIcon.RankIconChange(r);
-
-                        guage.fillAmount = 0;
-
-                        count++;
-                        if(count >= addCount) isFinalUp = true;
-                    }
+                    guage.fillAmount += increaseSpeed * Time.deltaTime;
                 }
 
-                if (isFinalUp)
+                if (guage.fillAmount >= 1)
                 {
-                    // 増加
-                    if (guage.fillAmount <= amount)
-                    {
-                        guage.fillAmount += increaseSpeed * Time.deltaTime;
-                    }
+                    // ランクアップ
+                    int n = count + (int)lastRank + 1;
+                    Rank r = (Rank)Enum.ToObject(typeof(Rank), n);
+                    if (r > Rank.SS) r = Rank.SS;
 
-                    else
+                    rankIcon.RankIconChange(r);
+
+                    guage.fillAmount = 0;
+
+                    count++;
+                    if (count >= addCount) isFinalUp = true;
+                }
+            }
+
+            if (isFinalUp)
+            {
+                // 増加
+                if (guage.fillAmount < amount)
+                {
+                    guage.fillAmount += increaseSpeed * Time.deltaTime;
+
+                    if (guage.fillAmount >= amount)
                     {
                         guage.fillAmount = amount;
                         increaseCompleted = true;
@@ -140,6 +137,16 @@ public class ResultGuage : MonoBehaviour
                         if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
                         else resultManager.CheckSecondDirectionCompleted();
                     }
+                }
+
+                else
+                {
+                    guage.fillAmount = amount;
+                    increaseCompleted = true;
+                    increaseStart = false;
+
+                    if (!isCombiGuage) resultManager.CheckFirstDirectionCompleted();
+                    else resultManager.CheckSecondDirectionCompleted();
                 }
             }
         }
@@ -172,6 +179,7 @@ public class ResultGuage : MonoBehaviour
         }
 
         addAmount = 0;
+        addCount = 0;
         amount = (float)(current - min) / (max - min);
         guage.fillAmount = amount;
         rankIcon.RankIconChange(currentRank);
@@ -205,15 +213,6 @@ public class ResultGuage : MonoBehaviour
             return;
         }
 
-        increaseCompleted = false;
-        increaseStart = true;
-
-        int l = (int)lastRank;
-        int c = (int)currentRank;
-        addCount = c - l;
-        count = 0;
-        isFinalUp = false;
-
         if (!isCombiGuage)
         {
             currentRank = PlayerDataManager.player.GetRank(type);
@@ -234,6 +233,15 @@ public class ResultGuage : MonoBehaviour
 
         // 増加量計算
         amount = (float)(current - min) / (max - min);
+
+        int l = (int)lastRank;
+        int c = (int)currentRank;
+        addCount = c - l;
+        count = 0;
+        isFinalUp = false;
+
+        increaseCompleted = false;
+        increaseStart = true;
     }
 
     /// <summary>
