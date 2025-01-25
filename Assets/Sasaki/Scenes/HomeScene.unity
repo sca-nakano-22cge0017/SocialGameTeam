@@ -655,6 +655,7 @@ MonoBehaviour:
   - {fileID: 1026512703}
   - {fileID: 941287430}
   - {fileID: 1653047297}
+  - {fileID: 4059260361361219649}
 --- !u!114 &102462430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1122,8 +1123,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5465531399236053493}
-  - {fileID: 3225533994076595894}
   - {fileID: 570254287}
+  - {fileID: 3225533994076595894}
   - {fileID: 629537432}
   - {fileID: 4960362872126816788}
   - {fileID: 304502496}
@@ -7315,6 +7316,7 @@ GameObject:
   - component: {fileID: 6604114964172093146}
   - component: {fileID: 3272638994665945540}
   - component: {fileID: 4059260361361219649}
+  - component: {fileID: 6604114964172093148}
   m_Layer: 5
   m_Name: CharaImage
   m_TagString: Untagged
@@ -7439,7 +7441,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
+  m_Sprite: {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8119,6 +8121,15 @@ MonoBehaviour:
   - {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
   - {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
   - {fileID: -1410744621, guid: 79f73c92fd8ae124a85f784020d9673d, type: 3}
+  charaADifference:
+  - {fileID: -412757795, guid: fe7bc8ac6b186324eacadd6ee047512f, type: 3}
+  - {fileID: 1958397818, guid: 2d6003d4b0c9c6a4b855850201f39374, type: 3}
+  - {fileID: -2032517127, guid: 8b086bcab89557d4bbc71989c4db45b6, type: 3}
+  - {fileID: -1205546389, guid: 5659dde94a2be7247a195b137a12f05f, type: 3}
+  charaBDifference:
+  - {fileID: -1679182320, guid: 3dc38f20b39a04e4dbadda7afdd5b7e5, type: 3}
+  - {fileID: -1265380192, guid: a2988add7a3b01542befc4805c5cfe6c, type: 3}
+  - {fileID: 209711682, guid: e35240d6a25ef7344a58b5dbe41ba246, type: 3}
   image: {fileID: 4059260361361219649}
 --- !u!1 &5929253147240547380
 GameObject:
@@ -8447,6 +8458,74 @@ RectTransform:
   m_AnchoredPosition: {x: -380, y: -452}
   m_SizeDelta: {x: 1600, y: 1600}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6604114964172093148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3504035060735984795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 0
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 3
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 4059260361361219649}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5907507769080253751}
+        m_TargetAssemblyTypeName: CharaillustChanger, Assembly-CSharp
+        m_MethodName: differenceImage
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 102462430}
+        m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
+        m_MethodName: PlaySE_NotButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &6619780707216628716
 CanvasRenderer:
   m_ObjectHideFlags: 0
