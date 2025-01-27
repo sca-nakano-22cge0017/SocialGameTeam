@@ -87,11 +87,19 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「痛み分け」 解除
     /// </summary>
-    void Cancel_RankB()
+    public void Cancel_RankB()
     {
         isActive_B = false;
 
         Debug.Log("痛み分け　解除");
+    }
+
+    /// <summary>
+    /// 痛み分け バトル再開時の処理
+    /// </summary>
+    public void RankB_Restart()
+    {
+        isActive_B = true;
     }
 
     /// <summary>
@@ -136,8 +144,7 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
 
                 player.AddState(true, rankS.m_id, 999, amount, () => 
                 {
-                    isActive_S = false;
-                    player.AddBuff(StatusType.ATK, -amount, false);
+                    Cancel_RankS();
                 }, true);
             }
         }
@@ -147,12 +154,18 @@ public class HP_SpecialTecnique : SpecialTecniqueMethod
             // バフが掛かっている場合、バフを無くす
             if (isActive_S)
             {
-                player.AddBuff(StatusType.ATK, -amount, false);
-                isActive_S = false;
+                Cancel_RankS();
 
                 player.RemoveState(rankS.m_id);
             }
         }
+    }
+
+    void Cancel_RankS()
+    {
+        float amount = (float)rankS.m_value2 / 100;
+        isActive_S = false;
+        player.AddBuff(StatusType.ATK, -amount, false);
     }
 
     /// <summary>

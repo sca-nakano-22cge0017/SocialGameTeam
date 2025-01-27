@@ -10,6 +10,7 @@ public class Enemy : Character
 
     public string enemyId;
     public int POSITION; // 敵の位置
+    private int drop;
 
     // アタックパターン
     public List<EnemyAttackPattern> attackPattern = new();
@@ -340,6 +341,8 @@ public class Enemy : Character
 
         Debug.Log("敵" + POSITION + "を倒した");
 
+        // ドロップ抽選
+        drop = dropController.DropLottery();
         mainGameSystem.Judge();
 
         // イラスト・HPゲージを非表示にする
@@ -375,9 +378,6 @@ public class Enemy : Character
     /// <returns></returns>
     IEnumerator DropDirection()
     {
-        // ドロップ抽選
-        int drop = dropController.DropLottery();
-
         yield return new WaitForSeconds(1.0f);
 
         // ドロップ量表示
@@ -425,5 +425,47 @@ public class Enemy : Character
             StartCoroutine(EndWait()); 
         };
         spineAnim.PlayAttackMotion();
+    }
+
+    public override void SetState(int _stateNumber, float _value, int _elapsedTurn, int _continuationTurn)
+    {
+        State s = new();
+        s.stateId = _stateNumber;
+        s.elapsedTurn = _elapsedTurn;
+        s.continuationTurn = _continuationTurn;
+        s.value = _value;
+        s.lastingEffects = null;
+
+        switch (_stateNumber)
+        {
+            case 13: // ガードブレイカー
+                s.isBuff = false;
+                atk_st.RankA_Restart(this);
+                s.werasOffAction = atk_st.Cancel_RankA;
+                break;
+            case 19: // 呪い
+                s.isBuff = false;
+                mp_st.RankS_Restart(this);
+                s.werasOffAction = mp_st.Cancel_RankS;
+                s.lastingEffects = mp_st._RankS;
+                break;
+            case 22: // スロウ
+                s.isBuff = false;
+                agi_st.RankB_Restart(this);
+                s.werasOffAction = agi_st.Cancel_RankB;
+                break;
+            case 26: // ガードクラッシュ
+                s.isBuff = false;
+                dex_st.RankC_Restart(this);
+                s.werasOffAction = dex_st.Cancel_RankC;
+                break;
+            case 103: // 攻撃力アップ
+                s.isBuff = true;
+                AddBuff(StatusType.ATK, _value, false);
+                s.werasOffAction = Cancel_Buff;
+                break;
+        }
+
+        state.Add(s);
     }
 }

@@ -37,7 +37,7 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「加速」解除
     /// </summary>
-    void Cancel_RankC()
+    public void Cancel_RankC()
     {
         float amount = (float)rankC.m_value1 / 100.0f;
         player.AddBuff(StatusType.AGI, -amount, false);
@@ -45,6 +45,13 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
         Debug.Log("「加速」解除");
     }
 
+    public void RankC_Restart()
+    {
+        float amount = (float)rankC.m_value1 / 100.0f;
+        player.AddBuff(StatusType.AGI, amount, false);
+    }
+
+    Enemy enemy_RankB = new();
     /// <summary>
     /// スロウ　スキル
     /// Nターンの間、敵の速度をV％下げる
@@ -58,10 +65,11 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
 
         // ロックオンした敵にデバフ
         Enemy enemy = mainGameSystem.Target;
+        enemy_RankB = enemy;
 
         float amount = (float)rankB.m_value1 / 100.0f;
 
-        enemy.AddState(false, rankB.m_id, rankB.m_continuationTurn, rankB.m_value1, () => { Cancel_RankB(enemy); }, false);
+        enemy.AddState(false, rankB.m_id, rankB.m_continuationTurn, rankB.m_value1, () => { Cancel_RankB(); }, false);
 
         player.BuffMotion(() => 
         {
@@ -74,12 +82,19 @@ public class AGI_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「スロウ」解除
     /// </summary>
-    void Cancel_RankB(Enemy _enemy)
+    public void Cancel_RankB()
     {
         float amount = (float)rankB.m_value1 / 100.0f;
-        _enemy.AddDebuff(StatusType.AGI, -amount, false);
+        enemy_RankB.AddDebuff(StatusType.AGI, -amount, false);
 
         Debug.Log("「スロウ」解除");
+    }
+
+    public void RankB_Restart(Enemy _enemy)
+    {
+        enemy_RankB = _enemy;
+        float amount = (float)rankB.m_value1 / 100.0f;
+        enemy_RankB.AddDebuff(StatusType.AGI, amount, false);
     }
 
     /// <summary>

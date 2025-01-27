@@ -124,6 +124,13 @@ public class Character : MonoBehaviour
     [HideInInspector] public Animator motion;
     [HideInInspector] public SpineAnim spineAnim;
 
+    [SerializeField] protected HP_SpecialTecnique hp_st;
+    [SerializeField] protected DEF_SpecialTecnique def_st;
+    [SerializeField] protected ATK_SpecialTecnique atk_st;
+    [SerializeField] protected MP_SpecialTecnique mp_st;
+    [SerializeField] protected AGI_SpecialTecnique agi_st;
+    [SerializeField] protected DEX_SpecialTecnique dex_st;
+
     public float defaultAnimSpd_Wait = 1;
     public float defaultAnimSpd_Attack = 1;
 
@@ -314,7 +321,9 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_stateNumber">プレイヤーバフデバフ→スキル番号、 敵デバフ１→101、敵デバフ２→102、敵バフ→103</param>
     /// <param name="_isBuff">バフかどうか</param>
-    /// <param name="_continuationTurn">効果終了時の処理</param>
+    /// <param name="_continuationTurn">継続ターン</param>
+    /// <param name="_value">効果量</param>
+    /// <param name="_wearsOffAction">効果終了時の処理</param>
     /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
     public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, float _value, Action _wearsOffAction, bool _isRestTurnUpdate)
     {
@@ -355,8 +364,10 @@ public class Character : MonoBehaviour
     /// </summary>
     /// <param name="_stateNumber">プレイヤーバフデバフ→スキル番号、 敵デバフ１→101、敵デバフ２→102、敵バフ→103</param>
     /// <param name="_isBuff">バフかどうか</param>
-    /// <param name="_continuationTurn">効果終了時の処理</param>
-    /// <param name="_lastingEffects">ターン中持続する効果 ターン終了時に呼ばれる</param>
+    /// <param name="_continuationTurn">継続ターン</param>
+    /// <param name="_value">効果量</param>
+    /// <param name="_wearsOffAction">効果終了時の処理</param>
+    /// <param name="_lastingEffects">ターン中持続する効果 ターン終了時に呼ばれる処理</param>
     /// <param name="_isRestTurnUpdate">重ね掛け時、効果は重複せず、残りターンを更新するか</param>
     public void AddState(bool _isBuff, int _stateNumber, int _continuationTurn, float _value, Action _wearsOffAction, Action _lastingEffects, bool _isRestTurnUpdate)
     {
@@ -412,7 +423,6 @@ public class Character : MonoBehaviour
         for (int i = 0; i < state.Count; ++i)
         {
             state[i].elapsedTurn++;
-            //Debug.Log($"test ID:{state[i].stateId} elapsedTurn:{state[i].elapsedTurn} continuationTurn:{state[i].continuationTurn}");
 
             // 解除
             if (state[i].elapsedTurn > state[i].continuationTurn)
@@ -444,27 +454,14 @@ public class Character : MonoBehaviour
     /// <summary>
     /// 再開した進行中バトルのバフデバフを設定
     /// </summary>
-    public void SetState(int _stateNumber, float _value, int _elapsedTurn)
+    public virtual void SetState(int _stateNumber, float _value, int _elapsedTurn, int _continuationTurn)
     {
         State s = new();
         s.stateId = _stateNumber;
         s.elapsedTurn = _elapsedTurn;
+        s.continuationTurn = _continuationTurn;
         s.value = _value;
         s.lastingEffects = null;
-
-        for (int i = 0; i < specialTecniqueManager.specialTecniques.Length; i++)
-        {
-            var skill = specialTecniqueManager.specialTecniques[i];
-            if (_stateNumber == skill.m_id)
-            {
-                s.continuationTurn = skill.m_continuationTurn;
-            }
-        }
-
-        switch(_stateNumber)
-        {
-            
-        }
 
         state.Add(s);
     }

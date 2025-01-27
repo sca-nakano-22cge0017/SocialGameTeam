@@ -42,13 +42,6 @@ public class PlayerData : Character
     /// </summary>
     [HideInInspector] public float power_CostMp = 1;
 
-    [SerializeField] HP_SpecialTecnique hp_st;
-    [SerializeField] DEF_SpecialTecnique def_st;
-    [SerializeField] ATK_SpecialTecnique atk_st;
-    [SerializeField] MP_SpecialTecnique mp_st;
-    [SerializeField] AGI_SpecialTecnique agi_st;
-    [SerializeField] DEX_SpecialTecnique dex_st;
-
     // エフェクト
     [SerializeField] Animator sisterAttack;
     [SerializeField] Animator swordAttack;
@@ -74,8 +67,6 @@ public class PlayerData : Character
     void Start()
     {
         soundController = FindObjectOfType<SoundController>();
-        atk_st.GameStart();
-        hp_st.GameStart();
     }
 
     /// <summary>
@@ -164,6 +155,7 @@ public class PlayerData : Character
         UpSpecialMoveGuage(sm_Turn.guageUpAmount);
     }
 
+    // 基本動作
     public override void NormalAttack()
     {
         SetCommandsButton(false);
@@ -180,6 +172,8 @@ public class PlayerData : Character
             var target = mainGameSystem.Target;
             target.Damage(damage);
             if (cri) target.CriticalDamage();
+
+            Debug.Log($"プレイヤーの通常攻撃 ダメージ:{damage} 攻撃力:{ATK} 通常攻撃倍率:{power_NormalAttack} バフ:{powerAtk} 会心倍率:{critical}");
 
             // 再行動
             if (agi_st.RankA())
@@ -268,6 +262,7 @@ public class PlayerData : Character
         }));
     }
 
+    // 基本処理
     public int Damage(float _damageAmount, Enemy _enemy)
     {
         if (agi_st.RankS())
@@ -417,6 +412,7 @@ public class PlayerData : Character
         _action?.Invoke();
     }
 
+    // モーション
     public void AttackMotion(Action _action)
     {
         SetCommandsButton(false);
@@ -520,5 +516,90 @@ public class PlayerData : Character
         }
 
         isInputWaiting = _canPut;
+    }
+
+    public override void SetState(int _stateNumber, float _value, int _elapsedTurn, int _continuationTurn)
+    {
+        State s = new();
+        s.stateId = _stateNumber;
+        s.elapsedTurn = _elapsedTurn;
+        s.continuationTurn = _continuationTurn;
+        s.value = _value;
+        s.lastingEffects = null;
+
+        switch (_stateNumber)
+        {
+            case 2: // 痛み分け
+                s.isBuff = true;
+                hp_st.RankB_Restart();
+                s.werasOffAction = hp_st.Cancel_RankB;
+                break;
+            case 8: // 無敵
+                s.isBuff = true;
+                def_st.RankA_Restart();
+                s.werasOffAction = def_st.Cancel_RankA;
+                break;
+            case 10: // 守護神の権能
+                s.isBuff = true;
+                def_st.RankSS_Restart(s.value);
+                s.werasOffAction = def_st.Cancel_RankSS;
+                break;
+            case 11: // ピアス
+                s.isBuff = true;
+                atk_st.RankC_Restart();
+                s.werasOffAction = atk_st.Cancel_RankC;
+                break;
+            case 14: // 全身全霊
+                s.isBuff = true;
+                atk_st.RankS_Restart();
+                s.werasOffAction = atk_st.Cancel_RankS;
+                break;
+            case 16: // オーラ
+                s.isBuff = true;
+                mp_st.RankC_Restart();
+                s.werasOffAction = mp_st.Cancel_RankC;
+                break;
+            case 20: // 魔術師の結界
+                s.isBuff = true;
+                mp_st.RankSS_Restart();
+                s.werasOffAction = mp_st.Cancel_RankSS;
+                break;
+            case 21: // 加速
+                s.isBuff = true;
+                agi_st.RankC_Restart();
+                s.werasOffAction = agi_st.Cancel_RankC;
+                break;
+            case 29: // バースト
+                s.isBuff = true;
+                dex_st.RankS_Restart();
+                s.werasOffAction = dex_st.Cancel_RankS;
+                break;
+            case 30: // 約束された勝利
+                s.isBuff = true;
+                dex_st.RankSS_Restart();
+                s.werasOffAction = dex_st.Cancel_RankSS;
+                break;
+            case 201: // 防御
+                s.isBuff = true;
+                AddBuff(StatusType.DEF, _value, false);
+                isGuard = true;
+                break;
+            case 101: // 敵 防御力ダウン
+                s.isBuff = false;
+                AddDebuff(StatusType.DEF, _value / 100.0f, false);
+                s.werasOffAction = () => {
+                    AddDebuff(StatusType.DEF, -_value / 100.0f, false);
+                };
+                break;
+            case 102: // 敵 攻撃力ダウン
+                s.isBuff = false;
+                AddDebuff(StatusType.ATK, _value / 100.0f, false);
+                s.werasOffAction = () => {
+                    AddDebuff(StatusType.ATK, -_value / 100.0f, false);
+                };
+                break;
+        }
+
+        state.Add(s);
     }
 }

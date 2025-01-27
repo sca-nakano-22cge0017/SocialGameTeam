@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// ゲーム全体で使用する変数等を管理
@@ -245,16 +244,6 @@ public class GameManager : MonoBehaviour
         {
             staminaManager.Recovery();
         }
-
-        //if (Input.GetKeyDown(KeyCode.L))
-        //{
-        //    sdm.LoadData(selectDifficulty, selectArea, selectStage);
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.A))
-        //{
-        //    SceneManager.LoadScene("MainTest");
-        //}
     }
 
     IEnumerator LoadComplete()
@@ -312,6 +301,13 @@ public class GameManager : MonoBehaviour
             {
                 mainGameSystem.BattleInformationSave();
             }
+
+            if (!isDelete)
+            {
+                PlayerDataManager.Save();
+            }
+
+            isDelete = false;
         }
     }
 }

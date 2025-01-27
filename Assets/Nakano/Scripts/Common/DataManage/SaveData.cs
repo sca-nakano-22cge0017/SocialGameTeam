@@ -219,6 +219,21 @@ public class OngoingBattleInfomation
     public int elapsedTurn;
 
     /// <summary>
+    /// 行動順
+    /// </summary>
+    public int[] actionOrder;
+
+    /// <summary>
+    /// 行動中のキャラ
+    /// </summary>
+    public int actionNum;
+
+    /// <summary>
+    /// ターゲット中の敵
+    /// </summary>
+    public int targetNum;
+
+    /// <summary>
     /// プレイヤー情報
     /// </summary>
     public PlayerData player = new();
@@ -227,6 +242,11 @@ public class OngoingBattleInfomation
     /// 敵情報
     /// </summary>
     public EnemyData[] enemies;
+
+    /// <summary>
+    /// ドロップ情報
+    /// </summary>
+    public DropData[] drops;
 
     [System.Serializable]
     public class PlayerData
@@ -258,5 +278,13 @@ public class OngoingBattleInfomation
         public int id;
         public float value;
         public int elapsedTurn;
+        public int continuationTurn;
+    }
+
+    [System.Serializable]
+    public class DropData
+    {
+        public string type = "";
+        public int amount = 0;
     }
 }

@@ -39,12 +39,19 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// オーラ解除
     /// </summary>
-    void Cancel_RankC()
+    public void Cancel_RankC()
     {
         float amount = (float)rankC.m_value1 / 100.0f;
         player.AddBuff(StatusType.ATK, -amount, false);
         player.AddBuff(StatusType.DEF, -amount, false);
         Debug.Log("「オーラ」解除");
+    }
+
+    public void RankC_Restart()
+    {
+        float amount = (float)rankC.m_value1 / 100.0f;
+        player.AddBuff(StatusType.ATK, amount, false);
+        player.AddBuff(StatusType.DEF, amount, false);
     }
 
     /// <summary>
@@ -77,6 +84,7 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         Debug.Log("「魔女の特権」発動 MP " + (int)amount + "回復");
     }
 
+    Enemy enemy_RankS = new();
     /// <summary>
     /// 呪い　パッシブ
     /// 被ダメ時、V％の確率で敵に呪い状態を付与
@@ -87,17 +95,19 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankS.m_released) return;
 
+        enemy_RankS = _enemy;
         int result = Random.Range(1, 100);
         if (result <= rankS.m_value1)
         {
-            _enemy.AddState(false, rankS.m_id, rankS.m_continuationTurn, 0, () => { Cancel_RankS(); }, () => { _RankS(_enemy); }, true);
+            _enemy.AddState(false, rankS.m_id, rankS.m_continuationTurn, 0, () => { Cancel_RankS(); }, () => { _RankS(); }, true);
 
             Debug.Log("「呪い」付与");
         }
     }
 
-    void _RankS(Enemy _enemy)
+    public void _RankS()
     {
+        var _enemy = enemy_RankS;
         float amount = (float)rankS.m_value2 / 100.0f * _enemy.HP;
         _enemy.Damage((int)amount, true);
     }
@@ -105,9 +115,14 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 呪い解除
     /// </summary>
-    void Cancel_RankS()
+    public void Cancel_RankS()
     {
         Debug.Log("「呪い」解除");
+    }
+
+    public void RankS_Restart(Enemy _enemy)
+    {
+        enemy_RankS = _enemy;
     }
 
     /// <summary>
@@ -146,10 +161,15 @@ public class MP_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 魔術師の結界　解除
     /// </summary>
-    void Cancel_RankSS()
+    public void Cancel_RankSS()
     {
         isActive_SS = false;
         Debug.Log("「魔術師の結界」解除");
+    }
+
+    public void RankSS_Restart()
+    {
+        isActive_SS = true;
     }
 }
 
