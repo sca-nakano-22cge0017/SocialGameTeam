@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharaillustChanger : MonoBehaviour
 {
@@ -42,7 +43,7 @@ public class CharaillustChanger : MonoBehaviour
                     break;
                 case CombiType.NORMAL:
                     image.sprite = chara[0];
-                    if (charaLoss)
+                    if (charaLoss && SceneManager.GetActiveScene().name == "HomeScene")
                     {
                         image.sprite =charaADifference[0];
                         differenceNum = 4;
@@ -68,7 +69,7 @@ public class CharaillustChanger : MonoBehaviour
                     break;
                 case CombiType.NORMAL:
                         image.sprite = chara[4];
-                    if (charaLoss)
+                    if (charaLoss && SceneManager.GetActiveScene().name == "HomeScene")
                     {
                         image.sprite = charaBDifference[0];
                         differenceNum = 4;
