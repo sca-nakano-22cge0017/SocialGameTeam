@@ -39,7 +39,7 @@ public class TapEffect : MonoBehaviour
                     effects.Add(eff.GetComponent<ParticleSystem>());
                 }
 
-                // ƒJƒƒ‰‚ÌƒTƒCƒY‚É‰‚¶‚Ä‘å‚«‚³’²®
+                // ã‚«ãƒ¡ãƒ©ã®ã‚µã‚¤ã‚ºã«å¿œã˜ã¦å¤§ãã•èª¿æ•´
                 if (SceneManager.GetActiveScene().name == "MainTest")
                 {
                     var defaultScale = 1.5f;
@@ -55,12 +55,12 @@ public class TapEffect : MonoBehaviour
 
     int CheckPlayableEffects()
     {
-        // ƒIƒuƒWƒFƒNƒg©‘Ì‚ªˆê‚Â‚à‚È‚¢
+        // ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆè‡ªä½“ãŒä¸€ã¤ã‚‚ãªã„
         if (effects.Count == 0) return -1;
 
         for (int i = 0; i < effects.Count; i++)
         {
-            // Ä¶’†‚Å‚È‚¢‚à‚Ì‚ª‚ ‚é
+            // å†ç”Ÿä¸­ã§ãªã„ã‚‚ã®ãŒã‚ã‚‹
             if (!effects[i].isPlaying) return i;
         }
 
