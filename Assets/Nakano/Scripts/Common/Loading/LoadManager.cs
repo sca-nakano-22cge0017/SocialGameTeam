@@ -27,6 +27,8 @@ public class LoadManager : MonoBehaviour
     // シングルトン
     public static LoadManager Instance;
 
+    private TutorialWindow tutorialWindow = null;
+
     private void Awake()
     {
         if (Instance == null)
@@ -51,6 +53,11 @@ public class LoadManager : MonoBehaviour
     void Update()
     {
         if(isFadeIn || isFadeOut) Fade();
+
+        if (tutorialWindow == null && FindObjectOfType<TutorialWindow>())
+        {
+            tutorialWindow = FindObjectOfType<TutorialWindow>();
+        }
     }
 
     /// <summary>
@@ -164,6 +171,9 @@ public class LoadManager : MonoBehaviour
         AsyncOperation _async = SceneManager.LoadSceneAsync(sceneName);
         yield return _async;
 
+        if (tutorialWindow) tutorialWindow.CameraChange();
+        CameraChange();
+
         // 最低限待ってからフェードアウト
         yield return new WaitForSecondsRealtime(lowestLoadTime);
 
@@ -191,6 +201,9 @@ public class LoadManager : MonoBehaviour
         AsyncOperation _async = SceneManager.LoadSceneAsync(sceneName);
         yield return _async;
 
+        if (tutorialWindow) tutorialWindow.CameraChange();
+        CameraChange();
+
         // 最低限待ってからフェードアウト
         yield return new WaitForSecondsRealtime(lowestLoadTime);
 
@@ -198,5 +211,12 @@ public class LoadManager : MonoBehaviour
         isFadeOut = true;
 
         isLoading = false;
+    }
+
+    public void CameraChange()
+    {
+        // メインカメラ設定
+        var canvas = loadingUI.GetComponent<Canvas>();
+        canvas.worldCamera = Camera.main;
     }
 }

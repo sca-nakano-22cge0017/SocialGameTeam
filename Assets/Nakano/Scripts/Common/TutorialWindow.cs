@@ -49,8 +49,7 @@ public class TutorialWindow : MonoBehaviour
 
     private void Awake()
     {
-        // メインカメラ設定
-        tutorialCanvas.worldCamera = Camera.main;
+        CameraChange();
     }
 
     public void CharaSelect()
@@ -226,5 +225,11 @@ public class TutorialWindow : MonoBehaviour
             skipButton.SetActive(false);
             closeButton.SetActive(true);
         }
+    }
+
+    public void CameraChange()
+    {
+        // メインカメラ設定
+        tutorialCanvas.worldCamera = Camera.main;
     }
 }
