@@ -12,6 +12,7 @@ public class MainGameSystem : MonoBehaviour
     private LoadManager loadManager;
     [SerializeField] private StageManager stageManager;
     [SerializeField] private MainDirection mainDirection;
+    [SerializeField] private DropController dropController;
     
     [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
@@ -20,7 +21,7 @@ public class MainGameSystem : MonoBehaviour
 
     // ターゲット
     private Enemy target = new();
-    public Enemy Target { get => target; private set => target = value; }
+    public Enemy Target { get => target; }
     [SerializeField] private Image targetImage;
 
     [SerializeField] private Character[] characters;
@@ -80,6 +81,7 @@ public class MainGameSystem : MonoBehaviour
 
     [SerializeField] private GameObject[] enemyHp;
 
+    bool isBattleInProgress = false;
     private static OngoingBattleInfomation ongoingBattleInfomation = new();
     public static OngoingBattleInfomation OngoingBattleInfomation { get => ongoingBattleInfomation; set => ongoingBattleInfomation = value;}
 
@@ -116,6 +118,15 @@ public class MainGameSystem : MonoBehaviour
 
     void Update()
     {
+        // ステージのデータセット済み　&　チュートリアル完了済み
+        if (stageManager.isSetCompleted && tutorial.CompleteTutorial)
+        {
+            if (GameManager.isBattleInProgress)
+            {
+                BattleInformationLoad();
+            }
+        }
+
         if (loadManager && !loadManager.DidFadeComplete) return;
 
         // 初期化完了済み　&　ステージのデータセット済み　&　チュートリアル完了済み
@@ -147,14 +158,9 @@ public class MainGameSystem : MonoBehaviour
             StartCoroutine(mainDirection.BossStart());
         }
 
-        StartCoroutine(GameStart());
-
         SkillCanActCheck();
 
-        if (GameManager.isBattleInProgress)
-        {
-            //BattleInformationLoad();
-        }
+        StartCoroutine(GameStart());
     }
 
     IEnumerator GameStart()
@@ -163,7 +169,23 @@ public class MainGameSystem : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(0.5f);
 
-        OrderAction();
+        if (!isBattleInProgress)
+            OrderAction();
+        else
+        {
+            if (actionNum <= charactersList.Count - 1)
+            {
+                charactersList[actionNum].Move();
+            }
+            else
+            {
+                StartCoroutine(NextTurn());
+            }
+        }
+
+        atk_st.GameStart();
+        hp_st.GameStart();
+        isBattleInProgress = false;
     }
 
     /// <summary>
@@ -494,8 +516,30 @@ public class MainGameSystem : MonoBehaviour
     {
         GameManager.isBattleInProgress = true;
 
+        // 経過ターン
         ongoingBattleInfomation.elapsedTurn = elapsedTurn;
 
+        // 行動順
+        ongoingBattleInfomation.actionNum = actionNum;
+        ongoingBattleInfomation.actionOrder = new int[charactersList.Count];
+        for (int i = 0; i < charactersList.Count; i++)
+        {
+            if (charactersList[i].gameObject.GetComponent<PlayerData>())
+            {
+                if (player.currentHp > 0) ongoingBattleInfomation.actionOrder[i] = 0;
+            }
+
+            else
+            {
+                var ene = charactersList[i].gameObject.GetComponent<Enemy>();
+                if (ene.currentHp > 0) ongoingBattleInfomation.actionOrder[i] = ene.POSITION;
+            }
+        }
+
+        // ターゲット
+        ongoingBattleInfomation.targetNum = target.POSITION;
+
+        // プレイヤーのHP/MP/必殺ゲージ現在値を保存
         ongoingBattleInfomation.player.currentHp = player.currentHp;
         ongoingBattleInfomation.player.currentMp = player.currentMp;
         ongoingBattleInfomation.player.currentGuageAmount = player.specialMoveGuageAmount;
@@ -509,11 +553,13 @@ public class MainGameSystem : MonoBehaviour
             s.id = player.state[i].stateId;
             s.value = player.state[i].value;
             s.elapsedTurn = player.state[i].elapsedTurn;
+            s.continuationTurn = player.state[i].continuationTurn;
             ongoingBattleInfomation.player.state[i] = s;
         }
 
         ongoingBattleInfomation.enemies = new OngoingBattleInfomation.EnemyData[enemies.Length];
 
+        // 各敵の情報を保存
         for (int i = 0; i < ongoingBattleInfomation.enemies.Length; i++)
         {
             if (enemies[i] != null)
@@ -529,9 +575,19 @@ public class MainGameSystem : MonoBehaviour
                     s.id = enemies[i].state[j].stateId;
                     s.value = enemies[i].state[j].value;
                     s.elapsedTurn = enemies[i].state[j].elapsedTurn;
+                    s.continuationTurn = enemies[i].state[j].continuationTurn;
                     ongoingBattleInfomation.enemies[i].state[j] = s;
                 }
             }
+        }
+
+        // ドロップ情報を保存
+        ongoingBattleInfomation.drops = new OngoingBattleInfomation.DropData[dropController.DropedItems.Count];
+        for (int i = 0; i < dropController.DropedItems.Count; i++)
+        {
+            ongoingBattleInfomation.drops[i] = new();
+            ongoingBattleInfomation.drops[i].type = dropController.DropedItems[i].itemType.ToString();
+            ongoingBattleInfomation.drops[i].amount = dropController.DropedItems[i].dropAmount;
         }
     }
 
@@ -542,7 +598,38 @@ public class MainGameSystem : MonoBehaviour
     {
         GameManager.isBattleInProgress = false;
 
+        // 経過ターン
         elapsedTurn = ongoingBattleInfomation.elapsedTurn;
+        elapsedTurn_Text.text = elapsedTurn.ToString();
+
+        // 行動順
+        actionNum = ongoingBattleInfomation.actionNum;
+        for (int i = 0; i < charactersList.Count; i++)
+        {
+            if (ongoingBattleInfomation.actionOrder[i] == 0)
+            {
+                charactersList[i] = player;
+            }
+            else
+            {
+                for (int e = 0; e < enemies.Length; e++)
+                {
+                    if (ongoingBattleInfomation.actionOrder[i] == enemies[e].POSITION)
+                    {
+                        charactersList[i] = enemies[e];
+                    }
+                }
+            }
+        }
+
+        // ターゲット
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (ongoingBattleInfomation.targetNum == enemies[i].POSITION)
+            {
+                TargetChange(enemies[i]);
+            }
+        }
 
         player.currentHp = ongoingBattleInfomation.player.currentHp;
         player.currentMp = ongoingBattleInfomation.player.currentMp;
@@ -551,7 +638,7 @@ public class MainGameSystem : MonoBehaviour
         for (int i = 0; i < ongoingBattleInfomation.player.stateAmount; i++)
         {
             var s = ongoingBattleInfomation.player.state[i];
-            player.SetState(s.id, s.value, s.elapsedTurn);
+            player.SetState(s.id, s.value, s.elapsedTurn, s.continuationTurn);
         }
 
         for (int i = 0; i < ongoingBattleInfomation.enemies.Length; i++)
@@ -563,7 +650,13 @@ public class MainGameSystem : MonoBehaviour
                 for (int j = 0; j < ongoingBattleInfomation.enemies[i].stateAmount; j++)
                 {
                     var s = ongoingBattleInfomation.enemies[i].state[j];
-                    enemies[i].SetState(s.id, s.value, s.elapsedTurn);
+                    enemies[i].SetState(s.id, s.value, s.elapsedTurn, s.continuationTurn);
+                }
+
+                if (enemies[i].currentHp <= 0)
+                {
+                    enemies[i].gameObject.SetActive(false);
+                    enemyHp[i].SetActive(false);
                 }
             }
         }
@@ -577,5 +670,15 @@ public class MainGameSystem : MonoBehaviour
                 enemies[i].RestartInitialize();
             }
         }
+
+        // ドロップ
+        for (int i = 0; i < ongoingBattleInfomation.drops.Length; i++)
+        {
+            var type = PlayerDataManager.StringToStutasType(ongoingBattleInfomation.drops[i].type);
+            dropController.AddDropAmount(type, ongoingBattleInfomation.drops[i].amount);
+        }
+
+        buffDisplay.UpdateInformation();
+        isBattleInProgress = true;
     }
 }

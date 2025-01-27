@@ -73,12 +73,17 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「無敵」解除
     /// </summary>
-    void Cancel_RankA()
+    public void Cancel_RankA()
     {
         player.isInvincible = false;
         isActive_A = false;
 
         Debug.Log("「無敵」解除");
+    }
+
+    public void RankA_Restart()
+    {
+        isActive_A = true;
     }
 
     /// <summary>
@@ -136,10 +141,15 @@ public class DEF_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 「守護神の権能」解除
     /// </summary>
-    void Cancel_RankSS()
+    public void Cancel_RankSS()
     {
         cutPercent -= (float)rankSS.m_value1;
 
         Debug.Log("「守護神の権能」解除");
+    }
+
+    public void RankSS_Restart(float _value)
+    {
+        cutPercent = _value;
     }
 }

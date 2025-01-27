@@ -212,7 +212,7 @@ public class StageManager : MonoBehaviour
 
                 // ƒŒƒA“GoŒ»’Š‘I
                 int rnd = Random.Range(0, 100);
-                if (rnd <= rareEnemyApp && rareData.Count > 0)
+                if (rnd <= rareEnemyApp && rareData.Count > 0 && !GameManager.isBattleInProgress)
                 {
                     enemy = rareData[0];
                     hasRareEnemy = true;

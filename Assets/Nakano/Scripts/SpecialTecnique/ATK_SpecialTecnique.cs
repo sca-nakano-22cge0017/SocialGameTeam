@@ -45,7 +45,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// ピアス解除
     /// </summary>
-    void Cancel_RankC()
+    public void Cancel_RankC()
     {
         for (int i = 0; i < enemies.Length; i++)
         {
@@ -53,6 +53,15 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         }
 
         Debug.Log("「ピアス」解除");
+    }
+
+    public void RankC_Restart()
+    {
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            // 全ての敵を防御無視状態に変更
+            enemies[i].GetComponent<Enemy>().isIgnoreDeffence = true;
+        }
     }
 
     float lastAmount = 0;
@@ -96,6 +105,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         Debug.Log("「背水の陣」発動 攻撃力 " + (amount * 100) + "% 上昇");
     }
 
+    Enemy enemy_RankA = new();
     /// <summary>
     /// ガードブレイカー　パッシブ
     /// 通常攻撃時、V%の確率で敵の防御力をW％下げる　最大80％ダウン
@@ -105,6 +115,7 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         // 未解放なら処理しない
         if(!rankA.m_released) return;
 
+        enemy_RankA = _enemy;
         int max = 80;
         int amount = 0;
 
@@ -120,19 +131,28 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
                 effectAmount_A += amount;
                 _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f), true);
 
-                _enemy.AddState(false, rankA.m_id, rankA.m_continuationTurn, amount, () => { Cancel_RankA(_enemy); }, false);
+                _enemy.AddState(false, rankA.m_id, rankA.m_continuationTurn, amount, () => { Cancel_RankA(); }, false);
             }
 
             Debug.Log("「ガードブレイカー」発動 敵の防御力" + amount + " %ダウン 合計" + effectAmount_A + " %ダウン");
         }
     }
 
-    void Cancel_RankA(Enemy _enemy)
+    public void Cancel_RankA()
     {
         float amount = rankA.m_value2 / 100.0f;
-        _enemy.AddDebuff(StatusType.DEF, -amount, false);
+        enemy_RankA.AddDebuff(StatusType.DEF, -amount, false);
 
         Debug.Log("「ガードブレイカー」解除");
+    }
+
+    public void RankA_Restart(Enemy _enemy)
+    {
+        int amount = rankA.m_value2;
+        effectAmount_A += amount;
+        _enemy.AddDebuff(StatusType.DEF, ((float)amount / 100.0f), false);
+
+        enemy_RankA = _enemy;
     }
 
     /// <summary>
@@ -158,12 +178,18 @@ public class ATK_SpecialTecnique : SpecialTecniqueMethod
         _specialMove?.Invoke();
     }
 
-    void Cancel_RankS()
+    public void Cancel_RankS()
     {
         float amount = (float)rankS.m_value1 / 100.0f;
         player.AddBuff(StatusType.ATK, -amount, false);
 
         Debug.Log("「全身全霊」解除");
+    }
+
+    public void RankS_Restart()
+    {
+        float amount = (float)rankS.m_value1 / 100.0f;
+        player.AddBuff(StatusType.ATK, amount, false);
     }
 
     /// <summary>

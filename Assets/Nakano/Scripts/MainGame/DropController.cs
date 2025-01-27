@@ -13,7 +13,6 @@ public class DropController : MonoBehaviour
     public List<DropItem> DropedItems
     {
         get { return dropedItems; }
-        private set { }
     }
 
     /// <summary>
@@ -141,7 +140,7 @@ public class DropController : MonoBehaviour
     /// </summary>
     /// <param name="_type"></param>
     /// <param name="_amount"></param>
-    void AddDropAmount(StatusType _type, int _amount)
+    public void AddDropAmount(StatusType _type, int _amount)
     {
         for (int i = 0; i < dropedItems.Count; i++)
         {

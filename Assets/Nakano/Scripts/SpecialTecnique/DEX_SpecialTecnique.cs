@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DEX_SpecialTecnique : SpecialTecniqueMethod
 {
+    Enemy enemy_RankC = new();
     /// <summary>
     /// ガードクラッシュ　スキル
     /// 敵単体に攻撃力V%の攻撃　Nターンの間敵の防御力をW%落とす
@@ -17,6 +18,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         // ロックオンした敵に攻撃・デバフ
         Enemy enemy = mainGameSystem.Target;
+        enemy_RankC = enemy;
 
         if (enemy == null || enemy.gameObject.activeSelf == false) return;
 
@@ -25,7 +27,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
 
         Debug.Log("「ガードクラッシュ」発動 敵の防御力 " + (debuff * 100) + "%ダウン");
 
-        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, rankC.m_value2, () => { Cancel_RankC(enemy); }, false);
+        enemy.AddState(false, rankC.m_id, rankC.m_continuationTurn, rankC.m_value2, () => { Cancel_RankC(); }, false);
 
         player.AttackMotion(() => 
         {
@@ -34,12 +36,20 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         });
     }
 
-    void Cancel_RankC(Enemy _enemy)
+    public void Cancel_RankC()
     {
         float debuff = (float)rankC.m_value2 / 100.0f;
-        _enemy.AddDebuff(StatusType.DEF, -debuff, false);
+        enemy_RankC.AddDebuff(StatusType.DEF, -debuff, false);
 
         Debug.Log("「ガードクラッシュ」解除");
+    }
+
+    public void RankC_Restart(Enemy _enemy)
+    {
+        enemy_RankC = _enemy;
+
+        float debuff = (float)rankC.m_value2 / 100.0f;
+        enemy_RankC.AddDebuff(StatusType.DEF, debuff, false);
     }
 
     /// <summary>
@@ -100,12 +110,18 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// バースト解除
     /// </summary>
-    void Cancel_RankS()
+    public void Cancel_RankS()
     {
         float amount = (float)rankS.m_value1 / 100.0f;
         player.buffCriticalPower -= amount;
 
         Debug.Log("「バースト」解除");
+    }
+
+    public void RankS_Restart()
+    {
+        float amount = (float)rankS.m_value1 / 100.0f;
+        player.buffCriticalPower += amount;
     }
 
     /// <summary>
@@ -134,7 +150,7 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
     /// <summary>
     /// 約束された勝利　解除
     /// </summary>
-    void Cancel_RankSS()
+    public void Cancel_RankSS()
     {
         float amount = (float)rankS.m_value1 / 100.0f;
 
@@ -142,5 +158,12 @@ public class DEX_SpecialTecnique : SpecialTecniqueMethod
         player._criticalProbability = player.criticalProbabilityInitial;
 
         Debug.Log("「約束された勝利」解除");
+    }
+
+    public void RankSS_Restart()
+    {
+        float amount = (float)rankS.m_value1 / 100.0f;
+        player.buffCriticalPower += amount;
+        player._criticalProbability = 100;
     }
 }

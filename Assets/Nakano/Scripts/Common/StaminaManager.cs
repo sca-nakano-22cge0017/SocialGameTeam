@@ -303,12 +303,5 @@ public class StaminaManager : MonoBehaviour
         lastStamina = stamina;
         lastRecoveryTime = recoveryTimeSec;
         lastCompleteRecoveryTime = completeRecoveryTimeSec;
-
-        if (!GameManager.isDelete)
-        {
-            PlayerDataManager.Save();
-        }
-
-        GameManager.isDelete = false;
     }
 }
