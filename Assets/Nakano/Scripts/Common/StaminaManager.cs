@@ -90,9 +90,18 @@ public class StaminaManager : MonoBehaviour
         }
         else
         {
-            lastTime = System.DateTime.Parse(lastTimeStr);
-            System.TimeSpan span = System.DateTime.Now - lastTime;
-            double spantime = span.TotalSeconds;
+            System.TimeSpan span;
+            double spantime = 0;
+            if (System.DateTime.TryParse(lastTimeStr, out System.DateTime t))
+            {
+                lastTime = t;
+            }
+            else
+            {
+                lastTime = System.DateTime.Now;
+            }
+            span = System.DateTime.Now - lastTime;
+            spantime = span.TotalSeconds;
 
             int clearBossTopDifficulty = 0;
             if (DifficultyManager.IsClearBossDifficulty1 >= DifficultyManager.IsClearBossDifficulty2) 
