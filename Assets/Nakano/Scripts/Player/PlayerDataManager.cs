@@ -10,7 +10,9 @@ public class PlayerDataManager : MonoBehaviour
 
     private static PlayerStatus chara1 = new(1);
     private static PlayerStatus chara2 = new(2);
-    
+
+    static CombiType evolutionType = CombiType.NORMAL;
+
     private static bool playerDataLoadComlete = false;
     public static bool PlayerDataLoadComplete
     {
@@ -205,12 +207,6 @@ public class PlayerDataManager : MonoBehaviour
     /// <param name="_id">キャラクターID</param>
     public static void TraningReset(int _id)
     {
-        if (_id != 1 && _id != 2)
-        {
-            Debug.Log("キャラクターIDが誤っています");
-            return;
-        }
-
         evolutionType = CombiType.NORMAL;
 
         // プラス値は持ち越す
@@ -244,15 +240,13 @@ public class PlayerDataManager : MonoBehaviour
         player.CalcStatusMin();
         player.UpdateTotalPower();
 
-        Save();
-
         SpecialTecniqueManager stm = FindObjectOfType<SpecialTecniqueManager>();
         if (stm) stm.ReleaseInitialize();
 
         GameManager.lastSelectButton_Traning = 0;
         GameManager.lastSelectButton_Boss = 0;
 
-        evolutionType = CombiType.NORMAL;
+        Save();
     }
 
     /// <summary>
@@ -429,7 +423,6 @@ public class PlayerDataManager : MonoBehaviour
         else evolutionType = CombiType.NORMAL;
     }
 
-    static CombiType evolutionType = CombiType.NORMAL;
     /// <summary>
     /// 進化
     /// </summary>
