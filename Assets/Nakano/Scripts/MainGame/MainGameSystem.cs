@@ -74,6 +74,7 @@ public class MainGameSystem : MonoBehaviour
     // リザルト
     [SerializeField] private ResultManager resultManager;
 
+    private bool didBattleInfoLoad = false;
     public bool isGamePlaying = false;
     private bool isInitialized = false;
     private bool isLose = false;
@@ -121,7 +122,7 @@ public class MainGameSystem : MonoBehaviour
         // ステージのデータセット済み　&　チュートリアル完了済み
         if (stageManager.isSetCompleted && tutorial.CompleteTutorial)
         {
-            if (GameManager.isBattleInProgress)
+            if (GameManager.isBattleInProgress && !didBattleInfoLoad)
             {
                 BattleInformationLoad();
             }
@@ -515,6 +516,7 @@ public class MainGameSystem : MonoBehaviour
     public void BattleInformationSave()
     {
         GameManager.isBattleInProgress = true;
+        ongoingBattleInfomation = new();
 
         // 経過ターン
         ongoingBattleInfomation.elapsedTurn = elapsedTurn;
@@ -596,6 +598,10 @@ public class MainGameSystem : MonoBehaviour
     /// </summary>
     public void BattleInformationLoad()
     {
+        if (didBattleInfoLoad) return;
+        didBattleInfoLoad = true;
+
+        Debug.Log("ロード");
         GameManager.isBattleInProgress = false;
 
         // 経過ターン
@@ -680,5 +686,14 @@ public class MainGameSystem : MonoBehaviour
 
         buffDisplay.UpdateInformation();
         isBattleInProgress = true;
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        // ポーズ解除
+        if (!pauseStatus)
+        {
+            GameManager.isBattleInProgress = false;
+        }
     }
 }
