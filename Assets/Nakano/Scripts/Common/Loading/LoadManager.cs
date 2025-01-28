@@ -31,6 +31,7 @@ public class LoadManager : MonoBehaviour
 
     private void Awake()
     {
+        CameraChange();
         if (Instance == null)
         {
             Instance = this;
@@ -171,7 +172,6 @@ public class LoadManager : MonoBehaviour
         AsyncOperation _async = SceneManager.LoadSceneAsync(sceneName);
         yield return _async;
 
-        if (tutorialWindow) tutorialWindow.CameraChange();
         CameraChange();
 
         // 最低限待ってからフェードアウト
@@ -201,7 +201,6 @@ public class LoadManager : MonoBehaviour
         AsyncOperation _async = SceneManager.LoadSceneAsync(sceneName);
         yield return _async;
 
-        if (tutorialWindow) tutorialWindow.CameraChange();
         CameraChange();
 
         // 最低限待ってからフェードアウト
@@ -218,5 +217,7 @@ public class LoadManager : MonoBehaviour
         // メインカメラ設定
         var canvas = loadingUI.GetComponent<Canvas>();
         canvas.worldCamera = Camera.main;
+
+        if (tutorialWindow) tutorialWindow.CameraChange();
     }
 }

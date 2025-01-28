@@ -522,6 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1260044632733150793}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &8562432579880173845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,6 +537,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 6315538600918890855}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &8585076086185330120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -550,6 +552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 3037993996629823785}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &4465789020148511443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,6 +567,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 531107323720939398}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &2981774104785630077
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -867,6 +871,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7905688679386278326}
+  - component: {fileID: 2394150612108005720}
   m_Layer: 5
   m_Name: SelectingWindow
   m_TagString: Untagged
@@ -898,6 +903,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &2394150612108005720
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 531107323720939398}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1026184016300629883
 GameObject:
   m_ObjectHideFlags: 0
@@ -1015,6 +1041,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 354722003823166807}
   initialDisp: 0
+  windowDirection: {fileID: 1558799698943844905}
 --- !u!1 &1083654456291838374
 GameObject:
   m_ObjectHideFlags: 0
@@ -1429,6 +1456,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2918464357140031187}
+  - component: {fileID: 3624875169305495054}
   m_Layer: 5
   m_Name: ConfirmWindow
   m_TagString: Untagged
@@ -1459,6 +1487,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &3624875169305495054
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1260044632733150793}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1337515557567409841
 GameObject:
   m_ObjectHideFlags: 0
@@ -2097,6 +2146,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1248521592246342833}
+  - component: {fileID: 7261183901978778664}
   m_Layer: 5
   m_Name: CantReleaseWindow
   m_TagString: Untagged
@@ -2128,6 +2178,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &7261183901978778664
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3037993996629823785}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &3886147868152708663
 GameObject:
   m_ObjectHideFlags: 0
@@ -3044,6 +3115,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5803138728632282007}
+  - component: {fileID: 928549227838361732}
   m_Layer: 5
   m_Name: GuageWindow
   m_TagString: Untagged
@@ -3077,6 +3149,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &928549227838361732
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6315538600918890855}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7239473404006946502
 GameObject:
   m_ObjectHideFlags: 0
@@ -3086,6 +3179,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8963783605031741976}
+  - component: {fileID: 1558799698943844905}
   m_Layer: 5
   m_Name: ListWindow
   m_TagString: Untagged
@@ -3114,6 +3208,27 @@ RectTransform:
   m_AnchoredPosition: {x: 500, y: 0}
   m_SizeDelta: {x: 800, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1558799698943844905
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7239473404006946502}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7280730390691037577
 GameObject:
   m_ObjectHideFlags: 0
