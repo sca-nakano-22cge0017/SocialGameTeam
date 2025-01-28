@@ -242,7 +242,7 @@ public class Enemy : Character
 
         float amount = value_Buff / 100.0f;
 
-        AddState(true, 101, turn_Buff, value_Buff, () => { Cancel_Buff(); }, false);
+        AddState(true, 103, turn_Buff, value_Buff, () => { Cancel_Buff(); }, false);
 
         AttackMotion(() => 
         {
