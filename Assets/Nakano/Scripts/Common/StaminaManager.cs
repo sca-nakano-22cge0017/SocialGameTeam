@@ -72,6 +72,7 @@ public class StaminaManager : MonoBehaviour
     private const int SECOND_PER_MINUTE = 60;
 
     [SerializeField] private GameObject staminaWindow;
+    [SerializeField] private WindowController staminaWindow_wc;
 
     public static int lastStamina = 0;
     public static string lastTimeStr = "";
@@ -289,11 +290,11 @@ public class StaminaManager : MonoBehaviour
     {
         if (staminaWindow.activeSelf) yield break;
 
-        staminaWindow.SetActive(true);
+        staminaWindow_wc.Open();
 
         yield return new WaitForSeconds(1.0f);
 
-        staminaWindow.SetActive(false);
+        staminaWindow_wc.Close();
 
         yield break;
     }

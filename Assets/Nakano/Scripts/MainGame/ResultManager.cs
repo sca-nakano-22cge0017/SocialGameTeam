@@ -20,12 +20,14 @@ public class ResultManager : MonoBehaviour
     private SpecialTecniqueManager specialTecniqueManager;
 
     [Header("特殊技能解放 スキル")]
+    [SerializeField] private WindowController wc_Skill;
     [SerializeField] private GameObject window_st_Skill;
     [SerializeField] private Text name_st_Skill;
     [SerializeField] private Text explain_st_Skill;
     [SerializeField] private Image icon_st_Skill;
 
     [Header("特殊技能解放 パッシブ")]
+    [SerializeField] private WindowController wc_Passive;
     [SerializeField] private GameObject window_st_Passive;
     [SerializeField] private Text name_st_Passive;
     [SerializeField] private Text explain_st_Passive;
@@ -91,8 +93,6 @@ public class ResultManager : MonoBehaviour
         window2.SetActive(false);
 
         ResultInitialize();
-        window_st_Skill.SetActive(false);
-        window_st_Passive.SetActive(false);
 
         checkType = 0;
         isFirstClear = true;
@@ -237,14 +237,16 @@ public class ResultManager : MonoBehaviour
             name_st_Skill.text = "スキル " + st.m_name + " 解放";
             explain_st_Skill.text = st.m_effects;
             icon_st_Skill.sprite = st.m_illust;
-            window_st_Skill.SetActive(true);
+            //window_st_Skill.SetActive(true);
+            wc_Skill.Open();
         }
         else
         {
             // パッシブの場合
             name_st_Passive.text = "特殊技能 " + st.m_name + " 解放";
             explain_st_Passive.text = st.m_effects;
-            window_st_Passive.SetActive(true);
+            //window_st_Passive.SetActive(true);
+            wc_Passive.Open();
         }
     }
 
@@ -253,13 +255,23 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     public void BackSpecialTecnique()
     {
-        window_st_Skill.SetActive(false);
-        window_st_Passive.SetActive(false);
+        wc_Skill.Close();
+        wc_Passive.Close();
 
         lastRank[checkType]++;
 
         // 次に解放した特殊技能を表示
-        Invoke("ReleaseSpecialTecnique", 0.1f);
+        StartCoroutine(NextSpecialTecnique());
+    }
+
+    IEnumerator NextSpecialTecnique()
+    {
+        yield return new WaitForSeconds(0.2f);
+
+        window_st_Skill.SetActive(false);
+        window_st_Passive.SetActive(false);
+
+        ReleaseSpecialTecnique();
     }
 
     // 通常ステータス
