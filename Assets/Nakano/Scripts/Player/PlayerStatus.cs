@@ -195,6 +195,8 @@ public class PlayerStatus
         evolutionType = CombiType.NORMAL;
         selectEvolutionType = CombiType.NORMAL;
 
+        plusStatus = new(0, 0, 0, 0, 0, 0);
+
         if (MasterDataLoader.MasterDataLoadComplete)
         {
             for (int i = 0; i < MasterData.CharaInitialStatus.Count; i++)
