@@ -99,32 +99,36 @@ public class CharaSelectManager : MonoBehaviour
         //rank[5].text = PlayerDataManager.player.GetRank(StatusType.DEX).ToString();
 
 
-        if(PlayerDataManager.player.GetPlusStatus(StatusType.HP) > 0)
+        if (PlayerDataManager.player.GetPlusStatus(StatusType.HP) > 0)
         {
             plus[0].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
         }
-
+        else plus[0].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) > 0)
         {
             plus[1].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         }
-
+        else plus[1].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) > 0)
         {
             plus[2].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
         }
+        else plus[2].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) > 0)
         {
             plus[3].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
         }
+        else plus[3].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) > 0)
         {
             plus[4].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
         }
+        else plus[4].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) > 0)
         {
             plus[5].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
         }
+        else plus[5].text = "";
 
         SkillRelease();
     }
@@ -160,28 +164,32 @@ public class CharaSelectManager : MonoBehaviour
         {
             plus[0].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.HP).ToString();
         }
-
+        else plus[0].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.DEF) > 0)
         {
             plus[1].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEF).ToString();
         }
-
+        else plus[1].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.ATK) > 0)
         {
             plus[2].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.ATK).ToString();
         }
+        else plus[2].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.MP) > 0)
         {
             plus[3].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.MP).ToString();
         }
+        else plus[3].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.AGI) > 0)
         {
             plus[4].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.AGI).ToString();
         }
+        else plus[4].text = "";
         if (PlayerDataManager.player.GetPlusStatus(StatusType.DEX) > 0)
         {
             plus[5].text = "+" + PlayerDataManager.player.GetPlusStatus(StatusType.DEX).ToString();
         }
+        else plus[5].text = "";
 
         SkillRelease();
     }

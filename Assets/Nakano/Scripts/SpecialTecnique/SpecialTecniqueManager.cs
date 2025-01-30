@@ -102,6 +102,8 @@ public class SpecialTecniqueManager : MonoBehaviour
     {
         Master.CharaInitialStutas status = PlayerDataManager.player.StatusData;
 
+        if (_rank > Rank.SS) return null;
+
         int id = status.rankPoint.releaseSTId[_rank].GetStatus(_type);
         for (int i = 0; i < specialTecniques.Length; i++)
         {
