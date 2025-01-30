@@ -8013,6 +8013,8 @@ MonoBehaviour:
   - {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
   - {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
   - {fileID: -1410744621, guid: 79f73c92fd8ae124a85f784020d9673d, type: 3}
+  charaADifference: []
+  charaBDifference: []
   image: {fileID: 959025657}
 --- !u!1 &504220726
 GameObject:
@@ -9857,6 +9859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 531108435}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &661061224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19643,7 +19646,6 @@ GameObject:
   - component: {fileID: 1300492533}
   - component: {fileID: 1300492532}
   - component: {fileID: 1300492531}
-  - component: {fileID: 1300492535}
   m_Layer: 5
   m_Name: RecordWindow
   m_TagString: Untagged
@@ -19748,28 +19750,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1300492535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1300492529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faee39afc1cb11943a9ed471b9e618c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chara:
-  - {fileID: -1751177942, guid: 95d9bb026fc97e143aa8349780b07691, type: 3}
-  - {fileID: 21300000, guid: c5d55e8631f56fc4b9c87288c67bfb0a, type: 3}
-  - {fileID: 21300000, guid: 5edaf2b8fb6e45a4191f94f491666cea, type: 3}
-  - {fileID: 21300000, guid: 8d3dfb9414ac2fc479b65110214a8c38, type: 3}
-  - {fileID: -1634482463, guid: b16d543fc293bcc4ebc68a49cc988593, type: 3}
-  - {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
-  - {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
-  - {fileID: -1410744621, guid: 79f73c92fd8ae124a85f784020d9673d, type: 3}
-  image: {fileID: 959025657}
 --- !u!1 &1302668794
 GameObject:
   m_ObjectHideFlags: 0
@@ -19834,6 +19814,8 @@ MonoBehaviour:
   - {fileID: 284683229, guid: 1ec4c88f162185849bf63fc538971381, type: 3}
   - {fileID: 1050823130, guid: 2cb5998b1d2858b4bb6363e333033020, type: 3}
   - {fileID: -1410744621, guid: 79f73c92fd8ae124a85f784020d9673d, type: 3}
+  charaADifference: []
+  charaBDifference: []
   image: {fileID: 480517644}
 --- !u!1 &1302976244
 GameObject:
@@ -25358,6 +25340,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 479548251}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &1549337784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25372,6 +25355,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1799380410}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &1549337785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25386,6 +25370,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1488770318}
   initialDisp: 1
+  windowDirection: {fileID: 0}
 --- !u!224 &1549337786
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27904,8 +27889,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 503535700}
-        m_TargetAssemblyTypeName: RecordManager, Assembly-CSharp
+      - m_Target: {fileID: 503535701}
+        m_TargetAssemblyTypeName: CharaSelectManager, Assembly-CSharp
         m_MethodName: BuckButton
         m_Mode: 1
         m_Arguments:
@@ -30094,6 +30079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1733014899}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &1849857512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30108,6 +30094,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 773248813}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &1849857513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30122,6 +30109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1549337782}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &1849857514
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30136,6 +30124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 1641304608}
   initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!114 &1849857515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30148,6 +30137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45961713eddc78147bbe79a337b9b263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainGameSystem: {fileID: 0}
   buffWindow_Player: {fileID: 1849857512}
   prefab_Active: {fileID: 8272048021028769598, guid: 9709e8277d836aa49bd42974bb44f242, type: 3}
   parent_Active: {fileID: 1604747712}
