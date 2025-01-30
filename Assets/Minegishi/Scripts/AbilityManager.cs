@@ -19,7 +19,7 @@ public class AbilityManager : MonoBehaviour
 
     public void BuckButton()
     {
-        SceneManager.LoadScene("HomeScene");
+        SceneLoader.LoadFade("HomeScene");
     }
 
     public void ButtonDown()

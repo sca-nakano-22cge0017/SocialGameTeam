@@ -237,43 +237,66 @@ public class CharaSelectManager : MonoBehaviour
 
     public void PlusStatusHP()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.HP).ToString();
-        plusStatusWindow.SetActive(true);
+        if (PlayerDataManager.GetResetCurrentEffects(StatusType.HP) != "")
+        {
+            plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.HP).ToString();
+            plusStatusWindow.SetActive(true);
+        }
     }
 
     public void PlusStatusDEF()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEF).ToString();
-        plusStatusWindow.SetActive(true);
+        if (PlayerDataManager.GetResetCurrentEffects(StatusType.DEF) != "")
+        {
+            plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEF).ToString();
+            plusStatusWindow.SetActive(true);
+        }
     }
 
     public void PlusStatusATK()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.ATK).ToString();
-        plusStatusWindow.SetActive(true);
+        if (PlayerDataManager.GetResetCurrentEffects(StatusType.ATK) != "")
+        {
+            plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.ATK).ToString();
+            plusStatusWindow.SetActive(true);
+        }
     }
 
     public void PlusStatusMP()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.MP).ToString();
-        plusStatusWindow.SetActive(true);
+        if (PlayerDataManager.GetResetCurrentEffects(StatusType.MP) != "")
+        {
+            plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.MP).ToString();
+            plusStatusWindow.SetActive(true);
+        }
     }
 
     public void PlusStatusAGI()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.AGI).ToString();
-        plusStatusWindow.SetActive(true);
+        if (PlayerDataManager.GetResetCurrentEffects(StatusType.AGI) != "")
+        {
+            plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.AGI).ToString();
+            plusStatusWindow.SetActive(true);
+        }
     }
 
     public void PlusStatusDEX()
     {
-        plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEX).ToString();
-        plusStatusWindow.SetActive(true);
+        if (PlayerDataManager.GetResetCurrentEffects(StatusType.DEX) != "")
+        {
+            plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEX).ToString();
+            plusStatusWindow.SetActive(true);
+        }
     }
 
     public void ButtonUp()
     {
         plusStatusWindow.SetActive(false);
+    }
+
+    public void BuckButton()
+    {
+        SceneLoader.LoadFade("HomeScene");
     }
 
     public static void savePlayerData(SaveData player)
