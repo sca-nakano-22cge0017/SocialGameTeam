@@ -174,7 +174,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -542,7 +542,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -752,7 +752,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -911,7 +911,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2345354720200888075}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
         m_MethodName: WindowClose
         m_Mode: 1
@@ -1688,7 +1688,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -1977,7 +1977,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -2266,7 +2266,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -2555,7 +2555,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -2758,7 +2758,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2452895964719239676}
-  - component: {fileID: 8389574645663957111}
   m_Layer: 5
   m_Name: SkillList
   m_TagString: Untagged
@@ -2791,27 +2790,6 @@ RectTransform:
   m_AnchoredPosition: {x: 300, y: 0}
   m_SizeDelta: {x: 850, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &8389574645663957111
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5189335115881103410}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5365460784182042108
 GameObject:
   m_ObjectHideFlags: 0
@@ -3206,7 +3184,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -3491,7 +3469,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -3701,7 +3679,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -4016,7 +3994,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2345354720200888075}
+      - m_Target: {fileID: 4025616710348426669}
         m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
         m_MethodName: WindowClose
         m_Mode: 1
@@ -4226,7 +4204,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -4436,7 +4414,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -4646,7 +4624,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -4856,7 +4834,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -5066,7 +5044,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -5272,7 +5250,6 @@ GameObject:
   - component: {fileID: 7629670380926158708}
   - component: {fileID: 5980378625663409414}
   - component: {fileID: 5502395094654899767}
-  - component: {fileID: 2345354720200888075}
   - component: {fileID: 581776867139492167}
   - component: {fileID: 4003533188643202313}
   - component: {fileID: 6724168194520684885}
@@ -5348,7 +5325,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &5502395094654899767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5366,35 +5343,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2345354720200888075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7710126623821364508}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ba15f85b48d5bf46be172004df45ae0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  longTapTime: 0.01
-  initialSkill: {fileID: 0}
-  hp_st: {fileID: 0}
-  def_st: {fileID: 0}
-  atk_st: {fileID: 0}
-  mp_st: {fileID: 0}
-  agi_st: {fileID: 0}
-  dex_st: {fileID: 0}
-  wc: {fileID: 4003533188643202313}
-  skillDetailWindow: {fileID: 5444718104290924326}
-  wc_DetailWindow: {fileID: 6724168194520684885}
-  skillIcon: {fileID: 8998073590084077442}
-  skillName: {fileID: 3295513104712994334}
-  skillCost: {fileID: 6005856147984021348}
-  skillExplain: {fileID: 2646502612731421161}
-  isSkillDetailDisp: 0
 --- !u!114 &581776867139492167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5463,7 +5411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 8943470633170271223}
   initialDisp: 0
-  windowDirection: {fileID: 8389574645663957111}
+  windowDirection: {fileID: 5006159041655355525}
 --- !u!114 &6724168194520684885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5890,7 +5838,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 2345354720200888075}
+        - m_Target: {fileID: 4025616710348426669}
           m_TargetAssemblyTypeName: SkillExplainDisplay, Assembly-CSharp
           m_MethodName: PointerDown
           m_Mode: 2
@@ -6089,6 +6037,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 207626455628404480}
+  - component: {fileID: 4025616710348426669}
+  - component: {fileID: 5006159041655355525}
   m_Layer: 5
   m_Name: SkillWindow
   m_TagString: Untagged
@@ -6118,6 +6068,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &4025616710348426669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8943470633170271223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba15f85b48d5bf46be172004df45ae0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  longTapTime: 0.01
+  initialSkill: {fileID: 0}
+  hp_st: {fileID: 0}
+  def_st: {fileID: 0}
+  atk_st: {fileID: 0}
+  mp_st: {fileID: 0}
+  agi_st: {fileID: 0}
+  dex_st: {fileID: 0}
+  wc: {fileID: 4003533188643202313}
+  skillDetailWindow: {fileID: 5444718104290924326}
+  wc_DetailWindow: {fileID: 6724168194520684885}
+  skillIcon: {fileID: 8998073590084077442}
+  skillName: {fileID: 3295513104712994334}
+  skillCost: {fileID: 6005856147984021348}
+  skillExplain: {fileID: 2646502612731421161}
+  isSkillDetailDisp: 0
+--- !u!95 &5006159041655355525
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8943470633170271223}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &7950997870519817508
 PrefabInstance:
   m_ObjectHideFlags: 0
