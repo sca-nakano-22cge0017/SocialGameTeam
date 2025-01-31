@@ -255,8 +255,8 @@ public class ResultManager : MonoBehaviour
     /// </summary>
     public void BackSpecialTecnique()
     {
-        wc_Skill.Close();
-        wc_Passive.Close();
+        wc_Skill.Close(false);
+        wc_Passive.Close(false);
 
         lastRank[checkType]++;
 
