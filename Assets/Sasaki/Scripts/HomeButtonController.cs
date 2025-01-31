@@ -17,6 +17,12 @@ public class HomeButtonController : MonoBehaviour
     bool effectCheck;
 
     private SoundController soundController;
+
+    [SerializeField, Header("確認Windowの開閉処理")] private WindowController checkWC;
+    [SerializeField, Header("警告Windowの開閉処理")] private WindowController warningWC;
+    [SerializeField, Header("最終確認Windowの開閉処理")] private WindowController decisionWC;
+    [SerializeField, Header("未実装Windowの開閉処理")] private WindowController nmWC;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,7 +75,8 @@ public class HomeButtonController : MonoBehaviour
                 SceneLoader.LoadFade("CharaSelect");
                 break;
             case "CheckInWindow": //確認Window
-                checkWindow.SetActive(true);
+                checkWC.Open();
+                //checkWindow.SetActive(true);
                 tutorialWindow.TraningReset();
                 break;
             case "HomeWindow": //ホーム画面に戻る
@@ -79,7 +86,8 @@ public class HomeButtonController : MonoBehaviour
                 effectInCheck();
                 break;
             case "NMWindow": //未実装window
-                nmWindow.SetActive(true);
+                nmWC.Open();
+                //nmWindow.SetActive(true);
                 break;
             default:
                 SceneLoader.LoadFade("TitleScene");
@@ -90,7 +98,8 @@ public class HomeButtonController : MonoBehaviour
     //追加効果があるか判定
     private void effectInCheck()
     {
-        checkWindow.SetActive(false);
+        checkWC.Close(false);
+        //checkWindow.SetActive(false);
         //ある->リセットウィンドウ表示
         if (effectCheck)
         {
@@ -98,19 +107,24 @@ public class HomeButtonController : MonoBehaviour
         }
         else //ない->警告ウィンドウ表示
         {
-            warningWindow.SetActive(true);
+            //warningWindow.SetActive(true);
+            warningWC.Open();
         }
     }
 
     //警告を出して最終確認をする
     private void warningWindowChack()
     {
-        warningWindow.SetActive(false);
-        decisionWindow.SetActive(true);
+        //warningWindow.SetActive(false);
+        //decisionWindow.SetActive(true);
+
+        warningWC.Close();
+        decisionWC.Open();
     }
 
     private void OnNMButton()
     {
-        nmWindow.SetActive(false);
+        nmWC.Close(false);
+        //nmWindow.SetActive(false);
     }
 }
