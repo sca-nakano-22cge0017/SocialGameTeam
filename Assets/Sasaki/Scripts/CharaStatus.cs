@@ -74,7 +74,7 @@ public class CharaStatus : MonoBehaviour
                 PlayerDataManager.TraningReset();
                 Debug.Log("ˆç¬Š®—¹");
                 resetCheck = true;
-                checkWindow.SetActive(false);
+                //checkWindow.SetActive(false);
                 fade.EyeClose();
                 break;
             case "ResetHome": //ƒz[ƒ€‰æ–Ê‚É–ß‚é
