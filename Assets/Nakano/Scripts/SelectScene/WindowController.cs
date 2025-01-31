@@ -39,10 +39,9 @@ public class WindowController : MonoBehaviour
 
     public void Close()
     {
-        if (!windowDirection.GetCurrentAnimatorStateInfo(0).IsName("Window_Default")) return;
-
         if (windowDirection)
         {
+            if (!windowDirection.GetCurrentAnimatorStateInfo(0).IsName("Window_Default")) return;
             windowDirection.SetTrigger("Close");
         }
         else
@@ -53,13 +52,12 @@ public class WindowController : MonoBehaviour
 
     public void Close(bool _isWait)
     {
-        if (_isWait)
-        {
-            if (!windowDirection.GetCurrentAnimatorStateInfo(0).IsName("Window_Default")) return;
-        }
-
         if (windowDirection)
         {
+            if (_isWait)
+            {
+                if (!windowDirection.GetCurrentAnimatorStateInfo(0).IsName("Window_Default")) return;
+            }
             windowDirection.SetTrigger("Close");
         }
         else
