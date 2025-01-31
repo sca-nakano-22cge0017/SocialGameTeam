@@ -34,6 +34,8 @@ public class CharaSelectManager : MonoBehaviour
     SpecialTecniqueManager stm;
 
     [SerializeField] WindowController windowController_PlusStatus;
+    [SerializeField] GameObject nameRogo_Sister;
+    [SerializeField] GameObject nameRogo_Sword;
 
     void Start()
     {
@@ -77,7 +79,9 @@ public class CharaSelectManager : MonoBehaviour
     {
         //SwordsManTrue();
         GameManager.SelectChara = 1;
-        charaName.text = "ロゼッタ";
+        //charaName.text = "ロゼッタ";
+        nameRogo_Sword.SetActive(true);
+        nameRogo_Sister.SetActive(false);
         status[0].text = PlayerDataManager.player.TotalPower.ToString(); 
 
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
@@ -139,7 +143,9 @@ public class CharaSelectManager : MonoBehaviour
     {
         //WizardTrue();
         GameManager.SelectChara = 2;
-        charaName.text = "セレスティア";
+        //charaName.text = "セレスティア";
+        nameRogo_Sword.SetActive(false);
+        nameRogo_Sister.SetActive(true);
         status[0].text = PlayerDataManager.player.TotalPower.ToString();
 
         status[1].text = PlayerDataManager.player.GetStatus(StatusType.HP).ToString();
