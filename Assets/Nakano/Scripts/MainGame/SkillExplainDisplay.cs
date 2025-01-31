@@ -24,6 +24,7 @@ public class SkillExplainDisplay : MonoBehaviour
 
     [SerializeField] private WindowController wc;
     [SerializeField] private GameObject skillDetailWindow;
+    [SerializeField] private WindowController wc_DetailWindow;
     [SerializeField] private Image skillIcon;
     [SerializeField] private Text skillName;
     [SerializeField] private Text skillCost;
@@ -45,6 +46,7 @@ public class SkillExplainDisplay : MonoBehaviour
 
     private void OnEnable()
     {
+        wc_DetailWindow.Close();
         skillDetailWindow.SetActive(false);
     }
 
@@ -62,7 +64,7 @@ public class SkillExplainDisplay : MonoBehaviour
             skillCost.text = $"è¡îÔMP : {st.m_cost}";
             skillExplain.text = st.m_effects;
 
-            skillDetailWindow.SetActive(true);
+            wc_DetailWindow.Open();
 
             isSkillDetailDisp = true;
         }
@@ -84,12 +86,12 @@ public class SkillExplainDisplay : MonoBehaviour
 
         if (isSkillDetailDisp)
         {
-            skillDetailWindow.SetActive(false);
+            wc_DetailWindow.Close();
             isSkillDetailDisp = false;
         }
         else
         {
-            skillDetailWindow.SetActive(false);
+            wc_DetailWindow.Close();
             StartCoroutine(SkillAct(_skillId));
         }
     }
@@ -116,7 +118,7 @@ public class SkillExplainDisplay : MonoBehaviour
         yield return new WaitForSeconds(0.2f);
 
         wc.Close();
-        skillDetailWindow.SetActive(false);
+        wc_DetailWindow.Close();
 
         yield return new WaitForSeconds(1.0f);
 
@@ -179,7 +181,14 @@ public class SkillExplainDisplay : MonoBehaviour
         tapTime = 0;
         isTapping = false;
 
-        skillDetailWindow.SetActive(false);
+        wc.Close();
+    }
+
+    public void WindowCloseForBattle()
+    {
+        if (isTapping) return;
+
+        tapTime = 0;
         wc.Close();
     }
 }

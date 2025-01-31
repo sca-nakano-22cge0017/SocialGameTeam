@@ -8152,20 +8152,32 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6509002635746594735}
+    - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 3193237472132922347}
+      objectReference: {fileID: 1056065497}
     - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: WindowCloseForBattle
+      objectReference: {fileID: 0}
+    - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: Close
+      value: PlaySE_NotButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: SkillExplainDisplay, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: WindowController, Assembly-CSharp
+      value: ButtonController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 413631186498997847, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -8265,6 +8277,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8897023690776251177, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
   m_PrefabInstance: {fileID: 1056065495}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1056065497 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4180737165607642163, guid: ebbfee275340d5b41a425bbd7db206dd, type: 3}
+  m_PrefabInstance: {fileID: 1056065495}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4662384026163ea4aa639d24439c941d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1064955145
 GameObject:
   m_ObjectHideFlags: 0
@@ -11451,6 +11474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1534735814}
+  - component: {fileID: 1534735815}
   m_Layer: 5
   m_Name: Buff/Debuff_Player
   m_TagString: Untagged
@@ -11480,6 +11504,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &1534735815
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1534735813}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1536297111
 GameObject:
   m_ObjectHideFlags: 0
@@ -14064,6 +14109,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2004879611}
+  - component: {fileID: 2004879612}
   m_Layer: 5
   m_Name: Buff/Debuff_Enemy
   m_TagString: Untagged
@@ -14092,6 +14138,27 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &2004879612
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2004879610}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &2006391489
 GameObject:
   m_ObjectHideFlags: 0
@@ -15340,9 +15407,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8072546632288167018}
-        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
-        m_MethodName: Back
+      - m_Target: {fileID: 4532335351529556633}
+        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
+        m_MethodName: Close
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -15352,9 +15419,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 4532335351529556633}
-        m_TargetAssemblyTypeName: WindowController, Assembly-CSharp
-        m_MethodName: Close
+      - m_Target: {fileID: 8072546632288167018}
+        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
+        m_MethodName: Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -16984,6 +17051,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8563525188401740402}
+  - component: {fileID: 8563525188401740403}
   m_Layer: 5
   m_Name: DetailWindow
   m_TagString: Untagged
@@ -20589,7 +20657,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 7529980471255168458}
   initialDisp: 0
-  windowDirection: {fileID: 0}
+  windowDirection: {fileID: 4200848003499118905}
 --- !u!1 &3226238685857081521
 GameObject:
   m_ObjectHideFlags: 0
@@ -22400,6 +22468,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 22683412385269812}
+  - component: {fileID: 4200848003499118905}
   m_Layer: 5
   m_Name: SkillList
   m_TagString: Untagged
@@ -22407,6 +22476,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &4200848003499118905
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4200848003499118904}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &4206284675329672751
 GameObject:
   m_ObjectHideFlags: 0
@@ -24013,6 +24103,7 @@ GameObject:
   - component: {fileID: 4532335351529556633}
   - component: {fileID: 6564816647614474815}
   - component: {fileID: 6564816647614474816}
+  - component: {fileID: 6564816647614474817}
   m_Layer: 5
   m_Name: CommandUI
   m_TagString: Untagged
@@ -27350,6 +27441,7 @@ MonoBehaviour:
   dex_st: {fileID: 8428428437995209370}
   wc: {fileID: 3193237472132922347}
   skillDetailWindow: {fileID: 1302506500240605201}
+  wc_DetailWindow: {fileID: 6564816647614474817}
   skillIcon: {fileID: 8377995227124510255}
   skillName: {fileID: 620922363684763599}
   skillCost: {fileID: 4680677062468756588}
@@ -27560,6 +27652,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_window: {fileID: 2004879610}
+  initialDisp: 0
+  windowDirection: {fileID: 0}
+--- !u!114 &6564816647614474817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5094798151320673370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b2dc596f551cb48a8a40f676223a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_window: {fileID: 1302506500240605201}
   initialDisp: 0
   windowDirection: {fileID: 0}
 --- !u!1 &6575368755480449710
@@ -31547,6 +31654,27 @@ RectTransform:
   m_AnchoredPosition: {x: -540, y: 0}
   m_SizeDelta: {x: 700, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &8563525188401740403
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302506500240605201}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!224 &8655257128362872521
 RectTransform:
   m_ObjectHideFlags: 0
