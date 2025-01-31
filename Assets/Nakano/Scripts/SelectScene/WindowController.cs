@@ -39,7 +39,29 @@ public class WindowController : MonoBehaviour
 
     public void Close()
     {
-        if (windowDirection) windowDirection.SetTrigger("Close");
+        if (!windowDirection.GetCurrentAnimatorStateInfo(0).IsName("Window_Default")) return;
+
+        if (windowDirection)
+        {
+            windowDirection.SetTrigger("Close");
+        }
+        else
+        {
+            if (m_window.activeSelf) m_window.SetActive(false);
+        }
+    }
+
+    public void Close(bool _isWait)
+    {
+        if (_isWait)
+        {
+            if (!windowDirection.GetCurrentAnimatorStateInfo(0).IsName("Window_Default")) return;
+        }
+
+        if (windowDirection)
+        {
+            windowDirection.SetTrigger("Close");
+        }
         else
         {
             if (m_window.activeSelf) m_window.SetActive(false);

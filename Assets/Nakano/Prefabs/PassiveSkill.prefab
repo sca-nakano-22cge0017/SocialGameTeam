@@ -2758,6 +2758,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2452895964719239676}
+  - component: {fileID: 8389574645663957111}
   m_Layer: 5
   m_Name: SkillList
   m_TagString: Untagged
@@ -2790,6 +2791,27 @@ RectTransform:
   m_AnchoredPosition: {x: 300, y: 0}
   m_SizeDelta: {x: 850, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &8389574645663957111
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5189335115881103410}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5365460784182042108
 GameObject:
   m_ObjectHideFlags: 0
@@ -2957,6 +2979,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5582699245558811370}
+  - component: {fileID: 9788289313364282}
   m_Layer: 5
   m_Name: DetailWindow
   m_TagString: Untagged
@@ -2988,6 +3011,27 @@ RectTransform:
   m_AnchoredPosition: {x: -540, y: 0}
   m_SizeDelta: {x: 700, y: 900}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &9788289313364282
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5444718104290924326}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4509f9a48a139d44cb9d6bcb3259eef8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5736373957989172987
 GameObject:
   m_ObjectHideFlags: 0
@@ -5231,6 +5275,7 @@ GameObject:
   - component: {fileID: 2345354720200888075}
   - component: {fileID: 581776867139492167}
   - component: {fileID: 4003533188643202313}
+  - component: {fileID: 6724168194520684885}
   m_Layer: 5
   m_Name: PassiveSkill
   m_TagString: Untagged
@@ -5344,6 +5389,7 @@ MonoBehaviour:
   dex_st: {fileID: 0}
   wc: {fileID: 4003533188643202313}
   skillDetailWindow: {fileID: 5444718104290924326}
+  wc_DetailWindow: {fileID: 6724168194520684885}
   skillIcon: {fileID: 8998073590084077442}
   skillName: {fileID: 3295513104712994334}
   skillCost: {fileID: 6005856147984021348}
@@ -5417,6 +5463,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_window: {fileID: 8943470633170271223}
   initialDisp: 0
+  windowDirection: {fileID: 8389574645663957111}
+--- !u!114 &6724168194520684885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7710126623821364508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24b2dc596f551cb48a8a40f676223a38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_window: {fileID: 5444718104290924326}
+  initialDisp: 0
+  windowDirection: {fileID: 0}
 --- !u!1 &7831291521718327142
 GameObject:
   m_ObjectHideFlags: 0

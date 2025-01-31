@@ -33,6 +33,8 @@ public class CharaSelectManager : MonoBehaviour
     [SerializeField] Button[] skillButtons;
     SpecialTecniqueManager stm;
 
+    [SerializeField] WindowController windowController_PlusStatus;
+
     void Start()
     {
         SaveData player = loadPlayerData();
@@ -248,7 +250,8 @@ public class CharaSelectManager : MonoBehaviour
         if (PlayerDataManager.GetResetCurrentEffects(StatusType.HP) != "")
         {
             plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.HP).ToString();
-            plusStatusWindow.SetActive(true);
+            //plusStatusWindow.SetActive(true);
+            windowController_PlusStatus.Open();
         }
     }
 
@@ -257,7 +260,8 @@ public class CharaSelectManager : MonoBehaviour
         if (PlayerDataManager.GetResetCurrentEffects(StatusType.DEF) != "")
         {
             plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEF).ToString();
-            plusStatusWindow.SetActive(true);
+            //plusStatusWindow.SetActive(true);
+            windowController_PlusStatus.Open();
         }
     }
 
@@ -266,7 +270,8 @@ public class CharaSelectManager : MonoBehaviour
         if (PlayerDataManager.GetResetCurrentEffects(StatusType.ATK) != "")
         {
             plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.ATK).ToString();
-            plusStatusWindow.SetActive(true);
+            //plusStatusWindow.SetActive(true);
+            windowController_PlusStatus.Open();
         }
     }
 
@@ -275,7 +280,8 @@ public class CharaSelectManager : MonoBehaviour
         if (PlayerDataManager.GetResetCurrentEffects(StatusType.MP) != "")
         {
             plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.MP).ToString();
-            plusStatusWindow.SetActive(true);
+            //plusStatusWindow.SetActive(true);
+            windowController_PlusStatus.Open();
         }
     }
 
@@ -284,7 +290,8 @@ public class CharaSelectManager : MonoBehaviour
         if (PlayerDataManager.GetResetCurrentEffects(StatusType.AGI) != "")
         {
             plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.AGI).ToString();
-            plusStatusWindow.SetActive(true);
+            //plusStatusWindow.SetActive(true);
+            windowController_PlusStatus.Open();
         }
     }
 
@@ -293,13 +300,15 @@ public class CharaSelectManager : MonoBehaviour
         if (PlayerDataManager.GetResetCurrentEffects(StatusType.DEX) != "")
         {
             plusStatusText.text = PlayerDataManager.GetResetCurrentEffects(StatusType.DEX).ToString();
-            plusStatusWindow.SetActive(true);
+            //plusStatusWindow.SetActive(true);
+            windowController_PlusStatus.Open();
         }
     }
 
     public void ButtonUp()
     {
-        plusStatusWindow.SetActive(false);
+        //plusStatusWindow.SetActive(false);
+        windowController_PlusStatus.Close(false);
     }
 
     public void BuckButton()
