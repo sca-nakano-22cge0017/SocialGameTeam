@@ -13,7 +13,8 @@ public class MainGameSystem : MonoBehaviour
     [SerializeField] private StageManager stageManager;
     [SerializeField] private MainDirection mainDirection;
     [SerializeField] private DropController dropController;
-    
+    StaminaManager staminaManager;
+
     [SerializeField] private Button menuButton;
     [SerializeField] private PlayerData player;
     [SerializeField] private Enemy[] enemies;
@@ -88,6 +89,7 @@ public class MainGameSystem : MonoBehaviour
 
     void Start()
     {
+        staminaManager = FindObjectOfType<StaminaManager>();
         spTecManager = FindObjectOfType<SpecialTecniqueManager>();
         tutorial = FindObjectOfType<TutorialWindow>();
         loadManager = FindObjectOfType<LoadManager>();
@@ -314,6 +316,9 @@ public class MainGameSystem : MonoBehaviour
             Time.timeScale = 1.0f;
             GameManager.islastBattleLose = false;
             resultManager.Initialize();
+
+            // スタミナ上限解放
+            staminaManager.LevelUp();
         }
         else if (isLose)
         {

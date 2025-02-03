@@ -78,9 +78,6 @@ public class ResultManager : MonoBehaviour
         if (GameManager.SelectArea == 2)
         {
             costStamina.text = "-" + staminaManager.GetCost_Boss;
-
-            // スタミナ上限解放
-            staminaManager.LevelUp();
         }
     }
 
