@@ -8,8 +8,8 @@ public class PlayerDataManager : MonoBehaviour
 {
     public static PlayerStatus player = new(1); // 現在の使用キャラクター
 
-    private static PlayerStatus chara1 = new(1);
-    private static PlayerStatus chara2 = new(2);
+    public static PlayerStatus chara1 = new(1);
+    public static PlayerStatus chara2 = new(2);
 
     static CombiType evolutionType = CombiType.NORMAL;
 
