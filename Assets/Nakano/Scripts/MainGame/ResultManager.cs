@@ -55,6 +55,8 @@ public class ResultManager : MonoBehaviour
 
     private bool isFirstClear = true;
 
+    private int debugPoint = 10;
+
     void Start()
     {
         specialTecniqueManager = FindObjectOfType<SpecialTecniqueManager>();
@@ -315,8 +317,8 @@ public class ResultManager : MonoBehaviour
             {
                 if (GameManager.isHyperTraningMode)
                 {
-                    // デバッグモードならドロップ量1000倍
-                    amount *= 1000;
+                    // デバッグモードならドロップ量倍増
+                    amount *= debugPoint;
                 }
 
                 var cType = PlayerDataManager.NormalStatusToCombiStatus(type);

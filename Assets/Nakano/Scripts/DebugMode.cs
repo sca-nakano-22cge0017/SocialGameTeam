@@ -21,7 +21,7 @@ public class DebugMode : MonoBehaviour
         if (GameManager.isHyperTraningMode) GameManager.isHyperTraningMode = false;
         else GameManager.isHyperTraningMode = true;
 
-        if (GameManager.isHyperTraningMode) specialTecniqueManager.AllRelease();
+        //if (GameManager.isHyperTraningMode) specialTecniqueManager.AllRelease();
 
         TextChange();
     }
