@@ -319,8 +319,12 @@ public class MainGameSystem : MonoBehaviour
 
             if (GameManager.SelectArea == 2)
             {
-                // スタミナ上限解放
-                staminaManager.LevelUp();
+                // 初クリア
+                if (!GameManager.IsBossClear1[GameManager.SelectDifficulty - 1] && !GameManager.IsBossClear2[GameManager.SelectDifficulty - 1])
+                {
+                    // スタミナ上限解放
+                    staminaManager.LevelUp();
+                }
             }
         }
         else if (isLose)
