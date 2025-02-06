@@ -32,10 +32,11 @@ public class CharaSelect : MonoBehaviour
         int c;
         switch (name)
         {
-            case "SwordsWoman":
+            case "SwordsWoman"://剣士
                 c = 1;
+
                 break;
-            case "Sister":
+            case "Sister"://シスター
                 c = 2;
                 break;
             default:
@@ -45,9 +46,14 @@ public class CharaSelect : MonoBehaviour
         GameManager.SelectChara = c;
         GameManager.isFirstStart = false;
         PlayerDataManager.Save();
-        CharaObjects.SetActive(false);
-        tutorialWindow.Home();
+        
+        if (!CharaObjects.activeSelf)
+        {
+            tutorialWindow.Home();
+        }
     }
+
+
     IEnumerator Loader()
     {
         yield return new WaitUntil(() => MasterDataLoader.MasterDataLoadComplete);

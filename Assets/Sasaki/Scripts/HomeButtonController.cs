@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HomeButtonController : MonoBehaviour
 {
@@ -88,6 +89,9 @@ public class HomeButtonController : MonoBehaviour
             case "NMWindow": //–¢ŽÀ‘•window
                 nmWC.Open();
                 //nmWindow.SetActive(true);
+                break;
+            case "Title":
+                SceneManager.LoadScene("TitleScene");
                 break;
             default:
                 SceneLoader.LoadFade("TitleScene");
