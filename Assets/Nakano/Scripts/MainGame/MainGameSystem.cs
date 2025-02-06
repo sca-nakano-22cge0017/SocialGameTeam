@@ -317,8 +317,11 @@ public class MainGameSystem : MonoBehaviour
             GameManager.islastBattleLose = false;
             resultManager.Initialize();
 
-            // スタミナ上限解放
-            staminaManager.LevelUp();
+            if (GameManager.SelectArea == 2)
+            {
+                // スタミナ上限解放
+                staminaManager.LevelUp();
+            }
         }
         else if (isLose)
         {
